@@ -41,85 +41,144 @@
       ((partial div 1))))
 
 
-;; tested ok
-;; return a func(map x) to map x(in vector) to y(in vector)
-(defn create-hypo-func [theta]
+;; start basic model functions (map matrix/vector)
+(defn get-hypo-func [theta]
   (fn [x] 
     (-> (mmult x theta)
         sigmoid)))
 
-;; tested ok
-;; bias between (hypo-func x) and real y
-;; map x, y, hypo-func
-(defn get-cost-vector [x y hypo-func]
-  (let [y-estimate (logging/spy (hypo-func x))]
-    (-> y-estimate log
+(defn get-y-hat [hypo-func x]
+  (hypo-func x))
+
+(defn get-error [y-hat y]
+  (minus y-hat y))
+
+(defn get-cost [y-hat y]
+    (-> y-hat log
         (mult y)
         minus
-        (minus (-> y-estimate
-                   ((partial minus 1))
+        (minus (-> y-hat
+                   minus
+                   (plus 1)
                    log
-                   (mult (minus 1 y)))))))
+                   (mult (minus 1 y))))))
+
+(defn get-derivetive-of-cost-on-theta 
+  "theta change -> hypo func change -> cost change"
+  [error x theta-index]
+  (-> error
+      (mult (sel x :cols theta-index))))
 
 
-;; theta change -> hypo func change -> mean cost change
-;; map theta
-(defn dcost-dfunc-dtheta [x y theta]
-  (-> theta
-      create-hypo-func
-      (apply [x])
-      (minus y)
-      ((partial mmult (trans x)))
-      (div (count x))))
+;; end basic model functions
 
 
 
-;; map theta
+
+
 (defn gradient-desent [x y start-theta alpha iter-num]
   (if (= 0 iter-num)
     start-theta
     (recur x y
-           (->> start-theta
-                (dcost-dfunc-dtheta x y)
-                (mult alpha)
-                (minus start-theta))
+           (as-> start-theta $
+                 (get-hypo-func $)
+                 (get-y-hat $ x)
+                 (get-error $ y)
+                 (partial get-derivetive-of-cost-on-theta $ x)
+                 (map $ (range (ncol x)))
+                 (map mean $)
+                 (mult $ alpha)
+                 (minus start-theta $))
            alpha
            (- iter-num 1))))
+
     
-    
-(def x-no-intercept (sel ex2-data-1 :cols [0 1]))
-(def y (sel ex2-data-1 :cols 2))
+;;(def x-no-intercept (sel ex2-data-1 :cols [0 1]))
+;;(def y (sel ex2-data-1 :cols 2))
+;;(def x (add-intercept x-no-intercept))
+;;
+;;(def iters (range 0 1000000 100000))
+;;(def optimized-thetas (map (partial gradient-desent x y [-4 0.04 0.03] 0.001) iters))
+;;(def mean-costs (map (fn [theta]
+;;                       (-> theta
+;;                           get-hypo-func
+;;                           (get-y-hat x)
+;;                           (get-cost y)
+;;                           mean))
+;;                     optimized-thetas))
+;;
+;;(def cost-chart (line-chart iters mean-costs))
+;;(view cost-chart)
+;;
+;;optimized-thetas
+;;
+;;(def optimized-theta (last optimized-thetas))
+;;(to-list optimized-theta)
+;;
+;;(defn get-decision-boundary-func [theta]
+;;  (fn [x-1] (-> (nth optimized-theta 1)
+;;                (* x-1)
+;;                -
+;;                (- (nth optimized-theta 0))
+;;                (/ (nth optimized-theta 2)))))
+;;
+;;(def data-plot (scatter-plot (sel x-no-intercept :cols 0) (sel x-no-intercept :cols 1) :group-by y))
+;;(add-function data-plot (get-decision-boundary-func optimized-theta) 30 100)
+;;(view data-plot)
+;;
+;;
+;;(defn predict-new-data [theta x]
+;;  (-> theta
+;;      get-hypo-func
+;;      (get-y-hat x)
+;;      ((partial map #(if (>= % 0.5) 1 0)))))
+;;
+;;(defn accuracy [p y]
+;;  (-> (map #(if (== %1 %2) 1 0) p y)
+;;      sum
+;;      (/ (count p))
+;;      (* 100)))
+;;
+;;(sigmoid (mmult [[1 45 85]] optimized-theta))
+;;(predict-new-data optimized-theta [[1 45 85]])
+;;(accuracy (predict-new-data optimized-theta x) y)
+;;
+
+(def ex2-data-2
+  (-> "homework_ml_week_3/ex2data2.txt"
+      io/resource
+      read-dataset
+      to-matrix))
+
+(def x-no-intercept (sel ex2-data-2 :cols [0 1]))
+(def y (sel ex2-data-2 :cols 2))
 (def x (add-intercept x-no-intercept))
+(plot-data x-no-intercept y)
 
 
-(def plot (scatter-plot (sel x-no-intercept :cols 0) (sel x-no-intercept :cols 1) :group-by y))
-(view plot)
-(mean (get-cost-vector x y (create-hypo-func [0 0 0])))
 
-(dcost-dfunc-dtheta x y [10 10 10])
-(def optimized-theta (gradient-desent x y [10 10 10] 0.01 1000))
+(defn get-poly-term [x degree]
+  (let [x (matrix x)]
+    (if (= 0 degree)
+      (repeat (nrow x) 1)
+      (if (= 1 (ncol x))
+        (pow x degree)
+        (as-> degree $
+              (+ $ 1)
+              (range $)
+              (reverse $)
+              (map (fn [d]
+                     (as-> (get-poly-term (sel x :except-cols 0) (- degree d)) $$
+                           (mult (apply bind-columns (repeat (ncol $$) (pow (sel x :cols 0) d))) $$)))
+                   $)
+              (apply bind-columns $))))))
 
 
-#_(as-> (range 0 100000 20000) $
-  (map (partial gradient-desent x y [0 0 0] 0.005) $)
-  (map to-list $))
+(defn map-feature [x degree]
+  (as-> (map (partial get-poly-term x) (range (+ degree 1))) $
+        (apply bind-columns $)))
 
 
-(to-list optimized-theta)
-(get-cost-vector x y (create-hypo-func optimized-theta))
-
-
-(to-list optimized-theta)
-(defn line [x] 
-  (-> x
-      (* (nth optimized-theta 1))
-      -
-      (- (nth optimized-theta 0))
-      (/ (nth optimized-theta 2))))
-
-(line 40)
-(add-function plot line 0 100)
-(view plot)
-#_(minimize (fn [theta] (mean (get-cost-vector x y (create-hypo-func theta))))
-          [0 0 0])
-
+(map-feature [[2 3]] 2)
+             
+  

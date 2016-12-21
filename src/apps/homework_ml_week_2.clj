@@ -1,12 +1,13 @@
 (ns apps.homework-ml-week-2
-  (:require [clojure.tools.logging :as log]
+  (:require [clojure.tools.logging :as logging]
             [clojure.java.io :as io]
             [incanter.core :refer :all]
             [incanter.stats :refer :all]
             [incanter.charts :refer :all]
             [incanter.io :refer :all]
             [incanter.datasets :refer :all]
-            [incanter.pdf :refer :all]))
+            [incanter.pdf :refer :all]
+            [incanter.optimize :refer :all]))
 
 ;; machine learning by Andrew Ng
 ;; week 2
@@ -28,22 +29,35 @@
 
 ;; gradient descent
 
+;; start basic model functions
+(defn get-hypo-func [theta]
+  (fn [x] 
+    (mmult x theta)))
+
+(defn get-est-y [hypo-func x]
+  (hypo-func x))
+
+(defn get-error [est-y y]
+  (minus est-y y))
+;; end basic model functions
+
+
 (defn compute-cost [x y theta]
-  (-> x
-      (mmult theta)
-      (minus y)
+  (-> theta get-hypo-func
+      (get-est-y x)
+      (get-error y)
       (pow 2)
-      ((partial apply +))
-      (/ (count x))
+      mean
       (/ 2)))
-      
-      
+
+
 (defn dcost-dtheta [x y theta]
-  (as-> x $
-      (mmult $ theta)
-      (minus $ y)
-      (mmult (trans x) $)
-      (div $ (count x))))
+  (as-> theta $
+        (get-hypo-func $)
+        (get-est-y $ x)
+        (get-error $ y)
+        (mmult (trans x) $)
+        (div $ (count x))))
 
 (defn gradient-descent [x y theta alpha num-iters]
   (if (= 0 num-iters)
@@ -65,22 +79,23 @@
   (warmUpExercise)
   (compute-cost x y init-theta)
   (dcost-dtheta x y init-theta)
+  (dcost-dtheta x y [100 100])
   (gradient-descent x y [100 100] 0.01 5000)
-  (doto (scatter-plot (sel x :cols 1) y)
+  #_(doto (scatter-plot (sel x :cols 1) y)
     (add-function #(-> %
                        (* (-> my-theta rest first))
                        (+ (first my-theta))) 1 25)
     view)
-  (doto (heat-map (fn [theta-0 theta-1]
+  #_(doto (heat-map (fn [theta-0 theta-1]
                    (compute-cost x y [theta-0 theta-1]))
                  -4 -3 0.5 1.3)
-   view))
+   #_view))
 
-      
+
+
+
 
 ;; multi variable
-
-
 (def ex1-data-2 (-> "homework_ml_week_2/ex1data2.txt"
     io/resource
     read-dataset
@@ -103,20 +118,22 @@
       y (sel ex1-data-2 :cols 2)
       x (bind-columns (repeat (count ex1-data-2) 1) (feature-normalize x-to-be-norm))
       my-theta (gradient-descent x y [0 0 -5] 0.01 2000)]
-  (feature-normalize x-to-be-norm)
-  (as-> (range 0 500 10) $
-      (map (partial gradient-descent x y [0 0 0] 0.01) $)
-      (map (partial compute-cost x y) $)
-      (scatter-plot (range 0 500 10) $)
-      (view $))
+    (to-list my-theta)
+  
+  #_(feature-normalize x-to-be-norm)
+  #_(as-> (range 0 500 10) $
+        (map (partial gradient-descent x y [0 0 0] 0.01) $)
+        (map (partial compute-cost x y) $)
+        (scatter-plot (range 0 500 10) $)
+        (view $))
   (as-> [1650 3] $
-      (minus $ (fn-on-col mean x-to-be-norm))
-      (div $ (fn-on-col sd x-to-be-norm))
-      (trans $)
-      (bind-columns [1] $)
-      (mmult $ my-theta) ))
-        
-        
+        (minus $ (fn-on-col mean x-to-be-norm))
+        (div $ (fn-on-col sd x-to-be-norm))
+        (trans $)
+        (bind-columns [1] $)
+        (mmult $ my-theta)
+        (to-list $)))
+
 
 ;; normal equation
 
@@ -130,8 +147,9 @@
 
 
 ;; test it    
-(let [x (as-> ex1-data-2 $
+#_(let [x (as-> ex1-data-2 $
              (sel $ :cols [0 1])
              (bind-columns (repeat (count ex1-data-2) 1) $))
       y (sel ex1-data-2 :cols 2)]
   (mmult [[1 1650 3]] (normal-equation x y)))
+
