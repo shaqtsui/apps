@@ -2,7 +2,6 @@
   (:require [clojure.java.io :as io]
             [clojure.core.async :as async]
             [clojure.tools.logging :as log]
-            [clojure.core.server :refer [start-server stop-server]]
             [ring.util.response :as response]
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -231,10 +230,10 @@
 (defn -main
   "Start the application"
   []
-  (start-server {:name "repl" :port 5555 :accept 'clojure.core.server/repl :address "0.0.0.0" :server-daemon false})
   (set-init! #'system-cms)
   (start)
   (init-schema))
+
 
 #_(-main)
 #_(reset)

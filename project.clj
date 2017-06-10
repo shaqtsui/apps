@@ -6,6 +6,10 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.2.385"]
                  [org.clojure/tools.logging "0.3.1"]
+                 [org.clojure/tools.reader "1.0.0-RC1"]
+
+                 ;; apps.nrepl-cider
+                 [cider/cider-nrepl "0.14.0"]
                  
                  ;; cms`
                  [ring/ring-jetty-adapter "1.5.0"]
@@ -33,6 +37,12 @@
                  ;; for tools
                  [enlive "1.1.6"]
                  ;; for incanter-example
+                 [net.mikera/core.matrix "0.60.3"]
+                 [net.mikera/vectorz-clj "0.47.0"]
                  [incanter "1.5.7"]
+                 ;; for ml week 4
+                 [net.mikera/imagez "0.12.0"]
+
                  ]
-  :plugins [[nightlight/lein-nightlight "1.0.0"]])
+            
+  :jvm-opts ["-Xmx6g"])

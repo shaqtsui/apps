@@ -16,6 +16,36 @@
           (-> $ first :content first (str "." (last (str/split raw-name #"\."))))
           nil)))
 
+(defn folder-size [f] 
+  (if (.isDirectory f)
+    (apply + (pmap folder-size (.listFiles f)))
+    (.length f)))
+
+
+(defn format-size [l]
+  (let [log-1024 (if (= 0 l) 
+                   0
+                   (-> l
+                     Math/log
+                     (/ (Math/log 1024))))]
+    (str (format "%.1f" (/ l
+                           (Math/pow 1024
+                                     (int log-1024))))
+         (-> ["B" "KB" "MB" "GB" "TB"]
+             (nth log-1024)))))
+
+
+#_(def c-size (->> "c:/Users/xfcjs/documents"
+     io/file
+     .listFiles
+     (map #(vector (.getName %) (-> %
+                                    folder-size
+                                    format-size)))))
+
+
+#_(clojure.pprint/pprint c-size)
+       
+
 #_(def page-tree (-> "http://www.huidengzhiguang.com//c/2016-01-08/843.shtml" URL. html-resource))
 
 #_(->> "C:/Users/xfcjs/Downloads/佛教入门课程/2" io/file file-seq rest
@@ -27,7 +57,7 @@
 
 
 ;; extract files
-(->> "F:/BaiduCloud" io/file file-seq rest
+#_(->> "F:/BaiduCloud" io/file file-seq rest
      (map (fn [f]
             (-> ["C:/Program Files/WinRAR/rar.exe" "x" "-pbmwhuiju" (log/spy (.getAbsolutePath f)) "F:/DTS"]
                 ProcessBuilder.

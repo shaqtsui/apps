@@ -70,6 +70,8 @@
            alpha
            (- num-iters 1))))
 
+
+
 ;; test it
 (let [x (bind-columns (repeat (nrow ex1-data-1) 1) (sel ex1-data-1 :cols 0))
       y (sel ex1-data-1 :cols 1)
@@ -90,9 +92,6 @@
                    (compute-cost x y [theta-0 theta-1]))
                  -4 -3 0.5 1.3)
    #_view))
-
-
-
 
 
 ;; multi variable
@@ -118,21 +117,21 @@
       y (sel ex1-data-2 :cols 2)
       x (bind-columns (repeat (count ex1-data-2) 1) (feature-normalize x-to-be-norm))
       my-theta (gradient-descent x y [0 0 -5] 0.01 2000)]
-    (to-list my-theta)
-  
+  #_(to-list my-theta)
+  (compute-cost x y my-theta) 
   #_(feature-normalize x-to-be-norm)
   #_(as-> (range 0 500 10) $
-        (map (partial gradient-descent x y [0 0 0] 0.01) $)
-        (map (partial compute-cost x y) $)
-        (scatter-plot (range 0 500 10) $)
-        (view $))
-  (as-> [1650 3] $
-        (minus $ (fn-on-col mean x-to-be-norm))
-        (div $ (fn-on-col sd x-to-be-norm))
-        (trans $)
-        (bind-columns [1] $)
-        (mmult $ my-theta)
-        (to-list $)))
+          (map (partial gradient-descent x y [0 0 0] 0.01) $)
+          (map (partial compute-cost x y) $)
+          (scatter-plot (range 0 500 10) $)
+          (view $))
+  #_(as-> [1650 3] $
+          (minus $ (fn-on-col mean x-to-be-norm))
+          (div $ (fn-on-col sd x-to-be-norm))
+          (trans $)
+          (bind-columns [1] $)
+          (mmult $ my-theta)
+          (to-list $)))
 
 
 ;; normal equation

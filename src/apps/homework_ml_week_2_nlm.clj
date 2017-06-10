@@ -25,9 +25,7 @@
 ;; nlm
 (let [x (bind-columns (repeat (nrow ex1-data-1) 1) (sel ex1-data-1 :cols 0))
       y (sel ex1-data-1 :cols 1)]
-  (-> (non-linear-model #(first (mmult %2 %1)) y x [1 1])
-      )
-  )
+  (-> (non-linear-model #(first (mmult %2 %1)) y x [1 1])))
 
 
 ;; multi variable
@@ -51,7 +49,7 @@
       (div (repeat (count x) (fn-on-col sd x)))))
 
 
-(let [x-to-be-norm (sel ex1-data-2 :cols [0 1])
+#_(let [x-to-be-norm (sel ex1-data-2 :cols [0 1])
       y (sel ex1-data-2 :cols 2)
       x (bind-columns (repeat (count ex1-data-2) 1) (feature-normalize x-to-be-norm))]
   (-> (non-linear-model #(first (mmult %2 %1)) y x [1 1 1])
