@@ -12,3 +12,7 @@ pom.xml.asc
 
 /.idea
 *.iml
+
+# emacs edit temp file
+*~
+\#*\#
