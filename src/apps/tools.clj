@@ -35,6 +35,26 @@
              (nth log-1024)))))
 
 
+(defn rp1-stock []
+  (-> "http://pur.store.sony.jp/digital-paper/products/DPT-RP1/DPT-RP1_purchase/"
+      URL.
+      html-resource
+      (select [:a.s5-shippingLabel])
+      first
+      :content
+      first))
+
+#_(rp1-stock)
+
+#_(def f
+  (future
+    (while true
+      (do (println (rp1-stock))
+          (Thread/sleep 10000)))))
+
+#_(future-cancel f)
+
+
 #_(def c-size (->> "c:/Users/xfcjs/documents"
      io/file
      .listFiles
@@ -47,6 +67,8 @@
        
 
 #_(def page-tree (-> "http://www.huidengzhiguang.com//c/2016-01-08/843.shtml" URL. html-resource))
+
+
 
 #_(->> "C:/Users/xfcjs/Downloads/佛教入门课程/2" io/file file-seq rest
        (map (fn [f]
