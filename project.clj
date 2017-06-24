@@ -36,6 +36,7 @@
                  
                  ;; for tools
                  [enlive "1.1.6"]
+                 [com.draines/postal "2.0.2"]
                  ;; for incanter-example
                  [net.mikera/core.matrix "0.60.3"]
                  [net.mikera/vectorz-clj "0.47.0"]
