@@ -1,0 +1,9 @@
+built-in
+IDO - choice narrow
+
+
+
+other
+heml - similar to IDO
+company - code complete, default supported by cider via backend: capf(standard complete at point function)
+auto-complete - same as company

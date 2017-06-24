@@ -1,12 +1,12 @@
 ;; install packages
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t)
 ;;(add-to-list 'package-archives
 ;;             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
-(defvar my-packages '(clojure-mode cider magit))
+(defvar my-packages '(clojure-mode cider magit company))
 
 (dolist (p my-packages)
   (unless (package-installed-p p)
@@ -18,6 +18,8 @@
 (recentf-mode t)
 (desktop-save-mode t)
 (global-linum-mode t)
+(global-company-mode)
+
 
 ;;(add-to-list 'load-path "~/.emacs.d/emms/lisp")
 ;;(require 'emms-setup)
