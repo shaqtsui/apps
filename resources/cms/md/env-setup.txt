@@ -1,0 +1,17 @@
+COMMON:
+xunlei
+chrome
+expressvpn
+vlc
+
+DEV:
+emacs
+7-zip - used by emacs to extract file
+cygwin - unix-like tools required by emacs e.g. diff
+git - used by emacs/magit
+
+jdk
+lein
+
+
+
