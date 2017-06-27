@@ -2,12 +2,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
-;;(add-to-list 'package-archives
-;;             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
-
-(defvar my-packages '(clojure-mode cider magit company))
-
+(defvar my-packages '(clojure-mode cider magit company smartparens))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -19,13 +15,11 @@
 (desktop-save-mode t)
 (global-linum-mode t)
 (global-company-mode)
+(require 'smartparens-config)
+(sp-use-paredit-bindings)
+(require 'ido)
+(ido-mode t)
 
-
-;;(add-to-list 'load-path "~/.emacs.d/emms/lisp")
-;;(require 'emms-setup)
-;;(emms-all)
-;;(emms-default-players)
-;;(setq emms-source-file-default-directory "C:/Users/xfcjs/Downloads/MIT/18.06")
 
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
