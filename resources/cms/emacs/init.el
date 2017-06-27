@@ -3,7 +3,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(clojure-mode cider magit company smartparens))
+(defvar my-packages '(clojure-mode cider magit company paredit))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -15,8 +15,6 @@
 (desktop-save-mode t)
 (global-linum-mode t)
 (global-company-mode)
-(require 'smartparens-config)
-(sp-use-paredit-bindings)
 (require 'ido)
 (ido-mode t)
 
