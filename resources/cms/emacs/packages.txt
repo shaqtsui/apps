@@ -1,5 +1,6 @@
 built-in
 IDO - choice narrow
+electric-pair-mode - auto insert pares
 
 
 
@@ -7,3 +8,13 @@ other
 heml - similar to IDO
 company - code complete, default supported by cider via backend: capf(standard complete at point function)
 auto-complete - same as company
+
+
+
+most dowloads to be checked:
+yasnippet - template system, good for verbose language like html, lisp-family is consise
+projectile - easy find file in project, good for complex project, but lisp-family is consie
+smartparents - like paredit, but support more languages, this means this is complex as language agnostic
+expand-region - seems can be replace by paredit mode via navi & node select
+paredit-mode - op on pares, not maintained in github, only support lisp-family lauguagae, seems this is more geek compared to smartparents. As I don't want to touch other complex language, lisp-family is my focus, so I prefer this pkg.
+autopair - very similar to electric-pair-mode, author prefer electric-pair-mode
