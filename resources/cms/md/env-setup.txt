@@ -9,6 +9,7 @@ emacs
 7-zip - used by emacs to extract file
 cygwin - unix-like tools required by emacs e.g. diff
 git - used by emacs/magit
+gostscript - required by doc-view-mode to convert postscript/pdf to png, need to rename gswin4c.exe to gs.exe & availabe in $PATH
 
 jdk
 lein
