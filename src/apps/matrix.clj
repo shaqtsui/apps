@@ -28,6 +28,23 @@
         (m/sub (f X))
         (m/div dx))))
 
+;; ======================================================================
+;; del examples
+(def target-fn
+  (fn [[x1 x2 x3]]
+    (+ (* x1 2)
+       (* x2 2)
+       (* x3 2))))
+
+(def gradient-fn
+  (del target-fn))
+
+(def hession-fn
+  (del gradient-fn))
+
+(gradient-fn [100 200 300])
+(hession-fn [100 200 300])
+;; ======================================================================
 
 
 (defn search-convergence-point [f X-0
