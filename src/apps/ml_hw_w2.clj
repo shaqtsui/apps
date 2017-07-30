@@ -1,4 +1,4 @@
-(ns apps.homework-ml-week-2
+(ns apps.ml-hw-w2
   (:require [clojure.tools.logging :as logging]
             [clojure.java.io :as io]
             [incanter.core :refer :all]

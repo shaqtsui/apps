@@ -1,4 +1,4 @@
-(ns apps.homework-ml-week-4
+(ns apps.ml-hw-w4
   (:require [clojure.tools.logging :as logging]
             [clojure.java.io :as io]
             [apps.ml :refer :all]

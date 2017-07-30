@@ -1,4 +1,4 @@
-(ns apps.homework-ml-week-3-newton
+(ns apps.ml-hw-w3-nt
   (:require [clojure.tools.logging :as logging]
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]

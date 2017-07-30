@@ -1,4 +1,4 @@
-(ns apps.homework-ml-week-4-newton
+(ns apps.ml-hw-w4-nt
   (:require [clojure.tools.logging :as logging]
             [clojure.tools.reader :as r]
             [clojure.java.io :as io]
