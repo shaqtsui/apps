@@ -4,7 +4,6 @@
             [clojure.core.matrix.stats :as m-s]
             [clojure.java.io :as io]))
 
-(m/set-current-implementation :vectorz)
 
 ;; start util funcs for model
 (defn get-poly-term
@@ -124,9 +123,7 @@
 
 (defn accuracy [p y]
   (-> (map #(if (== %1 %2) 1 0) p y)
-      m-s/sum
-      (/ (count p))
-      (* 100)))
+      m-s/mean))
 
 (defn get-x-y-space [x-1-s x-2-s f] 
   (as->  (for [x-1 x-1-s

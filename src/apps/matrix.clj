@@ -39,33 +39,32 @@
 (def gradient-fn
   (del target-fn))
 
-(def hession-fn
+(def hessian-fn
   (del gradient-fn))
 
 (gradient-fn [100 200 300])
-(hession-fn [100 200 300])
+(hessian-fn [100 200 300])
 ;; ======================================================================
 
 
 (defn search-convergence-point [f X-0
-                                & {:keys [del-f del-2-f max-iter method]
+                                & {:keys [gradient-fn hessian-fn max-iter method]
                                    :or {max-iter 200
                                         method :newton-raphson
-                                        del-f (del f)
-                                        del-2-f (del del-f)}
+                                        gradient-fn (del f)
+                                        hessian-fn (del gradient-fn)}
                                    :as opts}]
   (let [y (f X-0)]
     (if (or
          (= max-iter 0)
-         (= y 0))
+         (= (logging/spy y) 0))
       {:X X-0 :y y :iter (- 200 max-iter)}
-      (let [del-2 (del-2-f X-0)
-            del-2-inverse (m/inverse del-2)]
-        (if (= nil del-2-inverse)
-          {:X X-0 :y y :iter (- 200 max-iter) :error (format "Inverse of del-2 is nil. del-2: %s" (del-2-f X-0))}
+      (let [hessian (hessian-fn X-0)
+            hessian-inverse (m/inverse hessian)]
+        (if (= nil hessian-inverse)
+          {:X X-0 :y y :iter (- 200 max-iter) :error (format "Inverse of hessian is nil. hessian is: %s" hessian)}
           (recur f
                  (m/sub X-0
-
-                        (m/mmul del-2-inverse
-                                (del-f X-0)))
+                        (m/mmul hessian-inverse
+                                (gradient-fn X-0)))
                  (assoc opts :max-iter (dec max-iter))))))))

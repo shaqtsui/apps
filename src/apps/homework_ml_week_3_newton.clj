@@ -1,39 +1,23 @@
 (ns apps.homework-ml-week-3-newton
   (:require [clojure.tools.logging :as logging]
             [clojure.core.matrix :as m]
+            [clojure.core.matrix.stats :as m-s]
+            [clojure.tools.reader :as r]
             [clojure.java.io :as io]
-            [incanter.core :refer :all]
-            [incanter.stats :refer :all]
-            [incanter.charts :refer :all]
-            [incanter.io :refer :all]
-            [incanter.datasets :refer :all]
-            [incanter.pdf :refer :all]
-            [incanter.optimize :refer :all]
-            [apps.ml :refer :all]))
+            [apps.matrix :as a-m]
+            [apps.ml-for-core-matrix :refer :all]
+            [incanter.core :refer [view]]
+            [incanter.charts :as i-c]))
 
 
-(def ex2-data-1
-  (-> "homework_ml_week_3/ex2data1.txt"
-      io/resource
-      read-dataset
-      to-matrix))
 
-
-(defn search-convergence-point [f del-f del-2-f X-0
-                                & {:keys [max-iter method]
-                                   :or {max-iter 200
-                                        method :newton-raphson}
-                                   :as opts}]
-  (let [y (f X-0)]
-    (if (or
-          (= max-iter 0)
-          (= y 0))
-      {:X X-0 :y y}
-      (recur f del-f del-2-f
-             (- X-0
-                (m/mmul (m/inverse (del-2-f X-0))
-                        (del-f X-0)))
-             (assoc opts :max-iter (dec max-iter))))))
+(as-> "homework_ml_week_3/ex2data1.txt" $
+      (io/resource $)
+      (io/reader $)
+      (line-seq $)
+      (map #(clojure.string/split % #",") $)
+      (m/emap r/read-string $)
+      (def ex2-data-1 $))
 
 (defn predict-new-data [theta x]
   (-> theta
@@ -41,49 +25,66 @@
       (get-y-hat x)
       ((partial map #(if (>= % 0.5) 1 0)))))
 
-
-(def x-no-intercept (sel ex2-data-1 :cols [0 1]))
-(def y (sel ex2-data-1 :cols 2))
+(def x-no-intercept (m/select ex2-data-1 :all [0 1]))
+(def y (m/select ex2-data-1 :all 2))
 (def x (map-feature x-no-intercept 1))
 
-(def lamb (-> (repeat (ncol x) 0.1)))
+(def lamb (-> (repeat (m/column-count x) 0.1)))
 
-(def optimized-thetas (-> #(gradient-desent x y % lamb 0.002 500)
-                          (iterate (init-theta x))
-                          ((partial take 50))
-                          doall
-                          time))
-
-(def mean-costs (map (fn [theta]
-                       (-> (get-cost x y theta lamb)
-                           mean))
-                     optimized-thetas))
-(def cost-chart (line-chart (range 50) mean-costs))
-(view cost-chart)
+(def best-theta
+  (a-m/search-convergence-point
+   (fn [theta]
+     (-> (get-cost x y theta lamb)
+         m-s/mean))
+   (init-theta x)))
 
 
-(def optimized-theta (last optimized-thetas))
-(to-list optimized-theta)
 
-(defn get-decision-boundary-func [theta]
-  (fn [x-1] (-> (nth optimized-theta 1)
-                (* x-1)
-                -
-                (- (nth optimized-theta 0))
-                (/ (nth optimized-theta 2)))))
 
-(def data-plot (scatter-plot (sel x-no-intercept :cols 0) (sel x-no-intercept :cols 1) :group-by y))
-(add-function data-plot (get-decision-boundary-func optimized-theta) 30 100)
+
+
+(as-> "homework_ml_week_3/ex2data2.txt" $
+      (io/resource $)
+      (io/reader $)
+      (line-seq $)
+      (map #(clojure.string/split % #",") $)
+      (m/emap r/read-string $)
+      (def ex2-data-2 $))
+
+(def x-no-intercept (m/select ex2-data-2 :all [0 1]))
+(def y (m/select ex2-data-2 :all 2))
+(def x (map-feature x-no-intercept 6))
+
+(def data-plot (i-c/scatter-plot (m/select x-no-intercept :all 0) (m/select x-no-intercept :all 1) :group-by y))
 (view data-plot)
 
+(def lamb (-> (repeat (- (m/column-count x) 1) 0)
+              (conj 0)
+              (m/div (m/row-count x))
+              (m/div 2)))
+(def convergence-point
+  (a-m/search-convergence-point
+   (fn [theta]
+     (-> (get-cost x y theta lamb)
+         m-s/mean))
+   (init-theta x)))
 
 
-(sigmoid (mmult [[1 45 85]] optimized-theta))
-(predict-new-data optimized-theta [[1 45 85]])
-(accuracy (predict-new-data optimized-theta x) y)
+(def best-theta (:X best-theta))
 
+(accuracy (predict-new-data best-theta x) y)
 
+#_(def u (-> (range -1 1.5 (/ 2.5 500))))
 
+#_(def x-y-space (get-x-y-space u u (fn [x]
+                                          (-> x
+                                              (map-feature 6)
+                                              (m/mmul best-theta)))))
 
+#_(def contour-points (get-contour-points x-y-space 0 0.02))
+
+#_(add-points data-plot (map first contour-points) (map second contour-points))
+
+#_(view data-plot)
 
 
