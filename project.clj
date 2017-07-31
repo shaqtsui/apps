@@ -3,6 +3,10 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :repositories [["my.datomic.com" {:url "https://my.datomic.com/repo"
+                                    :snapshots false
+                                    :username "xfcjscn@gmail.com"
+                                    :password "18f81b06-0226-4d59-9060-7e01182a6030"}]]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/core.async "0.2.385"]
                  [org.clojure/tools.logging "0.3.1"]
@@ -18,7 +22,8 @@
                  [ring-webjars "0.1.1" :exclusions [com.fasterxml.jackson.core/jackson-core]]
                  [compojure "1.5.0"]
                  [hiccup "1.0.5"]
-                 [com.datomic/datomic-pro "0.9.5359" :exclusions [commons-codec org.apache.httpcomponents/httpclient]]
+                 ;; my licence expire on 2017/05/17, upgrade not supported, so only 0.9.5561 supported. can register new account?
+                 [com.datomic/datomic-pro "0.9.5561" :exclusions [commons-codec org.apache.httpcomponents/httpclient]]
 
                  [org.webjars.bower/tether "1.3.2"]
                  [org.webjars/bootstrap "4.0.0-alpha.2"]
