@@ -3,10 +3,9 @@
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]))
 
-
 (defn del
   "
-  impl del in math via samplar.
+  approximate del via secant
   E.g. 1
     f: [x y z] -> v
     (del f): [x y z] -> [v1 v2 v3]
@@ -30,11 +29,28 @@
 
 ;; ======================================================================
 ;; del examples
-(def target-fn
-  (fn [[x1 x2 x3]]
-    (+ (* x1 2)
-       (* x2 2)
-       (* x3 2))))
+(defn target-fn
+  [[x1 x2 x3]]
+  (+ (* x1 2)
+     (* x2 2)
+     (* x3 2)))
+
+(defn target-fn-vector-valued
+  [[x1 x2 x3]]
+  [(-> (* x1 x1)
+       (- (* x1 2))
+       (+ (* x2 x2))
+       (- x3)
+       (+ 1))
+   (-> (* x1 x2 x2)
+       (- x1)
+       (- (* 3 x2))
+       (+ (* x2 x3))
+       (+ 2))
+   (-> (* x1 x3 x3)
+       (- (* 3 x3))
+       (+ (* x2 x3 x3))
+       (+ (* x1 x2)))])
 
 (def gradient-fn
   (del target-fn))
@@ -42,8 +58,13 @@
 (def hessian-fn
   (del gradient-fn))
 
+(def jacobian-fn
+  (let [gradient-fn (del target-fn-vector-valued)]
+    #(m/transpose (gradient-fn %))))
+
 (gradient-fn [100 200 300])
 (hessian-fn [100 200 300])
+(jacobian-fn [1 2 3])
 ;; ======================================================================
 
 
@@ -68,3 +89,28 @@
                         (m/mmul hessian-inverse
                                 (gradient-fn X-0)))
                  (assoc opts :max-iter (dec max-iter))))))))
+
+
+
+(defn search-root [f X-0
+                   & {:keys [jacobian-fn max-iter method]
+                      :or {max-iter 200
+                           method :newton-raphson
+                           jacobian-fn (let [gradient-fn (del f)]
+                                         #(m/transpose (gradient-fn %)))}
+                      :as opts}]
+  (let [y (f X-0)]
+    (if (or
+         (= max-iter 0)
+         (m/zero-matrix? (logging/spy y)))
+      {:X X-0 :y y :iter (- 200 max-iter)}
+      (let [jacobian (jacobian-fn X-0)
+            jacobian-inverse (m/inverse jacobian)]
+        (if (= nil jacobian-inverse)
+          {:X X-0 :y y :iter (- 200 max-iter) :error (format "Inverse of jacobian is nil. jacobian is: %s" jacobian)}
+          (recur f
+                 (m/sub X-0
+                        (m/mmul jacobian-inverse y))
+                 (assoc opts :max-iter (dec max-iter))))))))
+
+
