@@ -5,7 +5,7 @@
 
 (defn del
   "
-  approximate del via secant
+  approximate del via secant(finite difference approximation)
   E.g. 1
     f: [x y z] -> v
     (del f): [x y z] -> [v1 v2 v3]

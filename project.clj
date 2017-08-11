@@ -49,6 +49,8 @@
                  ;; for ml week 4
                  [net.mikera/imagez "0.12.0"]
 
+                 [quil "2.6.0"]
+
                  ]
             
   :jvm-opts ["-Xmx6g"])

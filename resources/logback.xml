@@ -25,5 +25,8 @@
   <logger name="apps" level="debug" />
   <logger name="ring.logger" level="debug" />
   <logger name="org.apache.http.wire" level="debug" />
+  <logger name="quil" level="debug" />
+  <logger name="processing" level="debug" />
+  <logger name="cider" level="debug" />
   
 </configuration>

@@ -3,7 +3,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(clojure-mode cider magit company paredit))
+(defvar my-packages '(clojure-mode cider magit company paredit restclient company-restclient))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -18,6 +18,7 @@
 (require 'ido)
 (ido-mode t)
 (setq magit-diff-hide-trailing-cr-characters nil)
+(add-to-list 'company-backends 'company-restclient)
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
 (custom-set-variables
