@@ -10,10 +10,14 @@ mesh(xx, yy, bowl);
 
 hold on;
 
-x =linspace(0, 100, 10);
-y =linspace(0, 0, 10);
-line=100*x;
-#plot3(x, y, line);
+
+# gradient is 2 * xx, 4 * yy
+
+
+x =linspace(0, 100, 2);
+y =linspace(0, 0, 2);
+line=x.^2 + 2 * y.^2;
+plot3(x, y, line);
 
 
 x =linspace(-100, 100, 2);

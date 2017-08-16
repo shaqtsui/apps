@@ -3,22 +3,28 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(clojure-mode cider magit company paredit restclient company-restclient))
+(defvar my-packages '(clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
 
 
 ;; enable additional mode and feature
-(require 'recentf)
+;; autoloaded function, no need to require first
 (recentf-mode t)
 (desktop-save-mode t)
 (global-linum-mode t)
+(global-auto-revert-mode t)
 (global-company-mode)
-(require 'ido)
-(ido-mode t)
-(setq magit-diff-hide-trailing-cr-characters nil)
 (add-to-list 'company-backends 'company-restclient)
+(ido-mode t)
+(require 'magit)
+(setq magit-diff-hide-trailing-cr-characters nil)
+;; evaluate cider.el, so that fun & vars available to flycheck-clojure
+(require 'cider)
+;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
+(eval-after-load 'flycheck '(flycheck-clojure-setup))
+(add-hook 'after-init-hook #'global-flycheck-mode)
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
 (custom-set-variables

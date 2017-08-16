@@ -31,6 +31,7 @@
                                   x (range -50 50 10)]
                               [x y])))
 
+
 (def the-data-dim 3)
 
 (def the-points (calculate-point the-data :target-fn #(m-s/sum %) :dim the-data-dim))
@@ -42,8 +43,6 @@
                                                     (if (> the-data-dim 2)
                                                       (apply concat the-points)
                                                       the-points))))
-
-
 
 (defn draw-lines
   "input example: [-100 0 0] [100 0 0] [200 0 0]"
@@ -61,6 +60,11 @@
        (map (partial apply draw-lines))
        doall))
 
+
+(def cam-position (atom [[0 0 0]
+                         [0 0 0]
+                         [0 1 0]]))
+
 (defn setup []
   (q/frame-rate 1)
   (q/translate (/ (q/width) 2) (/ (q/height) 2))
@@ -70,20 +74,26 @@
 (defn draw []
   (when-let [pts (first @the-points-state-sequence)]
     (swap! the-points-state-sequence rest)
+    (q/print-camera)
     (q/translate (/ (q/width) 2) (/ (q/height) 2))
     (-> (map (partial apply q/point)
              pts)
         doall)))
 
-
 ;; setup -> (update)@frame-rate
-(q/sketch
-  :setup setup
-  :draw draw
-  :renderer :p3d
-  :size [1000 600]
-  ;; customize (prevent error: error in process filter: nrepl--dispatch-response: [nREPL] No response handler with id nil found)
-  :features [:no-safe-fns])
+#_(def the-sketch (q/sketch
+                 :setup setup
+                 :draw draw
+                 :renderer :p3d
+                 :size [1000 600]
+                 ;; customize (prevent error: error in process filter: nrepl--dispatch-response: [nREPL] No response handler with id nil found)
+                 :features [:resizable :no-safe-fn :no-bind-output]))
+
+
+
+
+(String. "ss")
+(.toUpperCase "dd")
 
 
 

@@ -13,7 +13,7 @@
                  [org.clojure/tools.reader "1.0.0-RC1"]
 
                  ;; apps.nrepl-cider
-                 [cider/cider-nrepl "0.14.0"]
+                 [cider/cider-nrepl "0.15.0"]
                  
                  ;; cms`
                  [ring/ring-jetty-adapter "1.5.0"]
@@ -23,7 +23,7 @@
                  [compojure "1.5.0"]
                  [hiccup "1.0.5"]
                  ;; my licence expire on 2017/05/17, upgrade not supported, so only 0.9.5561 supported. can register new account?
-                 [com.datomic/datomic-pro "0.9.5561" :exclusions [commons-codec org.apache.httpcomponents/httpclient]]
+                 [com.datomic/datomic-pro "0.9.5561" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop]]
 
                  [org.webjars.bower/tether "1.3.2"]
                  [org.webjars/bootstrap "4.0.0-alpha.2"]
@@ -35,7 +35,7 @@
                  [com.cemerick/pomegranate "0.3.1" :exclusions [commons-logging]]
                  [prone "1.1.1"]
                  [ring-logger "0.7.6"]
-
+                 ;; logging
                  [org.slf4j/jcl-over-slf4j "1.7.21"]
                  [ch.qos.logback/logback-classic "1.1.7"]
                  
@@ -44,13 +44,19 @@
                  [com.draines/postal "2.0.2"]
                  ;; for incanter-example
                  [net.mikera/core.matrix "0.60.3"]
-                 [net.mikera/vectorz-clj "0.47.0"]
                  [incanter "1.5.7"]
                  ;; for ml week 4
                  [net.mikera/imagez "0.12.0"]
 
                  [quil "2.6.0"]
+                 ;; mvn install:install-file -DgroupId=apps -DartifactId=extruder -Dversion=1.02 -Dpackaging=jar -Dfile=extruder.jar -DgeneratePom=true -DcreateChecksum=true
+                 [apps/extruder "1.02"]
+                 [apps/peasycam "202"]
+                 [apps/shapes3d "2.2"]
+
+                 ;; sources
+                 [org.processing/core "3.2.3" :classifier "sources"]
 
                  ]
             
-  :jvm-opts ["-Xmx6g"])
+  :jvm-opts ["-Xmx6g" "-agentlib:jdwp=transport=dt_shmem,address=8000,server=y,suspend=n"])
