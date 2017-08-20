@@ -1,3 +1,4 @@
+Windows:
 COMMON:
 xunlei
 chrome
@@ -16,3 +17,18 @@ lein
 
 
 
+
+
+
+
+
+
+Linux:
+openssh-server - for remote access
+curl - for download
+gcc - for compile
+make - for build(compile, install ...)
+libncurses-dev - provide function tputs used by emacs installation
+git - for scm
+openjdk-8-jdk-headless - java
+chicken - chichen scheme

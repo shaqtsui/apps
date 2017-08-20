@@ -1,0 +1,1 @@
+Racket - a fake scheme. it's more like common lisp which provide a lot of features e.g. object, contract, module, unit ... , but the most prominent is that it provide read macro(convert any code to list) & module(customize init enviroment) to create arbitrory language.

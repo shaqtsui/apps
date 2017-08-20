@@ -24,6 +24,11 @@ company - code complete, default supported by cider via backend: capf(standard c
 auto-complete - same as company
 flycheck - on the fly syntax check
 flycheck-clojure(squiggly-clojure) - clojure support for flycheck
+racket-mode - like cider, for racket
+geiser - like cider, for racket chichen ...
+rainbow-delimiters - show different color for parens in different depth
+paren-face - show parentheses with differnt style, functions covered by rainbow-delimiters
+
 
 # java plugins
 malabar-mode - moved to jdee
