@@ -3,7 +3,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary))
+(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -11,13 +11,17 @@
 
 ;; enable additional mode and feature
 ;; autoloaded function, no need to require first
+;; build-in lib init
 (recentf-mode t)
 (desktop-save-mode t)
 (global-linum-mode t)
 (global-auto-revert-mode t)
+(ido-mode t)
+;; 3rd part lib init
+;; this need to be called before gesiter init
+(setq geiser-active-implementations '(chicken guile))
 (global-company-mode)
 (add-to-list 'company-backends 'company-restclient)
-(ido-mode t)
 (require 'magit)
 (setq magit-diff-hide-trailing-cr-characters nil)
 ;; evaluate cider.el, so that fun & vars available to flycheck-clojure
@@ -25,6 +29,15 @@
 ;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
 (eval-after-load 'flycheck '(flycheck-clojure-setup))
 (add-hook 'after-init-hook #'global-flycheck-mode)
+;; paredit enable
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+(add-hook 'clojure-mode-hook           #'enable-paredit-mode)
+
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
 (custom-set-variables
