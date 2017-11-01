@@ -10,6 +10,12 @@ pom.xml.asc
 .hgignore
 .hg/
 
+/.cljs*
+/.repl-*
+/out
+/apps.log
+
+# idea editor
 /.idea
 *.iml
 

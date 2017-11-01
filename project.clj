@@ -3,38 +3,42 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :repositories [["my.datomic.com" {:url "https://my.datomic.com/repo"
+  :repositories [#_["my.datomic.com" {:url "https://my.datomic.com/repo"
                                     :snapshots false
                                     :username "xfcjscn@gmail.com"
                                     :password "18f81b06-0226-4d59-9060-7e01182a6030"}]]
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/core.async "0.2.385"]
-                 [org.clojure/tools.logging "0.3.1"]
-                 [org.clojure/tools.reader "1.0.0-RC1"]
+                 [org.clojure/core.async "0.3.443"]
+                 [org.clojure/tools.logging "0.4.0"]
+                 [org.clojure/tools.reader "1.1.0"]
+                 [org.clojure/clojurescript "1.9.946"]
 
                  ;; apps.nrepl-cider
                  [cider/cider-nrepl "0.15.0"]
-                 
-                 ;; cms`
-                 [ring/ring-jetty-adapter "1.5.0"]
-                 [ring/ring-devel "1.5.0"]
-                 [ring/ring-defaults "0.2.1"]
-                 [ring-webjars "0.1.1" :exclusions [com.fasterxml.jackson.core/jackson-core]]
-                 [compojure "1.5.0"]
+                 ;; seems weasel is optional, I can integrate cider with piggieback to support browser support. It's bad to introduce weasel api into my cljs file                 
+                 [com.cemerick/piggieback "0.2.2"]
+
+                 ;; cms
+                 [ring "1.6.2"]
+                 [ring/ring-defaults "0.3.1"]
+                 [ring-webjars "0.2.0" :exclusions [com.fasterxml.jackson.core/jackson-core]]
+                 [compojure "1.6.0"]
                  [hiccup "1.0.5"]
                  ;; my licence expire on 2017/05/17, upgrade not supported, so only 0.9.5561 supported. can register new account?
-                 [com.datomic/datomic-pro "0.9.5561" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop]]
+                 ;; this is free but not for open source
+                 ;;[com.datomic/datomic-pro "0.9.5561" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop]]
+                 [com.datomic/datomic-free "0.9.5561.62" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop com.google.guava/guava]]
 
                  [org.webjars.bower/tether "1.3.2"]
                  [org.webjars/bootstrap "4.0.0-alpha.2"]
-                 [org.webjars.bower/semantic "2.2.2"]
-                 [endophile "0.1.2"]
-                 [buddy/buddy-auth "1.1.0"]
+                 [org.webjars.bower/semantic "2.2.13"]
+                 [endophile "0.2.1"]
+                 [buddy/buddy-auth "2.1.0"]
                  [oauth-clj "0.1.15" :exclusions [commons-logging]]
-                 [org.danielsz/system "0.3.0"]
-                 [com.cemerick/pomegranate "0.3.1" :exclusions [commons-logging]]
-                 [prone "1.1.1"]
-                 [ring-logger "0.7.6"]
+                 [org.danielsz/system "0.4.0"]
+                 [com.cemerick/pomegranate "0.4.0" :exclusions [commons-logging]]
+                 [prone "1.1.4"]
+                 [ring-logger "0.7.7"]
                  ;; logging
                  [org.slf4j/jcl-over-slf4j "1.7.21"]
                  [ch.qos.logback/logback-classic "1.1.7"]
@@ -59,4 +63,8 @@
 
                  ]
             
-  :jvm-opts ["-Xmx6g" "-agentlib:jdwp=transport=dt_shmem,address=8000,server=y,suspend=n"])
+  ;;:jvm-opts ["-Xmx6g" "-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"]
+
+  ;; cider don't inject this automaticlly, so duplicate with code in nrepl-cider
+  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+  )

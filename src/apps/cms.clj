@@ -205,7 +205,9 @@
         (wrap-defaults (-> site-defaults
                            (assoc-in [:security :frame-options] {:allow-from "www.sharkxu.com"})
                            (assoc-in [:security :anti-forgery] false)
-                           (assoc-in [:session :store] (ring.middleware.session.memory/memory-store all-the-sessions))))
+                           (assoc-in [:session :store] (ring.middleware.session.memory/memory-store all-the-sessions))
+                           ;; out folder in project root for cljs compiled files
+                           (assoc-in [:static :files] "out")))
         wrap-reload)))
 
 
@@ -215,9 +217,10 @@
         (app-routes-factory $)
         (app-factory $)
         (component/system-map
-          :web (new-web-server 80 $)
+          ;; in linux port below 1024 can only be opened by root
+          :web (new-web-server 8080 $)
           ;;run: bin\transactor config\samples\dev-transactor-template.properties to start transactor
-          :datomic-db (new-datomic-db "datomic:dev://localhost:4334/cms"))))
+          :datomic-db (new-datomic-db "datomic:mem://localhost:4334/cms"))))
 
 
 
@@ -236,6 +239,7 @@
 
 
 #_(-main)
+
 #_(reset)
 
 #_(add-dependencies :coordinates '[[xxxxxxx "1.2.3"]]
