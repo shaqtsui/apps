@@ -6,6 +6,21 @@ Refer to [language](language.md) for Symbol definition
 ### Why clojure need to make Symbol available to program?
 Clojure have macro to program on Program Source which is composed of Symbols
 
+## evaluate = evaluate? + resolve symbol? + execute function? + direct value?
+
+evaluate symbol = resolve symbol
+evaluate list =
+  first element is symbol & in special form table: base on corresponding rule
+  first element is symbol & can be reolved to a macro: execute function
+  others: evaluate(all sublist) + execute function
+evaluate others = direct value
+
+## 3 layers of processes
+* reader - Read form and execute reader macro to produce: Symbol, Literals(String, Number, Character, nil, Boolean, Keyword), List(2 implementations: Cons for list created from reader macro & PersistList for literals list), Vector, Map, Set
+* compiler - Check Lists from above result, if first element is Symbol & can be resolved to a macro, evaluate the list
+* executor - Evaluate List from above result
+
+
 ## Runtime Structure
     Namespace Repo
         Namespace
@@ -56,6 +71,12 @@ All code executed in thread, below is code and corresponding impact:
 ## Collection
 
 ### Sequence Abstraction
+A view of data, must rely on concrete collection data type
+some data's view is it's self e.g. pair & list
+coll? = true
+normally no additional space required
+All collections, include non-sequential(seq? = false), can have a sequence view.
+Implementations can be: Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
 Support: cons, car(first), cdr(rest)  
 The base of: filter, map, for, doseq, take, partition …  
 All collections provide Sequence abstraction to navigate its content  
@@ -74,9 +95,14 @@ e.g.
     (class #{1 2}) ;; clojure.lang.PersistentHashSet
     (class (seq #{1 2})) ;; clojure.lang.APersistentMap$KeySeq
 
-### Concrete Data Type:
-* sequential
-  * list
-  * vector
+
+### Concrete Collection Data Type:
+sequential(seq? = true):
+* pair - this not in official document but I think it's prominent to highlight here, in clojure it's second element need to be a sequence view, implementation: Cons, created by: cons
+* list
+* vector
+
+non-sequential:
 * map
 * set
+

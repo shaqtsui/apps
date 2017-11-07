@@ -14,12 +14,12 @@
                  [org.clojure/clojurescript "1.9.946"]
 
                  ;; apps.nrepl-cider
-                 [cider/cider-nrepl "0.15.0"]
+                 [cider/cider-nrepl "0.15.1"]
                  ;; seems weasel is optional, I can integrate cider with piggieback to support browser support. It's bad to introduce weasel api into my cljs file                 
                  [com.cemerick/piggieback "0.2.2"]
 
                  ;; cms
-                 [ring "1.6.2"]
+                 [ring "1.6.3"]
                  [ring/ring-defaults "0.3.1"]
                  [ring-webjars "0.2.0" :exclusions [com.fasterxml.jackson.core/jackson-core]]
                  [compojure "1.6.0"]
@@ -29,26 +29,26 @@
                  ;;[com.datomic/datomic-pro "0.9.5561" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop]]
                  [com.datomic/datomic-free "0.9.5561.62" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop com.google.guava/guava]]
 
-                 [org.webjars.bower/tether "1.3.2"]
-                 [org.webjars/bootstrap "4.0.0-alpha.2"]
+                 [org.webjars.bower/tether "1.4.0"]
+                 [org.webjars/bootstrap "4.0.0-beta.2"]
                  [org.webjars.bower/semantic "2.2.13"]
                  [endophile "0.2.1"]
                  [buddy/buddy-auth "2.1.0"]
                  [oauth-clj "0.1.15" :exclusions [commons-logging]]
                  [org.danielsz/system "0.4.0"]
-                 [com.cemerick/pomegranate "0.4.0" :exclusions [commons-logging]]
+                 [com.cemerick/pomegranate "1.0.0" :exclusions [commons-logging]]
                  [prone "1.1.4"]
                  [ring-logger "0.7.7"]
                  ;; logging
-                 [org.slf4j/jcl-over-slf4j "1.7.21"]
-                 [ch.qos.logback/logback-classic "1.1.7"]
+                 [org.slf4j/jcl-over-slf4j "1.7.25"]
+                 [ch.qos.logback/logback-classic "1.2.3"]
                  
                  ;; for tools
                  [enlive "1.1.6"]
                  [com.draines/postal "2.0.2"]
                  ;; for incanter-example
-                 [net.mikera/core.matrix "0.60.3"]
-                 [incanter "1.5.7"]
+                 [net.mikera/core.matrix "0.61.0"]
+                 [incanter "1.9.0"]
                  ;; for ml week 4
                  [net.mikera/imagez "0.12.0"]
 
@@ -58,8 +58,11 @@
                  [apps/peasycam "202"]
                  [apps/shapes3d "2.2"]
 
+                 ;; func-plot
+                 [cljsjs/three "0.0.87-0"]
+
                  ;; sources
-                 [org.processing/core "3.2.3" :classifier "sources"]
+                 [org.processing/core "3.3.6" :classifier "sources"]
 
                  ]
             
@@ -67,4 +70,6 @@
 
   ;; cider don't inject this automaticlly, so duplicate with code in nrepl-cider
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+
+  :plugins [[lein-ancient "0.6.14"]]
   )

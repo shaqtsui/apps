@@ -20,8 +20,8 @@
 ;; 3rd part lib init
 ;; this need to be called before gesiter init
 (setq geiser-active-implementations '(chicken guile))
-(setq cider-cljs-lein-repl "(do (require 'cljs.repl.node) (cemerick.piggieback/cljs-repl (cljs.repl.node/repl-env)))")
-;;(setq cider-cljs-lein-repl "(do (require 'cljs.repl.browser) (cemerick.piggieback/cljs-repl (cljs.repl.browser/repl-env)))")
+;;(setq cider-cljs-lein-repl "(do (require 'cljs.repl.node) (cemerick.piggieback/cljs-repl (cljs.repl.node/repl-env)))")
+(setq cider-cljs-lein-repl "(do (require 'cljs.repl.browser) (cemerick.piggieback/cljs-repl (cljs.repl.browser/repl-env)))")
 (global-company-mode)
 (add-to-list 'company-backends 'company-restclient)
 (require 'magit)
@@ -53,4 +53,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(cider-debug-code-overlay-face ((t (:underline (:color foreground-color :style wave))))))
