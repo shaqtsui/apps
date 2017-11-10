@@ -4,7 +4,6 @@
 
 (enable-console-print!)
 
-(repl/connect "http://192.168.124.5:9000/repl")
 
 (println "Hello world")
 

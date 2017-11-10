@@ -59,6 +59,8 @@
                  [apps/shapes3d "2.2"]
 
                  ;; func-plot
+                 [prismatic/dommy "1.1.0"]
+                 [hipo "0.5.2"]
                  [cljsjs/three "0.0.87-0"]
 
                  ;; sources

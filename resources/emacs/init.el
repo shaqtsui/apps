@@ -21,7 +21,7 @@
 ;; this need to be called before gesiter init
 (setq geiser-active-implementations '(chicken guile))
 ;;(setq cider-cljs-lein-repl "(do (require 'cljs.repl.node) (cemerick.piggieback/cljs-repl (cljs.repl.node/repl-env)))")
-(setq cider-cljs-lein-repl "(do (require 'cljs.repl.browser) (cemerick.piggieback/cljs-repl (cljs.repl.browser/repl-env)))")
+(setq cider-cljs-lein-repl "(do (require 'apps.cljs-rt-browser 'cljs.repl.browser) (apps.cljs-rt-browser/-main) (cemerick.piggieback/cljs-repl (cljs.repl.browser/repl-env) :repl-verbose true))")
 (global-company-mode)
 (add-to-list 'company-backends 'company-restclient)
 (require 'magit)

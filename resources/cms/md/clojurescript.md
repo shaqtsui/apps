@@ -47,5 +47,10 @@ sr/**
 
 
 Note: give plain js a fake namespace via register in  :foreign-lib, so that plain js can be located automatically.
+better to put :foreign-libs, :externs in src folder, so that it can be used both by compiler & runtime.
+I don't know why require will generate incorrect: "good.addDepency("xx.js", [] [])" (empty provide & require)
+This means any required namespace need to be referenced by the compiled cljs during compile time to generate correct deps.js
 
+JavaScript Modules (alpha)
+:foreign-libs/:file can specify a folder & :provides will base on directory structure.
 

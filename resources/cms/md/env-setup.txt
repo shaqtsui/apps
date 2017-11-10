@@ -15,7 +15,7 @@ gostscript - required by doc-view-mode to convert postscript/pdf to png, need to
 jdk
 lein
 
-
+idea - java remote debugger UI, inner maven for download sources, 
 
 
 
