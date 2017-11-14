@@ -4,7 +4,10 @@
             [hiccup.core :refer [html]]
             [hiccup.page :refer [include-js]]
             [hiccup.element :refer [javascript-tag]]
-            cljs.build.api))
+            cljs.build.api
+            cljs.repl.browser
+            cemerick.piggieback
+            ))
 
 
 
@@ -31,7 +34,10 @@
 
   ;; repl will serve static, so just generate index.html
   (when-not (. (io/file index-path) exists)
-    (spit index-path (html index-hcp))))
+    (spit index-path (html index-hcp)))
+
+  ;; exclude "." from static-dir to avoid overwrite of repl compiled files: out/out/** 
+  (cemerick.piggieback/cljs-repl (cljs.repl.browser/repl-env :static-dir ["out/"]) :repl-verbose true))
 
 
 #_(-main)

@@ -12,6 +12,7 @@
                  [org.clojure/tools.logging "0.4.0"]
                  [org.clojure/tools.reader "1.1.0"]
                  [org.clojure/clojurescript "1.9.946"]
+                 [org.clojure/math.numeric-tower "0.0.4"]
 
                  ;; apps.nrepl-cider
                  [cider/cider-nrepl "0.15.1"]

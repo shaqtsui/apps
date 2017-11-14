@@ -1,6 +1,6 @@
 (ns apps.hello-world
-  (:require [clojure.browser.repl :as repl]
-            cljsjs.three))
+  (:require cljsjs.three
+            cljsjs.three-orbitcontrols))
 
 (enable-console-print!)
 
@@ -115,12 +115,12 @@
 (.. light -position (set 10 0 25))
 (. scene add light)
 
-;;(def controls (new (. js/THREE -OrbitControls) camera))
+(def controls (new (. js/THREE -OrbitControls) camera))
 
 (defn animate []
   (js/requestAnimationFrame animate)
   (aset cube "rotation" "x" (+ 0.02 (.. cube -rotation -x)))
   (aset cube "rotation" "y" (+ 0.01 (.. cube -rotation -y)))
-;;  (. controls update)
+  (. controls update)
   (. renderer render scene camera))
 (animate)
