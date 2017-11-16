@@ -1,5 +1,5 @@
 (ns apps.matrix
-  (:require [clojure.tools.logging :as logging]
+  (:require [taoensso.timbre :as timbre]
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]))
 
@@ -78,7 +78,7 @@
   (let [y (f X-0)]
     (if (or
          (= max-iter 0)
-         (= (logging/spy y) 0))
+         (= (timbre/spy y) 0))
       {:X X-0 :y y :iter (- 200 max-iter)}
       (let [hessian (hessian-fn X-0)
             hessian-inverse (m/inverse hessian)]
@@ -102,7 +102,7 @@
   (let [y (f X-0)]
     (if (or
          (= max-iter 0)
-         (m/zero-matrix? (logging/spy y)))
+         (m/zero-matrix? (timbre/spy y)))
       {:X X-0 :y y :iter (- 200 max-iter)}
       (let [jacobian (jacobian-fn X-0)
             jacobian-inverse (m/inverse jacobian)]
@@ -114,3 +114,10 @@
                  (assoc opts :max-iter (dec max-iter))))))))
 
 
+;; scale & offset
+(defn linear-func-factory [scalars offset]
+  #(-> scalars
+       (m/broadcast [(count %)])
+       m/diagonal-matrix
+       (m/mmul %)
+       (m/add (m/broadcast offset [(count %)]))))

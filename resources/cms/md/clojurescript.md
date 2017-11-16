@@ -1,3 +1,8 @@
+require-macro will only make code go through reader & macro compiler 
+
+
+
+
 js global objects are in cljs's js ns
 
 

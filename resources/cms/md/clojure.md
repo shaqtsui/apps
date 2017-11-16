@@ -17,9 +17,10 @@ evaluate others = direct value
 
 ## 3 layers of processes
 * reader - Read form and execute reader macro to produce: Symbol, Literals(String, Number, Character, nil, Boolean, Keyword), List(2 implementations: Cons for list created from reader macro & PersistList for literals list), Vector, Map, Set
-* compiler - Check Lists from above result, if first element is Symbol & can be resolved to a macro, evaluate the list
+* macro compiler - Check Lists from above result, if first element is Symbol & can be resolved to a macro, evaluate the list
 * executor - Evaluate List from above result
 
+Note: here executor means clojure runtime which accept clj code not java bytes, which means executor(clojure runtime) will translate clj code to java bytes.
 
 ## Runtime Structure
     Namespace Repo

@@ -14,6 +14,12 @@
                  [org.clojure/clojurescript "1.9.946"]
                  [org.clojure/math.numeric-tower "0.0.4"]
 
+                 ;; logging
+                 [com.taoensso/timbre "4.10.0"]
+                 [com.fzakaria/slf4j-timbre "0.3.7"]
+                 [org.slf4j/jcl-over-slf4j "1.7.25"]
+
+                 
                  ;; apps.nrepl-cider
                  [cider/cider-nrepl "0.15.1"]
                  ;; seems weasel is optional, I can integrate cider with piggieback to support browser support. It's bad to introduce weasel api into my cljs file                 
@@ -40,9 +46,6 @@
                  [com.cemerick/pomegranate "1.0.0" :exclusions [commons-logging]]
                  [prone "1.1.4"]
                  [ring-logger "0.7.7"]
-                 ;; logging
-                 [org.slf4j/jcl-over-slf4j "1.7.25"]
-                 [ch.qos.logback/logback-classic "1.2.3"]
                  
                  ;; for tools
                  [enlive "1.1.6"]
