@@ -3,6 +3,8 @@
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]))
 
+;; timber debug not work in chrome, as console.debug do nothing
+
 (defn del
   "
   approximate del via secant(finite difference approximation)
@@ -113,11 +115,27 @@
                         (m/mmul jacobian-inverse y))
                  (assoc opts :max-iter (dec max-iter))))))))
 
+(defn cartesian-coord
+  "polar-coord in format: [r theta]"
+  [polar-coord]
+  (-> polar-coord
+      timbre/spy
+      last
+      ((juxt m/cos m/sin))
+      (m/mul (first polar-coord))))
 
-;; scale & offset
-(defn linear-func-factory [scalars offset]
-  #(-> scalars
+(defn scale-func [scalar]
+  #(-> scalar
+       timbre/spy
        (m/broadcast [(count %)])
        m/diagonal-matrix
-       (m/mmul %)
-       (m/add (m/broadcast offset [(count %)]))))
+       (m/mmul %)))
+
+
+(defn offset-func [offset]
+  #(-> offset
+       timbre/spy
+       (m/broadcast [(count %)])
+       (m/add %)))
+
+

@@ -1,7 +1,9 @@
-require-macro will only make code go through reader & macro compiler 
+require-macro will require the clj file which may have macro definition, which will be defined in normal macro executor env.
 
+other executor env are different from reader macro executor & normal macro executor env.
+So reader macro & normal macro are written in clj not cljs.
 
-
+Note: if you put "defmacro" in cljs file, it will be executed in normal macro executor, as defmacro itself is a macro, and in other executor finally compiled to a js function.
 
 js global objects are in cljs's js ns
 

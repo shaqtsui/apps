@@ -15,12 +15,18 @@ evaluate list =
   others: evaluate(all sublist) + execute function
 evaluate others = direct value
 
-## 3 layers of processes
-* reader - Read form and execute reader macro to produce: Symbol, Literals(String, Number, Character, nil, Boolean, Keyword), List(2 implementations: Cons for list created from reader macro & PersistList for literals list), Vector, Map, Set
-* macro compiler - Check Lists from above result, if first element is Symbol & can be resolved to a macro, evaluate the list
-* executor - Evaluate List from above result
+## Semantics will be performed in 3 layers
+* reader macro executor - Read form and execute reader macro to produce: Symbol, Literals(String, Number, Character, nil, Boolean, Keyword), List(2 implementations: Cons for list created from reader macro & PersistList for literals list), Vector, Map, Set
+* normal macro executor - Check Lists from above result, if first element is Symbol & can be resolved to a normal macro, evaluate the list
+* other executor - Evaluate List from above result
 
-Note: here executor means clojure runtime which accept clj code not java bytes, which means executor(clojure runtime) will translate clj code to java bytes.
+Note:
+* reader macro & normal macro is a function with meta: reader-macro, normal-macro
+* evaluate list share same execution context, so that they can refer to each other: 1, macros function refer to above vars. 2, executor can create macro definition
+* process is form by form, so that macros can refer to above vars
+* here executor means clojure runtime which accept clj code not java bytes, which means executor(clojure runtime) will translate clj code to java bytes.
+
+
 
 ## Runtime Structure
     Namespace Repo

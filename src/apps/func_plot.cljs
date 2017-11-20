@@ -1,5 +1,6 @@
 (ns apps.func-plot
-  (:require [taoensso.timbre :as timbre]
+  (:require ;; implict require macro
+            [taoensso.timbre :as timbre]
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
             [apps.matrix :as a-m]
@@ -15,9 +16,9 @@
 (defn material []
   (new (. js/THREE -MeshLambertMaterial) (clj->js {:color 0x4080ff :transparent true :opacity 0.8 :side (. js/THREE -DoubleSide)})))
 
-(defn geometry [math-func & {:keys [scalars offset slices stacks]
-                             :or {scalars 5
-                                  offset (-> scalars
+(defn geometry [math-func & {:keys [trans-func scalar offset slices stacks]
+                             :or {scalar 5
+                                  offset (-> scalar
                                              m/sub
                                              (m/div 2))
                                   slices 20
@@ -27,7 +28,8 @@
                    (first %)
                    (math-func %)
                    (second %))
-             (a-m/linear-func-factory scalars offset)
+             (or trans-func (comp (a-m/offset-func offset)
+                                  (a-m/scale-func scalar)))
              butlast
              vector)
        slices
@@ -76,5 +78,8 @@
         (doto
          (scene)
           (.add (cube (geometry #(-> % (m/pow 2) m-s/sum)) (material)))
-          (.add (cube (geometry (constantly 0)) (material))))
+          (.add (cube (geometry (constantly 0)) (material)))
+          (.add (cube (geometry (constantly 1) :trans-func (comp a-m/cartesian-coord (a-m/scale-func [1 (* 2 Math/PI)]))) (material)))
+          )
         (camera))
+

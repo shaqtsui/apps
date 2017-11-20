@@ -72,7 +72,7 @@
 
                  ]
             
-  ;;:jvm-opts ["-Xmx6g" "-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"]
+  :jvm-opts ["-Xmx6g" "-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"]
 
   ;; cider don't inject this automaticlly, so duplicate with code in nrepl-cider
   :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}

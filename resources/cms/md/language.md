@@ -1,5 +1,6 @@
 # Language
 
+Language is Symbols or combination of Symbols following Syntax rule refer to Semantic
 
 ## Elements
  
@@ -17,6 +18,7 @@
       
 
 ## Language Execution
+Language Executor, is some one who can perfrom actions(Semantic) refered by Language.
 
 Every Execution have language to conduct it.
 
