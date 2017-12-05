@@ -5,10 +5,11 @@ pom.xml
 pom.xml.asc
 *.jar
 *.class
-.lein-*
-.nrepl-port
-.hgignore
-.hg/
 
-.idea
+.*
+
 *.iml
+
+# emacs edit temp file
+*~
+\#*\#

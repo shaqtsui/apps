@@ -8,7 +8,7 @@
                                     :username "xfcjscn@gmail.com"
                                     :password "18f81b06-0226-4d59-9060-7e01182a6030"}]]
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/core.async "0.3.443"]
+                 [org.clojure/core.async "0.3.443" :exclusions [org.ow2.asm/asm-all]]
                  [org.clojure/tools.logging "0.4.0"]
                  [org.clojure/tools.reader "1.1.0"]
                  [org.clojure/clojurescript "1.9.946"]

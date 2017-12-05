@@ -5,18 +5,14 @@ pom.xml
 pom.xml.asc
 *.jar
 *.class
-/.lein-*
-/.nrepl-port
-.hgignore
-.hg/
 
-/.cljs*
-/.repl-*
+# all files start from .
+/.*
+
+# cljs compiled files
 /out
-/apps.log
 
 # idea editor
-/.idea
 *.iml
 
 # emacs edit temp file

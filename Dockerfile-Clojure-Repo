@@ -1,0 +1,5 @@
+# build command(put this file in ~/.m2): docker build -f Dockerfile-Clojure-Repo -t xfcjscn/clojure-repo .
+FROM clojure
+COPY . /root/.m2
+
+

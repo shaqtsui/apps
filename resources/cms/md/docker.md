@@ -56,3 +56,7 @@ Encapsulate artifact and runtime of program and its dependency, so that u can:
     docker run --name cms -p 5555:5555 -v /home/shark/.m2:/root/.m2 xfcjscn/cms:1.3
     
 
+### add user to docker group to have docker permission
+
+    sudo usermod -g docker shark
+

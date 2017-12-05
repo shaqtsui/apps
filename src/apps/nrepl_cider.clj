@@ -1,5 +1,6 @@
 (ns apps.nrepl-cider
-  (:require [clojure.tools.nrepl.server :as nrepl-server]
+  (:require [taoensso.timbre :as timbre]
+            [clojure.tools.nrepl.server :as nrepl-server]
             [cider.nrepl :refer (cider-nrepl-handler cider-middleware)]
             [cemerick.piggieback :as pback]
             ;; currently not used, new func in clojure 1.8
@@ -19,7 +20,9 @@
 ;; but cider will ignore the client, create repl via :headless, and creat a repl client via emacs program.
 (defn -main
   []
-  (nrepl-server/start-server :port 7888 :handler cider-nrepl-handler-with-cljs))
+  (timbre/info "Starting nrepl on address: 0.0.0.0 port: 7888")
+  (nrepl-server/start-server :bind "0.0.0.0" :port 7888 :handler cider-nrepl-handler-with-cljs)
+  (timbre/info "Started nrepl"))
 
 
 ;; socket repl: streem based(read & write string from stream), only support code evaluate interact.

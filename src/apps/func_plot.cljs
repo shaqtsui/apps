@@ -1,6 +1,5 @@
 (ns apps.func-plot
-  (:require ;; implict require macro
-            [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as timbre]
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
             [apps.matrix :as a-m]
@@ -17,7 +16,7 @@
   (new (. js/THREE -MeshLambertMaterial) (clj->js {:color 0x4080ff :transparent true :opacity 0.8 :side (. js/THREE -DoubleSide)})))
 
 (defn geometry [math-func & {:keys [trans-func scalar offset slices stacks]
-                             :or {scalar 5
+                             :or {scalar 10
                                   offset (-> scalar
                                              m/sub
                                              (m/div 2))
@@ -35,11 +34,19 @@
        slices
        stacks))
 
-(defn cube [g m]
-  (doto
-   (new (. js/THREE -Mesh) g m)
-    (aset "castShadow" true)
-    (aset "receiveshadow" true)))
+
+(defn cube [g m & {:keys [wireframe]}]
+  (cond-> (new (. js/THREE -Group))
+    true (doto (.add (doto
+                      (new (. js/THREE -Mesh) g m)
+                       (aset "castShadow" true)
+                       (aset "receiveshadow" true))))
+    wireframe (doto (.add (new (. js/THREE -LineSegments)
+                               (new (. js/THREE -WireframeGeometry) g)
+                               (new (. js/THREE -LineBasicMaterial)
+                                    (clj->js {:color 0xffffff
+                                              :transparent true
+                                              :opacity 0.5})))))))
 
 (defn renderer []
   (doto
@@ -74,12 +81,17 @@
       (.add camera "fov"))
     (func)))
 
+(def math-func #(-> % (m/pow 2) m-s/sum))
+(def gradient-func (a-m/del math-func))
+(def cut-off-point [1 1])
+
 (render (renderer)
         (doto
          (scene)
-          (.add (cube (geometry #(-> % (m/pow 2) m-s/sum)) (material)))
+          (.add (cube (geometry math-func) (material)))
+          (.add (cube (geometry #(m/add (math-func cut-off-point) (m/mmul (m/sub % cut-off-point) (gradient-func cut-off-point)))) (material) :wireframe true))
+          #_(.add (cube (new (. js/THREE -SphereGeometry) 1)) (material))
           (.add (cube (geometry (constantly 0)) (material)))
-          (.add (cube (geometry (constantly 1) :trans-func (comp a-m/cartesian-coord (a-m/scale-func [1 (* 2 Math/PI)]))) (material)))
-          )
+          #_(.add (cube (geometry (constantly 1) :trans-func (comp a-m/cartesian-coord (a-m/scale-func [1 (* 2 Math/PI)]))) (material))))
         (camera))
 

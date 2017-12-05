@@ -6,12 +6,18 @@
             [hiccup.element :refer [javascript-tag]]
             cljs.build.api
             cljs.repl.browser
-            cemerick.piggieback
-            ))
+            cemerick.piggieback)
+  (:import java.net.NetworkInterface))
 
-
-
-(def repl-client-url "http://192.168.124.5:9000/repl")
+(def repl-client-url (str "http://"
+                          (-> (NetworkInterface/getNetworkInterfaces)
+                              enumeration-seq
+                              first
+                              .getInetAddresses
+                              enumeration-seq
+                              last
+                              .getHostAddress)
+                          ":9000/repl"))
 
 (def index-hcp
   [:html
@@ -23,22 +29,27 @@
 
 (def index-path "out/index.html")
 
+(def build-repl-opts
+  {:output-to "out/main.js"
+   ;; temporary files used during compilation. default to "out". base on assumption: all code will combine to ':output-to'.
+   :output-dir "out"
+   :browser-repl true
+   :verbose true
+   :repl-verbose true})
+
 (defn -main []
   ;; generate:
   ;; module system: goog/base.js, module info of google: goog/deps.js, module of google: goog/**
   ;; module info of other: main.js, module of others
-  (cljs.build.api/build "src" {:output-to "out/main.js"
-                               :browser-repl true
-                               :verbose true
-                               })
+  (cljs.build.api/build "src" build-repl-opts)
 
   ;; repl will serve static, so just generate index.html
-  (when-not (. (io/file index-path) exists)
-    (spit index-path (html index-hcp)))
+  (spit index-path (html index-hcp))
 
   ;; exclude "." from static-dir to avoid overwrite of repl compiled files: out/out/** 
-  (cemerick.piggieback/cljs-repl (cljs.repl.browser/repl-env :static-dir ["out/"]) :repl-verbose true))
-
+  (apply cemerick.piggieback/cljs-repl (cljs.repl.browser/repl-env :static-dir ["out/"]) (-> build-repl-opts
+                                                                                             vec
+                                                                                             flatten)))
 
 #_(-main)
 

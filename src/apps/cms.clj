@@ -205,9 +205,7 @@
         (wrap-defaults (-> site-defaults
                            (assoc-in [:security :frame-options] {:allow-from "www.sharkxu.com"})
                            (assoc-in [:security :anti-forgery] false)
-                           (assoc-in [:session :store] (ring.middleware.session.memory/memory-store all-the-sessions))
-                           ;; out folder in project root for cljs compiled files
-                           (assoc-in [:static :files] "out")))
+                           (assoc-in [:session :store] (ring.middleware.session.memory/memory-store all-the-sessions))))
         wrap-reload)))
 
 

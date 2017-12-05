@@ -1,9 +1,9 @@
 (ns apps.matrix
-  (:require [taoensso.timbre :as timbre]
+  (:require [taoensso.timbre :as timbre] ;; implicit require macro
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]))
 
-;; timber debug not work in chrome, as console.debug do nothing
+;; to get timber debug work in chrome, chrome's console need to have Verbose selected
 
 (defn del
   "
