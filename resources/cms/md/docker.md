@@ -1,5 +1,8 @@
 # Docker
 
+## Use case
+Can NOT remove, even hide, OS layer. So may not suitable for small team.
+
 ## Docker Engine
 consists of:
 
