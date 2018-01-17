@@ -20,8 +20,7 @@
 ;; 3rd part lib init
 ;; this need to be called before gesiter init
 (setq geiser-active-implementations '(chicken guile))
-;;(setq cider-cljs-lein-repl "(do (require 'cljs.repl.node) (cemerick.piggieback/cljs-repl (cljs.repl.node/repl-env)))")
-(setq cider-cljs-lein-repl "(do (require 'apps.cljs-rt-browser) (apps.cljs-rt-browser/-main))")
+(setq cider-cljs-boot-repl "(do (require 'apps.cljs-rt-browser) (apps.cljs-rt-browser/-main))")
 (global-company-mode)
 (add-to-list 'company-backends 'company-restclient)
 (require 'magit)
