@@ -1,4 +1,4 @@
-(ns apps.cljs-rt-browser
+(ns apps.bootstrap.cljs-rt-browser
   (:require [taoensso.timbre :as timbre]
             [clojure.java.io :as io]
             [hiccup.core :refer [html]]

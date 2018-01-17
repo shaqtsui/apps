@@ -1,4 +1,4 @@
-(ns apps.cljs
+(ns apps.bootstrap.cljs
   (:require cljs.build.api
             cljs.repl
             cljs.repl.browser

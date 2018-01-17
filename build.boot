@@ -4,6 +4,7 @@
                  [org.clojure/core.async "0.4.474" :exclusions [org.ow2.asm/asm-all]]
                  [org.clojure/tools.logging "0.4.0"]
                  [org.clojure/tools.reader "1.1.1"]
+                 [org.clojure/tools.nrepl "0.2.13"]
                  [org.clojure/clojurescript "1.9.946"]
                  [org.clojure/math.numeric-tower "0.0.4"]
 
