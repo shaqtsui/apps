@@ -1,0 +1,269 @@
+* All about: COGNITION OF 心 AND THE WORLD
+
+** 心
+
+*** 一欲
+即：有照，不住万相归于住一，万法归一，抱一，放下万缘，不思善恶，不造业，无想无思，挂念，无分别妄想执着于妄想，不动心
+Power for all
+
+** WORLD
+
+*** LANGUAGE
+Language is Symbols or combination of Symbols following Syntax rule refer to Semantic
+
+**** Elements
+Symbol
+Syntax
+Semantic
+
+**** Lexical Context
+In previous language location: bind Symbol to Semantic
+In current language location: to find Symbol corresponding Semantic, search previous language location, find corresponding binding, find corresponding Semantic
+
+**** Category
+定名词 - 确定的某个东西, 或者东西的某个面
+  普通名词
+  动名词
+不定名词 - 比较之下选择的东西
+
+*** MATH
+Power for science
+
+**** Base
+function
+**** 18.01
+curve similar to short lines
+**** 18.02
+surface similar to small plane
+**** 18.03
+other stuff base on above 2
+**** 18.06
+vector is bases & coresponding factors
+
+*** IT
+Executor Execute Program in Enveroment
+
+**** Program
+Expression of Process via Program Language
+
+***** statement
+The smallest standalone element of an imperative programming language which expresses some action to be carried out.
+***** expression
+A finite combination of symbols that is well-formed according to rules that depend on the context.
+A combination of explicit values, constants, variables, operators, and functions that are interpreted according to the particular rules of precedence and of association for a particular programming language, which computes and then produces (returns, in a stateful environment) another value. 
+
+***** Function
+
+****** normal function
+
+****** high-order function
+
+****** infix function
+
+****** prefix function
+
+****** curry function
+
+***** Procedure
+
+***** Parameter
+Normal Parameter
+Generalization Type Parameter
+  Need to be passed when u use Object Template
+
+***** Format
+a collection of Data in format of 0 & 1
+		
+
+
+
+
+***** Type System:
+1, Type(subdivision) is base on type object(link to several constructor)
+	E.g. Haskell
+2, Type(subdivision) is base on Constructor
+	E.g. Most OO language
+
+***** Category:
+imperative
+declarative
+	Expresses the logic of a computation without describing its control flow
+functional
+	Treats computation as the evaluation of mathematical functions and avoids state and mutable data
+object-oriented
+	OO is a approach/style, take everything as object.
+	OO can used in:
+		OOP, OOD
+
+	OOP
+		Group logic into classes
+		Typical implementations:
+			Class OO
+				Use class extends to maintain Object relationship
+			Prototype OO (refer to Cognize/Prototype.txt)
+				Use prototype to maintain Object relationship
+
+		Features:
+			encapsulate (from Object internal view)
+				Object can encapsulate attribute & behavior
+			inheritance (from Object relationship view)
+				Object can inherit from another Object, meanwhile have features from extended Object
+			polymorphism (from Object external view)
+				All sub-types can provide qualified behavior defined in parent type. So for specify behavior, there can be many different implementations.
+				
+				
+	Method - A procedure/function associated with Object
+		Class Method(Static Method) - have NO access to corresponding instance object
+		Instance Method - have access to corresponding instance object
+					
+				
+	Object Template - Constructor, this Constructor only used to create Object
+		Category:
+			class - Most OO language
+			trait - In Scala
+			function - In prototype language like JS
+	
+		Keywords To Create Constructor:
+			class
+			trait - In Scala
+			object - In Scala, to create Constructor for singleton Object
+			Int => Int - In Scala, shorthand for "Function1[Int, Int]"
+	
+			### Below keywords will implicitly create Constructor:
+			def - In Scala, create function Object of anonymous Constructor
+			new - In most langulages, when it used on abstract Constructor, it will create Object of anonymous Constructor
+			(x:Int) => x+1 - In Scala, means: new Function1[Int, Int]{
+											def apply(x:Int):Int = x + 1
+										}
+***** Application Level:
+Platform (refer to Platform/Platform.txt)
+Domain
+
+
+Library VS Framework
+	both are logics maintained in different format(different language, method or function)
+		Library 
+			usually be use by custom-written logic
+			normally library is low level logic
+		Framework
+			usually use custom-written logic
+			normally framework is high level logic
+
+Architecture
+	Exchange (refer to Exchange.txt)
+		BS
+		CS
+	
+Resource
+	Resource
+	Represent
+
+Modularization & Layering
+	Base on HCLC, if you can divide system into Modules in 2 approaches, the one have less Coupling is better.
+		E.g. Vertical Division vs Horizontal Division
+	
+	Decompose system into to Components/Layers base on logic category
+		Concrete level depends on abstract level
+			When concrete level invoke abstract level, concrete level specific info will be removed
+	Loose Relationships of Components/Layers
+		Relationships Can be:
+			Function Dependency - Rely on other component's functionality
+			Code Dependency - Not only rely on other component's functionality, but also have API reference
+		If we can remove relationship, pls remove.
+		If we can not remove relationship, try to avoid Code Dependency.
+
+
+Unix Kernel-Shell Architecture
+	Shell take user interaction responsibility(user can be any object)
+	Kernel take other responsibility
+
+
+Separated Presentation(Refer to ITSystem.txt):
+	Derived from unix kernel-shell architecture?
+	Its name not as good as kernel-shell, since there should be a comp to handle input?
+	Separation:
+		Domain Model
+		Presentation(UI?)
+			Presentation Model (Application Model in Visual Works Smalltalk)
+				Presentation state and behavior
+			View
+				Project the state of the Presentation Model onto the glass
+				Hand these user gestures events off to the Presentation Model
+	Data flow:
+		Input -> View -> Presentation Model -> Domain Model
+		Output -> Domain Model -> Presentation Model ->View
+
+Direct-Manipulation
+	you want the objects on the screen to be the objects in the program
+	Prior to the proposal of the MVC pattern, objects were seen as having the responsibility to display themselves.
+	did not encourage the separation of data and procedure
+
+
+MVC:
+	Derived from Separated Presentation? I like Separated Presentation as the concept is more reasonable.
+	Software architectural pattern for implementing user interfaces.
+	mvc group structure is following hardware group structure
+	
+	Data flow:
+		Input -> Controller -> Domain Model
+		Assume:
+			Output -> Domain Model ->View
+		In practice:
+			Output -> Domain Model -> View Model ->View
+	
+  	M - Model
+  			Domain Model in Separated Presentation
+  				
+  	V - Visualize M
+  			Map to Separated Presentation/Presentation/View
+  			But Assumes that all the state of the View can be derived from the state of the Model
+  			But in practice, View is bind to ViewModel (Separated Presentation/Presentation/Presentation Model)
+  			
+  	C - Accept Input & Invoke M & C
+  			Map to Separated Presentation/Presentation/Presentation Model
+  			Input will router to Controller then to DomainModel
+  			Types:
+	  			Front Controller
+	  			Controller
+
+	All framework & liberary should matrix under infra layer, nothing to do with MVC, because these logic is not application specific.
+	Some logic/code seems in specific application but in fact nothing to do with specific application(E.g. set coding logic in online shopping application) should not group by this instead we can think it's infra application's logic (infra application support this specific application)
+	Model is nothing to do with View, since View is only to visualize Model, Model is still there even there is no View.
+		If the Info should still there after View be removed, it should part of Model.
+		HTML is a tech to ship View Info, don't mix Model Info into it.
+	Controller should be a very thin layer:
+		All dynamics in view should belong to View, Controller is only to invoke/trigger View start.
+		Router should part of Model, since there is corresponding real stuff map to it, Controller can rely on it to do forward.
+	Particular MVC architectures can vary significantly from the traditional description.
+
+	principal intent of the MVC pattern is the separation of concerns
+	The Model-View-Controller paradigm extends the power of the user interface at the expense of increased demands on the user's mental model.
+	the user object maintains multiple simultaneous views of the model at once
+	the factoring into user, model, view, and controller allows one to support that
+	original motivations for the models, views and controller idea was to be able to automatically produce a default graphical interface for any object
+	extract-data-then-shove-it-elsewhere approach requires you to know too much about how the model-level objects are implemented
+	A system based on that approach cannot be called object-oriented: there's too much data flowing around for the system to be maintainable.
+	encourages the extraction of certain behaviours of an entity object(i.e. those concerned with representing itself to the user) and placing them in separate structures.
+	encourages the extraction of other behaviours from the entity (Model) objects
+	Controllers were originally defined (see above) as being concerned solely with managing input
+
+**** Executor
+**** Execute
+***** ExecutionContext
+Contains:
+	LexicalEnvironment - impl of Lexical Context
+	    Environment Record - Records the identifier bindings
+	    Possibly null reference to an outer LexicalEnvironment
+	VariableEnvironment - Same as LexicalEnviroment, but never changed.
+	ThisBinding - for 'this' binding. 
+                    cannot find binding when language write, it's base on language invoke enveroment(which object it invoked on)
+	ClassLoader - for class name & class object binding 
+                    cannot find binding when language write, it's base on language execution enveroment(only for some program like: java)
+
+Category:
+	Exclusive ExecutionContext - refered by one Execution
+	Shared ExecutionContext - refered by multiple Execution
+**** Enveroment
+
+
+

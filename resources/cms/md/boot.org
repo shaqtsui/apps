@@ -1,0 +1,66 @@
+* A bootstrap program for clojure
+
+Follow explicit over implicit
+
+One JVM instance for multiple Clojure runtime
+
+
+** Runtime structure of Classes
+
+                           
+| *Load Location* | start up                           | start up                         | Boot.main()                                 | ClojureRuntimeShim.newRuntime()                      | Compiler.eval()                                        |
+|                 |                                    |                                  |                                             |                                                      | Compiler.load()                                        |
+|                 |                                    |                                  |                                             |                                                      | Compiler.compile1()                                    |
+|-----------------+------------------------------------+----------------------------------+---------------------------------------------+------------------------------------------------------+--------------------------------------------------------|
+| *Class Loader*  | boot strap class loader            | sun.misc.Launcher$AppClassLoader | boot.bin.ParentClassLoader                  | boot.AddableClassloader                              | clojure.lang.DynamicClassLoader                        |
+|                 | & sun.misc.Launcher$ExtClassLoader |                                  |                                             |                                                      |                                                        |
+|-----------------+------------------------------------+----------------------------------+---------------------------------------------+------------------------------------------------------+--------------------------------------------------------|
+| *Classes*       | java.* (Java Runtime, JVM)         | Boot                             | boot.App                                    | org.projectodd.shimdandy.impl.ClojureRuntimeShimImpl | clj compiled classes                                   |
+|                 |                                    | boot.bin.ParentClassLoader       | boot.AddableClassloader                     | clojure.lang.RT                                      |                                                        |
+|                 |                                    |                                  | org.projectodd.shimdandy.ClojureRuntimeShim | clojure.lang.IFn                                     | Note: each function have a DynamicClassloader instance |
+|                 |                                    |                                  |                                             | clojure.lang.Symbol                                  |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.Var                                     |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.Compiler                                |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.DynamicClassLoader                      |                                                        |
+|                 |                                    |                                  |                                             | ...                                                  |                                                        |
+|-----------------+------------------------------------+----------------------------------+---------------------------------------------+------------------------------------------------------+--------------------------------------------------------|
+|                 |                                    |                                  |                                             | org.projectodd.shimdandy.impl.ClojureRuntimeShimImpl | clj compiled classes                                   |
+|                 |                                    |                                  |                                             | clojure.lang.RT                                      |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.IFn                                     | Note: each function have a DynamicClassloader instance |
+|                 |                                    |                                  |                                             | clojure.lang.Symbol                                  |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.Var                                     |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.Compiler                                |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.DynamicClassLoader                      |                                                        |
+|                 |                                    |                                  |                                             | ...                                                  |                                                        |
+|-----------------+------------------------------------+----------------------------------+---------------------------------------------+------------------------------------------------------+--------------------------------------------------------|
+|                 |                                    |                                  |                                             | org.projectodd.shimdandy.impl.ClojureRuntimeShimImpl | clj compiled classes                                   |
+|                 |                                    |                                  |                                             | clojure.lang.RT                                      |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.IFn                                     | Note: each function have a DynamicClassloader instance |
+|                 |                                    |                                  |                                             | clojure.lang.Symbol                                  |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.Var                                     |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.Compiler                                |                                                        |
+|                 |                                    |                                  |                                             | clojure.lang.DynamicClassLoader                      |                                                        |
+|                 |                                    |                                  |                                             | ...                                                  |                                                        |
+|-----------------+------------------------------------+----------------------------------+---------------------------------------------+------------------------------------------------------+--------------------------------------------------------|
+|                 |                                    |                                  |                                             | .                                                    | .                                                      |
+|                 |                                    |                                  |                                             | .                                                    | .                                                      |
+|                 |                                    |                                  |                                             | .                                                    | .                                                      |
+
+
+** Startup code
+boot.bin.ParentClassLoader extend URLClassLoader
+Boot
+  import java.*
+  import boot.bin.ParentClassLoader
+  loader = new ParentClassLoader(Boot.class.getClassLoader())
+  main()
+    loader add URL: boot jar file
+    loader set as thread context class loader
+    loader load boot.App
+    invoke boot.App.main
+	  
+** Don't know
+Why all boot Tasks, both required and not required, created via clojure.lang.AFunction.withMeta() with class: clojure.lang.AFunction$1? Because deftask used with meta?
+
+Why AddableClassLoader set to clojure.lang.Compiler.LOADER?
+
