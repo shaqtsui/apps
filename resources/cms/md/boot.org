@@ -46,7 +46,8 @@ One JVM instance for multiple Clojure runtime
 |                 |                                    |                                  |                                             | .                                                    | .                                                      |
 |                 |                                    |                                  |                                             | .                                                    | .                                                      |
 
-
+** aether shim
+only aether.uber.jar, contains clojure ...,  in shim classpath to use boot.aether to resolve deps
 ** Startup code
 boot.bin.ParentClassLoader extend URLClassLoader
 Boot
