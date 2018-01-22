@@ -20,6 +20,7 @@
                  [cider/cider-nrepl "0.16.0"]
                  ;; seems weasel is optional, I can integrate cider with piggieback to support browser support. It's bad to introduce weasel api into my cljs file                 
                  [com.cemerick/piggieback "0.2.2"]
+                 ;; boot task boot-cljs-repl generate cljs repl conection code for me base on weasel
                  [weasel "0.7.0"]
                  ;; for flycheck-clojure 
                  [acyclic/squiggly-clojure "0.1.9-SNAPSHOT"]
@@ -93,14 +94,25 @@
          '[adzerk.boot-reload :refer [reload]]
          '[metosin.boot-alt-http :refer [serve]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
+         '[apps.bootstrap.cljs :refer [download-foreign-source]]
          )
 
+
+(deftask download-online-js
+  "download online js in deps.cljs"
+  []
+  (fn wrapper [next-handler]
+     (fn handler [fileset]
+       (println "start download-foreign-source")
+       ;; download to jvm startup folder, so ignore fileset
+       (download-foreign-source)
+       (next-handler fileset))))
 
 (deftask dev
   "lanch IFDE"
   []
-
   (comp
+   (download-online-js) 
    ;; directly serve files from temp folder
    #_(serve :directories #{"target/public"} :port 3000)
    (serve :port 3000)

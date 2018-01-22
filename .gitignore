@@ -11,6 +11,9 @@ pom.xml.asc
 
 # cljs compiled files
 /out
+# cljs downloaded files
+/https:
+/http:
 
 # idea editor
 *.iml
