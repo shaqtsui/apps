@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.hishark.extension
+Bundle-SymbolicName: com.hishark.extension;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.hishark.extension.Activator
+Bundle-Vendor: hishark
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.ibm.xtools.modeler;bundle-version="7.60.0",
+ com.ibm.xtools.transform.core;bundle-version="7.100.0",
+ com.ibm.xtools.transform.uml2.java5;bundle-version="7.5.800",
+ org.eclipse.jdt.core;bundle-version="3.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.ibm.xtools.transform.core.transformationExtensions">
+      <TransformationExtension
+            enabled="true"
+            id="com.hishark.extension.TransformationExtension1"
+            readonly="false"
+            targetTransformation="com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform"
+            version="1">
+         <ExtendTransform
+               targetTransform="com.ibm.xtools.transform.uml2.java5.internal.ClassTransform">
+            <AddRule
+                  id="com.hishark.extension.RuleDefinition1">
+            </AddRule>
+         </ExtendTransform>
+         <RuleDefinition
+               class="com.hishark.extension.ApplyProfile"
+               id="com.hishark.extension.RuleDefinition1">
+         </RuleDefinition>
+      </TransformationExtension>
+   </extension>
+
+</plugin>

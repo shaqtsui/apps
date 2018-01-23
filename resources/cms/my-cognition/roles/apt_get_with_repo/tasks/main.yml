@@ -1,0 +1,18 @@
+---
+
+# Usage:
+#
+# roles:
+#   - role: apt_get_with_repo
+#     repo: repo
+#     key_url: key_url
+#     package_name: package_name
+#
+- name: add apt repo ---> [{{repo}}]
+  apt_repository: repo="{{repo}}"
+- name: add apt key ---> [{{key_url}}]
+  apt_key: url="{{key_url}}"
+- name: install ---> [{{package_name}}]
+  apt: name="{{package_name}}" update_cache=yes
+- name: start ---> [{{package_name}}]
+  service: name="{{package_name}}" state=started

@@ -1,0 +1,5 @@
+com.hishark.jaas{
+	com.hishark.jaas.NamePasswordLoginModule required;
+
+
+};

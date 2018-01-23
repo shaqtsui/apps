@@ -39,6 +39,14 @@
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 (add-hook 'clojure-mode-hook           #'enable-paredit-mode)
 
+;; ditaa
+;; ditaa rt is prerequest : sudo apt-get install ditaa
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (ditaa . t)))
+(setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
+
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
 (custom-set-variables

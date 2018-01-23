@@ -1,0 +1,102 @@
+---
+# Prerequire: createUser.yml
+# Command: ansible-playbook setupEnv.yml -i ~/hosts --ask-become-pass
+- hosts: dbservers
+  remote_user: deployer
+  become: yes
+  vars:
+    - sit_db_name: db_sit
+    - uat_db_name: db_uat
+    - dbms_user_name: application
+    - dbms_user_password: application
+  tasks:
+    - name: install mysql
+      apt: name=mysql-server update_cache=yes
+    - name: config mysql, define txn isolation
+      lineinfile: dest=/etc/mysql/my.cnf insertafter='\[mysqld\]' line='transaction-isolation=READ-COMMITTED'
+    - name: config mysql, bind address change to 0.0.0.0 so that mysql can be connected from remote client
+      lineinfile: dest=/etc/mysql/my.cnf state=present regexp='^(bind-address.*)127.0.0.1' line='\1 0.0.0.0' backup=yes backrefs=yes
+    - name: start mysql
+      service: name=mysql state=started
+    - name: install mysql_db dependency python-mysqldb
+      apt: name=python-mysqldb
+    - name: create database
+      mysql_db: name={{item}} state=present encoding=UTF8
+      with_items:
+        - "{{sit_db_name}}"
+        - "{{uat_db_name}}"
+    - name: create database user
+      mysql_user: name={{item.name}} password={{item.password}} priv={{item.priv}} host=%
+      with_items:
+        - {name: "{{dbms_user_name}}", password: "{{dbms_user_password}}", priv: '*.*:ALL'}
+
+
+# Configure and deploy web servers.
+- hosts: webservers
+  remote_user: deployer
+  become: yes
+  tasks:
+    - name: install nginx
+      apt: name=nginx
+    - name: start nginx
+      service: name=nginx state=started
+
+
+# Configure and deploy app servers.
+- hosts: appservers
+  remote_user: deployer
+  become: yes
+  tasks:
+    - name: install python setuptools
+      apt: name=python-setuptools
+    - name: install python supervisor
+      easy_install: name=supervisor
+  # install and start odoo
+  roles:
+    - role: apt_get_with_repo
+      repo: 'deb http://nightly.odoo.com/9.0/nightly/deb/ ./'
+      key_url: 'https://nightly.odoo.com/odoo.key'
+      package_name: 'odoo'
+
+# Configure and deploy cache servers.
+- hosts: cacheservers
+  remote_user: deployer
+  become: yes
+  tasks:
+    - name: install redis
+      apt: name=redis-server
+
+
+# Configure and deploy cd servers.
+- hosts: cdservers
+  remote_user: deployer
+  become: yes
+  roles:
+    - role: apt_get_with_repo
+      repo: 'deb http://dl.bintray.com/gocd/gocd-deb/ /'
+      key_url: 'https://bintray.com/user/downloadSubjectPublicKey?username=gocd'
+      package_name: 'go-server'
+    - role: apt_get_with_repo
+      repo: 'deb http://dl.bintray.com/gocd/gocd-deb/ /'
+      key_url: 'https://bintray.com/user/downloadSubjectPublicKey?username=gocd'
+      package_name: 'go-agent'
+  tasks:
+    - name: install go dependency
+      apt: name={{item}} update_cache=yes
+      with_items:
+        - git
+        - npm
+        - nodejs
+    - name: install grunt bower for build
+      npm: name={{item}} global=yes
+      with_items:
+        - grunt
+        - bower
+    - name: install maven
+      apt: name=maven
+    - name: add display env variables for selenium test
+      lineinfile: dest=/etc/profile.d/env_customized_by_ansible.sh create=yes insertbefore=BOF line='DISPLAY=:2.0'
+    - name: ensure .ssh directory exist
+      file: path=/home/go/.ssh owner=go group=go state=directory
+    - name: copy private key to target server to support password free connection
+      copy: src=~/.ssh/id_rsa dest=/home/go/.ssh/id_rsa owner=go group=go mode=0400

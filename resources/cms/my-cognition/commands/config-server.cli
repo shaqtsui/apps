@@ -1,0 +1,2 @@
+# max thread to serve http request (default value is 128)
+/profile=ha/subsystem=io/worker=default:write-attribute(name=task-max-threads,value=500)

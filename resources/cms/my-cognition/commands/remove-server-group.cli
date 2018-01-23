@@ -1,0 +1,27 @@
+# for server group
+set server_group_name=sit-server-group
+
+# for server config
+set host_name=master
+
+
+################################ server config ################################
+################ server config one ################
+# stop & remove
+if (outcome == success) of /host=$host_name/server-config=$server_group_name-server-one:read-resource
+/host=$host_name/server-config=$server_group_name-server-one:stop(blocking=true)
+/host=$host_name/server-config=$server_group_name-server-one:remove
+end-if
+
+################ server config two ################
+# stop & remove
+if (outcome == success) of /host=$host_name/server-config=$server_group_name-server-two:read-resource
+/host=$host_name/server-config=$server_group_name-server-two:stop(blocking=true)
+/host=$host_name/server-config=$server_group_name-server-two:remove
+end-if
+
+################################ server group ################################
+# remove $server_group_name
+if (outcome == success) of /server-group=$server_group_name:read-resource
+/server-group=$server_group_name:remove
+end-if

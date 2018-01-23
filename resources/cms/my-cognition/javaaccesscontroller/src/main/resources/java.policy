@@ -1,0 +1,27 @@
+//
+// @(#)src/security/sov/config/java.policy, security, asdev, 20060421 1.5
+// ===========================================================================
+// Licensed Materials - Property of IBM
+// "Restricted Materials of IBM"
+//
+// IBM SDK, Java(tm) Technology Edition, v6
+//  (C) Copyright IBM Corp. 1999, 2005. All Rights Reserved
+//
+// US Government Users Restricted Rights - Use, duplication or disclosure
+// restricted by GSA ADP Schedule Contract with IBM Corp.
+// ===========================================================================
+//
+
+
+// Standard extensions get all permissions by default
+
+grant codeBase "file:${java.home}/lib/ext/*" {
+	permission java.security.AllPermission;
+};
+// Put GetVMNamePrivilegedAction in GetVMNamePrivilegedAction.jar & remove it from eclipse project so that the PrivilegedAction can read
+grant codeBase "file:c:\\test\\GetVMNamePrivilegedAction.jar" {
+	permission java.util.PropertyPermission "java.vm.name", "read";
+};
+// default permissions granted to all domains
+
+

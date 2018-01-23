@@ -1,0 +1,29 @@
+---
+# Before run this need to have ssh key pair(id_rsa and id_rsa.pub) in ~/.ssh
+# If no ssh key pair use: 'ssh-keygen -t rsa -b 4096' to create
+#
+# Encrypted passowrd can be generated via:
+#   mkpasswd --method=SHA-512
+# or:
+#   python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
+#   Note: make sure python's passlib is installed, if not installed run: 'sudo pip install passlib' to install
+#
+# NOTE: Change var user_name to correct value before run the command. This user is a existing user used to create work user.
+# Put his play in seprate scripte is a workaround, as --ask-pass & --ask-become-pass in command argument can specify only one password
+# while other play need to use different user and password
+#
+# Command: ansible-playbook createUser.yml -i ~/hosts --ask-pass --ask-become-pass
+- hosts: all
+  vars:
+    user_name: shark
+  remote_user: "{{user_name}}"
+  become: yes
+  tasks:
+    - name: add user deployer in group sudo
+      user: name=deployer password="$6$rounds=656000$7..lsc.9Pn4OIYjY$HvgSnuP3ya1wXxCh/JIJg/U5XADlhXQlJLY4E6TsrpLS5VlTANeE6Rq4ZEY3WQkn6dHQ8TlFoXbC33v9MgGeQ/" groups=sudo update_password=on_create
+    - name: add user developer no group
+      user: name=developer password=$6$JiEc7pVoaBY$wo85HDFA0bGYZx7g6hLDkhDWodZRrzy4mzam8vRV/RKO2W0bqo4480R5PnZgICtkGMYPTiKch4PQt3P0iG1gF0 update_password=on_create
+    - name: add authorized_key to support password free login
+      authorized_key: user="{{item}}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      with_items:
+        - deployer

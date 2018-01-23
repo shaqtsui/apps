@@ -1,0 +1,44 @@
+# for all
+set server_group_name=sit-server-group
+
+# for server group
+set jvm_option="-Dspring.profiles.active=sit"
+
+# for server config
+set host_name=master
+set server_config_one_port_offset=0
+set server_config_one_auto_start=true
+set server_config_two_port_offset=1000
+set server_config_two_auto_start=false
+
+
+################################ server group ################################
+# add $server_group_name
+if (outcome == failed) of /server-group=$server_group_name:read-resource
+/server-group=$server_group_name:add(profile=ha,socket-binding-group=ha-sockets)
+/server-group=$server_group_name/jvm=default:add()
+/server-group=$server_group_name/jvm=default:write-attribute(name=max-heap-size,value=4g)
+/server-group=$server_group_name/jvm=default:write-attribute(name=max-permgen-size,value=2g)
+/server-group=$server_group_name/jvm=default:add-jvm-option(jvm-option=$jvm_option)
+end-if
+
+################################ server config ################################
+################ server config one ################
+if (outcome == failed) of /host=$host_name/server-config=$server_group_name-server-one:read-resource
+/host=$host_name/server-config=$server_group_name-server-one:add(auto-start=$server_config_one_auto_start, group=$server_group_name, socket-binding-port-offset=$server_config_one_port_offset)
+end-if
+
+# start
+if (result != STARTED) of /host=$host_name/server-config=$server_group_name-server-one:read-attribute(name=status)
+/host=$host_name/server-config=$server_group_name-server-one:start
+end-if
+
+################ server config two ################
+if (outcome == failed) of /host=$host_name/server-config=$server_group_name-server-two:read-resource
+/host=$host_name/server-config=$server_group_name-server-two:add(auto-start=$server_config_two_auto_start, group=$server_group_name, socket-binding-port-offset=$server_config_two_port_offset)
+end-if
+
+# start
+if (result != STARTED) of /host=$host_name/server-config=$server_group_name-server-two:read-attribute(name=status)
+/host=$host_name/server-config=$server_group_name-server-two:start
+end-if

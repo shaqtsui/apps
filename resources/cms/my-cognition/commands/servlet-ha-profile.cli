@@ -1,0 +1,157 @@
+## create profile: servlet-ha & corresponding socket-binding-group: servlet-ha-sockets
+
+/profile=servlet-ha:add()
+/profile=servlet-ha/subsystem="logging":add()
+/profile=servlet-ha/subsystem="logging"/periodic-rotating-file-handler="FILE":add(append="true",autoflush="true",file={"relative-to" => "jboss.server.log.dir","path" => "server.log"},name="FILE",named-formatter="PATTERN",suffix=".yyyy-MM-dd")
+/profile=servlet-ha/subsystem="logging"/pattern-formatter="PATTERN":add(pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n")
+/profile=servlet-ha/subsystem="logging"/logger="com.arjuna":add(category="com.arjuna",level="WARN")
+/profile=servlet-ha/subsystem="logging"/logger="org.apache.tomcat.util.modeler":add(category="org.apache.tomcat.util.modeler",level="WARN")
+/profile=servlet-ha/subsystem="logging"/logger="org.jboss.as.config":add(category="org.jboss.as.config",level="DEBUG")
+/profile=servlet-ha/subsystem="logging"/logger="sun.rmi":add(category="sun.rmi",level="WARN")
+/profile=servlet-ha/subsystem="logging"/root-logger="ROOT":add(handlers=["FILE"],level="INFO")
+
+/profile=servlet-ha/subsystem="batch":add(job-repository-type="in-memory")
+/profile=servlet-ha/subsystem="batch"/job-repository="jdbc":add()
+/profile=servlet-ha/subsystem="batch"/thread-pool="batch":add(keepalive-time={"time" => "30","unit" => "SECONDS"},max-threads="10",name="batch")
+
+/profile=servlet-ha/subsystem="bean-validation":add()
+
+/profile=servlet-ha/subsystem="ee":add(spec-descriptor-property-replacement="false")
+/profile=servlet-ha/subsystem="ee"/context-service="default":add(jndi-name="java:jboss/ee/concurrency/context/default",use-transaction-setup-provider="true")
+/profile=servlet-ha/subsystem="ee"/managed-executor-service="default":add(context-service="default",core-threads="5",hung-task-threshold="60000",jndi-name="java:jboss/ee/concurrency/executor/default",keepalive-time="5000",max-threads="25")
+/profile=servlet-ha/subsystem="ee"/managed-scheduled-executor-service="default":add(context-service="default",core-threads="2",hung-task-threshold="60000",jndi-name="java:jboss/ee/concurrency/scheduler/default",keepalive-time="3000")
+/profile=servlet-ha/subsystem="ee"/managed-thread-factory="default":add(context-service="default",jndi-name="java:jboss/ee/concurrency/factory/default")
+/profile=servlet-ha/subsystem="ee"/service="default-bindings":add(context-service="java:jboss/ee/concurrency/context/default",managed-executor-service="java:jboss/ee/concurrency/executor/default",managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default",managed-thread-factory="java:jboss/ee/concurrency/factory/default")
+
+/profile=servlet-ha/subsystem="ejb3":add(default-missing-method-permissions-deny-access="true",default-security-domain="other",default-sfsb-cache="simple",default-sfsb-passivation-disabled-cache="simple",default-singleton-bean-access-timeout="5000",default-stateful-bean-access-timeout="5000")
+/profile=servlet-ha/subsystem="ejb3"/cache="simple":add()
+/profile=servlet-ha/subsystem="ejb3"/cache="distributable":add(aliases=["passivating","clustered"],passivation-store="infinispan")
+/profile=servlet-ha/subsystem="ejb3"/passivation-store="infinispan":add(cache-container="ejb",max-size="10000")
+/profile=servlet-ha/subsystem="ejb3"/service="async":add(thread-pool-name="default")
+/profile=servlet-ha/subsystem="ejb3"/service="timer-service":add(default-data-store="default-file-store",thread-pool-name="default")
+/profile=servlet-ha/subsystem="ejb3"/service="timer-service"/file-data-store="default-file-store":add(path="timer-service-data",relative-to="jboss.server.data.dir")
+/profile=servlet-ha/subsystem="ejb3"/service="remote":add(connector-ref="http-remoting-connector",thread-pool-name="default")
+/profile=servlet-ha/subsystem="ejb3"/strict-max-bean-instance-pool="slsb-strict-max-pool":add(max-pool-size="20",timeout="5",timeout-unit="MINUTES")
+/profile=servlet-ha/subsystem="ejb3"/strict-max-bean-instance-pool="mdb-strict-max-pool":add(max-pool-size="20",timeout="5",timeout-unit="MINUTES")
+/profile=servlet-ha/subsystem="ejb3"/thread-pool="default":add(keepalive-time={"time" => "100","unit" => "MILLISECONDS"},max-threads="10",name="default")
+/profile=servlet-ha/subsystem="io":add()
+/profile=servlet-ha/subsystem="io"/buffer-pool="default":add()
+/profile=servlet-ha/subsystem="io"/worker="default":add()
+
+/profile=servlet-ha/subsystem="infinispan":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="server":add(default-cache="default",module="org.wildfly.clustering.server")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="server"/local-cache="default":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="server"/local-cache="default"/transaction="TRANSACTION":add(mode="BATCH")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="web":add(default-cache="passivation",module="org.wildfly.clustering.web.infinispan")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="web"/local-cache="passivation":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="web"/local-cache="passivation"/file-store="FILE_STORE":add(passivation="true",purge="false")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="web"/local-cache="passivation"/transaction="TRANSACTION":add(mode="BATCH")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="web"/local-cache="persistent":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="web"/local-cache="persistent"/file-store="FILE_STORE":add(passivation="false",purge="false")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="web"/local-cache="persistent"/transaction="TRANSACTION":add(mode="BATCH")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="ejb":add(aliases=["sfsb"],default-cache="passivation",module="org.wildfly.clustering.ejb.infinispan")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation"/file-store="FILE_STORE":add(passivation="true",purge="false")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="ejb"/local-cache="passivation"/transaction="TRANSACTION":add(mode="BATCH")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent"/file-store="FILE_STORE":add(passivation="false",purge="false")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="ejb"/local-cache="persistent"/transaction="TRANSACTION":add(mode="BATCH")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate":add(default-cache="local-query",module="org.hibernate")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/eviction="EVICTION":add(max-entries="10000",strategy="LRU")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/expiration="EXPIRATION":add(max-idle="100000")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="entity"/transaction="TRANSACTION":add(mode="NON_XA")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query":add()
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query"/eviction="EVICTION":add(max-entries="10000",strategy="LRU")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="local-query"/expiration="EXPIRATION":add(max-idle="100000")
+/profile=servlet-ha/subsystem="infinispan"/cache-container="hibernate"/local-cache="timestamps":add()
+
+/profile=servlet-ha/subsystem="jca":add()
+/profile=servlet-ha/subsystem="jca"/archive-validation="archive-validation":add(enabled="true",fail-on-error="true",fail-on-warn="false")
+/profile=servlet-ha/subsystem="jca"/bean-validation="bean-validation":add(enabled="true")
+/profile=servlet-ha/subsystem="jca"/bootstrap-context="default":add(name="default",workmanager="default")
+/profile=servlet-ha/subsystem="jca"/cached-connection-manager="cached-connection-manager":add(install="true")
+/profile=servlet-ha/subsystem="jca"/workmanager="default":add(name="default")
+/profile=servlet-ha/subsystem="jca"/workmanager="default"/long-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",name="default",queue-length="50")
+/profile=servlet-ha/subsystem="jca"/workmanager="default"/short-running-threads="default":add(core-threads="50",keepalive-time={"time" => "10","unit" => "SECONDS"},max-threads="50",name="default",queue-length="50")
+
+/profile=servlet-ha/subsystem="jsf":add()
+
+/profile=servlet-ha/subsystem="naming":add()
+/profile=servlet-ha/subsystem="naming"/service="remote-naming":add()
+
+/profile=servlet-ha/subsystem="pojo":add()
+
+/profile=servlet-ha/subsystem="remoting":add()
+/profile=servlet-ha/subsystem="remoting"/configuration="endpoint":add(worker="default")
+/profile=servlet-ha/subsystem="remoting"/http-connector="http-remoting-connector":add(connector-ref="default",security-realm="ApplicationRealm")
+
+/profile=servlet-ha/subsystem="security":add()
+/profile=servlet-ha/subsystem="security"/security-domain="other":add(cache-type="default")
+/profile=servlet-ha/subsystem="security"/security-domain="other"/authentication="classic":add()
+/profile=servlet-ha/subsystem="security"/security-domain="other"/authentication="classic"/login-module="Remoting":add(code="Remoting",flag="optional",module-options={"password-stacking" => "useFirstPass"})
+/profile=servlet-ha/subsystem="security"/security-domain="other"/authentication="classic"/login-module="RealmDirect":add(code="RealmDirect",flag="required",module-options={"password-stacking" => "useFirstPass"})
+/profile=servlet-ha/subsystem="security"/security-domain="jboss-web-policy":add(cache-type="default")
+/profile=servlet-ha/subsystem="security"/security-domain="jboss-web-policy"/authorization="classic":add()
+/profile=servlet-ha/subsystem="security"/security-domain="jboss-web-policy"/authorization="classic"/policy-module="Delegating":add(code="Delegating",flag="required")
+/profile=servlet-ha/subsystem="security"/security-domain="jboss-ejb-policy":add(cache-type="default")
+/profile=servlet-ha/subsystem="security"/security-domain="jboss-ejb-policy"/authorization="classic":add()
+/profile=servlet-ha/subsystem="security"/security-domain="jboss-ejb-policy"/authorization="classic"/policy-module="Delegating":add(code="Delegating",flag="required")
+
+/profile=servlet-ha/subsystem="transactions":add(process-id-uuid="true",socket-binding="txn-recovery-environment",status-socket-binding="txn-status-manager")
+/profile=servlet-ha/subsystem="transactions"/log-store="log-store":add()
+
+
+/profile=servlet-ha/subsystem="undertow":add()
+/profile=servlet-ha/subsystem="undertow"/buffer-cache="default":add()
+/profile=servlet-ha/subsystem="undertow"/configuration="filter":add()
+/profile=servlet-ha/subsystem="undertow"/configuration="filter"/response-header="server-header":add(header-name="Server",header-value="WildFly/9")
+/profile=servlet-ha/subsystem="undertow"/configuration="filter"/response-header="x-powered-by-header":add(header-name="X-Powered-By",header-value="Undertow/1")
+/profile=servlet-ha/subsystem="undertow"/configuration="handler":add()
+/profile=servlet-ha/subsystem="undertow"/configuration="handler"/file="welcome-content":add(path="${jboss.home.dir}/welcome-content")
+/profile=servlet-ha/subsystem="undertow"/server="default-server":add()
+/profile=servlet-ha/subsystem="undertow"/server="default-server"/host="default-host":add(alias=["localhost"])
+/profile=servlet-ha/subsystem="undertow"/server="default-server"/host="default-host"/filter-ref="server-header":add()
+/profile=servlet-ha/subsystem="undertow"/server="default-server"/host="default-host"/filter-ref="x-powered-by-header":add()
+/profile=servlet-ha/subsystem="undertow"/server="default-server"/host="default-host"/location="/":add(handler="welcome-content")
+/profile=servlet-ha/subsystem="undertow"/server="default-server"/http-listener="default":add(socket-binding="http")
+/profile=servlet-ha/subsystem="undertow"/servlet-container="default":add()
+/profile=servlet-ha/subsystem="undertow"/servlet-container="default"/setting="jsp":add()
+
+/profile=servlet-ha/subsystem="webservices":add(wsdl-host="${jboss.bind.address:127.0.0.1}")
+/profile=servlet-ha/subsystem="webservices"/client-config="Standard-Client-Config":add()
+/profile=servlet-ha/subsystem="webservices"/endpoint-config="Standard-Endpoint-Config":add()
+/profile=servlet-ha/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config":add()
+/profile=servlet-ha/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config"/pre-handler-chain="recording-handlers":add(protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM")
+/profile=servlet-ha/subsystem="webservices"/endpoint-config="Recording-Endpoint-Config"/pre-handler-chain="recording-handlers"/handler="RecordingHandler":add(class="org.jboss.ws.common.invocation.RecordingServerHandler")
+
+/profile=servlet-ha/subsystem="weld":add()
+
+
+
+#set property for unique Tx node identifier
+/profile=servlet-ha/subsystem="transactions":write-attribute(name=node-identifier,value="${txNodeIdentifier}"
+
+# add the outbound connections to the remoting subsystem of the profile used by to connect the app servers
+# it might not necesarry to use a different name for 'outbound-socket-binding-ref', it is just to show the different configuration
+/profile=servlet-ha/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1:add(outbound-socket-binding-ref=remote-war-1, protocol=http-remoting, security-realm=ejb-security-realm-1, username=quickuser1)
+/profile=servlet-ha/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/profile=servlet-ha/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-1/property=SSL_ENABLED:add(value=false)
+/profile=servlet-ha/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2:add(outbound-socket-binding-ref=remote-war-2, protocol=http-remoting, security-realm=ejb-security-realm-2, username=quickuser2)
+/profile=servlet-ha/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/profile=servlet-ha/subsystem=remoting/remote-outbound-connection=remote-connection-war-ejb-2/property=SSL_ENABLED:add(value=false)
+
+
+
+/socket-binding-group=servlet-ha-sockets:add(default-interface=public)
+/socket-binding-group=servlet-ha-sockets/socket-binding=http:add(port=8080)
+/socket-binding-group=servlet-ha-sockets/socket-binding=https:add(port=8443)
+/socket-binding-group=servlet-ha-sockets/socket-binding=txn-recovery-environment:add(port=4712)
+/socket-binding-group=servlet-ha-sockets/socket-binding=txn-status-manager:add(port=4713)
+
+# add the socket binding for connection to app-one, app-two
+/socket-binding-group=servlet-ha-sockets/remote-destination-outbound-socket-binding=remote-war-1:add(host=localhost, port=8180)
+/socket-binding-group=servlet-ha-sockets/remote-destination-outbound-socket-binding=remote-war-2:add(host=localhost, port=8280)
+
+
+
