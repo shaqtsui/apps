@@ -15,6 +15,17 @@ Gain:
 
 *** 多欲
 **** 意识
+	心生知
+
+	Details:
+		所以万物皆有菩提心？
+		
+		是不是要更感谢天地生心呢？
+		    问题如同父母生我，爷爷生父母是不是更感谢爷爷呢？
+		
+		其实我追求的是根，是谁产生了牛
+
+
 心中有不断增长的互相连接的东西，心可观他们。
 
 ## Details
@@ -66,6 +77,1457 @@ All learning's goal: to shape the target via observation.
 
 
 ** WORLD
+
+
+
+*** Physics
+
+**** circuit
+Hydraulic Analysis
+	1, Charges are pushed from high potential to low
+	2, The resistance is accumulated all the road from high to low
+	
+
+Element Law:
+	Resistor have conductance, have NO EPT
+	VS/CS have EPT, have NO conductance
+	
+	VS behave like a short circuit
+	CS behave like a open circuit
+		set VS to 0 = short circuit
+		set CS to 0 = open circuit
+	
+	VS create potential difference(increase/decrease potential) not absolute potential
+	
+	
+Details:
+	Resistor network topology determine the EPT distribution
+	KVL & KCL derived from LMD
+
+
+Circuit Analysis:
+	Steps:
+		1, Apply KVL to create Voltage connection
+		2, Apply KCL to create Current connection
+		3, Apply Element Law to create Voltage & Current connection
+		4, Solve Equation
+	
+	Note:
+		Non-resistor element (E.g. Floating Independent VS) in node method analysis:
+			Have no Element Law, so can not create Voltage & Current connection
+			Workaround:
+				use another same current element/branch instead
+	
+	Superposition:
+		Why stand:
+			target node voltage is determined by 2 reference node voltage
+			second VS/CS will change one of the 2 reference node voltage
+		
+
+
+**** electric
+Refer to shijie.txt
+
+EC - Electric Charge
+	physical property of matter that causes it to experience a force when placed in an electromagnetic field
+	two types of ECs: PEC (Positive EC) and NEC (Negative EC)
+		An object is Negatively Charged if it has an excess of electrons, and is otherwise Positively Charged or uncharged. 
+		
+		
+ECO - Electric Charged Object
+	Object have physical property: EC
+
+
+EP - Electric Potential
+	ECO's relative position to other ECO
+	
+
+EPE - Electric Potential Energy
+	 ECO have EPE by virtue of two key elements: its own EC and EP.
+
+
+EF - Electric Field
+
+
+EPT - Electric Potential Tension (Voltage)
+	ECO's EPE difference in EF
+	
+
+Electrical Conductance/Electrical Resistance 
+	Like a channel to transport ECO from one position of EF to another position of EF
+	This size of Electrical Conductance/Resistance is like the channel's length
+
+
+
+**** energy
+Energy = ∫ F=as ds
+
+
+**** force
+Interaction which tends to change the motion of an object
+
+
+**** matter discipline
+
+Matter Discipline
+	ECO not disappear
+	EP not disappear
+	
+	
+Lumped Matter Discipline
+	ECO & EP into & out of Lumped Matter only via terminal
+		Lumped Matter ECO number not change
+			ECO not accumulate
+		Lumped Matter magnetic flux not change
+			EP only release/accumulate on Lumped Matter in circuit
+	Propagation delay of electromagnetic waves must be much smaller than the signal timescale
+	
+		
+*** 易经
+（万物皆）一阴一阳之谓道
+	天人合一
+	一阴一阳
+	
+江河乃点滴汇聚，圣人乃岁月之功。
+
+Cow can not stronger than elephant, but the cow who want to be the strongest surely will stronger than others. 
+What only this cow need is will & do & time.
+
+A cow is thinking whether it can be the strongest cow in the herd. Pls give the answer!
+
+I am better than other in IT, it's only because: 1, I like it. 2, I spent time on it. 
+
+If today I want to be expert in Yijin than I only need to : 1, Like it. 2, Spend time on it?
+
+
+
+
+-----------------------------------------------------------------------
+每卦有其卦象，每爻亦有其爻象，总释一卦称之大象，分释每卦各爻称之小象，象使卦及爻暗示事物之性质及发展之阶段。
+
+王船山《周易内外传》、《周易大象解》乃拟汉易象数与程氏义理不可偏废，更不可拘泥为占卜之书，亦不限定其为思维之书，象数与义理，应当一致，占卜与思维，更复一理，此种易学一元论回复而至文王演易之本义，即退回周易原解矣
+
+
+贵州 周易玄
+
+
+
+一阴一阳之谓道
+
+阴阳运动状态称为五行。
+
+
+*** BPM
+BPM - Business process management
+	Refer to OperationsManagement.txt
+	
+	a field in operations management that focuses on improving corporate performance by managing and optimising a company's business processes.
+	
+	life-cycle
+		Design
+		Modeling
+		Execution
+		Monitoring
+		Optimization
+
+
+*** Federal Goverment
+Federal Government
+	Consist of:
+		DoD(Department of Defense)
+			In charge of National Security & US Armed Forces
+			headed by the Secretary of Defense
+			Consist of:
+				OSD(Office of the Secretary of Defense)
+				DA(Department of the Army)
+				DoN(Department of the Navy)
+				DAF(Department of the Air Force)
+				JCS(Joint Chiefs of Staff)
+				UCC(Unified Combatant Command)
+
+
+*** first priciple
+First principle
+一个系统研究中的基本原理、规则或法则；
+该系统或体系的其他原理、规则或法则都是从它那里推导出来或从它那里得到解释，
+而它本身却不是从那个体系或系统中的任何其他原理或规则推导出来或得到解释的。
+数学公理和逻辑原理被认为具有第一原理的资格。
+第一原理被认为是自明的、先天的，只能通过直观来领会。
+传统的看法是，没有第一原理的体系不可能是连贯的或前后一致的。
+有些哲学家论证说，第一原理不是要说明从属的规则，而是第一原理本身需要通过在组织或推导一套适当的从属规则方面的成功而得到说明。
+他们还认为，在某些情况中或在原则上我们可以选择确定某一系统中的第一原理。对第一原理的研究通常属于形而上学的领域。
+亚里士多德认为原理是事物由之而存在或生成或被认识的起点。
+
+
+*** knowlege
+Knowledge
+	Declarative
+	Imperative
+
+
+*** OE
+OE
+	Operational Environment
+	
+	Data can exist in different State
+
+
+*** Operations management
+Operations management
+	an area of management concerned with overseeing, designing, and controlling the process of production and redesigning business operations in the production of goods or services.
+
+
+
+*** science engineering
+Scientists and engineers are both interested in the nature of things, in understanding how ideas and objects in the world fit together. 
+But in general, they seek to understand the nature of reality with different ends in mind: the scientist seeks this understanding as an end in itself, the engineer in order to build things. 
+
+Engineering
+	purpersful use of Science
+	
+Science deals with fundamental laws of nature 
+
+
+*** semantic
+static semantic
+   meaning derived from non-runtime
+semantic
+   meaning derived from runtime
+
+
+*** syntac
+syntax
+	symbols structure 
+
+
+*** word
+岁功
+	岁月 的 功劳
+
+帝载
+	帝王 的 记载　-> 帝王 的 事情
+	
+系辞
+	连接 辞。　辞，分争辩讼谓之辞
+	
+贞
+	从卜，貝以爲贄。
+
+参天两地 (sān tiān liǎng dì) 而倚（yǐ）数
+	三天二地，依照立数。　倚，依也。-> 依照而立。　
+	
+发挥
+	发，射发也。挥，奋也　-> 举起。
+	
+理
+	治玉也。 -> 剖析
+	
+义
+	己之威仪也
+	
+己
+	中宫也。
+	
+宫
+	室也。
+		
+性
+	生之质也。
+	
+甄
+	匋也。匋者，作瓦器也。
+
+取义说
+
+取象说
+
+爻位说
+
+一是察言，二是观变，三是制器，四才是卜占
+
+
+天地之大德曰生
+
+生生之谓易
+
+顺乎天而应乎人
+
+保合太和
+
+与天地准
+
+
+
+读《易传》，较好的古注本是孔颖达的《周易正义》，收在《十三经注疏》中，今人徐志锐《周易大传新注》齐鲁书社，1986年版，黄寿祺、张善文《周易译注》上海古籍出版社，1989 年版，都是较好的参考书。重点读《系辞》上下篇。 ——廖名春 撰文
+
+
+
+*** 合作
+合作就是各司其职， 整体到达的高度由团队最弱环节决定。
+你可以换掉最弱环节，但不能因为别人做的不好就自己做。
+
+
+*** 波
+波的传播速度和频率没有关系。和媒介有关系。
+
+
+*** 三之谓的衍生
+No need to worry that u can not remember, u just put ur attention. 
+
+
+Brain is like a DB.
+U can easy add things to DB, the most hardest thing is that u can search them in DB.
+
+How to search:
+Normally people search it in spec context, if this context have a link to the thing then u can find it, else... 
+
+So put link in spec context is very important.
+
+
+
+Container(现实的，Refer to shijie.txt)
+Context
+All beings/existence should inside Context
+Group
+
+具体的技术不牛B，技术背后的idea才真牛B。Language:
+Stuffs(Sign, Voice, Movement...) to express infoYour Leader is higher than you, but you should have the potential to bypass in future.
+性决定一切
+
+First and foremost is thoughts.
+contains:
+your thoughts
+team's thoughts
+team member's thoughts
+
+So:
+How to make their tasks seriously?
+They need to have the thoughts of it's important, than ...
+How to make them have the thoughts?
+ Put them in specific position
+ What position?
+ The same position as yours
+ 
+ 
+ 
+ 
+ 
+
+U can lead a team only if u are that kind of person.
+what kind:
+Serious
+Prestige
+Righteous
+
+
+It's an exchange, if you need to get control from them, you need to give them sth. in return. 
+All being/existence have its reasonprinciple
+principle bound changes
+direction is a principle
+Project Elements:
+Project
+Work
+Resource
+Execution
+Method
+E.g.  Prescriptive Method, Adaptive Method
+Plan
+Status
+
+
+Project develop steps:
+
+Project Planning:
+Find Req
+Define Req Scope
+Create WBS
+Create Activities
+Sequence Activities
+Estimate Activity Resource
+Estimate Activity Duration
+Generate Schedule
+
+Project Executing:
+Setup Team
+Impl Project
+
+Project Closing:
+Deliver Project
+Update Info
+Dismiss Team
+
+Prototype
+A relationship (refer to world.txt) : derive from
+
+Relationship between Objects. 
+If C Object derive from P Object, then P Object is C Object's Prototype Object.
+Object should contains its Prototype Object's traits 
+psyche
+
+structural model
+Id
+uncoordinated instinctual trends
+ego
+organized, realistic part that mediates between the desires of the id and the super-ego
+super-ego
+plays the critical and moralizing role
+
+The super-ego can stop you from doing certain things that your id may want you to do.
+Id can be changed, e.g. instinctual reaction in some env. 所有的学科到达最高点时会合为一点， 所以博士叫做：Ph.D. (Doctor of Philosophy)
+软件设计到高一定高度时就会遇到普遍适用的简洁该经历的必须经历，无论好坏得失。舍才有得，舍得同在。
+刘备第一任县令时打官被通缉，才使得第二任时官不敢为难于他。
+
+无威仪不可以奉宗庙，承社稷
+
+
+有伊尹之志则可，无伊尹之志则为篡逆也
+
+人不可逆势，但可造势
+董桌操之过急，逆势下未造势而为
+
+孙策之死：
+弱身不议虎
+
+多年无成因阴阳不全，有武无文这个世界的一切都不是完美的。也许这就是道。
+所有事情都有瑕疵。世界
+世界由存在组成
+其他关于世界组成的问题只是分类的问题了
+E.g.
+阴阳，物质和非物质，感知的和未知的
+
+世界就是阴阳变化(Refer to 3ZW.txt)
+
+阴阳变化分类:
+现实的和镜像的
+Individual & Connection
+Note:
+Both Individual & Connection are YingYang, but they have different role.
+E.g.
+A rope can be an Individual, but when it bind to other Individuals it turns to be a Connection
+
+解读一：
+阴阳变化的某一时刻状态(物)
+万事万物同时含有阴阳(对与错，好与坏，顺与逆)
+    顺势有好处也有坏处
+    
+    阴阳变化的过程(动作?事?)
+    这一过程需要特定的时间，特定的环境
+    每个过程这一特定的时间不一样，所以改变象是一种缘分
+    
+    解读二(Now I prefer this one)：
+    阴阳 - 物
+    变化 - 事
+    
+    
+    Derives:
+    there is no same thing in this world
+    
+    变化越多, data越多, 越多活力
+    E.g.
+    政府对市场是管还是不管？
+    我觉得是个度的问题。
+    正如政府对社会出台法律进行管理。
+    如果没有法律，社会阴阳运动会过大引起混乱。
+    如果法律太严，社会阴阳运动会过小引起缺乏活力。
+    
+    物中包含量
+    量 = 数 + 单位
+    
+    镜像的
+    心
+    信息
+    知识
+    软件
+    
+    Details of 解读二
+    物和事处于同等位置。
+    
+    物中有事，因为阴阳一直关联着变化。事中有物，因为变化一直关联着主体：阴阳。
+    
+    事，物有多个面（事物的状态/属性）
+    
+    Entity Model base on 解读二:
+    State
+    Describe 阴阳变化
+    Behavior
+    Describe 变化三之谓的世界观
+天 - 世间(存在)
+
+整个世界由存在组成，存在由元存在创造。
+元存在由元元存在创造…
+
+世界由存在组成。
+有没有一个存在主宰其他的存在？
+
+
+定义类问题
+很多问题的答案存在于定义里。
+问题也是定义出来的
+
+可以做某事，归根在于你有相关资源。
+
+不知道有没有天，但是感觉有天命。天命回去促使世界整体进步。个人不用操心这一问题，个人没有这个能力。个人所能做的只是做好自己该做的事情，就像细胞只要好好活着并好好死去生命就会进步。交易这个过程本身就会产生价值
+宽容，感恩， 行动，养生，珍惜，满足 - 付出
+合作 - 付出和收获的渠道人真的太渺小了。人在世上，就像原子在人身上。
+强者强势，弱者弱势力。
+人 -> 事
+人 - 因
+事 - 果
+处理人际关系：
+1. 首先回答你要什么样的关系
+   E.g.  你要和小气的人保持好的人际关系吗？
+   2. 向内求个体代表整体。
+      有时，一个人觉得你很狂可能表示世界觉得你很狂。一个人觉得你应当承担更大的责任可能表示世界觉得你应当承担更大的责任。很多事情归宿应该以人为本。价值：产出和成本差系统依言而行，其实是请言者运营系统。修身
+      提高自己以便更好的活着
+      所以修身包含修技有些时候你想通了但没有做到是因为惯性（惯性往往没有经过思考）U can not do everything urself. Maybe you need to catch the core 20 percents. The rest non-core 80 percents should rely on other.
+So that u can better catch the core.
+
+At one time u can only do ONE thing.
+
+When u thinking I need to read this book, u are not reading, you are thinking.
+When u thinking I need to do something carefully, u are not carefully, u already half hearted.
+
+准则:
+利己还是损己
+
+往往，利人同时也利己，损人同时也损己。
+向内求以使自己和其他东西合，因为你不能改变别人时，你只能改变自己努力可以使很多人受益，但核心的，主导的是使自己收益。协作就是各司其职， 整体到达的高度由团队最弱环节决定。
+你可以换掉最弱环节，但不能因为别人做的不好就自己做。这个世界人生来各异，你不要强求别人变成自己期望的那样。两物在一起势必趋于同化
+要么A同化B，要么B同化A.
+E.g.
+枕头整齐和床乱在一起，要么枕头也乱，要么床也整齐。不要去改变你的性格，去把它用在正确的地方。
+E.g. 斤斤计较用在大事上。很多果是因为之前长期的因
+
+有些果是不可承受的分层
+一个系统的基础元素由另外一个系统提供
+
+一个系统包含：
+基础元素：
+独立元素
+连接元素
+组合元素
+由基础元素组成
+抽象后成为上层系统的基础元素
+
+天命
+上天注定这个世界有太多的不确定和危险。
+上天注定世界难以改变，只能改变自己。
+上天注定修身可以部分保护自己。
+上天注定一切皆有其道。人需要独自对自己负责。独自选择，生活，面对，探索，发现，思考一切。
+所以你不知道你可以活多久，可以不可以活到明天。
+每一天都应当做好这是最后一天的准备，思考你这一生应该做什么（自己生命的意义）。                                      
+如果醒来自己还活着请感谢上天的赠与。
+
+人生的意义/目标 -> 率性 -> 从天命
+     活着，好好的活着，做自己喜欢的
+          你的性决定你生命的内容
+               性是天给你的
+                    
+               在最后一天的方法下对生命的意义的思考：
+               如果意义是指结果那么：
+               生命的意义不在于获得因为你终将一无所有。什么的意义在于给与，给与的东西一直存在。事本身无好环
+               你可以从中学到东西，对你就好
+               反之则不好
+
+
+没有决对的害，也没有决对的益。敌人只是你反对的人。
+
+好事和坏事从两个角度都让人成长。
+
+没有对与错只有利与弊学习是对这个世界的理解，包括自己本身。
+学习的意义是学以致用（率性）
+
+把新知识加入现有的知识体系中，使之不再是孤立的知识片段。
+
+The more you learn about something, you should have deeper understanding on the Foundation Knowlege (Refer to zhishi.txt).
+
+Approaches to speed up reading:
+     skip sth
+     put more time
+     enhance read ability
+害怕是因为没自信，没自信是因为没知识工作产生了产品，产品解决了问题（公司的，客户的）平衡：
+平衡不是均衡，是权重
+任何的问题都是失衡引起的。
+失衡越严重，修复越贵。
+
+E.g.
+因为心上放了太多的事，以致耽误了更重要的
+我是弱者我的能力不匹配我做的这么多事
+知满足（要与得的平衡）
+根与枝的平衡
+选择需要平衡，你可以学很多东西，但是你需要考虑这些是不是可以带来经济价值。幽默之源：
+不伤人的笨，人性弱/缺点暴露度量
+是不是为了理想而无声的吞下无奈的痛苦？影响力
+你对别人的影响力=对别人影响的量
+=你的牛逼 * 你对事情的重视度
+心 = 性（天命在人） (Refer to Shijie.txt)
+性
+决定静生慧的速度和最大值（智力）
+
+严谨
+严谨决定了修得的道的准确性
+可能是人和人区别的非常重要因素
+
+
+智慧
+可能是人和人后天差别的根本
+很多问题都是因为愚昧，缺少智慧。
+
+
+鬼谷子讲天命在心
+志克怯 -> 无志不往
+
+情绪
+情绪是天生的，存在有他的意义。
+e.g. 
+可以带来深刻记忆
+
+平静
+平静是一种情绪的状态，这种情绪状态源于智慧（大度 ...）
+
+诚
+勿自欺
+做真实的自己
+
+大度
+不是压制情绪。
+是着眼于大局，有大志。
+为了理想而无声的吞下无奈的痛苦？
+
+静
+静而后能安，安而后能虑，虑而后能得。
+静生定，定生慧.
+U need to give up all, if u want to empty/peace
+
+U can not give up all is due to:
+too many stuffs in ur heart
+compare to current thing u are doing the stuff in ur heat is more attractive.
+
+谦虚
+看到天命的人一般都谦虚，因为看到了自己的渺小。
+谦虚不是把能的说成不能，那是欺骗。谦虚是认识到自己的渺小。
+
+痛苦
+痛苦、烦恼、失眠源于在乎，它值得你用生命去在乎吗？
+没有选择很痛苦。当你把所有的一切都压在一个地方时你就失去了选择.
+面对痛苦，势必会痛和想逃避，否则不是真的痛苦(就像咖啡的苦不算真的苦)，但最后请勇敢面对，经过后痛苦会为你所用(习惯辣后你可以享受辣)。
+
+我
+意识的集合。
+这些意识寄存于身体，所以你要感谢身体，尊重身体，珍惜身体。
+Refer to psyche.txt
+
+小气
+小气就是气小，就像格局小，目光短小，着眼于小的地方。
+这是由于你的习惯（生于性）引起的，当你习惯的思考着眼于小的地方或事情就是小气，目光就短小。
+你可以改变你的习惯（性）吗？
+如果可以那么系统的平衡可能会被破坏并重构，所以只能在状态好的时候才可以？
+
+自私
+自私是人性的一部分。
+公平（双赢）的交易才是顺着大部分人的性的，才是容易发生的。
+E.g.
+医生给你建议，你给医生什么？
+
+恨
+你理所当然的应该恨你的敌人，但是你要谢谢安排你的敌人出现的人
+
+
+欲望
+付出最少化，利益最大化
+Approaches:
+简
+Approaches:
+Taxology
+Approaches:
+Group
+Vertical Group
+E.g. 
+MOF 4 Layers, Program 4 Layers, Abstract Item & Concrete Item
+Concrete/Conceptual
+Concrete Items
+Conceptual Items
+
+Horizontal Group
+E.g.
+Group in Abstraction
+Group natural & non-natural
+Many other groups are base on part of this group result
+
+OO(Object Oriented)
+Group Object into groups
+Group Attributes into groups:
+Group Attributes
+Individual Attributes
+
+HCLC (High Cohesion & Loose Coupling)
+Common properties only need one copy
+Narrow relationship search scope
+Note: 
+this introduce new complexity but reduce over all complexity
+
+
+
+
+就重避轻
+Approaches:
+Abstraction
+Hide part of the whole
+Most Abstraction base on Group(Separate Open part with Hide part)
+E.g.
+开放功能隐藏实现（把功能的描述放在名字上，实现描述放在内部，暴露名字隐藏内部）
+Keep Essential Elements remove all other Elements
+Essential Elements
+Elements which make Object XXX an Object XXX
+is to hide complexity
+
+Combination
+is to increase complexity
+
+
+整体到局部
+把握整体就可以把握方向
+为了不迷失，进入细节时还应该同时抓住整体
+没有整体的局部往往是没有意义的
+E.g. 
+解决不是基于大问题的小问题是没有意义的
+闭眼，象树一样组织相关思考以便track所有相关思考。
+思考可以处理的只是知（Refer to zhishi.txt）因为小聪超过了大智（思考放在了小地方所以有些顾此失彼）感知
+存在于大脑中的某种东西(类似于胶卷)。
+
+这东西一般都是现实的镜像（Refer to 镜像.txt）。
+我被天宽容原谅了，我何以报答？
+我为什么不能宽容？
+我是来回报的，这一目标决定我不应该在乎得失与和他人的比较。
+我出生只有4斤8两。
+我身体素质很差。背部受凉
+发火
+动作过大
+疲劳关于技术我总是被动的跟随着。我希望是个创造者。描 + 述
+描
+Description
+Note:
+Seems similar to Modeling
+述
+Representation of Description
+
+
+很多知识和概念是对世界的描述
+E.g.
+数是对量的描述
+Domain Model - Model of a target Domain攀比-希望别人不好，会孤立联系
+赢了使你骄傲
+输了是你嫉妒你可以接受（用）一个人或者鄙视（不用）一个人，但是你不可以改变一个人，只有他自己可以改变自己。当你从事一件新的事情，你要放下以前做事的方式，因为惯性可能让你跳过对事情的分析判断。很多牛逼的东西只是暂时的
+E.g. G1X, D100物有本末，事有终始，知所先后，则近道矣。
+
+本：
+修身(内)
+修身有圆满
+末：
+修技(外)，做事
+修技修不完
+
+
+本：
+方向
+末：
+具体问题根
+事情做不好根不在于技，而在于心，心生技
+智慧之根 - 教
+和谐之根 - 率性
+行为之根 - 心
+理之根 - 天命
+
+三之谓是根，但是我们生存在枝叶之中所以也要了解枝叶。
+
+买东西应该看本（血统）格物
+就是要去观心正心
+是一种平静，不愤怒，不恐惧...
+愤怒，恐惧... 是对人的一种强大的束缚
+
+正心分内外
+内
+消除自我相关的愤怒恐惧...  
+内往往会更容易忽视。
+
+E.g.
+下属是同事，不巴结
+老板是同事，不巴结和凡人的沟通桥梁是言语
+和聪明人的沟通桥梁是心里
+
+沟通传递两种信息：内容本身，感觉（姿态，认真…）
+
+沟通需要一个共同的基础
+团队沟通需要以团队目标为共同的基础越是牛责任越大。外界对你的要求越高
+
+做一个牛人何必在乎做技术还是其他呢？物竞天择使得这个世界得以进步
+只竟（低头努力）不比朝自己的目标（自己的感觉）走，不要被别人牵着走，更不要被恶意的言论牵着走。人不可避免的一直犯错，所以要一直做些什么(包容，好事)去弥补(平衡)
+这就像是交易。
+犯错后第一件事应该是承认犯错了，这样才能促使弥补的发生。率性
+一切存在与发生都是合乎道（率性）的（道也者 不可须臾离也）
+
+性
+昨天和今天决定明天
+命运就是你过去的总和
+做你喜欢的事情就是顺
+用较少的精力做较多的事情。
+目标要明确才能不管过程
+E.g.
+打的从A到B，可能会走最远的路。潜在正确的目的是A到B且最省钱
+
+过程很多时候是和目标不一致的，这也是必然的，但是只要总体上在接近这一过程就没有问题。因为性，有些东西相互合，有些东西相互不合
+所以当你不可以获得某些东西时，你只能帮别的个体（比如你的公司）去获得。
+这就像母公司开子公司去做一些事情。知识
+现实的镜像。
+存在形式可以是：感知，书，视频...
+
+只是工具。
+
+人再牛逼也只是有一些不属于自己的牛逼的镜像。
+
+分类：
+Approach A:
+切身感受到的知识
+非切身感受到的知识
+Approach B:
+Foundation Knowlege
+Can deduce Derivative Knowlege
+Derivative Knowlege
+Derived from Foundation Knowlege
+管理就是借势树立规则，并保证被执行。
+
+项目管理方法(Process)存在于人和事中
+而不是软件中
+软件只是做了自动化
+人最宝贵的是时间精力。
+管好你自己，你没有时间和必要管别人每一种人都有他的精彩/美好，孤独者的奋斗，领导者的大气，智者的淡定，波澜起伏，平静...
+
+人往往只看到别人的精彩而没看到自己的精彩。
+经典的东西好像没有一点多余的东西。
+e.g. 辉腾没有一点多余的线条。能
+你能只是因为你是那种能的人。
+所以万事向内求。
+
+天命已经让你有很多的能，对一些不能不必强求能，放弃一些能可以得到别的能。（refer 舍得）有舍才有得，有舍必有得。对一个普通人要求高不但不能帮助成长反而是一种折磨解决问题本身不重要，最重要的是解决问题的方法。
+因为有方法你可以解决所有的问题。讲究成性真的很美。诚意 
+E.g. 自己享受。用多少资源生多少资源，不是有多少资源生多少资源。很多条路都可以到达目标，率性的这条最有力。越是看似不重要的越重要。
+如：健康时候的健康，拥有时候的拥有。镜像
+是某些东西，他连接着另一个东西并和他有一定的相似性你有产品可以让所有的动物变得好看，
+但是一只公狗需要的只是一只漂亮的母狗，
+你需要告诉狗的是产品可以给他漂亮的母狗。面试就像考试，检测你的水平
+考试前的准备是为了改正缺点提高自己。
+不是为了欺骗作弊。
+
+真实才最重要因为他决定了你和新公司的匹配度。太多的顾忌也许是因为精力放错地方了，精力应该放在目标上.顿悟，就是突然明白有件事之前做的不对是因为一个想法或惯性不对，修复他只要修复这个想法。
+例如：
+练字
+摩擦点没有痕迹
+E.g.
+D100: 电池盒，只有侧面槽里有新的摩擦痕迹，电池仓卡子有新的摩擦痕迹。
+孔没有灰尘
+E.g.
+D100: 各种耳机电源孔没有灰尘。
+
+
+
+
+*** 撮机
+"Cuo Ji" is the core of stock deal.
+
+1, Put buy & sell order in two Q.
+
+2, Sort these orders by price & time
+Buy Q is descending, Sell Q is ascending.
+
+3, Match & Deal them from the top down.
+During the match & deal , big order will be split to small orders to do match & deal with small one, 
+median price will be the price.
+
+
+
+
+Stock Table & Chart relations
+Table -> Chart
+timeshare closing details is the base table, all other table/char is base on data in this table
+
+
+*** zipinzhenjie
+天命之谓性
+
+天命（在天）=性（在人）=理（在物）=？道=？气禀
+
+气禀 =？ 五行之气禀赋
+
+--------------------------
+
+天人合一 contains 天人同构 & 天人同演
+
+动物禀天之气，植物禀地之气，人禀天地之气。人方可与天地相参并列三才之一。
+
+八字算命，依天地之道推人之命
+
+岁功 means 日月轮回，春夏秋冬之“造化”过程
+
+天人合一			同构					同演
+大天地（大人）	历法（纪年月日时）	岁功
+人（小天地）		四柱					大运
+
+--------------------------
+
+本原 & 现象
+
+阴阳五行，万事万物不同的现象的本原，其在不同的事物上表现出不同的现象。
+
+万事万物的组成与演化都是由阴阳五行组合着来推动的
+
+五行，在天的现象为五星，在地的现象为五岳，在岁功的现象为昼夜、四季循环，
+在人的现象为五脏、五官，在人事上的现象为五常、五志、五事
+
+天地之间，一气而己。惟有动静，遂分阴阳；有老少遂分四象。
+
+五行之态，旺相休囚死
+
+
+*** 感觉
+我感觉一切都是感觉
+	感觉是什么？他不能由感觉来描述，我不知道他用什么系统来描述。
+	感觉所有的系统都需要基于一些抽象（隔离另外一个底层系统，这一底层系统由不同于上层系统的元素组成）
+		个人的能力是有限的，不能知道无限（所有的层），所以必须也必然使用抽象去隔离其他的层。
+		抽象自身还是需要明确的（开放和隐藏的界限）
+
+	感觉世界上有物质
+	感觉感觉是由心产生
+	感觉感觉是有触发者的（也定义为感觉的标的）
+	感觉感觉本事是真的，感觉的内容不知道真假
+	感觉很多概念是感觉的概念，也可能是感觉的触发者
+	感觉感觉的触发者独立于感觉存在（也被定义为存在）
+	感觉感觉的整体模型（世界观）
+	感觉人的出发点都是感觉
+	感觉感觉有巨大的力量
+	感觉提高自我学习进步的能力可以更好的学习进步
+	感觉屁股（立场，要做什么）决定脑袋
+	感觉很多事情不行是因为自己太low
+	感觉做事情当中去做人
+	感觉思想和外界决定行为，行为改变思想
+	感觉：
+		心里强大的人会影响心里弱的人
+		心里强大 - 自信
+		把强大藏在内心
+	感觉一切的标准应该是目标导向
+	感觉只有感觉确定是真实的
+	感觉：
+		碰到问题先自己思考（以自己的世界观为基础）。不要一开始就看书而不从自己的世界观出发，这样容易被误导和迷惑。因为任何书上的描述都是片面的，他是基于很多没有写出的东西之上的。
+	感觉：
+		探索这一活动产生智慧
+		生命轮回，探索不止
+		生命是探索的载体
+		
+	感觉：
+		关注过程，一个过程会达到多个目标。
+		获取知识的方式的知识比其他普通知识更重要，方法的知识只能在学习普通知识过程中学习。学习的过程中学习。学习学习。
+		
+		世界观是这个人感觉的集合
+		每天从感觉出发
+		吃苦只有用在自治（对抗自己）上才是伟大的
+		真正牛的人很少问其他人的想法，他更多在实践自己的想法（感觉）
+		
+		感觉对人的影响大小取决于他是刻骨铭心还是一闪而过
+		实践可以将感觉的内容细化从而推动他从一闪而过向刻骨铭心迈进一步
+	
+	感觉有外界
+		因为感觉会变化
+		如果有，外界和感觉的一致（感觉由外界出发）可以让心更顺。
+		
+	
+	感觉意识层面的个体是感觉的集合
+		个人的成长是感觉的堆积
+	
+	目前感觉外界的牛永远不属于（溶于）自己，只有感觉可以溶于自己
+	
+	感觉只有感觉可以驾驭（其他一切可以驾驭的牛）。
+	
+	感觉一半的牛可以被感觉驾驭，一半不可以被驾驭
+	
+	感觉真正属于自己是溶于自己，是自己身体的一部分。
+	
+	感觉沟通的量/深度决定感情的量/深度。
+	
+	感觉一个念可以观其他的念，但不能观自己。
+	
+	感觉节奏很重要
+	
+	感觉个人的世界是感觉的集合
+	
+	感觉世界的结构由感觉的交叠组成。
+
+	感觉一个想可以描述另外一个想
+	
+	对世界的理解就是从我感觉开始
+	
+	我是不是应该把世界是什么抽象掉，做好当前这一层（手头的事）？
+	
+	我不知道什么是对什么是错。
+	
+	思可解疑
+	
+	我不知道世界观，我只有某些系统的观。e.g. 软件
+	宁愿不做事情休息也不要做不该做的事情。
+	抽象在日常生活中：
+	隐藏掉原因，开放结果
+	
+	悟道 - 用心感受世界
+	
+	外部现象容易感受到，内部原因不一定可以感受到
+	
+	狂就是没有畏惧感
+	
+	灵是用，心是体
+	最大化灵的用
+	可观，可感，可知，可思，可记忆叫做灵
+	灵是一切的本？
+	这一模型是否正确需要未来实践中验证
+	观不到观自己。
+	感觉产生了记忆，记忆又可以被感觉。记忆是镜子。
+	看是一种能力没有主体。所以不存在看不到主体这样的问题。
+	
+	
+	
+	思考的目标不可以是思考本身，但是可以是记忆（包括思考的记忆）
+	
+	
+	世界的模型是用，他无所谓体是什么。
+	所以感觉可以建模感觉就像
+	java 实现的jvm 可以执行 java
+	
+	
+	
+	有些结论是根据之前发生的体用关系推导而来的。
+
+	一切都是感觉，包括这句话本身。感觉没有对错所以不用证明，但是有全面和片面之分。
+	Most "Why" is about "What's the root"
+
+	触发感觉生成的东西是什么？物质？
+
+	我们用觉表示触发感的东西。
+
+	探索问题的答案
+
+	心的探索会有发现
+
+	知识的根是探索（探索产生知识）
+	这句话由探索而来
+	探索后发现有所得
+	怎么证明这句话是对的？
+	答：经探索得到：探索是去发现存在的东西，不存在对与错。
+
+
+
+	探索到：
+	人不能长期处于疲劳状态中。
+	高风险高收益人也是一样。
+	勇敢不是不害怕（害怕是天性）而是明明害怕还去面对。
+	
+
+
+*** 根
+天赋 + 修身
+	天赋
+		This is what comes alone with the birth
+		I don't know this is material or spirit
+
+	修身
+		包含：探索，思考...
+
+	“知”不是根：
+		有些事情你知道也是这样，不知道也是这样
+		“知”本身也是有来源的
+	
+	“天赋 + 修身”这句话所描述的东西不是知
+	“天赋 + 修身”这句话本身是知
+	
+	“天赋 + 修身”这句话所描述的东西    --生成-->    “天赋 + 修身”这句话本身
+	
+	一切认识是依靠天赋感受世界而来，包括这句话本身。
+
+*** 知识
+知识让我看到了更多的东西
+	这句话是我的亲身经历
+	这句话是我回到最初（小时候）之后看到的
+	所有的问题都可以被知识回答
+	看到更多的东西后可以更好的做更多的事情
+	
+	知识改变命运
+		在没有知识的情况下人走的路是一种命运，在有知识的情况下因为站的高看清了方向所以会改变之前的路。
+	
+	知让我看到，认识，尊敬，获得牛。
+	知是唯一的让我站的更高的东西。
+	知可以也只能让人站得高看得远。
+	知识可以让我站的更高看清方向
+	看得多以后你会发现你有很多可以做还有更多做不了。
+	人很渺小，世界上有很多很牛的东西
+	
+	看世界方式：
+		从问题出发
+		从最初现实出发
+	
+	看到路可行，看不到路也可行，看到路行的更好
+		有多少知才可以做多少事。
+		没有知我什么事也不能做。
+		知是人一切可能的可以的基础
+		知是人行的基础。
+
+	知让我看到：
+		知是人的一切的基础
+		人所能达到的最高境界可能也就是知
+		知只是象
+		知很牛，但不是最牛（比如天命比知更牛）；但是知的牛是唯一的人可以直接获得的牛。
+		是知给了人力量
+		
+		如果牛是随心所欲那么：牛的东西有很多，有些不能被获得，有些能，但只有知可以直接被人获得。
+		知是获得其他的牛的基础。
+		是身体和知让我强大的。
+		我的牛的边界
+        我的牛的渺小
+		
+	格物致知
+		践行到达知
+		
+		Details:
+			格物 - 亲自践行，感悟
+			致 - 到达
+			知 - 可以存在于任何地方包括书上
+		
+			读书只能看到知，读书不能到达知，格物才能到达知
+			格物致知本身也是知，可以从书上看到，但也需要践行才能到达
+			
+			
+			
+	书上讲的别人讲的都不是自己体悟到的
+	关键要体悟。
+	
+	书上有的是别人对世界的体悟
+	
+	很多东西是镜像
+	镜像和镜像对应的实体经常混淆。
+	
+	忘掉书上讲的，想想你体验的世界是什么样的？
+	
+	忘掉书上讲的，用你的体验建造你的世界观
+	书用来指导你怎么去体验。
+	
+	只有悟道没有学道
+
+*** 佛学
+八识心王:
+ 眼、耳、鼻、舌、身、意、末那、阿赖耶
+
+前五识是感识，认识具体对象, 如果区别这个什么那已经动用意识了。
+
+
+
+法的意義，一般通指「任持自性」與「軌生物解」二義：
+
+　　一、任持自性：指「法」能保任執持自體性相而不變不失，例如，一個人有一個人的自體性相，花草樹木有花草樹木的自體性相，一切萬法都各自具有「任持自性」的特點，不會混淆不清。
+
+　　二、軌生物解：指「法」皆有一定的規則，能夠使我們對事物生起了解、認識。就軌生物解的意義來說，「法」乃指認識的標準、規範、法則、道理、教理、真理、善行等。
+
+
+
+安住 安住是止，一种定境。心能安住才会看到事物的真相。即在定中才能生慧，才能见到我们的本来面目，见到佛性。
+
+
+
+*** 道德经
+道: 路，引申动作、变化之路，引申法则（像路一样用来被顺着，遵守）
+德：准则，人为事之准则。
+
+
+*** 大学
+至知在格物 ，格物在性（天命之谓性, 赋命自然, 生之质）
+	五行各禀其性，人亦然。人性有灵可观物思索，可格物。
+	
+	至：极
+	物：内物（心），外物（在心为象）
+	格外物至外物知，格内物（心）至内物（心）知 
+	从旧本大学
+	It's a Perception Seed. Seed -> Perception -> Seed. 
+
+
+
+E.g.
+	Everything, we talk/think about, is just Perception:
+		Think about Substance, to know that any explanation on Substance is just Perception.
+		Maybe Perception similar to Substance, but they are not the same. 
+	
+	
+	U need to start from BEN:
+		JS ScopeChain:
+			From JS perspective, every thing is object. 
+				So Scope Chain must be some other's object's field. 
+					So it will initialized when parent object be created. 
+					There parent object can be Execution and Function. 
+		DOJO:
+			Check what's exposed, so that you will know what dojo is, start from define & require, so that u will have a hole pic.
+		 
+		 
+	Everything want to last, it need to be a cycle
+		Derived from Seed -> Plant -> Seed
+		
+		
+	With earth, GWZZ -> other Perception -> GWZZ
+		Derived from Seed -> Plant -> Seed
+		
+	
+	How u know it's a seed?
+		Put it into the earth. U will know. So do the same to GWZZ. 
+		
+	How u know other Perception can generate GWZZ?
+		Just like I don't know why plant can generate seed, but it just did. So the same for GWZZ. 
+
+
+
+*** elements of the theory of computation
+Practical successes of computer science build on its ELEGANT AND SOLID FOUDATION.
+
+	Computer science has its own set of fundamental questions: 
+		What is an algorithm? 
+		What can and what cannot be computed?
+		When should an algorithm be considered practically feasible?
+	
+	These ideas and models are mathematical in nature.
+		The most useful abstractions of a computer are clearly mathematical.
+		Practical computational tasks require the ironclad guarantees that only mathematics provides.
+		Mathematics employed in theory of computation is generally discrete, in that the emphasis is not on real numbers and continuous variables, but on finite sets and sequences.
+	
+	It is based on VERY FEW and ELEMENTARY concepts, and draws its power and depth from the careful, patient, extensive, layer-by-layer manipulation of these concepts.
+	
+	
+
+*** English
+音节是语音的基本结构单位
+	分为：
+		元音音节
+		辅音音节
+		
+		
+		开音节
+		闭音节
+		衍生音节
+		
+		
+Syllable:
+	V
+	CV
+	CVC
+
+	
+When a word consist of more than 3 syllables, one of these syllables will be stressed syllable.
+
+
+重读：
+	1, [ ?i? ] 前一个Syllable要重读
+		E.g.
+			ic, ison ([ ʃ ] 包含 [ i ] )
+	2, 倒数，每第三个Syllable要重读
+
+
+记单词要顺着词性记，要和谐。
+
+words can be remembered, if u think it will occurs again sometime late
+
+任何人类语言发音应该以音节为单位，单词包含多个音节，所以应该分开读
+
+
+连读
+把独立的单词首尾相连成一个音节
+	辅音 + 元音 － 直接连
+	辅音 + 辅音 （辅音连缀） － 不好连的（相同，爆破）去除或弱化前一个再连
+
+
+Details: 
+	一般不重读
+	同一个意群(即短语或从句)中
+	辅音 + 元音
+	
+    I’m~an~English boy. 
+
+    It~is~an~old book. 
+
+    Let me have~a look~at~it. 
+
+    Ms Black worked in~an~office last~yesterday. 
+
+    I called~you half~an~hour~ago. 
+
+    Put~it~on, please. 
+
+    Not~at~all. 
+
+    Please pick~it~up. 
+		
+		前面的单词以r或re结尾,后面的单词以元音音素开头,则r或re要发/r/音,并与其后的元音音素相拼。
+			They’re my father~and mother. 
+
+      I looked for~it here~and there. 
+
+      There~is a football under~it. 
+
+      There~are some books on the desk. 
+
+      Here~is a letter for you. 
+
+      Here~are four~eggs. 
+
+      But where~is my cup? 
+
+      Where~are your brother~and sister? 
+		如果一个音节的前后都有字母r，即使后面的词以元音开头，也不能连读。 
+		
+		辅音+半元音 （/j/和/w/）
+       Thank~you. 
+
+       Nice to meet~you. 
+
+       Did~you get there late~again? 
+
+       Would~you like~a cup~of tea？ 
+
+       Could~you help me, please? 
+
+	辅音 + 辅音 （辅音连缀）
+		
+		不完全（失去）爆破 
+			辅音爆破音或摩擦音后面跟的是爆破音、破擦音和摩擦音等，前面的辅音要失去爆破。
+			/p/， /b/， /t/， /d/，/k/, /g/
+			
+		两个相同的发音只发一个音，但是音更靠向后一个单词
+		
+
+
+*** currency
+Money is ownership certificate.
+	It denotes you own: (amount/m2)*GMV
+		GMV - Gross Merchandise Volume
+
+Money:
+	M0 = Cash in Market
+	M1 = M0 + Cash in Bank
+	M2 = M1 + Credit (Bank can arbitrary create Credit, Credit can in place in Deposit formatter)
+
+RRR (Reserve Requirment Ratio) can limit Bank's Credit creation ability. 
+M2 = M1 / RRR
+
+
+
+*** 古文
+分为：
+	上古汉语（先秦秦汉）
+	中古汉语（至于唐）
+	近古汉语（唐至新文化运动）
+		
+
+
+白話文
+
+
+*** 黄帝内经
+前言：
+	天地万物由一气（元气，具体分为阴气和阳气）所化。
+	气为本质，阴阳五行为外在形态表现。
+	
+上古天真论
+	上古之人，其知道者法于阴阳
+	提挈天地，把握阴阳
+	
+四气调神大论
+	顺四气之变化运行
+	天明则日月不明
+	夫四时阴阳者，万物之根本也
+	故阴阳四时者，万物之终始也，死生之本也。
+	逆之则灾害生，从之则苛疾不起，是谓得道。
+	从阴阳刚生，逆之则死，从之则冶，逆之则乱。
+	
+生气通天论
+	夫自古通天者，生之本，本于阴阳
+	苍天之气，清净则志意冶，顺之则阳气固
+	阳气者，精则养神，柔则养筋
+	故风者，百病之始也，清静则肉腠闭，阳气拒，虽有大风苛毒，弗之能害
+	
+金匮真言
+	？
+	
+阴阳应象大论
+	阴阳者，天地之道也，万物之纲纪，变化之父母，生杀之本始，神明之府也
+	阴静阳躁，阳生阴长，阳杀阴藏
+	天有四时五行，以生长收藏
+	故重阴必阳，重阳必阴
+	天地者，万物之上下也，阴阳者，血气之男女也，左右者，阴阳之道路也，水火者，阴阳之征兆也，阴阳者万物之能始也
+	
+
+
+*** 三之谓
+天命之谓性，率性之谓道，修道之谓教
+	
+	解读：
+		我不能给出准确的对这句话的解释，以下是我的解读和猜测。
+		
+		整句解读0:
+			天是一切的一切的主宰
+			天让三之谓(知识)表现于外，让人可以感受
+				天生三之谓，然后三之谓带我认识了更强大的天
+			Everything is Tianming, include life, Tianli ...
+			
+			
+		整句解读1:
+			自然万物所组成的整体系统的命令叫作性，顺着性叫作道，修正道/修身而得道 叫作教
+				自然万物整体系统对个体的命令，类似生命对细胞的命令
+				天命，
+					天命在人之谓性（心生），天命在物之谓理
+				率性，
+					率性应该不是已经必然存在的，否则就不需要修了。
+						那么：
+							有很多行为是不率性（道）的
+								那么：
+									以下之前的推论是不正确的：
+										率性是顺着自己的欲望，癖好（做自已喜欢的事）？
+				道，最高道德准则
+				修道
+					修身而得道，就像修仙？
+					研究道，就像主修某某专业一样？
+				之谓，
+					他在讲（他讲的内容是）
+					Note:
+						谓之
+							称他为
+
+		
+		对天命的探索：
+			天命不是简单的结果，他是复杂的算法(因果)。
+			对于每个个体天命内容都是不一样的，所以要向内和向外探索学习去了解天命内容（即性）。
+				向内：
+					自己的性，自己知道，所以要问自己。格除虚假才能看到真心。
+					明心见性。
+			天命内容：
+				知识存在于外界，思考只是去感受知识
+					被感受的知识才可以被自己所用，就像抓在手里的武器才可以被用。
+				静生定，定生慧
+				天行健，君子以自强不息；地势坤，君子以厚德载物
+				平衡?
+				物有本末，事有终始，知所先后，则近道矣？
+				率性？ Should be NO, if: 率性（道），是人的最高行为准则？
+				修道？ Should be NO, if: 率性（道），是人的最高行为准则？
+				物竞天择？
+				癖好？
+				欲望？
+				人性（利的和弊的）？
+				社会的性？
+				自然的性？
+				人类追求圆满的智慧？
+				一阴一阳？
+				物格 知至 意诚 心正 身修？
+					
+				
+
 
 
 *** SICP
@@ -951,6 +2413,181 @@ License
 
 *** MATH
 Power for science
+
+Math
+  研究各种量和他们的关系。
+	E.g. 
+		频率 , 有关时间的量
+		距离，距离量
+		速度，速度量
+		距离/速度=时间
+
+Category:
+	Calculus
+		calculus of Infinitesimals(Limit)
+			"calculus" comes from Latin (calculus) and refers to a small stone used for counting
+			More generally, calculus (plural calculi) refers to any method or system of calculation guided by the symbolic manipulation of expressions.
+	
+		two major branches
+			differential calculus
+				concerning rates of change
+			integral calculus
+				concerning accumulation of quantities
+	
+	Geometry
+		study of shape
+	
+	Algebra
+		Letters and symbols are used to represent quantities
+
+
+Components:
+	Number
+		A mathematical object used to count, label, and measure
+		Category:
+			Real Number
+				A value that represents a quantity along a continuous line
+				Category:
+					Rational number
+						number can be expressed as the quotient or fraction p/q of two integers, with the denominator q not equal to zero
+		
+		数的系统是一个独立的体系系统，在这个系统中每一个数字都是单例的
+		
+	Operation (Should be kind of Function)
+		An action or procedure which produces a new value from one or more input values, called "operands"
+		Category:
+			unary operation
+				an operation with only one operand
+				
+			binary operation
+				an operation with only 2 operand
+		Operations:
+			Multiply is a special add
+			Squar is a special Multiply
+			Multiply need: *, base, multiplyer
+
+	Limit
+		The value that a function or sequence "approaches" as the input or index approaches some value
+		It's essential to Calculus
+		Used to define continuity, derivatives, and integrals
+	
+	Set
+		Collection of distinct objects
+		Conventionally denoted with capital letters
+	
+	
+	Structure
+		Mathematical Objects attached (or related) to a Set
+		Category:
+			Measure
+				Assign a number to each suitable subset of that set
+			Topology
+				
+			Algebraic Structure
+				MOs are finitary operations				
+				Category:
+					Magma
+						Consisting of a Set together with an binary operation
+					Category
+						Comprises "objects" that are linked by "arrows"
+	
+	
+	Evolutionary Algorithm
+		Genetic Algorithm
+	
+	Function (Refer to lianjie.txt)
+		A relation between a set of Inputs and a set of permissible Outputs.
+			Normally this relation is directional 
+				Relation is between two things, more specific is from one thing to the other
+				Relation from 'A' to 'B' is different from relation from 'B' to 'A'
+					E.g. 
+						me -> boss, the relation '->' is follow
+						me <- boss, the relation '<-' is instruction
+			
+			Format:
+				f - Function
+				x - Input
+				f(x) - Denote output of function f corresponding to input x (read "f of x")
+				
+			For better understanding a Function, need to build clear route from Input to Output.
+			
+			Normally this relation in math is about numbers (Refer to world.txt)
+			
+			函数关系中的数 一般可用来描述某些事物的属性。
+				如坐标中的图形的长度，面积的量的数。
+		
+		Application
+			Refer to lianjie.txt
+	
+	Leaner Relationship
+		The coordinate chart to represent/describe relationship in is a line
+	
+	Morphism
+		A structure-preserving mapping from one mathematical structure to another
+		In category theory, Morphisms are sometimes also called arrows
+		Category:
+			Functor
+				A type of mapping between Categories
+
+	Monad
+		An (endo-)functor, together with two natural transformations
+	
+	Natural Transformation
+		Provides a way of transforming one functor into another while respecting the internal structure
+	
+	Class
+		A collection of sets (or sometimes other mathematical objects) that can be unambiguously defined by a property that all its members share
+
+
+**** Number
+Number
+	A State of world (refer to world.txt)
+	
+	Derive from Nature. E.g. dewdrop on lotus leaf
+		1, small dew drop <-> low order bit
+		2, big dew drop <-> high order bit
+		3, dewdrop accumulate reach the tipping point will transit to a big dewdrop <-> add operation
+			tipping point <-> N of base-N system
+			
+			
+	base-N system
+		1, one order can put N-1 numbers
+		2, 
+			number(Pn 1) = N * number(Pn-1 1) : n >= 2
+			number(Pn 1) = 1 : n = 1
+	
+	
+	Abstracted from Nature (Derived from Nature)
+		Note:
+			The addition should done one number by one number, this will help understand the addition behavior
+	
+		 Implementations:
+		 	base-N system
+		 	complement coding system
+		 		Implementations:
+		 			bit in PC
+		 	
+
+
+**** Set
+
+FS - First Set(Research Set)
+SS - Second Set(Reference Set/Base Set)
+
+
+relationship = f(FS size, FS position)
+	possible result: separate, overlap, contain, be contain, equal
+
+
+**** Dependent equation
+Dependent Equation
+	Equation which can derived from other one/more Equations
+
+**** equation
+To prove some Equation, normally first need to find the connection between these variables, then do format convert to get the Equation.
+
+Linear Equation is Affine Function
+	If it have zero y-intercept then it's a Linear Function
 
 **** subjects
 Algebra and Number Theory
@@ -5379,7 +7016,7 @@ Identity and Feature have relation.
 i.e. Identity = f(Feature), Feature = g(Identity)
 
 ## Impl
-Find Identity from Feature
+Find Identoity from Feature
 
 
 
