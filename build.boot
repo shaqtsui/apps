@@ -1,5 +1,6 @@
 (set-env!
- :resource-paths #{"src" "resources"}
+ :source-paths #{"src"}
+ :resource-paths #{"resources"}
  :dependencies '[
                  ;; here not used as runtime, runtime specified in boot.properties, just have this here to cut other indirect deps of clojure
                  [org.clojure/clojure "1.9.0"]
@@ -32,6 +33,7 @@
                  [compojure "1.6.0"]
                  [hiccup "1.0.5"]
                  [hickory "0.7.1"]
+                 [clj-org "0.0.2"]
                  
                  ;; my licence expire on 2017/05/17, upgrade not supported, so only 0.9.5561 supported. can register new account?
                  ;; this is free but not for open source
@@ -54,15 +56,10 @@
                  [com.draines/postal "2.0.2"]
                  ;; for incanter-example
                  [net.mikera/core.matrix "0.61.0"]
-                 [incanter "1.9.0"]
+                 ;; buddy contains a copy for jdk15
+                 [incanter "1.9.0" :exclusions [org.bouncycastle/bctsp-jdk14 bouncycastle/bcmail-jdk14 bouncycastle/bcprov-jdk14]]
                  ;; for ml week 4
                  [net.mikera/imagez "0.12.0"]
-
-                 [quil "2.6.0"]
-                 ;; mvn install:install-file -DgroupId=apps -DartifactId=extruder -Dversion=1.02 -Dpackaging=jar -Dfile=extruder.jar -DgeneratePom=true -DcreateChecksum=true
-                 [apps/extruder "1.02"]
-                 [apps/peasycam "202"]
-                 [apps/shapes3d "2.2"]
 
                  ;; func-plot
                  [prismatic/dommy "1.1.0"]
@@ -73,6 +70,11 @@
                  [org.processing/core "3.3.6" :classifier "sources"]
 
 
+                 ;; testing
+                 
+                 [etaoin "0.2.4"]
+
+
                  ;; for boot(bootstrap)
                  [adzerk/boot-cljs "2.1.4"]
                  [adzerk/boot-reload "0.5.2"]
@@ -80,6 +82,8 @@
                  ;; here boot-alt-http also hard code dependency, but it's ring 1.6.3
                  [metosin/boot-alt-http "0.2.0"]
                  [adzerk/boot-cljs-repl   "0.3.3"]
+                 [adzerk/boot-test "1.2.0"]
+                 [crisptrutski/boot-cljs-test "0.3.4"]
 
                  ])
 
@@ -95,6 +99,8 @@
          '[metosin.boot-alt-http :refer [serve]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
          '[apps.bootstrap.cljs :refer [download-foreign-source]]
+         '[adzerk.boot-test :refer [test]]
+         '[crisptrutski.boot-cljs-test :refer [test-cljs]]
          )
 
 
@@ -107,6 +113,13 @@
        ;; download to jvm startup folder, so ignore fileset
        (download-foreign-source)
        (next-handler fileset))))
+
+
+(deftask testing
+  "Not a wrapper, just add test for CLJ/CLJS testing purpose"
+  []
+  (set-env! :source-paths #(conj % "test"))
+  identity)
 
 (deftask dev
   "lanch IFDE"
@@ -129,3 +142,13 @@
    ;; directly serve files from temp folder
    #_(target)))
 
+
+(deftask tdd
+  "Lanch tdd env"
+  []
+  (comp
+   (testing)
+   (watch)
+   (test-cljs :update-fs? true :phantom :namespaces '#{apps.test})
+   (test :namespaces '#{apps.test})
+   ))

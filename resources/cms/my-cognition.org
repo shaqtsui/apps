@@ -4,6 +4,8 @@
 #+STARTUP: showstars
 
 * All about: COGNITION OF 心 AND THE WORLD
+观不执相而生定
+观执多相而生知(Cognition)
 
 ** 心
 
@@ -12,8 +14,13 @@
 Power for all
 Gain:
   无恶无善是为至善，正确的方向，无烦恼
+  做好自己去己之恶是为真善大善，非去己恶之善为小善伪善？
+  清晰的大脑（可以观无法一眼见之物，一眼见之物为简单之物，观一眼见之物只要时间，观无法一眼见之物时更重要的是清晰的大脑）
+  轻松的身体
 
 *** 多欲
+观执多个相
+
 **** 意识
 	心生知
 
@@ -70,7 +77,7 @@ E.g. 比较两个椅子的异同
 6. "椅子A"和"椅子B"通过这一答案直接连接到"四只脚"
 
 **** learn
-Observe original target then jump to replated stuff e.g. language expresson of the original stuff, stuff's different attributes, relationships
+Observe original target then jump to related stuff e.g. language expresson of the original stuff, stuff's different attributes, relationships
 All learning's goal: to shape the target via observation.
 
 
@@ -2791,6 +2798,10 @@ Program
 		Evaluator have No Control on the Execution Flow, just sequentially
 	Nondeterministic Computing
 		Evaluator Control the Execution Flow base on Expression Evaluation Result
+
+
+***** AI
+AI is simulation of 多欲/意识
 
 ***** program states
 ## Steps to create it:
@@ -8086,6 +8097,8 @@ mount
 	
 
 Basic setups:
+  install chinese fonts to show chinese char in browser:
+   sudo apt-get install ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming
 	create internet connection - configed during OS install
 	Software Manage:
 	    Manager:
@@ -8126,7 +8139,9 @@ Runlevel is a mode of operation in one of the computer operating systems that im
 
 X Window System(refer to X Window System.gif)
     XServer:
-        install(xorg impl): sudo apt-get install xserver-xorg (xserver-xorg-core not work, even client connected it still only show black screen, I even can not switch tty)
+        install(xorg impl): sudo apt-get install xserver-xorg 
+          (xserver-xorg-core not work, even client connected it still only show black screen, I even can not switch tty
+          If need to use java awt, graphics related native libs need to be installed via "sudo apt-get install xorg")
         start: sudo X
         verify: U can see xserver screen turn to black
 	Note: to enable different user access xserver, u need to disable access control via xhost

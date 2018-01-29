@@ -16,6 +16,7 @@
             [hiccup.page :refer :all]
             [hiccup.element :refer :all]
             [hiccup.form :refer :all]
+            [clj-org.org :refer [parse-org]]
             [datomic.api :as d]
 
             [endophile.core :refer [mp]]
@@ -124,7 +125,13 @@
 
 (defn app-routes-factory [qq-oauth2]
   (routes
-    (GET "/" request (response/redirect "/cms/md"))
+   (GET "/" request (-> "cms/my-cognition.org"
+                        io/resource
+                        slurp
+                        parse-org
+                        :content
+                        (default-layout request)
+                        html))
     (GET "/cms/md*" request (let [file (-> (:uri request) (subs 1) io/resource .getFile io/file)]
                           (if (.isDirectory file)
                             (-> file .listFiles (link-list request) (default-layout request) html)
@@ -199,7 +206,7 @@
         (wrap-history :max-size 5 :ignore-4xx true :ignore-5xx true)
         (wrap-authorization auth-backend)
         (wrap-authentication auth-backend)
-        prone/wrap-exceptions
+        (prone/wrap-exceptions {:app-namespaces '[apps]})
         (logger/wrap-with-logger {:printer :no-color})
         wrap-webjars
         (wrap-defaults (-> site-defaults
@@ -238,6 +245,7 @@
 
 #_(-main)
 
+  #_(stop)
 #_(reset)
 
 #_(add-dependencies :coordinates '[[xxxxxxx "1.2.3"]]
