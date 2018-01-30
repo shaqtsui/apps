@@ -6,6 +6,9 @@
             [taoensso.timbre :as timbre]
             [clojure.java.io :as io]
             [cljs.closure :as closure]
+            [hiccup.core :refer [html]]
+            [hiccup.page :refer [include-js]]
+            [clojure.java.io :as io]
             )
   (:import 
            java.net.URL))
@@ -28,5 +31,18 @@
        doall))
   ([]
    (download-foreign-source ".")))
+
+
+(def index-hcp
+  [:html
+   [:head]
+   [:body
+    (include-js "js/main.js")]])
+
+
+(def index-html
+  (-> index-hcp
+      timbre/spy
+      html))
 
 

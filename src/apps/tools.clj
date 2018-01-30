@@ -6,15 +6,29 @@
             [postal.core :refer :all])
   (:import java.net.URL))
 
+(defmacro drift
+  "Evaluate forms & return x
+   In complement with `->`, `doto` to support Data Change Sequence Oriented Programming(DCSOP).
+  `doto` pass `x` to `forms`, `dirft` do NOT pass `x` to `forms`.
+  "
+  {:added "1.0"}
+  [x & forms]
+  `(do
+     ~@(map #(if (seq? %)
+               %
+               (list %))
+            forms)
+     ~x))
+
 ;; replace file name from html page
 (defn find-real-name-from-page [page-tree raw-name]
   (as-> page-tree $
-        (select $ [:a])
-        (filter (comp string? first :content) $)
-        (filter (comp #(str/ends-with? % raw-name) :href :attrs) $)
-        (if (= 1 (count $))
-          (-> $ first :content first (str "." (last (str/split raw-name #"\."))))
-          nil)))
+    (select $ [:a])
+    (filter (comp string? first :content) $)
+    (filter (comp #(str/ends-with? % raw-name) :href :attrs) $)
+    (if (= 1 (count $))
+      (-> $ first :content first (str "." (last (str/split raw-name #"\."))))
+      nil)))
 
 (defn folder-size [f]
   (if (.isDirectory f)
@@ -55,13 +69,13 @@
 #_(rp1-stock)
 
 #_(def f
-  (future
-    (while true
-      (let [status (rp1-stock)]
-        (println status)
-        (if (= "入荷待ち" status)
-          (send-mail-to-me status))
-        (Thread/sleep 10000)))))
+    (future
+      (while true
+        (let [status (rp1-stock)]
+          (println status)
+          (if (= "入荷待ち" status)
+            (send-mail-to-me status))
+          (Thread/sleep 10000)))))
 
 #_(future-cancel f)
 
@@ -80,8 +94,8 @@
        (map (fn [f]
               (-> f
                   (.renameTo (as-> f $
-                                   (str (.getParent $) "/" (->> $ .getName (find-real-name-from-page page-tree)))
-                                   (io/file $)))))))
+                               (str (.getParent $) "/" (->> $ .getName (find-real-name-from-page page-tree)))
+                               (io/file $)))))))
 
 ;; extract files
 #_(->> "F:/BaiduCloud" io/file file-seq rest
