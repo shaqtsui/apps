@@ -2,23 +2,42 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.tools.logging :as log]
+            [taoensso.timbre :as timbre]
             [net.cgrand.enlive-html :refer :all]
             [postal.core :refer :all])
   (:import java.net.URL))
 
-(defmacro drift
-  "Evaluate forms & return x
-   In complement with `->`, `doto` to support Data Change Sequence Oriented Programming(DCSOP).
-  `doto` pass `x` to `forms`, `dirft` do NOT pass `x` to `forms`.
-  "
-  {:added "1.0"}
-  [x & forms]
-  `(do
-     ~@(map #(if (seq? %)
-               %
-               (list %))
-            forms)
-     ~x))
+
+(defmacro as
+  "argument operate"
+  [expr name form]
+  `(let [~name ~expr]
+     ~form))
+
+(defn unzip
+  "`url` can be anything valid for `io/input-stream`, default target path is `.`"
+  ([url path]
+   (-> url
+       io/input-stream
+       java.util.zip.ZipInputStream.
+       (doto (as $
+                 (doall (map (partial io/copy $)
+                             (-> $
+                              (as $ (partial (memfn getNextEntry) $))
+                              repeatedly
+                              (as $ (take-while (comp not nil?) $))
+                              (as $ (filter (comp not (memfn isDirectory)) $))
+                              (as $
+                                  (map
+                                   (comp #(doto % io/make-parents)
+                                         (partial io/file path)
+                                         (memfn getName))
+                                   $)))))))
+       .close))
+
+  ([url]
+   (unzip url ".")))
+
 
 ;; replace file name from html page
 (defn find-real-name-from-page [page-tree raw-name]

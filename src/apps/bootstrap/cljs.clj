@@ -8,11 +8,10 @@
             [cljs.closure :as closure]
             [hiccup.core :refer [html]]
             [hiccup.page :refer [include-js]]
-            [clojure.java.io :as io]
-            )
-  (:import 
-           java.net.URL))
-
+            [clojure.java.io :as io])
+  (:import
+   java.net.URL
+   java.util.zip.ZipInputStream))
 
 (defn download-foreign-source
   "a bug in cljs compiler, online files cannot download automatically, so manually download here."
@@ -39,10 +38,8 @@
    [:body
     (include-js "js/main.js")]])
 
-
 (def index-html
   (-> index-hcp
       timbre/spy
       html))
-
 

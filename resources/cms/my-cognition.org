@@ -4,6 +4,7 @@
 #+STARTUP: showstars
 
 * All about: COGNITION OF 心 AND THE WORLD
+对相（境）起一意以去多意/不起意
 心根合尘生相，心执相生意语身行，意生意尘
 七情六欲，思考中的动即属意
 
@@ -2255,8 +2256,6 @@ How to group?
 *** LANGUAGE
 Language is Symbols or combination of Symbols following Syntax rule refer to Semantic
 
-
-
 **** Elements
 Symbol
 Syntax
@@ -2269,6 +2268,17 @@ Semantic
 
   Semantic in Function (Dynamic language)
     link to Syntax in context of a Function
+
+Note:
+  Normally Symbol not represent itself but its refered Semantic
+  If you want Symbol represent itself, quotate it
+
+  Symbol and Semantic can change independently.
+    e.g.
+      change Symbole only: I love 1 -> I love one
+      change Semantic: 你妹啊（你的妹妹啊） -> 你妹啊（骂人）
+
+
 
 **** Lexical Context
 In previous language location: bind Symbol to Semantic
@@ -2803,11 +2813,34 @@ Program
 		Evaluator Control the Execution Flow base on Expression Evaluation Result
 
 
+
+***** function vs macro
+function - language -> domain problem
+  so function can NOT control language, e.g. modify itself & other language expression
+
+macro - language -> language -> domain problem
+  so macro is NOT controlling domain problem, its controlling language
+
+
+
 ***** programming style
 Action Sequence Oriented Programming
   have loop
+  clojure related api: doto
+
 Data Change Sequence Oriented Programming(DCSOP)
   no loop
+  clojure related api: ->
+
+
+Note: use `as` to operate argument
+#+BEGIN_SRC clojure
+  (defmacro as
+    "argument operate"
+    [expr name form]
+    `(let [~name ~expr]
+       ~form))
+#+END_SRC
 
 ***** AI
 AI is simulation of 多欲/意识

@@ -61,8 +61,11 @@
                  ;; func-plot
                  [prismatic/dommy "1.1.0"]
                  [hipo "0.5.2"]
-                 [cljsjs/three "0.0.87-0"];; testing
-                 [etaoin "0.2.4"];; for boot(bootstrap)
+                 [cljsjs/three "0.0.87-0"]
+                 ;; browser control, PREREQUISITE: chromedriver to be in $PATH
+                 [etaoin "0.2.4"]
+
+                 ;; for boot(bootstrap)
                  [adzerk/boot-cljs "2.1.4"]
                  [adzerk/boot-reload "0.5.2"]
                  ;; can not use [pandeiro/boot-http "0.8.3"], as internally ring 1.4.0 dependency hardcoded in source
@@ -83,7 +86,7 @@
          '[metosin.boot-alt-http :refer [serve]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
          '[apps.bootstrap.cljs :refer [download-foreign-source index-html]]
-         '[apps.tools :refer [drift]]
+         '[apps.tools :refer [as]]
          '[adzerk.boot-test :refer [test]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]]
          '[taoensso.timbre :as timbre]
@@ -95,15 +98,16 @@
   []
   (fn wrapper [next-handler]
     #(-> %
-         (drift (timbre/debug "start download-online-js...")
-           (download-foreign-source))
+         (doto
+          (as $ (timbre/debug "start download-online-js..."))
+           (as $ (download-foreign-source)))
          next-handler)))
 
 (deftask add-index
   []
   (fn wrapper [next-handler]
     #(-> %
-         (drift (timbre/debug "start add-index..."))
+         (doto (as $ (timbre/debug "start add-index...")))
          (boot.core/add-resource (doto
                                   (boot.core/tmp-dir!)
                                    (-> (io/file "public/index.html")
@@ -123,7 +127,7 @@
   []
   (comp
    (add-index)
-   (download-online-js)
+   #_(download-online-js)
    ;; directly serve files from temp folder
    #_(serve :directories #{"target/public"} :port 3000)
    (serve :port 3000)
