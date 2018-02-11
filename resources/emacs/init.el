@@ -28,8 +28,8 @@
 ;; evaluate cider.el, so that fun & vars available to flycheck-clojure
 (require 'cider)
 ;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
-(eval-after-load 'flycheck '(flycheck-clojure-setup))
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 ;; paredit enable
 (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)

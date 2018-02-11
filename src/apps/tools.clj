@@ -14,6 +14,11 @@
   `(let [~name ~expr]
      ~form))
 
+(defn wrap-spy [f]
+  (fn [& more]
+    (timbre/info "Invoking" f "with arguments:" more)
+    (apply f more)))
+
 (defn unzip
   "`url` can be anything valid for `io/input-stream`, default target path is `.`"
   ([url path]
