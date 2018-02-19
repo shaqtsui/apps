@@ -2,17 +2,12 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.tools.logging :as log]
+            [apps.dcs :refer [as]]
             [taoensso.timbre :as timbre]
             [net.cgrand.enlive-html :refer :all]
             [postal.core :refer :all])
   (:import java.net.URL))
 
-
-(defmacro as
-  "argument operate"
-  [expr name form]
-  `(let [~name ~expr]
-     ~form))
 
 (defn wrap-spy [f]
   (fn [& more]

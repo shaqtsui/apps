@@ -86,7 +86,7 @@
          '[metosin.boot-alt-http :refer [serve]]
          '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
          '[apps.bootstrap.cljs :refer [download-foreign-source index-html]]
-         '[apps.tools :refer [as]]
+         '[apps.dcs :refer [as]]
          '[adzerk.boot-test :refer [test]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]]
          '[taoensso.timbre :as timbre]
