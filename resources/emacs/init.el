@@ -47,6 +47,9 @@
    (ditaa . t)))
 (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
+(setenv "BOOT_JVM_OPTIONS"
+	"-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx3g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled")
+
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
 (custom-set-variables

@@ -5,7 +5,7 @@
             [taoensso.timbre :as timbre] ;; implicit require macro
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
-            [apps.dcs :refer [as dcs-or dcs-and parellel]]
+            [apps.dcs :refer [as dcs-or dcs-and parellel lazy-parellel]]
             [apps.image :as a-i]
             [apps.matrix :refer [del]]
             [mikera.image.core :as img]
@@ -18,6 +18,13 @@
            line-seq
            (->> (map #(s/split % #","))
                 (m/emap r/read-string))))
+
+(def y (-> "/home/shark/xfcjs/Downloads/machine-learning-ex3/ex3/datay.csv"
+           io/file
+           io/reader
+           line-seq
+           (->>
+            (m/emap r/read-string))))
 
 #_(def X-imgs (map #(a-i/seq->img % [20 20] (m/emin X) (m/emax X))
                    X))
@@ -82,6 +89,7 @@
   (-> X-0
       (lazy-parellel f (-> hessian-fn
                            m/inverse))
+      timbre/spy
       (dcs-or (-> first
                   (dcs-and (-> (= 0)
                                (or (= max-iter 0)))
@@ -95,3 +103,20 @@
                                        (m/mmul $
                                                (gradient-fn X-0)))
                                 (assoc opts :max-iter (dec max-iter)))))))))
+
+;;(search-convergence-point #(lr-cost % X y) (repeat 400 1) :gradient-fn #(lr-gradient % X y))
+
+
+(def ts [(m/broadcast 1 [25 401]) (m/broadcast 1 [10 26])])
+
+(defn nn-hypo-fn
+  [ts]
+  (fn [X]
+    (-> X
+        (as $ (reduce #(-> %1
+                           (->> (m/join-along 1 (m/broadcast 1 [(m/row-count %1) 1])))
+                           (m/mmul (-> %2 m/transpose))
+                           sigmoid)
+                      $
+                      ts)))))
+
