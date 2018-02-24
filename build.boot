@@ -127,7 +127,7 @@
   []
   (comp
    (add-index)
-   #_(download-online-js)
+   (download-online-js)
    ;; directly serve files from temp folder
    #_(serve :directories #{"target/public"} :port 3000)
    (serve :port 3000)

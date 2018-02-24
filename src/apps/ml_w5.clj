@@ -12,14 +12,15 @@
             [clojure.math.numeric-tower :as math]
             [apps.ml-for-core-matrix :as a-ml]))
 
-(def X (-> "/home/shark/xfcjs/Downloads/machine-learning-ex3/ex3/data.csv"
-           io/file
+(def X (-> "ml_w5/data.csv"
+           io/resource
            io/reader
            line-seq
            (->> (map #(s/split % #","))
                 (m/emap r/read-string))))
 
-(def y (-> "/home/shark/xfcjs/Downloads/machine-learning-ex3/ex3/datay.csv"
+(def y (-> "ml_w5/datay.csv"
+           io/resource
            io/file
            io/reader
            line-seq
