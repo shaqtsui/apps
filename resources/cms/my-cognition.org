@@ -3293,6 +3293,13 @@ barfage & slurpage
 
 ****** clojure
 
+******* Semantic can have multiple impl
+E.g. 
+Semantic: List have impl: Cons, PersistentList
+Semantic: Sequence have impl: Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
+Semantic: core.matrix/wrapper have impl: NDWrapper, PersistentVector
+
+******* 
 ## Symbol
 Refer to [language](language.md) for Symbol definition
         

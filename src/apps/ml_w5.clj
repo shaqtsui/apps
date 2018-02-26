@@ -12,12 +12,18 @@
             [clojure.math.numeric-tower :as math]
             [apps.ml-for-core-matrix :as a-ml]))
 
-(def X (-> "ml_w5/data.csv"
+(m/set-current-implementation :vectorz)
+
+(def X-v (-> "ml_w5/data.csv"
            io/resource
            io/reader
            line-seq
            (->> (map #(s/split % #","))
-                (m/emap r/read-string))))
+                (m/emap r/read-string))
+           ))
+
+;; convert impl
+(def X (m/matrix X-v))
 
 (def y (-> "ml_w5/datay.csv"
            io/resource
@@ -25,7 +31,9 @@
            io/reader
            line-seq
            (->>
-            (m/emap r/read-string))))
+            (m/emap r/read-string))
+           m/matrix))
+
 
 #_(def X-imgs (map #(a-i/seq->img % [20 20] (m/emin X) (m/emax X))
                    X))
@@ -35,7 +43,7 @@
       img/show)
 
 (defn sigmoid
-  "`X` is a vector"
+  "`X` is a matrix"
   [X]
   (-> X m/sub m/exp
       (m/add 1)
@@ -108,16 +116,17 @@
 ;;(search-convergence-point #(lr-cost % X y) (repeat 400 1) :gradient-fn #(lr-gradient % X y))
 
 
-(def ts [(m/broadcast 1 [25 401]) (m/broadcast 1 [10 26])])
+(def ts [(m/matrix (m/broadcast 1 [25 401])) (m/matrix (m/broadcast 1 [10 26]))])
 
 (defn nn-hypo-fn
   [ts]
   (fn [X]
     (-> X
         (as $ (reduce #(-> %1
-                           (->> (m/join-along 1 (m/broadcast 1 [(m/row-count %1) 1])))
+                           (->> (m/join-along 1 (m/matrix (m/broadcast 1 [(m/row-count %1) 1]))))
                            (m/mmul (-> %2 m/transpose))
                            sigmoid)
                       $
                       ts)))))
+
 

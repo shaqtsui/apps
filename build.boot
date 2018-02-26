@@ -52,7 +52,13 @@
                  [enlive "1.1.6"]
                  [com.draines/postal "2.0.2"]
                  ;; for incanter-example
-                 [net.mikera/core.matrix "0.61.0"]
+                 [net.mikera/core.matrix "0.62.0"]
+                 ;; core.matrix implementations
+                 [clatrix "0.5.0"]
+                 [net.mikera/vectorz-clj "0.47.0"]
+                 ;; can not get the latest impl now
+                 [org.clojars.xfcjscn/nd4clj "0.1.2"]
+                 
                  ;; buddy contains a copy for jdk15
                  [incanter "1.9.0" :exclusions [org.bouncycastle/bctsp-jdk14 bouncycastle/bcmail-jdk14 bouncycastle/bcprov-jdk14]]
                  ;; for ml week 4
