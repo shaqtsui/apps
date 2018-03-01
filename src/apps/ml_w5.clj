@@ -5,6 +5,7 @@
             [taoensso.timbre :as timbre] ;; implicit require macro
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
+            [clojure.core.matrix.operators :as mo]
             [apps.dcs :refer [as dcs-or dcs-and parellel lazy-parellel]]
             [apps.image :as a-i]
             [apps.matrix :refer [del]]
@@ -15,12 +16,11 @@
 (m/set-current-implementation :vectorz)
 
 (def X-v (-> "ml_w5/data.csv"
-           io/resource
-           io/reader
-           line-seq
-           (->> (map #(s/split % #","))
-                (m/emap r/read-string))
-           ))
+             io/resource
+             io/reader
+             line-seq
+             (->> (map #(s/split % #","))
+                  (m/emap r/read-string))))
 
 ;; convert impl
 (def X (m/matrix X-v))
@@ -34,7 +34,6 @@
             (m/emap r/read-string))
            m/matrix))
 
-
 #_(def X-imgs (map #(a-i/seq->img % [20 20] (m/emin X) (m/emax X))
                    X))
 
@@ -42,17 +41,17 @@
       (a-i/merge-imgs 100)
       img/show)
 
-(defn sigmoid
-  "`X` is a matrix"
-  [X]
-  (-> X m/sub m/exp
-      (m/add 1)
-      ((partial m/div 1))))
-
 (defn lr-hypo-fn
   "`theta` is a vector, return a function accecpt a matrix"
   [theta]
-  (comp sigmoid #(m/mmul % theta)))
+  (comp m/logistic #(m/mmul % theta)))
+
+(defn del-logistic [X]
+  (-> X
+      m/logistic
+      (as $ (m/mul $ (-> $
+                         m/sub
+                         (m/add 1))))))
 
 (defn lr-cost [theta X Y & {:keys [lamb]}]
   (-> theta
@@ -80,7 +79,7 @@
       (apply [X])
       (m/sub Y)
       (->> (m/mmul (m/transpose X)))
-      (m/div (count X))
+      (m/div (m/row-count X))
       (cond->
        lamb (m/add (-> theta
                        (m/mul (/ lamb (count X)))
@@ -96,9 +95,12 @@
                                    :as opts}]
 
   (-> X-0
-      (lazy-parellel f (-> hessian-fn
-                           m/inverse))
-      timbre/spy
+      (lazy-parellel f (-> timbre/spy
+                           hessian-fn
+                           timbre/spy
+                           m/inverse
+                           timbre/spy
+                           time))
       (dcs-or (-> first
                   (dcs-and (-> (= 0)
                                (or (= max-iter 0)))
@@ -113,20 +115,49 @@
                                                (gradient-fn X-0)))
                                 (assoc opts :max-iter (dec max-iter)))))))))
 
-;;(search-convergence-point #(lr-cost % X y) (repeat 400 1) :gradient-fn #(lr-gradient % X y))
-
+#_(search-convergence-point #(lr-cost % X (m/eq y 1)) (->> (repeatedly rand)
+                                                           (take 400)) :gradient-fn #(lr-gradient % X (m/eq y 1)))
+#_(search-convergence-point #(lr-cost % X y) (->> (repeatedly rand)
+                                                  (take 400)))
 
 (def ts [(m/matrix (m/broadcast 1 [25 401])) (m/matrix (m/broadcast 1 [10 26]))])
 
 (defn nn-hypo-fn
   [ts]
   (fn [X]
-    (-> X
-        (as $ (reduce #(-> %1
-                           (->> (m/join-along 1 (m/matrix (m/broadcast 1 [(m/row-count %1) 1]))))
-                           (m/mmul (-> %2 m/transpose))
-                           sigmoid)
-                      $
-                      ts)))))
+    (reduce #(m/logistic (m/mmul (m/join-along 1
+                                               (m/matrix (m/broadcast 1
+                                                                      [(m/row-count %1) 1]))
+                                               %1)
+                                 (m/transpose %2)))
+            X
+            ts)))
 
+(defn nn-cost [ts X Y]
+  (let [error (m/sub ((nn-hypo-fn ts) X)
+                     Y)]
+    (/ (m-s/sum (map (comp m/scalar m/mmul)
+                     error
+                     error))
+       (* 2
+          (m/row-count X)))))
+
+(defn scalar->array [X]
+  (->
+   (map #(-> (m/zero-array [%2])
+             (m/mset %1 1))
+        X
+        (-> X
+            seq
+            distinct
+            count
+            repeat))
+   m/matrix))
+
+#_(-> y
+      (->> (map #(if (== % 10)
+                   0
+                   %))
+           scalar->array
+           (nn-cost ts X)))
 

@@ -2,10 +2,19 @@
   (:require [taoensso.timbre :as timbre] ;; implicit require macro
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
+            [apps.dcs :as dcs]
             ;; load nd4clj to register implementation explicitly, as core.matrix/KNOWN-IMPLEMENTATIONS have wrong namespace configed
             #_[nd4clj.matrix]))
 
 ;; to get timber debug work in chrome, chrome's console need to have Verbose selected
+
+
+;; data type:
+;; scalar - number
+;; zero-dimentional array - ? (created by: scalar-array, can get the value via: scalar)
+;; one-dimentional array - vector
+;; two-dimensional array - matrix
+;; 3+-dimensional array - ?
 
 ;; matrix implementation can be a lot of stuff
 ;; matrix implementation setting
@@ -55,7 +64,6 @@
 ;; this impl is buggy: e.g. (mmul m1 m2) -> instance of NDArray
 #_(m/set-current-implementation :nd4j)
 
-
 (def KNOWN-IMPLEMENTATIONS
   "A map of known core.matrix implementation namespaces.
 
@@ -89,10 +97,8 @@
    :mtj 'cav.mtj.core.matrix
    :aljabr 'thinktopic.aljabr.core))
 
-
 (defn del
-  "
-  approximate del via secant(finite difference approximation)
+  "2 side approximate del via secant(finite difference approximation)
   E.g. 1
     f: [x y z] -> v
     (del f): [x y z] -> [v1 v2 v3]
@@ -109,35 +115,22 @@
     (-> dx
         (->> (repeat (m/row-count X)))
         m/diagonal-matrix
-        (m/add X)
-        ((partial map f))
-        (m/sub (f X))
-        (m/div dx))))
+        (dcs/parellel
+         (m/add X)
+         (-> m/sub
+             (m/add X)))
+        (->> (map (comp m/matrix
+                        (partial map f)))
+             (reduce m/sub))
+        (m/div (* 2 dx)))))
 
 ;; ======================================================================
 ;; del examples
 (defn target-fn
   [X]
   (-> X
-      (m/mul 2)
+      (m/pow 2)
       (m-s/sum)))
-
-(defn target-fn-vector-valued
-  [[x1 x2 x3]]
-  [(-> (* x1 x1)
-       (- (* x1 2))
-       (+ (* x2 x2))
-       (- x3)
-       (+ 1))
-   (-> (* x1 x2 x2)
-       (- x1)
-       (- (* 3 x2))
-       (+ (* x2 x3))
-       (+ 2))
-   (-> (* x1 x3 x3)
-       (- (* 3 x3))
-       (+ (* x2 x3 x3))
-       (+ (* x1 x2)))])
 
 (defn target-fn-vector-valued
   [X]
@@ -146,6 +139,7 @@
 
 (def gradient-fn
   (del target-fn))
+
 
 (def hessian-fn
   (del gradient-fn))
@@ -181,8 +175,6 @@
                         (m/mmul hessian-inverse
                                 (gradient-fn X-0)))
                  (assoc opts :max-iter (dec max-iter))))))))
-
-
 
 (defn search-root [f X-0
                    & {:keys [jacobian-fn max-iter method]
@@ -221,11 +213,9 @@
        m/diagonal-matrix
        (m/mmul %)))
 
-
 (defn offset-func [offset]
   #(-> offset
        timbre/spy
        (m/broadcast [(count %)])
        (m/add %)))
-
 

@@ -11,6 +11,18 @@
 多意
 无意 - 眠
 
+意的背后是欲，欲的背后是我执？
+
+放下不是告诉自己不关我的事我不管因为这背后是我只要我要的，真正的放下是无我要（我执？）
+
+回头看无我之时所为才是纯奉献
+
+用这来看：无为而无不为。无为是无我要，无不为是没有办不成的事。
+
+用这来看：非以其无私邪，故能成其私。纯奉献的果是回报
+
+
+
 根合尘生相，不起意则不识
 
 学习是多意可以得识
@@ -2294,6 +2306,31 @@ Language is Symbols or combination of Symbols following Syntax rule refer to Sem
 **** Elements
 Symbol
 Syntax
+  Combination of Symbols
+  Combination Structure:
+    tree
+      have layer Semantic
+      e.g.
+      #+BEGIN_SRC clojure
+        (+ (* 2 2)
+           (* 3 3))
+      #+END_SRC
+
+    sequence
+      have sequence Semantic
+      e.g.
+      #+BEGIN_SRC clojure
+        (-> 2
+            (* 2)
+            (+ (* 3 3)))
+      #+END_SRC
+
+      #+BEGIN_SRC javascript
+        var n = 2;
+        n = n * 2;
+        n = n + (3 * 3);
+      #+END_SRC
+
 Semantic
   created by beings
   human being may link it to different Syntax in different context
