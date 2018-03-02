@@ -1,0 +1,32 @@
+#+STARTUP: showeverything
+#+STARTUP: indent
+#+STARTUP: hidestars
+#+STARTUP: showstars
+
+#+TODO: TODO(t!) | DONE(!) CANCELED(!)
+
+NOTE: Fast access enabled if one access key available, other state will given default access key as name's first available letter
+e.g. (t)
+
+* tasks
+** CANCELED unicode math
+- State "CANCELED"   from "TODO"       [2018-03-02 Fri 18:30]
+- State "TODO"       from ""           [2018-03-02 Fri 18:29]
+
+** DONE create my-tasks.org to manage tasks
+- State "DONE"       from "TODO"       [2018-03-02 Fri 18:30]
+- State "TODO"       from ""           [2018-03-02 Fri 18:29]
+
+** TODO impl gradient for nn
+- State "TODO"       from ""           [2018-03-02 Fri 18:29]
+
+** TODO w5 home work
+- State "TODO"       from ""           [2018-03-02 Fri 18:29]
+
+** TODO next lecture
+- State "TODO"       from ""           [2018-03-02 Fri 18:29]
+
+
+
+
+
