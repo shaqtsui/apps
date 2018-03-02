@@ -4711,6 +4711,24 @@ E.g.
 
 Previously RegExp is readable, now how to make it also invokable without existing expression change
 
+***** input method
+character conversion, convert ASCII characters to other characters
+
+simple input method: one ASCII char convert to one other char
+composition input method: sequence of ASCII char convert to one or more other char
+
+***** unicode math
+not a good idea, as:
+1, a lot of unicode chars are very similar to each other
+e.g.
+Σ vs ∑
+∁ vs C
+...
+
+2, a lot of unicode char display overlaps in emacs
+e.g.
+∈[ ∋1
+
 ***** CSRF
 Cross Site Request Forgery
 	Kind of a confused deputy attack against a web browser, trick browser into sending HTTP request.

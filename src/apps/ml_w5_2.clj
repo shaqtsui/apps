@@ -1,4 +1,4 @@
-(ns apps.ml-w5
+(ns apps.ml-w5-2
   (:require [clojure.java.io :as io]
             [clojure.string :as s]
             [clojure.tools.reader :as r]
@@ -23,7 +23,9 @@
                   (m/emap r/read-string))))
 
 ;; convert impl
-(def X (m/matrix X-v))
+(def X (-> X-v
+           m/matrix
+           m/transpose))
 
 (def y (-> "ml_w5/datay.csv"
            io/resource
@@ -35,56 +37,17 @@
            m/matrix))
 
 #_(def X-imgs (map #(a-i/seq->img % [20 20] (m/emin X) (m/emax X))
-                   X))
+                   (m/columns X)))
 
 #_(-> X-imgs
       (a-i/merge-imgs 100)
       img/show)
-
-(defn lr-hypo-fn
-  "`theta` is a vector, return a function accecpt a matrix"
-  [theta]
-  (comp m/logistic #(m/mmul % theta)))
-
 
 (defn del-logistic [& {:keys [X Y]
                        :or {Y (m/logistic X)}}]
   (m/mul Y
          (m/sub 1
                 Y)))
-
-(defn lr-cost [theta X Y & {:keys [lamb]}]
-  (-> theta
-      lr-hypo-fn
-      (apply [X])
-      (parellel (-> m/log
-                    (m/mul Y)
-                    m/sub)
-                (-> m/sub
-                    (m/add 1)
-                    m/log
-                    (m/mul (m/sub 1 Y))))
-      (->> (reduce m/sub))
-      m-s/mean
-      (cond->
-       lamb (+ (-> theta
-                   (m/pow 2)
-                   m-s/mean
-                   (/ 2)
-                   (* lamb))))))
-
-(defn lr-gradient [theta X Y & {:keys [lamb]}]
-  (-> theta
-      lr-hypo-fn
-      (apply [X])
-      (m/sub Y)
-      (->> (m/mmul (m/transpose X)))
-      (m/div (m/row-count X))
-      (cond->
-       lamb (m/add (-> theta
-                       (m/mul (/ lamb (count X)))
-                       rest
-                       (->> (cons 0)))))))
 
 (defn search-convergence-point [f X-0
                                 & {:keys [gradient-fn hessian-fn max-iter method]
@@ -120,27 +83,32 @@
 #_(search-convergence-point #(lr-cost % X y) (->> (repeatedly rand)
                                                   (take 400)))
 
-(def ts [(m/matrix (m/broadcast 1 [25 401])) (m/matrix (m/broadcast 1 [10 26]))])
+(def ts [(m/broadcast (m/scalar-array 1)
+                      [25 401])
+         (m/broadcast (m/scalar-array 1)
+                      [10 26])])
 
 (defn nn-hypo-fn
+  "X contains multiple vecotr of x in math formatter"
   [ts]
   (fn [X]
-    (reduce #(m/logistic (m/mmul (m/join-along 1
-                                               (m/matrix (m/broadcast 1
-                                                                      [(m/row-count %1) 1]))
-                                               %1)
-                                 (m/transpose %2)))
+    (reduce #(m/logistic (m/mmul %2
+                                 (m/join-along 0
+                                               (m/broadcast (m/scalar-array 1)
+                                                            [1 (m/column-count %1)])
+                                               %1)))
             X
             ts)))
 
 (defn nn-cost [ts X Y]
   (let [error (m/sub ((nn-hypo-fn ts) X)
-                     Y)]
+                     Y)
+        error-cols (m/columns error)]
     (/ (m-s/sum (map (comp m/scalar m/mmul)
-                     error
-                     error))
+                     error-cols
+                     error-cols))
        (* 2
-          (m/row-count X)))))
+          (m/column-count X)))))
 
 (defn scalar->array [X]
   (->
@@ -152,7 +120,8 @@
             distinct
             count
             repeat))
-   m/matrix))
+   m/matrix
+   m/transpose))
 
 #_(-> y
       (->> (map #(if (== % 10)
