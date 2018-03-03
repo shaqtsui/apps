@@ -23,6 +23,12 @@
 
 用这来看：非以其无私邪，故能成其私。纯奉献的果是回报
 
+当你有一意的是候, 他有利有弊, 他带你去一个地方就会影响你去另一个地方
+
+所谓的控制自己就是让自己放下某一个意吧
+
+止意不象是意, 如果止意是意那么就无法止意, 就象想(意)睡觉就无法睡觉
+
 
 
 根合尘生相，不起意则不识
@@ -6271,6 +6277,16 @@ Generalization Type Parameter
 a collection of Data in format of 0 & 1
 		
 
+***** execution flow control
+Flow control should depends on semantic(whether to go on, to skip, to loop, to return...)
+Invoker don't know the Invokee's semantic, so it can only be Invokee
+
+implicit control semantic(execute next expression) is in all expressions except exist
+by default next expression is the one indicated by program counter/instruction pointer/instruction address register/instruction counter
+
+some language have expressions have explicit control semantic
+e.g. return, goto, break, throw Exception
+
 ***** continuation
 If there is no reused unit(e.g. function), all commands write one by one then, there is no need for continuation, all commands execute one by one until the end.
 
@@ -6307,7 +6323,7 @@ command b4
 
 
 
-***** explict ove implicit
+***** explict over implicit
 Explicit
   You can know what it's doing base on explicit expression.
 

@@ -26,7 +26,15 @@ e.g. (t)
 ** TODO next lecture
 - State "TODO"       from ""           [2018-03-02 Fri 18:29]
 
+** TODO check urepl & prepl
+- State "TODO"       from ""           [2018-03-02 Fri 19:50]
 
+** TODO check centralized file storage
+- State "TODO"       from ""           [2018-03-02 Fri 19:51]
 
+** TODO check call/cc & reader macro whether a good choice
+- State "TODO"       from ""           [2018-03-03 Sat 09:06]
 
-
+** DONE control semantic in language
+- State "DONE"       from "TODO"       [2018-03-03 Sat 20:38]
+- State "TODO"       from ""           [2018-03-03 Sat 19:42]
