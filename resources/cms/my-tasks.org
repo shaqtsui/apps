@@ -38,3 +38,16 @@ e.g. (t)
 ** DONE control semantic in language
 - State "DONE"       from "TODO"       [2018-03-03 Sat 20:38]
 - State "TODO"       from ""           [2018-03-03 Sat 19:42]
+
+** TODO emacs enable wubi input
+- State "TODO"       from ""           [2018-03-03 Sat 20:43]
+
+** DONE check clojure vs racket web page
+- State "DONE"       from "TODO"       [2018-03-04 Sun 19:15]
+- State "TODO"       from ""           [2018-03-03 Sat 20:49]
+
+** TODO ubuntu auto mount disk
+- State "TODO"       from ""           [2018-03-03 Sat 20:52]
+
+** TODO learn racket
+- State "TODO"       from ""           [2018-03-04 Sun 19:15]

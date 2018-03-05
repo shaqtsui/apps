@@ -40,6 +40,4 @@
 
 (def index-html
   (-> index-hcp
-      timbre/spy
       html))
-
