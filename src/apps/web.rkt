@@ -1,4 +1,4 @@
-#lang web-server/insta
+#lang racket
 (require "model.rkt")
 
 
@@ -148,11 +148,28 @@
 
   (define (start request)
     (render-blog-page  (initialize-blog!
-			"/home/shark/the-blog-data.db")
+			"/home/shark/blog-data.db")
 		       request))
 
 
 
 
 
-  (static-files-path "racket-static")
+  #;(static-files-path "racket-static")
+
+
+
+  (require web-server/servlet)
+
+  (provide/contract (start (request? . -> . response?)))
+
+  (require web-server/servlet-env)
+
+  (serve/servlet start
+		 #:launch-browser? #f
+		 #:quit? #f
+		 #:listen-ip #f
+		 #:port 8000
+		 #:servlet-path "/servlets/a")
+
+  

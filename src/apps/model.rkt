@@ -1,55 +1,65 @@
 #lang racket/base
 
-(struct blog (home posts) #:mutable #:prefab)
-  
-(struct post (title body comments) #:mutable #:prefab)
-					; create constructor, predicate, accessor,
+(require db)
 
-(define p1 (post "BMW 5" "My BMW 5 is F18" '("good car!" "Agree")))
-(define p2 (post "First Post" "Hey! this is my firest post." '()))
-
-(post? p1)
+(struct blog (db))
+(struct post (db id))
 
 (define (initialize-blog! home)
-  (define (missing-exn-handler exn)
-    (println exn)
-    (blog home
-	  (list p1 p2)))
-  (define the-blog
-    (with-handlers ([exn? missing-exn-handler])
-      (with-input-from-file home read)))
-  (set-blog-home! the-blog home) ; update home if the file moved manually
+  (define db (sqlite3-connect #:database home #:mode 'create))
+  (define the-blog (blog db))
+  (unless (table-exists? db "posts")
+    (query-exec db
+		"create table posts (id integer primary key, title text, body text)")
+    (blog-insert-post! the-blog "BMW 5" "My BMW 5 is F18")
+    (blog-insert-post! the-blog "First Post" "Hey! this is my firest post."))
+  (unless (table-exists? db "comments")
+    (query-exec db
+		"create table comments (pid integer, content text)")
+    (post-insert-comment! the-blog (car (blog-posts the-blog)) "good car!")
+    (post-insert-comment! the-blog (car (blog-posts the-blog)) "Agree!"))
   the-blog)
-
-
-(define (save-blog! a-blog)
-  (define (write-to-blog)
-    (write a-blog))
-  (with-output-to-file (blog-home a-blog)
-    write-to-blog
-    #:exists 'replace))
 
 
 
 (define (blog-insert-post! a-blog title body)
-    (set-blog-posts! a-blog (cons (post title body (list))
-				  (blog-posts a-blog)))
-    (save-blog! a-blog))
+  (query-exec
+   (blog-db a-blog)
+   "insert into posts (title, body) values (?, ?)"
+   title
+   body))
 
 (define (post-insert-comment! a-blog a-post a-comment)
-    (set-post-comments! a-post (append  
-				(post-comments a-post)
-				(list a-comment)))
-    (save-blog! a-blog))
-#|
-(define BLOG
-  (initialize-blog! "the-blog-data.db"))
-BLOG
-(blog-home BLOG)
-(post-title (car (blog-posts BLOG)))
-(blog-insert-post! BLOG "3rd post" "this is the 3rd post")
-(save-blog! BLOG )
-|#
+  (query-exec
+   (blog-db a-blog)
+   "insert into comments (pid, content) values (?, ?)"
+   (post-id a-post)
+   a-comment))
+
+(define (blog-posts a-blog)
+  (map (lambda (id) (post (blog-db a-blog) id))
+       (query-list
+	(blog-db a-blog)
+	"select id from posts")))
+
+(define (post-title a-post)
+  (query-value
+   (post-db a-post)
+   "select title from posts where id = ?"
+   (post-id a-post)))
+
+(define (post-body a-post)
+  (query-value
+   (post-db a-post)
+   "select body from posts where id = ?"
+   (post-id a-post)))
+
+(define (post-comments a-post)
+  (query-list
+   (post-db a-post)
+   "select content from comments where pid = ?"
+   (post-id a-post)))
+
 
 (provide blog? blog-posts
 	 post? post-title post-body post-comments

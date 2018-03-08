@@ -59,6 +59,9 @@ sudo add-apt-repository ppa:plt/racket
 sudo apt-get update
 sudo apt-get install racket
 
+# mysql
+sudo apt-get install mysql-server
+
 # lantern
 curl -fLO https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-64-bit.deb
 sudo dpkg -i lantern-installer-64-bit.deb
