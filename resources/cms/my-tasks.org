@@ -39,7 +39,8 @@ e.g. (t)
 - State "DONE"       from "TODO"       [2018-03-03 Sat 20:38]
 - State "TODO"       from ""           [2018-03-03 Sat 19:42]
 
-** TODO emacs enable wubi input
+** DONE emacs enable wubi input
+- State "DONE"       from "TODO"       [2018-03-05 Mon 13:30]
 - State "TODO"       from ""           [2018-03-03 Sat 20:43]
 
 ** DONE check clojure vs racket web page

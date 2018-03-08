@@ -26,6 +26,8 @@ gpg --gen-key
 sudo apt-get install make
 sudo apt-get install gcc
 sudo apt-get install libncurses-dev
+# emacs X11 dependency
+sudo apt-get install libgtk-3-dev libjpeg-dev libgif-dev libtiff-dev libxpm-dev
 
 # emacs
 curl -O https://mirrors.ustc.edu.cn/gnu/emacs/emacs-25.3.tar.gz
@@ -51,6 +53,11 @@ sudo bash -c 'cd ~/bin && curl -fLo boot https://github.com/boot-clj/boot-bin/re
 
 # leiningen for build 3rd part project
 sudo bash -c 'cd ~/bin && curl -fLO https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && chmod 755 lein && ./lein'
+
+# racket
+sudo add-apt-repository ppa:plt/racket
+sudo apt-get update
+sudo apt-get install racket
 
 # lantern
 curl -fLO https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-64-bit.deb

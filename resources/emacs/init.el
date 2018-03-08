@@ -3,7 +3,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary))
+(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary pyim pyim-wbdict))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -19,7 +19,7 @@
 (ido-mode t)
 ;; 3rd part lib init
 ;; this need to be called before gesiter init
-(setq geiser-active-implementations '(chicken guile))
+(setq geiser-active-implementations '(racket))
 (setq cider-boot-parameters "dev")
 (global-company-mode)
 (add-to-list 'company-backends 'company-restclient)
@@ -49,6 +49,21 @@
 
 (setenv "BOOT_JVM_OPTIONS"
 	"-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled")
+
+
+;; webi input method
+;; to registe pyim in input method list, a default small pinyin dict(pyim-pymap) included
+;; Issue: in pyim dicts are not categorilized, ascii seq with different prefix to seprate different input scheme: pinying or wubi...
+(require 'pyim)
+;; scheme major to set ascii seq prefix & other info (these other info is in an abuse)
+(setq pyim-default-scheme 'wubi)
+(require 'pyim-wbdict)
+;;(pyim-wbdict-gb2312-enable)
+(pyim-wbdict-gbk-enable)
+;; dict which support offen used words
+;; (require 'pyim-basedict)
+;; (pyim-basedict-enable)
+
 
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
