@@ -2840,6 +2840,16 @@ IT System
 Executor can be [Computer](computer.md) or another [Program](program.md)
 
 **** Execute
+Also means Evaluate
+Evaluate - means simplify
+Expression - language which can be evaluated
+  Value - an Expression which simplify no further
+  Non-value Expression
+    contains:
+      Redex - the part changed in single-step simplication
+      Continuation - the part surrounding redex
+
+
 ***** ExecutionContext
 Contains:
 	LexicalEnvironment - impl of Lexical Context
