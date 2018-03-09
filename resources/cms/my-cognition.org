@@ -2842,12 +2842,7 @@ Executor can be [Computer](computer.md) or another [Program](program.md)
 **** Execute
 Also means Evaluate
 Evaluate - means simplify
-Expression - language which can be evaluated
-  Value - an Expression which simplify no further
-  Non-value Expression
-    contains:
-      Redex - the part changed in single-step simplication
-      Continuation - the part surrounding redex
+Just perform the explicit & impplicit semantic in language
 
 
 ***** ExecutionContext
@@ -2883,6 +2878,47 @@ Name Binding Scope
 Expression of Process via Program Language
 design goal:
   Less Code More Functionality
+
+
+Expression - language which can be evaluated
+  Value - an Expression which simplify no further
+  Non-value Expression
+    contains:
+      Redex - the part changed in single-step simplication
+      Continuation - the part surrounding redex
+    Note:
+      Most cases Redex & Continuation are lexically adjacent
+      But goto, abort, call/cc ... , these Redex & Continuation are NOT
+      e.g.
+      for code:
+      #+BEGIN_SRC scheme
+        (begin (println "1")
+               (prompt (println "2"))
+               (println "3")
+               (begin (println "3.a")
+                      (println "3.b")
+                      (abort (println "3.c"))
+                      (println "3.d"))
+               (println "4"))
+      #+END_SRC
+      When (println "3.b") is Redex, its Continuation is: 
+      #+BEGIN_SRC scheme
+        (begin (begin []
+                      (abort (println "3.c"))
+                      (println "3.d"))
+               (println "4"))
+      #+END_SRC
+      When `(abort (println "3.c"))` is Redex, its Continuation is: 
+      #+BEGIN_SRC scheme
+        (begin []
+               (println "3")
+               (begin (println "3.a")
+                      (println "3.b")
+                      (abort (println "3.c"))
+                      (println "3.d"))
+               (println "4"))
+      #+END_SRC
+
 
 
 Program
