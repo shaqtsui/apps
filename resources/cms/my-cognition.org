@@ -2893,30 +2893,24 @@ Expression - language which can be evaluated
       for code:
       #+BEGIN_SRC scheme
         (begin (println "1")
-               (prompt (println "2"))
-               (println "3")
-               (begin (println "3.a")
-                      (println "3.b")
-                      (abort (println "3.c"))
-                      (println "3.d"))
-               (println "4"))
+               (prompt
+                (begin (println "2.a")
+                       (abort  (println "2.b"))
+                       (println "2.c")))
+               (println "3"))
       #+END_SRC
-      When (println "3.b") is Redex, its Continuation is: 
+      When `(println "2.a")` is Redex, its Continuation is:
       #+BEGIN_SRC scheme
-        (begin (begin []
-                      (abort (println "3.c"))
-                      (println "3.d"))
-               (println "4"))
+        (begin (prompt
+                (begin []
+                       (abort  (println "2.b"))
+                       (println "2.c")))
+               (println "3"))
       #+END_SRC
-      When `(abort (println "3.c"))` is Redex, its Continuation is: 
+      When `(abort (println "2.b"))` is Redex, its Continuation is:
       #+BEGIN_SRC scheme
         (begin []
-               (println "3")
-               (begin (println "3.a")
-                      (println "3.b")
-                      (abort (println "3.c"))
-                      (println "3.d"))
-               (println "4"))
+               (println "3"))
       #+END_SRC
 
 
