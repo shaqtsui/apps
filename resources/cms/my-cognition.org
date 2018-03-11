@@ -2972,6 +2972,25 @@ Note: use `as` to operate argument
        ~form))
 #+END_SRC
 
+***** Abstract Semantic over Impl Semantic
+Abstract Semantic: Sequence corresponding Impl Semantic: Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
+Abstract Semantic: core.matrix/wrapper corresponding Impl Semantic: NDWrapper, PersistentVector
+
+e.g.
+
+first - first element of Abstract Semantic: Sequence
+
+over:
+
+string-first - first element of Impl Semantic: String
+cons-first - first element of Impl Semantic: Cons
+peresistentlist-first - first element of Impl Semantic: PersistentList
+...
+
+
+
+
+
 ***** AI
 AI is simulation of 多欲/意识
 
@@ -3388,11 +3407,7 @@ barfage & slurpage
 
 ****** clojure
 
-******* Semantic can have multiple impl
-E.g. 
-Semantic: List have impl: Cons, PersistentList
-Semantic: Sequence have impl: Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
-Semantic: core.matrix/wrapper have impl: NDWrapper, PersistentVector
+******* follow Abstract Semantic over Impl Semantic
 
 ******* 
 ## Symbol
@@ -3881,7 +3896,35 @@ a fake scheme.
 it's more like common lisp which provide a lot of features e.g. object, contract, module, unit ... , but the most prominent is that it provide read macro(convert any code to list) & module(customize init enviroment) to create arbitrory language.
 weakness:
   for/list rely on temp value
-  custodian follow implict-over-explict
+  NOT fllow explict-over-implict:
+    e.g.
+    custodian
+  NOT follow Abstract Semantic over Impl Semantic:
+    e.g. 
+    = & char=? 
+    append & string-append
+    string-ref & list-ref
+
+
+
+( & [ are interchangable
+
+
+definition
+expression:
+function application
+conditionals: if, and, or, cond
+
+list primitives:
+empty, first, rest, cons
+
+number:
+exact
+inexac
+
+character corresponds to a unicode scalar value
+
+
 
 ****** c
 Build Stages: 	
