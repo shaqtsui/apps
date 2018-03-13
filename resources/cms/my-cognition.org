@@ -33,6 +33,12 @@
 
 用这来看：非以其无私邪，故能成其私。纯奉献的果是回报
 
+意影响观
+
+意引苦
+
+意会引起周边人生更多的意
+
 
 一意，多意：
 当你有一意的是候, 他有利有弊, 他带你去一个地方就会影响你去另一个地方
@@ -3903,7 +3909,7 @@ weakness:
   for/list rely on temp value
   NOT fllow explict-over-implict:
     e.g.
-    custodian
+    custodian, contract
   NOT follow Abstract Semantic over Impl Semantic:
     e.g. 
     = & char=? 
@@ -3931,7 +3937,54 @@ inexac
 
 character corresponds to a unicode scalar value
 
+value binding
+transformer binding
 
+function call - for function
+procedure application - for syntax transformer (e.g. if, define)
+
+by-position argument
+keyword argument
+
+keyword is not expression
+
+and, or is syntactic form not a function
+
+datum - anything that read function parse as a single element
+can be: symbol, literal(boolean, number, string, character, keyword), list, pair, vector, hash table, box
+
+parameterize install a value to parameter
+
+parameter vs set!
+scoped in current thread, each thread have it's own copy of value
+auto reset
+
+mechanism to create new data type:
+struct, class
+
+require collection module, search installed collections, not the relative path to current file
+
+package - a set of libs 
+
+programe don't refer to pkg directly
+
+one pkg can supply multiple libs in multiple collection
+
+project module -> collection module
+just copy files to collection search path
+or make a pkg:
+raco pkg install --link /home/shark/folder-contains-file
+
+
+module
+#lang shorthand for module
+not work in repl as: 
+#lang must be terminated by EOF
+#lang expansion depends on the file name
+
+f: any -> boolean, regular expression, function contruct, values can be a contruct checker
+
+function contruct: (-> xx xx)
 
 ****** c
 Build Stages: 	
