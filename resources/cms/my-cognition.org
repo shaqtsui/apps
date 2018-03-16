@@ -53,7 +53,11 @@
 
 所以三心二意这第二意本身会花你的精力，打断再找回又花你的精力
 
+比学习更重要的是学习的状态，专注的状态是天生就会的不要学的
 
+象专注，放下，类似的很多能力是本来就具足的，不是后天学习来的
+
+我们往往忽略了用本具的，去只用后天学的
 
 
 根合尘生相，不起意则不识
@@ -3989,6 +3993,35 @@ not work in repl as:
 f: any -> boolean, regular expression, function contruct, values can be a contruct checker
 
 function contruct: (-> xx xx)
+
+
+port - source or sink of data
+
+print - expression layer
+write - reader layer
+display - character layer
+
+exception apis are implemented via prompt & abort
+
+delimited continuation - partial continuation, continuation frame, continuation up to a delimiter(prompt), invoke it will preppend target continuation to current continuation
+undelimited continuation - whole continuation, invoke it will change current continuation to target continuation
+
+
+macro can define new syntax, but:
+can NOT restrict syntax available in a context
+extend of syntax within the parameters of the language's lexical convention(parentheses around macro name)
+
+module initial import is module language
+
+implicit stuff:
+#%module-begin - wrap the module body. e.g. (println 1) (println 2) -> (#%module-begin (println 1) (println 2))
+#%app - wrap function call. e.g. (+ 1 2) -> (#%app + 1 2)
+#%datum - wrap literals. e.g. 10 -> (#%datum 10)
+#%top - ?
+
+
+
+
 
 ****** c
 Build Stages: 	

@@ -682,9 +682,188 @@ amount
 
 ; TODO: constructs : a thorough example
 ; TODO: other constructs
-; TODO: Input and Output
 ; TODO: Regular Expressions
 
+
+(define out (open-output-file "data" #:exists 'update))
+
+out
+
+(display "hello" out)
+
+(close-output-port out)
+
+(define in (open-input-file "data"))
+
+(read-line in)
+
+(close-input-port in)
+
+
+(call-with-output-file "data" #:exists 'update
+		       (lambda (out)
+			 (display "Test" out)))
+
+(call-with-input-file "data"
+  (lambda (in)
+    (read-line in)))
+
+(define p (open-output-string))
+
+(display "hello" p)
+
+(get-output-string p)
+
+
+(define sin (open-input-string "goodbye\nfarewell"))
+
+
+(read-line sin)
+
+(define server (tcp-listen 12345))
+
+(define-values (c-in c-out) (tcp-connect "localhost" 12345))
+
+(define-values (s-in s-out) (tcp-accept server))
+
+(display "Hello\n" c-out)
+
+(close-output-port c-out)
+
+(read-line s-in)
+
+(define-values (p stdout stdin stderr)
+  (subprocess #f #f #f "/usr/bin/wc" "-w"))
+
+
+(display "a b c\n" stdin)
+(close-output-port stdin)
+(read-line stdout)
+
+(close-input-port stdout)
+(close-input-port stderr)
+
+(define-values (in out) (make-pipe))
+
+(display "garbage" out)
+
+(close-output-port out)
+
+(read-line in)
+
+(display "hi")
+
+(display "hi" (current-output-port))
+
+current-output-port
+
+(let ([s (open-output-string)])
+  (parameterize ([current-error-port s])
+    (display "OOOO" (current-error-port)))
+  (get-output-string s))
+
+(write 'a)
+(print 'a)
+
+(define-values (in out) (make-pipe))
+
+(write "eee" out)
+
+(read in)
+
+(write '("ddd" soup) out)
+
+(read in)
+
+(struct posn (x y) #:transparent)
+
+(write (posn 1 2))
+
+(write (posn 1 2) out)
+
+(define v (read in))
+
+(posn? v)
+
+(vector? v)
+
+(/ 1 0)
+
+(with-handlers ([exn:fail:contract:divide-by-zero?
+		 (lambda (exn)
+		   +inf.0)])
+  (/ 1 0))
+
+
+(with-handlers ([exn:fail?
+		 (lambda (exn)
+		   'air-bag)])
+  (error "crash!"))
+
+
+
+(raise 2)
+
+(with-handlers ([even? (lambda (v) 'even)]
+		[positive? (lambda (v) 'positive)])
+  (raise 2))
+
+
+(define (escape v)
+  (abort-current-continuation
+   (default-continuation-prompt-tag)
+   (lambda () v)))
+
+
+(+ 1 (+ 1 (+ 1 (escape 0))))
+
+(+ 1
+   (call-with-continuation-prompt
+    (lambda ()
+      (+ 1 (+ 1 (+ 1 (escape 0)))))
+    (default-continuation-prompt-tag)))
+
+
+(define saved-k #f)
+(define saved-k2 #f)
+(define (save-it!)
+  (call-with-composable-continuation
+   (lambda (k)
+     (set! saved-k k)
+     0)))
+
+(define (save-it2!)
+  (call-with-current-continuation
+   (lambda (k)
+     (set! saved-k2 k)
+     0)))
+
+(+ 1 (+ 1 (+ 1 (save-it!))))
+(+ 1 (+ 1 (+ 1 (save-it2!))))
+
+(+ 1 (saved-k 3))
+(+ 1 (saved-k2 3))
+
+
+(define (sum n)
+  (if (zero? n)
+      (save-it!)
+      (+ n (sum (- n 1)))))
+
+
+
+; TODO: Iterations & Comprehensions
+; TODO: Pattern Matching
+; TODO: Classes & Objects
+; TODO: Units
+; TODO: Reflection & Dynamic Evaluation
+; TODO: Macros
+
+
+; TODO: Creating Languages/Reader Extensions
+; TODO: Creating Languages/Defining new #lang Language
+
+; TODO: Next CH
 
 
 

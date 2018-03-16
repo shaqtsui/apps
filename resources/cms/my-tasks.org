@@ -50,5 +50,6 @@ e.g. (t)
 ** TODO ubuntu auto mount disk
 - State "TODO"       from ""           [2018-03-03 Sat 20:52]
 
-** TODO learn racket
+** DONE learn racket
+- State "DONE"       from "TODO"       [2018-03-15 Thu 16:08]
 - State "TODO"       from ""           [2018-03-04 Sun 19:15]

@@ -89,7 +89,7 @@
                       [10 26])])
 
 (defn nn-hypo-fn
-  "X contains multiple vecotr of x in math formatter"
+  "X contains multiple vecotr of x in math formatter, perform x transform via base ts"
   [ts]
   (fn [X]
     (reduce #(m/logistic (m/mmul %2
@@ -101,14 +101,13 @@
             ts)))
 
 (defn nn-cost [ts X Y]
-  (let [error (m/sub ((nn-hypo-fn ts) X)
-                     Y)
-        error-cols (m/columns error)]
-    (/ (m-s/sum (map (comp m/scalar m/mmul)
-                     error-cols
-                     error-cols))
-       (* 2
-          (m/column-count X)))))
+  (let [y-hat ((nn-hypo-fn ts) X)]
+    (* (- (/ 1
+             (m/column-count X)))
+       (m-s/sum (mo/+ (mo/* Y
+                            (m/log y-hat))
+                      (mo/* (mo/- 1 Y)
+                            (m/log (mo/- 1 y-hat))))))))
 
 (defn scalar->array [X]
   (->
@@ -122,6 +121,15 @@
             repeat))
    m/matrix
    m/transpose))
+
+(defn dcost-over-dzlast [a y]
+  (m/sub a y))
+
+(defn dcost-over-dzn [dcost-over-dzn+1 an thetan]
+  (mo/* (m/mmul (m/transpose thetan)
+                dcost-over-dzn+1)
+        (mo/* an
+              (mo/- 1 an))))
 
 #_(-> y
       (->> (map #(if (== % 10)
