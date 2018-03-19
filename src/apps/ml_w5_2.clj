@@ -104,10 +104,10 @@
   (let [y-hat ((nn-hypo-fn ts) X)]
     (* (- (/ 1
              (m/column-count X)))
-       (m-s/sum (mo/+ (mo/* Y
-                            (m/log y-hat))
-                      (mo/* (mo/- 1 Y)
-                            (m/log (mo/- 1 y-hat))))))))
+       (m-s/sum (m-s/sum (mo/+ (mo/* Y
+                                     (m/log y-hat))
+                               (mo/* (mo/- 1 Y)
+                                     (m/log (mo/- 1 y-hat)))))))))
 
 (defn scalar->array [X]
   (->
@@ -122,8 +122,8 @@
    m/matrix
    m/transpose))
 
-(defn dcost-over-dzlast [a y]
-  (m/sub a y))
+(defn dcost-over-dzlast [an y]
+  (m/sub an y))
 
 (defn dcost-over-dzn [dcost-over-dzn+1 an thetan]
   (mo/* (m/mmul (m/transpose thetan)
