@@ -36,6 +36,25 @@
             (m/emap r/read-string))
            m/matrix))
 
+(defn scalar->array [X]
+  (->
+   (map #(-> (m/zero-array [%2])
+             (m/mset %1 1))
+        X
+        (-> X
+            seq
+            distinct
+            count
+            repeat))
+   m/matrix
+   m/transpose))
+
+(def y-vec (-> y
+               (->> (map #(if (== % 10)
+                            0
+                            %))
+                    scalar->array)))
+
 #_(def X-imgs (map #(a-i/seq->img % [20 20] (m/emin X) (m/emax X))
                    (m/columns X)))
 
@@ -88,17 +107,27 @@
          (m/broadcast (m/scalar-array 1)
                       [10 26])])
 
-(defn nn-hypo-fn
+(defn a-seq
   "X contains multiple vecotr of x in math formatter, perform x transform via base ts"
+  [X ts]
+  (reduce (fn [res theta]
+            (let [a-w-bias (m/join-along 0
+                                         (m/broadcast (m/scalar-array 1)
+                                                      [1 (m/column-count (last res))])
+                                         (last res))]
+              (conj (vec (butlast res)) ; vec to guarentee order when (butlast res) give nil
+                    a-w-bias
+                    (m/logistic (m/mmul theta
+                                        a-w-bias)))))
+          [X]
+          ts))
+
+(defn nn-hypo-fn
   [ts]
   (fn [X]
-    (reduce #(m/logistic (m/mmul %2
-                                 (m/join-along 0
-                                               (m/broadcast (m/scalar-array 1)
-                                                            [1 (m/column-count %1)])
-                                               %1)))
-            X
-            ts)))
+    (-> X
+        (a-seq ts)
+        last)))
 
 (defn nn-cost [ts X Y]
   (let [y-hat ((nn-hypo-fn ts) X)]
@@ -109,32 +138,54 @@
                                (mo/* (mo/- 1 Y)
                                      (m/log (mo/- 1 y-hat)))))))))
 
-(defn scalar->array [X]
-  (->
-   (map #(-> (m/zero-array [%2])
-             (m/mset %1 1))
-        X
-        (-> X
-            seq
-            distinct
-            count
-            repeat))
-   m/matrix
-   m/transpose))
-
 (defn dcost-over-dzlast [an y]
-  (m/sub an y))
+  (->
+   (m/sub an y)
+   m/transpose
+   m-s/sum
+   (m/div (m/column-count an))))
 
 (defn dcost-over-dzn [dcost-over-dzn+1 an thetan]
   (mo/* (m/mmul (m/transpose thetan)
                 dcost-over-dzn+1)
-        (mo/* an
-              (mo/- 1 an))))
+        (->
+         (mo/* an
+               (mo/- 1 an))
+         m/transpose
+         m-s/sum)))
 
-#_(-> y
-      (->> (map #(if (== % 10)
-                   0
-                   %))
-           scalar->array
-           (nn-cost ts X)))
+(defn dcost-over-dz [ans y ts]
+  (reduce (fn [res v]
+            (cons (dcost-over-dzn (last res)
+                                  (first v)
+                                  (last v))
+                  res))
+          [(dcost-over-dzlast (last ans)
+                              y)]
+          (map vector
+               (->  ans
+                    butlast
+                    rest)
+               (rest ts))))
+
+(->> y-vec
+     (nn-cost ts X))
+
+(defn dcost-over-dtheta [X Y ts]
+  (let [ans (-> X
+                (a-seq ts))]
+
+    (map (fn [an dcost-over-dzn+1]
+           (m/outer-product dcost-over-dzn+1 (-> an
+                                                 m/transpose
+                                                 m-s/sum)))
+         (-> X
+             (a-seq ts)
+             butlast)
+         (dcost-over-dz ans Y ts))))
+
+(-> dcost-over-dtheta
+    (apply [X y-vec ts])
+    last
+    m/shape)
 

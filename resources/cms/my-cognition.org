@@ -12,6 +12,10 @@ i.e. 制心一处无事不办
 
 Note: 这句话只是观生之见，重要但他局限在观。这句话的所指才是全面的，他不是见是心行。
 
+心行之时已在收获中
+
+关注心行本身，他才会生所获，关注所获不会生所获
+
 想做的方法对否时已非一心（方法自心知道，意识心想的方法很可能是错的），急于做成时已非一心（一心之时已是最快的速度了），监督时已非一心（心散之后自然会知，因为一心在散前已在记忆中）
 用力去集中注意力，精神赴物时已非一心（集中注意力，精神赴物是意识心，真心时精神内敛，物入心而非神赴物，e.g. 大一下午背单词入定时）
 多心 -> 二心（欲/意＋一心） -> 一心？
@@ -89,6 +93,12 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 比学习更重要的是学习的状态，专注的状态是天生就会的不要学的
 
 学习就是观尘？ 
+学习就是心行观
+Just see it
+You can NOT see the whole stuff which contains anything you not see
+So, do NOT guess, decompose & compose until you see it
+
+
 e.g. 
 观此影响观彼
 sigmoid derivative contains S, high order function of sigmoid derivative also contains S
@@ -3014,6 +3024,29 @@ function - language -> domain problem
 macro - language -> language -> domain problem
   so macro is NOT controlling domain problem, its controlling language
 
+
+
+***** My Naming Conversion
+
+****** Math
+Number:
+i, j, k - index
+n - size
+x, y - other number
+${upcase} - matrix
+
+Function:
+f, g, h - function
+
+****** Other
+Sequence:
+${thing}s - sequence
+
+Function Name:
+${nouns} - pure function name
+${verbs} - function name of side effects
+Note: if a word both nouns & verbs, default nouns
+-fn - function as output
 
 
 ***** programming style
@@ -6292,6 +6325,14 @@ happens-before
 
 ****** recursion
 One stuff contains another stuff of the same type
+
+So it's a container
+
+Examples:
+List:
+  container contains 1 same type stuff & 1 another stuff
+Tree:
+  container contains multiple same type stuff & multiple another stuff
 
 ## Details
 ### Can be created via:
