@@ -219,3 +219,20 @@
        (m/broadcast [(count %)])
        (m/add %)))
 
+
+(defn unroll [Xs]
+  "Convert sequence of matrix to a flatten vector"
+  (apply m/join-along 0 (map m/to-vector
+                             Xs)))
+
+
+(defn roll [X shapes]
+  "Convert a long vector(may infinit) to a sequences matrix of shape)
+  e.g. (roll % (map m/shape THETAs))"
+  (if (seq shapes)
+    (let [[m n] (first shapes)
+          [c r] (split-at (* m n)
+                          X)]
+      (cons (m/matrix (partition-all n c))
+            (roll r (rest shapes))))
+    []))

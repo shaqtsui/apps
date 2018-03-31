@@ -59,6 +59,20 @@ sudo add-apt-repository ppa:plt/racket
 sudo apt-get update
 sudo apt-get install racket
 
+# octave
+## from source
+#curl -fLO https://ftp.gnu.org/gnu/octave/octave-4.2.2.tar.xz
+#tar -xf octave-4.2.2.tar.xz
+#cd octave-4.2.2
+#./config
+#make
+#sudo make install
+
+sudo apt-add-repository ppa:octave/stable
+sudo apt-get update
+sudo apt-get install octave
+
+
 # mysql
 sudo apt-get install mysql-server
 

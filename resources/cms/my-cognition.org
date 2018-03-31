@@ -3068,6 +3068,11 @@ Note: use `as` to operate argument
        ~form))
 #+END_SRC
 
+
+***** Process
+Process = Logic + Redex & Continuation
+Process = Logic + Time(relative)
+
 ***** Abstract Semantic over Impl Semantic
 Abstract Semantic: Sequence corresponding Impl Semantic: Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
 Abstract Semantic: core.matrix/wrapper corresponding Impl Semantic: NDWrapper, PersistentVector
@@ -6324,15 +6329,24 @@ happens-before
 ***** algorithm
 
 ****** recursion
-One stuff contains another stuff of the same type
+One stuff contains isomorphic stuff
 
 So it's a container
 
 Examples:
 List:
-  container contains 1 same type stuff & 1 another stuff
+  container contains 1 isomorphic stuff & 1 another stuff
 Tree:
-  container contains multiple same type stuff & multiple another stuff
+  container contains multiple isomorphic stuff & multiple another stuff
+Recursion-Logic:
+  function recursion
+  Execution of Recrusion-Logic:
+    1, Ignore Container
+    2, Nearby Logic Executed Nearbyly
+    3, Nearbyly Executed Logic may pass data
+  Execution of Recursion-Logic will create/extract Recursion Data if:
+    1, Nearbyly Executed Logic pass data
+    2, wrape/unwrape passed data
 
 ## Details
 ### Can be created via:
