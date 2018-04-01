@@ -2,16 +2,16 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as s]
             [clojure.tools.reader :as r]
-            [taoensso.timbre :as timbre] ;; implicit require macro
+            [taoensso.timbre :as timbre]
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
             [clojure.core.matrix.operators :as mo]
-            [apps.dcs :refer [as dcs-or dcs-and parellel lazy-parellel]]
             [apps.image :as a-i]
             [apps.matrix :as a-m]
             [mikera.image.core :as img]
             [clojure.math.numeric-tower :as math]
-            [apps.ml-for-core-matrix :as a-ml]))
+            [incanter.core :as i]
+            [incanter.charts :as i-c]))
 
 (m/set-current-implementation :vectorz)
 
@@ -44,6 +44,13 @@
         (->> (map #(m/select I (- % 1) :all)))
         m/matrix
         m/transpose)))
+
+(defn label->value [X]
+  (m/matrix (map (fn [X-v]
+                 (+ 1
+                    (.indexOf (seq X-v)
+                              (m/emax X-v))))
+               (m/columns X))))
 
 (def Y (label Y-v))
 
@@ -182,21 +189,22 @@
       (->> (map m/esum)
            (reduce +)))
 
+(def store (atom []))
 (def monitor
-  (let [store (atom nil)]
-    (fn [f X-0 opts]
-      (when (-> opts
-                :max-iter
-                ((fnil mod 0) 10)
-                zero?)
-        (let [y (f X-0)]
-          (timbre/debug "max-iter: " (:max-iter opts) "\n" "y: " y)
-          (if (or (nil? @store)
-                  (< y @store))
-            (reset! store y)
-            (do
-              (reset! store nil)
-              (throw (Exception. (str "NOT descending!!!\n" @store " -> " y))))))))))
+  (fn [f X-0 opts]
+    (when (-> opts
+              :max-iter
+              ((fnil mod 0) 50)
+              zero?)
+      (let [y (f X-0)
+            previous-y (last @store)]
+        (timbre/debug "max-iter: " (:max-iter opts) "\n" "y: " y)
+        (if (or (nil? previous-y)
+                (< y previous-y))
+          (reset! store (conj @store y))
+          (do
+            (reset! store [])
+            (throw (Exception. (str "NOT descending!!!\n" previous-y " -> " y)))))))))
 
 (def p (a-m/fmin #(nn-cost (a-m/roll % (map m/shape THETAs))
                            X
@@ -209,5 +217,31 @@
                                                         Y
                                                         1))
                  :alpha 2
-                 :plugin monitor))
+                 :plugin monitor
+                 :max-iter 1000))
+
+#_(i/view (i-c/scatter-plot (range (count @store)) @store))
+
+(def optimized-THETAs
+  (a-m/roll (:X p) (map m/shape THETAs)))
+
+(nn-cost optimized-THETAs
+         X
+         Y
+         1)
+
+(def opt-fn (nn-hypo-fn optimized-THETAs))
+
+(-> (opt-fn X)
+    label->value)
+
+(m-s/sum (m/eq (label->value Y)
+               (-> (opt-fn X)
+                   label->value)))
+
+(/ 4941.0 5000)
+
+(-> (map (comp m/emax) (m/columns (opt-fn X)))
+    (->> (apply +))
+    (/ 5000))
 

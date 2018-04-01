@@ -60,7 +60,7 @@
                  [org.clojars.xfcjscn/nd4clj "0.1.2"]
                  
                  ;; buddy contains a copy for jdk15
-                 [incanter "1.9.0" :exclusions [org.bouncycastle/bctsp-jdk14 bouncycastle/bcmail-jdk14 bouncycastle/bcprov-jdk14]]
+                 [incanter "1.9.2" :exclusions [org.bouncycastle/bctsp-jdk14 bouncycastle/bcmail-jdk14 bouncycastle/bcprov-jdk14]]
                  ;; for ml week 4
                  [net.mikera/imagez "0.12.0"]
 
