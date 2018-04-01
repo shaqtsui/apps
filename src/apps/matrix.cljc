@@ -152,20 +152,18 @@
 (jacobian-fn [1 2 3])
 ;; ======================================================================
 
-
 (defn fmin [f X-0
-            & {:keys [gradient-fn hessian-fn max-iter method alpha debug]
+            & {:keys [gradient-fn hessian-fn max-iter method alpha]
                :or {max-iter 200
                     method :gradient-desent
                     alpha 1E-2
-                    debug false
                     gradient-fn (del f)
                     hessian-fn (del gradient-fn)}
                :as opts}]
-  (timbre/spy max-iter)
-  (when debug
-    (timbre/debug {:X X-0 :y (f X-0)}))
-  (if (= max-iter 0)
+  (when-let [p (:plugin opts)]
+    (p f X-0 opts))
+
+  (if (zero? max-iter)
     {:X X-0 :y (f X-0)}
     (recur f
            (m/sub X-0
@@ -187,8 +185,8 @@
   (if (= max-iter 0)
     {:X X-0 :y (f X-0)}
     (m/sub (fmin-no-tail-opt f
-                  X-0
-                  (assoc opts :max-iter (dec max-iter)))
+                             X-0
+                             (assoc opts :max-iter (dec max-iter)))
            (case method
              :gradient-desent (m/mul (gradient-fn X-0)
                                      alpha)
