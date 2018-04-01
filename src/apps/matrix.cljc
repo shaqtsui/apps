@@ -140,7 +140,6 @@
 (def gradient-fn
   (del target-fn))
 
-
 (def hessian-fn
   (del gradient-fn))
 
@@ -154,48 +153,47 @@
 ;; ======================================================================
 
 
-(defn search-convergence-point [f X-0
-                                & {:keys [gradient-fn hessian-fn max-iter method]
-                                   :or {max-iter 200
-                                        method :newton-raphson
-                                        gradient-fn (del f)
-                                        hessian-fn (del gradient-fn)}
-                                   :as opts}]
-  (let [y (f X-0)]
-    (if (or
-         (= max-iter 0)
-         (= (timbre/spy y) 0))
-      {:X X-0 :y y :iter (- 200 max-iter)}
-      (let [hessian (hessian-fn X-0)
-            hessian-inverse (m/inverse hessian)]
-        (if (= nil hessian-inverse)
-          {:X X-0 :y y :iter (- 200 max-iter) :error (format "Inverse of hessian is nil. hessian is: %s" hessian)}
-          (recur f
-                 (m/sub X-0
-                        (m/mmul hessian-inverse
-                                (gradient-fn X-0)))
-                 (assoc opts :max-iter (dec max-iter))))))))
+(defn fmin [f X-0
+            & {:keys [gradient-fn hessian-fn max-iter method alpha debug]
+               :or {max-iter 200
+                    method :gradient-desent
+                    alpha 1E-2
+                    debug false
+                    gradient-fn (del f)
+                    hessian-fn (del gradient-fn)}
+               :as opts}]
+  (timbre/spy max-iter)
+  (when debug
+    (timbre/debug {:X X-0 :y (f X-0)}))
+  (if (= max-iter 0)
+    {:X X-0 :y (f X-0)}
+    (recur f
+           (m/sub X-0
+                  (case method
+                    :gradient-desent (m/mul (gradient-fn X-0)
+                                            alpha)
+                    :newton-raphson (m/mmul (-> X-0 hessian-fn m/inverse)
+                                            (gradient-fn X-0))))
+           (assoc opts :max-iter (dec max-iter)))))
 
-(defn search-root [f X-0
-                   & {:keys [jacobian-fn max-iter method]
-                      :or {max-iter 200
-                           method :newton-raphson
-                           jacobian-fn (let [gradient-fn (del f)]
-                                         #(m/transpose (gradient-fn %)))}
-                      :as opts}]
-  (let [y (f X-0)]
-    (if (or
-         (= max-iter 0)
-         (m/zero-matrix? (timbre/spy y)))
-      {:X X-0 :y y :iter (- 200 max-iter)}
-      (let [jacobian (jacobian-fn X-0)
-            jacobian-inverse (m/inverse jacobian)]
-        (if (= nil jacobian-inverse)
-          {:X X-0 :y y :iter (- 200 max-iter) :error (format "Inverse of jacobian is nil. jacobian is: %s" jacobian)}
-          (recur f
-                 (m/sub X-0
-                        (m/mmul jacobian-inverse y))
-                 (assoc opts :max-iter (dec max-iter))))))))
+(defn fmin-no-tail-opt [f X-0
+                        & {:keys [gradient-fn hessian-fn max-iter method alpha]
+                           :or {max-iter 200
+                                method :gradient-desent
+                                alpha 1E-2
+                                gradient-fn (del f)
+                                hessian-fn (del gradient-fn)}
+                           :as opts}]
+  (if (= max-iter 0)
+    {:X X-0 :y (f X-0)}
+    (m/sub (fmin-no-tail-opt f
+                  X-0
+                  (assoc opts :max-iter (dec max-iter)))
+           (case method
+             :gradient-desent (m/mul (gradient-fn X-0)
+                                     alpha)
+             :newton-raphson (m/mmul (-> X-0 hessian-fn m/inverse)
+                                     (gradient-fn X-0))))))
 
 (defn cartesian-coord
   "polar-coord in format: [r theta]"
@@ -219,12 +217,10 @@
        (m/broadcast [(count %)])
        (m/add %)))
 
-
 (defn unroll [Xs]
   "Convert sequence of matrix to a flatten vector"
   (apply m/join-along 0 (map m/to-vector
                              Xs)))
-
 
 (defn roll [X shapes]
   "Convert a long vector(may infinit) to a sequences matrix of shape)

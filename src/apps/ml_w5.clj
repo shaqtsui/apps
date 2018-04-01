@@ -172,12 +172,25 @@
     (->> (map m/esum)
          (reduce +)))
 
-(def nn-gradient-del (a-m/del
-                      #(nn-cost (a-m/roll % (map m/shape THETAs))
-                                (m/select X :all [1 500])
-                                (m/select Y :all [1 500])
-                                3)))
+#_(def nn-gradient-del (a-m/del
+                        #(nn-cost (a-m/roll % (map m/shape THETAs))
+                                  (m/select X :all [1 500])
+                                  (m/select Y :all [1 500])
+                                  1)))
 
 #_(-> (nn-gradient-del (a-m/unroll THETAs))
       (->> (map m/esum)
            (reduce +)))
+
+(def p (a-m/fmin #(nn-cost (a-m/roll % (map m/shape THETAs))
+                           X
+                           Y
+                           1)
+                 (a-m/unroll THETAs)
+                 :gradient-fn #(a-m/unroll (nn-gradient (a-m/roll % (map m/shape THETAs))
+                                                        X
+                                                        Y
+                                                        1))
+                 :debug true
+                 :alpha 2))
+
