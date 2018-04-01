@@ -182,15 +182,32 @@
       (->> (map m/esum)
            (reduce +)))
 
+(def monitor
+  (let [store (atom nil)]
+    (fn [f X-0 opts]
+      (when (-> opts
+                :max-iter
+                ((fnil mod 0) 10)
+                zero?)
+        (let [y (f X-0)]
+          (timbre/debug "max-iter: " (:max-iter opts) "\n" "y: " y)
+          (if (or (nil? @store)
+                  (< y @store))
+            (reset! store y)
+            (do
+              (reset! store nil)
+              (throw (Exception. (str "NOT descending!!!\n" @store " -> " y))))))))))
+
 (def p (a-m/fmin #(nn-cost (a-m/roll % (map m/shape THETAs))
                            X
                            Y
                            1)
                  (a-m/unroll THETAs)
+                 #_(:X p)
                  :gradient-fn #(a-m/unroll (nn-gradient (a-m/roll % (map m/shape THETAs))
                                                         X
                                                         Y
                                                         1))
-                 :debug true
-                 :alpha 2))
+                 :alpha 2
+                 :plugin monitor))
 

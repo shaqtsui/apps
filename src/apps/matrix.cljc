@@ -152,16 +152,19 @@
 (jacobian-fn [1 2 3])
 ;; ======================================================================
 
-(defn fmin [f X-0
-            & {:keys [gradient-fn hessian-fn max-iter method alpha]
-               :or {max-iter 200
-                    method :gradient-desent
-                    alpha 1E-2
-                    gradient-fn (del f)
-                    hessian-fn (del gradient-fn)}
-               :as opts}]
-  (when-let [p (:plugin opts)]
-    (p f X-0 opts))
+(defn fmin
+  "List all keys so invoker can know supported parameters.
+  Declare default in :or so invoker can know which parameter is optional"
+  [f X-0
+   & {:keys [gradient-fn hessian-fn max-iter method alpha plugin]
+      :or {max-iter 200
+           method :gradient-desent
+           alpha 1E-2
+           gradient-fn (del f)
+           hessian-fn (del gradient-fn)}
+      :as opts}]
+  (and plugin
+       (plugin f X-0 opts))
 
   (if (zero? max-iter)
     {:X X-0 :y (f X-0)}

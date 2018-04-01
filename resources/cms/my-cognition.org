@@ -3781,6 +3781,10 @@ Important Data Type(Collection, Reference, Dataflow) & Corresponding Operation F
 	Classifying Concurrent Operation
 	atom
 		swap! - compare-and-set, if change found retry the compare-and-set base on new value
+          similar to: lock, read, calculate, update, unlock
+          but atom swap:
+            update function: read, calculate,
+            swap internally: lock, read, compare, may update, unlock
 
 	ref
 		STM
