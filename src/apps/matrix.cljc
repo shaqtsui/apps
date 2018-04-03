@@ -126,30 +126,30 @@
 
 ;; ======================================================================
 ;; del examples
-(defn target-fn
-  [X]
-  (-> X
-      (m/pow 2)
-      (m-s/sum)))
+#_(defn target-fn
+    [X]
+    (-> X
+        (m/pow 2)
+        (m-s/sum)))
 
-(defn target-fn-vector-valued
-  [X]
-  (-> X
-      (m/mul 2)))
+#_(defn target-fn-vector-valued
+    [X]
+    (-> X
+        (m/mul 2)))
 
-(def gradient-fn
-  (del target-fn))
+#_(def gradient-fn
+    (del target-fn))
 
-(def hessian-fn
-  (del gradient-fn))
+#_(def hessian-fn
+    (del gradient-fn))
 
-(def jacobian-fn
-  (let [gradient-fn (del target-fn-vector-valued)]
-    #(m/transpose (gradient-fn %))))
+#_(def jacobian-fn
+    (let [gradient-fn (del target-fn-vector-valued)]
+      #(m/transpose (gradient-fn %))))
 
-(gradient-fn [100 200 300])
-(hessian-fn [100 200 300])
-(jacobian-fn [1 2 3])
+#_(gradient-fn [100 200 300])
+#_(hessian-fn [100 200 300])
+#_(jacobian-fn [1 2 3])
 ;; ======================================================================
 
 (defn fmin
@@ -173,9 +173,39 @@
                   (case method
                     :gradient-desent (m/mul (gradient-fn X-0)
                                             alpha)
-                    :newton-raphson (m/mmul (-> X-0 hessian-fn m/inverse)
+                    :newton-raphson (m/mmul (m/inverse (hessian-fn X-0))
                                             (gradient-fn X-0))))
            (assoc opts :max-iter (dec max-iter)))))
+
+(defn fmin-precision
+  "List all keys so invoker can know supported parameters.
+  Declare default in :or so invoker can know which parameter is optional"
+  [f X-0
+   & {:keys [gradient-fn hessian-fn precision method alpha plugin]
+      :or {precision 1E-6
+           method :gradient-desent
+           alpha 1E-2
+           gradient-fn (del f)
+           hessian-fn (del gradient-fn)}
+      :as opts}]
+  (and plugin
+       (plugin f X-0 opts))
+
+  (let [gradient (gradient-fn X-0)
+        iters (or (:iters opts)
+                  0)]
+    (if (== (m/esum (m/le (m/abs gradient)
+                          precision))
+            (m/ecount gradient))
+      {:X X-0 :y (f X-0) :iters iters}
+      (recur f
+             (m/sub X-0
+                    (case method
+                      :gradient-desent (m/mul gradient
+                                              alpha)
+                      :newton-raphson (m/mmul (m/inverse (hessian-fn X-0))
+                                              gradient)))
+             (assoc opts :iters (inc iters))))))
 
 (defn fmin-no-tail-opt [f X-0
                         & {:keys [gradient-fn hessian-fn max-iter method alpha]
