@@ -69,7 +69,9 @@
               m/matrix
               m/to-vector))
 
-(i/view (i-c/scatter-plot X Y))
+(def dp
+  (i-c/scatter-plot X Y))
+(i/view dp)
 
 (defn linear-reg-hypo-fn [THETA]
   (fn [X]
@@ -113,34 +115,104 @@
 
 (linear-reg-gradient [1 1] X Y 1)
 
-
 (def store (atom []))
 (def monitor
   (fn [f X-0 opts]
-    (when (-> opts
-              :max-iter
-              ((fnil mod 0) 2)
-              zero?)
-      (let [y (f X-0)
-            previous-y (last @store)]
-        (timbre/debug "max-iter: " (:max-iter opts) "\n" "y: " y)
-        (if (or (nil? previous-y)
-                (< y previous-y))
-          (reset! store (conj @store y))
-          (do
-            (reset! store [])
-            (throw (Exception. (str "NOT descending!!!\n" previous-y " -> " y)))))))))
+    (if-let [iters (:iters opts)]
+      (when (-> (mod iters 100)
+                zero?)
+        (let [y (f X-0)
+              previous-y (last @store)]
+          (timbre/debug "iters: " iters "\n" "y: " y)
+          (if (or (nil? previous-y)
+                  (< y previous-y))
+            (reset! store (conj @store y))
+            (throw (Exception. (str "NOT descending!!!\n" previous-y " -> " y))))))
+      (reset! store []))))
 
-(a-m/fmin #(linear-reg-cost %
-                        X
-                        Y
-                        0)
-      [1 1]
-      :gradient-fn #(linear-reg-gradient %
-                                         X
-                                         Y
-                                         0)
-      :alpha 2E-3
-      :plugin monitor)
+(def p (a-m/fmin-precision #(linear-reg-cost %
+                                             X
+                                             Y
+                                             0)
+                           [1 1]
+;;                           :method :newton-raphson
+                           :method :gradient-desent
+                           :alpha 2E-3
 
-(i/view (i-c/scatter-plot (range (count @store)) @store))
+                           :gradient-fn #(linear-reg-gradient %
+                                                              X
+                                                              Y
+                                                              0)
+                           :plugin monitor))
+
+(linear-reg-gradient (:X p) X Y 0)
+
+#_(i/view (i-c/scatter-plot (range (count @store)) @store))
+
+(defn accumulate [xs]
+  (reduce (fn [res x]
+            (conj res
+                  (if-let [x-p (last res)]
+                    (conj x-p x)
+                    [x])))
+          []
+          xs))
+
+(defn learning-curve [X Y lambda]
+  (map (fn [X-accu Y-accu]
+         (a-m/fmin-precision #(linear-reg-cost %
+                                               X-accu
+                                               Y-accu
+                                               lambda)
+                             [1 1]
+                             :method ;;:newton-raphson
+                             :gradient-desent
+                             :precision 1E-2
+                             :alpha 5E-4
+                             :gradient-fn #(linear-reg-gradient %
+                                                                X-accu
+                                                                Y-accu
+                                                                lambda)
+                             :plugin monitor))
+
+       (reverse (accumulate X))
+       (reverse (accumulate Y))))
+
+(def curve (learning-curve X Y 0))
+
+(def costs-val
+  (map (fn [p]
+         (-> p
+             :X
+             (linear-reg-cost Xval Yval 0)))
+       (reverse curve)))
+
+(def costs-train
+  (map (fn [p X-accu Y-accu]
+         (-> p
+             :X
+             (linear-reg-cost X-accu Y-accu 0)))
+       (reverse curve)
+       (accumulate X)
+       (accumulate Y)))
+
+(def cost-c
+  (i-c/xy-plot (range 1
+                      (inc (count costs-val)))
+               costs-val))
+
+(i-c/add-lines cost-c
+               (range 1
+                      (inc (count costs-train)))
+               costs-train)
+
+(i/view cost-c)
+
+ (a-m/poly-term [1 2] 3)
+
+(-> X
+    (a-m/map-feature 8)
+    a-m/feature-normalize
+    a-m/add-constant-comp
+   )
+

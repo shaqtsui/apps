@@ -156,31 +156,6 @@
   "List all keys so invoker can know supported parameters.
   Declare default in :or so invoker can know which parameter is optional"
   [f X-0
-   & {:keys [gradient-fn hessian-fn max-iter method alpha plugin]
-      :or {max-iter 200
-           method :gradient-desent
-           alpha 1E-2
-           gradient-fn (del f)
-           hessian-fn (del gradient-fn)}
-      :as opts}]
-  (and plugin
-       (plugin f X-0 opts))
-
-  (if (zero? max-iter)
-    {:X X-0 :y (f X-0)}
-    (recur f
-           (m/sub X-0
-                  (case method
-                    :gradient-desent (m/mul (gradient-fn X-0)
-                                            alpha)
-                    :newton-raphson (m/mmul (m/inverse (hessian-fn X-0))
-                                            (gradient-fn X-0))))
-           (assoc opts :max-iter (dec max-iter)))))
-
-(defn fmin-precision
-  "List all keys so invoker can know supported parameters.
-  Declare default in :or so invoker can know which parameter is optional"
-  [f X-0
    & {:keys [gradient-fn hessian-fn precision method alpha plugin]
       :or {precision 1E-6
            method :gradient-desent
@@ -207,24 +182,57 @@
                                               gradient)))
              (assoc opts :iters (inc iters))))))
 
-(defn fmin-no-tail-opt [f X-0
-                        & {:keys [gradient-fn hessian-fn max-iter method alpha]
-                           :or {max-iter 200
-                                method :gradient-desent
-                                alpha 1E-2
-                                gradient-fn (del f)
-                                hessian-fn (del gradient-fn)}
-                           :as opts}]
-  (if (= max-iter 0)
-    {:X X-0 :y (f X-0)}
-    (m/sub (fmin-no-tail-opt f
-                             X-0
-                             (assoc opts :max-iter (dec max-iter)))
-           (case method
-             :gradient-desent (m/mul (gradient-fn X-0)
-                                     alpha)
-             :newton-raphson (m/mmul (-> X-0 hessian-fn m/inverse)
-                                     (gradient-fn X-0))))))
+(defn poly-term
+  "E.g. (poly-term [[x y z]] 2) ->
+  x^2 | x^1 * y^1,  x^1 * z^1 | x^0 * y^2, x^0 * y^1 * z^1, x^0 * z^2"
+  [X degree]
+  (if (== 0 degree)
+    (m/broadcast (m/scalar-array 1)
+                 [(m/row-count X)])
+    (if (or (m/vec? X)
+            (== 1
+                (m/column-count X)))
+      (m/pow X degree)
+      (apply m/join-along
+             1
+             (map #(if (m/vec? %)
+                     (m/column-matrix %)
+                     %)
+                  (map (fn [first-comp-degree]
+                         ;; double tranpose to support auto broadcast on vector
+                         (m/transpose (m/mul (m/pow (m/select X :all :first)
+                                                    first-comp-degree)
+                                             (m/transpose (poly-term (m/select X :all :rest)
+                                                                     (- degree first-comp-degree))))))
+                       (-> degree inc range reverse)))))))
+
+(defn map-feature [X degree]
+  (apply m/join-along
+         1
+         (map #(if (m/vec? %)
+                 (m/column-matrix %)
+                 %)
+              (map (partial poly-term X)
+                   (range 1 (inc degree))))))
+
+(defn feature-normalize
+  "(m-s/mean normlized-X) -> 0
+  (mean-of-squares normalized-X) -> 1
+  (sqrt mean-of-squares) -> 1
+  i.e.
+  (m-s/sd normalized-X) -> 1"
+  [X]
+  (m/div (m/sub X
+                (m-s/mean X))
+         (m-s/sd X)))
+
+(defn add-constant-comp [X]
+  (m/join-along 1
+                (m/broadcast (m/scalar-array 1)
+                             [(m/row-count X) 1])
+                (if (m/vec? X)
+                  (m/column-matrix X)
+                  X)))
 
 (defn cartesian-coord
   "polar-coord in format: [r theta]"
