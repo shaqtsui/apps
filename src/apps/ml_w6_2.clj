@@ -73,53 +73,13 @@
   (i-c/scatter-plot X Y))
 (i/view dp)
 
-(defn linear-reg-hypo-fn [THETA]
-  (fn [X]
-    (m/mmul (m/join-along 1
-                          (m/broadcast (m/scalar-array 1)
-                                       [(m/row-count X) 1])
-                          (m/column-matrix X))
-            THETA)))
-
-(defn linear-reg-cost [THETA X Y lambda]
-  (+ (* (/ 1
-           (* 2
-              (m/row-count X)))
-        (m-s/sum (m/pow (m/sub ((linear-reg-hypo-fn THETA) X)
-                               Y)
-                        2)))
-     (* (/ lambda
-           (* 2
-              (m/row-count X)))
-        (m-s/sum (m/pow (m/select THETA
-                                  :rest)
-                        2)))))
-
-(linear-reg-cost [1 1] X Y 1)
-
-(defn linear-reg-gradient [THETA X Y lambda]
-  (m/add (mo/* (/ 1
-                  (m/row-count X))
-               (m-s/sum (m/mul (m/transpose (m/broadcast (m/sub ((linear-reg-hypo-fn THETA) X)
-                                                                Y)
-                                                         [2 (m/row-count Y)]))
-                               (m/join-along 1
-                                             (m/broadcast (m/scalar-array 1)
-                                                          [(m/row-count X) 1])
-                                             (m/column-matrix X)))))
-         (mo/* (/ lambda
-                  (m/row-count X))
-               (m/join-along 0
-                             (m/matrix [0])
-                             (m/select THETA :rest)))))
-
-(linear-reg-gradient [1 1] X Y 1)
+(a-m/linear-reg-gradient [1 1] X Y 1)
 
 (def store (atom []))
 (def monitor
   (fn [f X-0 opts]
     (if-let [iters (:iters opts)]
-      (when (-> (mod iters 100)
+      (when (-> (mod iters 5)
                 zero?)
         (let [y (f X-0)
               previous-y (last @store)]
@@ -130,89 +90,105 @@
             (throw (Exception. (str "NOT descending!!!\n" previous-y " -> " y))))))
       (reset! store []))))
 
-(def p (a-m/fmin-precision #(linear-reg-cost %
-                                             X
-                                             Y
-                                             0)
-                           [1 1]
-;;                           :method :newton-raphson
-                           :method :gradient-desent
-                           :alpha 2E-3
+(defn submatrixes-by-row-increase
+  "[[1 2] [3 4]] -> ([[1 2]], [[1 2] [3 4]])"
+  [X]
+  (-> X
+      m/row-count
+      range
+      (->> (map (comp (fn [cols]
+                        (if (m/vec? X)
+                          (m/select X cols)
+                          (m/select X cols :all)))
+                      range
+                      inc)))))
 
-                           :gradient-fn #(linear-reg-gradient %
-                                                              X
-                                                              Y
-                                                              0)
-                           :plugin monitor))
+(defn sublearnings [X Y Xval Yval lambda]
+  (map (fn [X-sub Y-sub]
+         [(a-m/fmin #(a-m/linear-reg-cost %
+                                          X-sub
+                                          Y-sub
+                                          lambda)
+                    (m/broadcast (m/scalar-array 1)
+                                 [(inc (if (m/vec? X-sub)
+                                         1
+                                         (m/column-count X-sub)))])
+                    :method :newton-raphson
+                    :alpha 5E-2
+                    :gradient-fn #(a-m/linear-reg-gradient %
+                                                           X-sub
+                                                           Y-sub
+                                                           lambda)
+                    :plugin monitor)
+          X-sub
+          Y-sub])
+       (submatrixes-by-row-increase X)
+       (submatrixes-by-row-increase Y)))
 
-(linear-reg-gradient (:X p) X Y 0)
+(defn learning-curve [sublearns Xval Yval]
+  (let [costs-val (map (fn [[p _ _]]
+                         (-> p
+                             :X
+                             (a-m/linear-reg-cost Xval Yval 0)))
+                       sublearns)
+        costs-train (map (fn [[p X-sub Y-sub]]
+                           (-> p
+                               :X
+                               (a-m/linear-reg-cost X-sub Y-sub 0)))
+                         sublearns)
+        cost-c (i-c/xy-plot (range 1
+                                   (inc (count costs-val)))
+                            costs-val)]
+    (i-c/add-lines cost-c
+                   (range 1
+                          (inc (count costs-train)))
+                   costs-train)
+    (i/view cost-c)))
 
-#_(i/view (i-c/scatter-plot (range (count @store)) @store))
+(def sublearns (sublearnings X Y Xval Yval 0))
+(clojure.pprint/pprint sublearns)
+(def hy-fn (a-m/linear-reg-hypo-fn  (-> sublearns (nth 10) :X)))
 
-(defn accumulate [xs]
-  (reduce (fn [res x]
-            (conj res
-                  (if-let [x-p (last res)]
-                    (conj x-p x)
-                    [x])))
-          []
-          xs))
+(def dp
+  (i-c/scatter-plot (m/select X [0 1 2]) (m/select Y [0 1 2])))
+(i/view dp)
 
-(defn learning-curve [X Y lambda]
-  (map (fn [X-accu Y-accu]
-         (a-m/fmin-precision #(linear-reg-cost %
-                                               X-accu
-                                               Y-accu
-                                               lambda)
-                             [1 1]
-                             :method ;;:newton-raphson
-                             :gradient-desent
-                             :precision 1E-2
-                             :alpha 5E-4
-                             :gradient-fn #(linear-reg-gradient %
-                                                                X-accu
-                                                                Y-accu
-                                                                lambda)
-                             :plugin monitor))
+(learning-curve sublearns
+                     Xval
+                     Yval)
 
-       (reverse (accumulate X))
-       (reverse (accumulate Y))))
+(def X-mf (a-m/map-feature X 8))
+(def mu (m-s/mean X-mf))
+(def sigma (m-s/sd X-mf))
+(def X-poly (-> X-mf
+                (a-m/feature-normalize :mean mu :sd sigma)))
 
-(def curve (learning-curve X Y 0))
+(def sublearns (sublearnings X-poly
+                           Y
+                           (-> Xval
+                               (a-m/map-feature 8)
+                               (a-m/feature-normalize :mean mu :sd sigma))
+                           Yval
+                           0))
 
-(def costs-val
-  (map (fn [p]
-         (-> p
-             :X
-             (linear-reg-cost Xval Yval 0)))
-       (reverse curve)))
+(clojure.pprint/pprint sublearns)
 
-(def costs-train
-  (map (fn [p X-accu Y-accu]
-         (-> p
-             :X
-             (linear-reg-cost X-accu Y-accu 0)))
-       (reverse curve)
-       (accumulate X)
-       (accumulate Y)))
+(learning-curve sublearns
+                     (-> Xval
+                         (a-m/map-feature 8)
+                         (a-m/feature-normalize :mean mu :sd sigma))
 
-(def cost-c
-  (i-c/xy-plot (range 1
-                      (inc (count costs-val)))
-               costs-val))
+                     Yval
+)
 
-(i-c/add-lines cost-c
-               (range 1
-                      (inc (count costs-train)))
-               costs-train)
+(def dp
+  (i-c/scatter-plot (m/select X [0 1 2 3 4 5 6 7 8 9 10 11]) (m/select Y [0 1 2 3 4 5 6 7 8 9 10 11])))
 
-(i/view cost-c)
+(def dp
+  (i-c/scatter-plot Xval Yval))
+(i/view dp)
+(def hy-fn (a-m/linear-reg-hypo-fn  (-> curve (nth 11) :X)))
 
- (a-m/poly-term [1 2] 3)
-
-(-> X
-    (a-m/map-feature 8)
-    a-m/feature-normalize
-    a-m/add-constant-comp
-   )
-
+(i-c/add-function dp #(first (m/mul 1 (hy-fn (-> [%1]
+                                                 (a-m/map-feature 8)
+                                                 (a-m/feature-normalize :mean mu :sd sigma))))) -50 40)

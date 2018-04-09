@@ -3,6 +3,7 @@
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
             [apps.dcs :as dcs]
+            [clojure.math.numeric-tower :as math]
             ;; load nd4clj to register implementation explicitly, as core.matrix/KNOWN-IMPLEMENTATIONS have wrong namespace configed
             #_[nd4clj.matrix]))
 
@@ -152,6 +153,15 @@
 #_(jacobian-fn [1 2 3])
 ;; ======================================================================
 
+(defn round [X & {p :precision}]
+  (if p
+    (let [factor (math/expt 10 p)]
+      (-> X
+          (m/mul factor)
+          m/round
+          (m/div factor)))
+    (m/round X)))
+
 (defn fmin
   "List all keys so invoker can know supported parameters.
   Declare default in :or so invoker can know which parameter is optional"
@@ -178,13 +188,24 @@
                     (case method
                       :gradient-desent (m/mul gradient
                                               alpha)
-                      :newton-raphson (m/mmul (m/inverse (hessian-fn X-0))
+                      :newton-raphson (m/mmul (let [hess-inv (m/inverse (round (hessian-fn X-0)
+                                                                               :precision 6))]
+                                                #dbg ^{:break/when (nil? hess-inv)}
+                                                hess-inv)
                                               gradient)))
              (assoc opts :iters (inc iters))))))
 
+;; WARNING!!!
+;; For N-dementional Array Confuse here:
+;; [x y z] represent 1 item: [x y z] or 3 item: x y z
+;; E.g. (add-constant-comp [x y z]) -> [[1 x] [1 y] [1 z]] or [1 x y z]
+;;
+;; Only element-wise opearte is not confuse here, as it always operate on most inner element
+
 (defn poly-term
   "E.g. (poly-term [[x y z]] 2) ->
-  x^2 | x^1 * y^1,  x^1 * z^1 | x^0 * y^2, x^0 * y^1 * z^1, x^0 * z^2"
+  x^2 | x^1 * y^1,  x^1 * z^1 | x^0 * y^2, x^0 * y^1 * z^1, x^0 * z^2
+  Operate on dimention 1"
   [X degree]
   (if (== 0 degree)
     (m/broadcast (m/scalar-array 1)
@@ -206,7 +227,9 @@
                                                                      (- degree first-comp-degree))))))
                        (-> degree inc range reverse)))))))
 
-(defn map-feature [X degree]
+(defn map-feature
+  "Operate on dimention 1"
+  [X degree]
   (apply m/join-along
          1
          (map #(if (m/vec? %)
@@ -220,19 +243,56 @@
   (mean-of-squares normalized-X) -> 1
   (sqrt mean-of-squares) -> 1
   i.e.
-  (m-s/sd normalized-X) -> 1"
-  [X]
+  (m-s/sd normalized-X) -> 1
+  Operate on dimention 1"
+  [X & {:keys [mean sd]
+        :or {mean (m-s/mean X)
+             sd (m-s/sd X)}}]
   (m/div (m/sub X
-                (m-s/mean X))
-         (m-s/sd X)))
+                mean)
+         sd))
 
-(defn add-constant-comp [X]
+(defn add-constant-comp
+  "Operate on dimention 1"
+  [X]
   (m/join-along 1
                 (m/broadcast (m/scalar-array 1)
                              [(m/row-count X) 1])
                 (if (m/vec? X)
                   (m/column-matrix X)
                   X)))
+
+(defn linear-reg-hypo-fn [THETA]
+  "(= (m/row-count THETA)
+      (inc (m/column-count X))"
+  (fn [X]
+    (m/mmul (add-constant-comp X)
+            THETA)))
+
+(defn linear-reg-cost [THETA X Y lambda]
+  (let [m (m/row-count X)]
+    (+ (* (/ 1
+             (* 2 m))
+          (m-s/sum (m/pow (m/sub ((linear-reg-hypo-fn THETA) X)
+                                 Y)
+                          2)))
+       (* (/ lambda
+             (* 2 m))
+          (m-s/sum (m/pow (m/select THETA
+                                    :rest)
+                          2))))))
+
+(defn linear-reg-gradient [THETA X Y lambda]
+  (let [m (m/row-count X)
+        Y-hat ((linear-reg-hypo-fn THETA) X)
+        X-w-const (add-constant-comp X)]
+    (m/add (m/mul (/ 1 m)
+                  (m-s/sum (m/mul (m/transpose (m/broadcast-like (m/transpose X-w-const)
+                                                                 (m/sub Y-hat
+                                                                        Y)))
+                                  X-w-const)))
+           (m/mul (/ lambda m)
+                  (m/mset THETA 0 0)))))
 
 (defn cartesian-coord
   "polar-coord in format: [r theta]"

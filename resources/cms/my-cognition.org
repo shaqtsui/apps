@@ -3029,7 +3029,21 @@ function - language -> domain problem
 macro - language -> language -> domain problem
   so macro is NOT controlling domain problem, its controlling language
 
+***** Matrix
+All matrix have dimention: 0 - on which contains itself as whole, ${inner most dimention} - it could be 0 to infinity
+So operations should specify which dimention they are on
+Most element-wise-operation are on ${inner most dimention}
 
+dimention:
+dim-a * dim-b * dim-c * dim-d * 0-dimention element
+b as base:
+element b contains dim-b * c
+element a contains dim-a * b
+element b contains dim-b * dim-c * dim-d * 0-dimention element
+
+select b1(c):
+b1s: dim-a * b1(c)
+0-d elements: dim-a * dim-c * dim-d * 0-dimention element
 
 ***** My Naming Conversion
 
@@ -8595,6 +8609,16 @@ Basic setups:
 		generate key pair in client (~/.ssh/id_rsa, ~/.ssh/id_rsa.pub):
 			ssh-keygen -t rsa
 		add client's public key(~/.ssh/id_rsa.pub) to server's authorized_keys (~/.ssh/authorized_keys)
+
+
+Network manual config:
+auto p6p1
+iface p6p1 inet static
+address 192.168.31.100
+netmask 255.255.255.0
+broadcast 192.168.31.255
+gateway 192.168.31.1
+dns-nameservers 192.168.31.1
 
 
 Runlevel is a mode of operation in one of the computer operating systems that implement Unix System V-style initialization.
