@@ -17,10 +17,12 @@ e.g. (t)
 - State "DONE"       from "TODO"       [2018-03-02 Fri 18:30]
 - State "TODO"       from ""           [2018-03-02 Fri 18:29]
 
-** TODO impl gradient for nn
+** DONE impl gradient for nn
+- State "DONE"       from "TODO"       [2018-04-11 Wed 08:22]
 - State "TODO"       from ""           [2018-03-02 Fri 18:29]
 
-** TODO w5 home work
+** DONE w5 home work
+- State "DONE"       from "TODO"       [2018-04-11 Wed 08:21]
 - State "TODO"       from ""           [2018-03-02 Fri 18:29]
 
 ** TODO next lecture
@@ -53,3 +55,30 @@ e.g. (t)
 ** DONE learn racket
 - State "DONE"       from "TODO"       [2018-03-15 Thu 16:08]
 - State "TODO"       from ""           [2018-03-04 Sun 19:15]
+
+** DONE check 3s & 7s mods under 21 not repeat & cover 0 - 6
+- State "DONE"       from "TODO"       [2018-04-11 Wed 09:04]
+NOT repeat:
+make 0 - 21 as ONE sequence, 
+take 0 as reference, the related distance is 0, 3, 6, 9, ... 21
+take 7 as reference, the related distance is 2, 5, 8, 11, ... 23
+take 14 as reference, the related distance is 1, 4, 7, 10, ... 22
+
+Cover 0 - 6:
+3 * 7 = 21, so there are 3 references & 7 mods
+1st approve, 7 mods not repeat so cover 0 - 6
+2sd approve, 
+
+How 21 comes?
+NOT 21, but 21 referenced point
+Because of difference of 3 & 7
+More pairs of 7 & 3, 7s array will bigger than 3s array until the bigger is an i * 3
+
+
+
+they not repeat
+- State "TODO"       from ""           [2018-04-11 Wed 08:20]
+
+
+** TODO check 1/7 loop process
+- State "TODO"       from ""           [2018-04-11 Wed 08:21]

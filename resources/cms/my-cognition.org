@@ -16,6 +16,10 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 
 关注心行本身，他才会生所获，关注所获不会生所获
 
+基本心行：身，口，观，情，欲
+欲 － 这个欲是有根本目标的：离苦即乐
+观 － 好象一个时间点只能看一个或两个东西，没法同时看到三个或以上的东西
+
 想做的方法对否时已非一心（方法自心知道，意识心想的方法很可能是错的），急于做成时已非一心（一心之时已是最快的速度了），监督时已非一心（心散之后自然会知，因为一心在散前已在记忆中）
 用力去集中注意力，精神赴物时已非一心（集中注意力，精神赴物是意识心，真心时精神内敛，物入心而非神赴物，e.g. 大一下午背单词入定时）
 多心 -> 二心（欲/意＋一心） -> 一心？
@@ -24,6 +28,21 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 发心 -> 知识（管道）-> 身口意 -> 境 -> 发心
 
 顺逆境只是你之前自己把自己推过来的，你的反应发心才是推动你前进后退的力
+
+当你受到压力时，是因为你正要跨过外面的边界，跨过边界可能是好事但更可能是坏事
+
+你拿掉了别人的一个借口或遮羞布没有拿掉他的欲他还会找其他的借口和遮羞布
+
+有两种富有，外在的和内心的，看你目标是什么了，如果你只看到外在的穷富带来的苦乐，你可能就去要去求外在的富
+
+统一意识形态就是把某个东西关联到苦乐，以用人之欲（根本目标是离苦即乐）向这个东西推进
+
+承诺是关联违反的苦到相应的事上，以用人之欲
+
+无效的观不是观，如：睡着观不能集中，老被打断的观不能集中
+
+苦乐：欲之所，欲之所向是为乐，欲这所离是为苦
+
 
 非亲行无以亲见（证）
 
@@ -98,10 +117,14 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 
 学习就是观尘？ 
 学习就是心行观
-Just see it
+Just see the real stuff
+NOT the language, as language is just a reference to the real Stuff
 You can NOT see the whole stuff which contains anything you not see
 So, do NOT guess, decompose & compose until you see it
+E.g. if you want to see the change of a stuff, you need to see how the stuff created
+You can see one or two stuff at single time, If more than 2 stuffs, pls iteratly group to one or two stuff to make them a 2 forks tree shape
 数字这个符号指的是某物之数，所以见数字不是真见，要见他所指的物
+So don't just reply on math language(e.g. operations & equations), you need to see the stuff first then use math language
 
 
 e.g. 
@@ -2397,7 +2420,7 @@ How to group?
 			They are in same level in the OHT(Object Hierachy Tree)
 
 *** LANGUAGE
-Language is Symbols or combination of Symbols following Syntax rule refer to Semantic
+Language is Symbols or combination of Symbols following Syntax rule refer to Stuff
 
 **** Elements
 Symbol
@@ -2405,7 +2428,7 @@ Syntax
   Combination of Symbols
   Combination Structure:
     tree
-      have layer Semantic
+      can refer to layer
       e.g.
       #+BEGIN_SRC clojure
         (+ (* 2 2)
@@ -2413,7 +2436,7 @@ Syntax
       #+END_SRC
 
     sequence
-      have sequence Semantic
+      can refer to sequence
       e.g.
       #+BEGIN_SRC clojure
         (-> 2
@@ -2427,30 +2450,30 @@ Syntax
         n = n + (3 * 3);
       #+END_SRC
 
-Semantic
-  created by beings
-  human being may link it to different Syntax in different context
+Stuff
+  Stuff is also referenced by "Semantic of Symbol"
+  human being may link it to different Symbol in different context
 
-  Semantic in Data (Static language)
+  Link Stuff in Data (Static language)
     link to Syntax in all contexts
 
-  Semantic in Function (Dynamic language)
+  Link Stuff in Function (Dynamic language)
     link to Syntax in context of a Function
 
 Note:
-  Normally Symbol not represent itself but its refered Semantic
+  Normally Symbol not represent itself but its referenced Stuff
   If you want Symbol represent itself, quotate it
 
-  Symbol and Semantic can change independently.
+  Symbol and Stuff can change independently.
     e.g.
       change Symbole only: I love 1 -> I love one
-      change Semantic: 你妹啊（你的妹妹啊） -> 你妹啊（骂人）
+      change Stuff: 你妹啊（你的妹妹啊） -> 你妹啊（骂人）
 
 
 
 **** Lexical Context
-In previous language location: bind Symbol to Semantic
-In current language location: to find Symbol corresponding Semantic, search previous language location, find corresponding binding, find corresponding Semantic
+In previous language location: bind Symbol to Stuff
+In current language location: to find Symbol corresponding Stuff, search previous language location, find corresponding binding, find corresponding Stuff
 
 **** Category
 定名词 - 确定的某个东西, 或者东西的某个面
@@ -3029,7 +3052,9 @@ function - language -> domain problem
 macro - language -> language -> domain problem
   so macro is NOT controlling domain problem, its controlling language
 
-***** Matrix
+***** ND Array (Matrix)
+It is a recursion
+
 All matrix have dimention: 0 - on which contains itself as whole, ${inner most dimention} - it could be 0 to infinity
 So operations should specify which dimention they are on
 Most element-wise-operation are on ${inner most dimention}
