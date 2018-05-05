@@ -1,9 +1,15 @@
 (ns apps.matrix
   (:require [taoensso.timbre :as timbre] ;; implicit require macro
+            [clojure.core.reducers :as r]
             [clojure.core.matrix :as m]
             [clojure.core.matrix.stats :as m-s]
+            [clojure.core.matrix.linear :as m-l]
             [apps.dcs :as dcs]
             [clojure.math.numeric-tower :as math]
+            [taoensso.tufte :as tufte :refer [defnp fnp]]
+            [incanter.core :as i]
+            [incanter.charts :as i-c]
+
             ;; load nd4clj to register implementation explicitly, as core.matrix/KNOWN-IMPLEMENTATIONS have wrong namespace configed
             #_[nd4clj.matrix]))
 
@@ -245,12 +251,14 @@
   i.e.
   (m-s/sd normalized-X) -> 1
   Operate on dimention 1"
-  [X & {:keys [mean sd]
-        :or {mean (m-s/mean X)
-             sd (m-s/sd X)}}]
-  (m/div (m/sub X
-                mean)
-         sd))
+  [X]
+  (let [mu (m-s/mean X)
+        sigma (m-s/sd X)]
+    {:mu mu
+     :sigma sigma
+     :norm (m/div (m/sub X
+                         mu)
+                  sigma)}))
 
 (defn add-constant-comp
   "Operate on dimention 1"
@@ -294,6 +302,251 @@
            (m/mul (/ lambda m)
                   (m/mset THETA 0 0)))))
 
+(defnp cluster
+  "Cluster used in K-means, result: [Ci Ci Cj Cj Ci ....]
+  Independent func as may directly used by new data
+  x can be identified only by index, as x may be duplicate
+  E.g. (cluster [[1 2] [10 10] [2 2] [8 8]] [[1 1] [11 11]])
+  "
+  [X C]
+  (pmap (fn [x]
+          (first (apply min-key
+                        (comp m/scalar
+                              m-s/sum-of-squares
+                              (partial m/sub x)
+                              second)
+                        (map-indexed vector C))))
+        X))
+
+;; fold parallel compute can only work on vector not list even realized
+;; NOT parallel
+#_(r/fold 5
+          (r/monoid (fn [x y]
+                      (println "combinef" x y)
+                      (into x y))
+                    (fn []
+                      (println "get I")
+                      []))
+          (fn [xs x]
+            (println "reducef" xs x)
+            (conj xs x))
+          (doall '(1 2 3 4 5 6 7 8)))
+
+;; parallel
+#_(r/fold 5
+          (r/monoid (fn [x y]
+                      (println "combinef" x y)
+                      (into x y))
+                    (fn []
+                      (println "get I")
+                      []))
+          (fn [xs x]
+            (println "reducef" xs x)
+            (conj xs x))
+          [1 2 3 4 5 6 7 8])
+
+(defnp centroids-of-clusters
+  "cluster-n can derived from c-idxes, but required as parameter to speed up the algorithm
+  As pmap in cluster already parallel, disable parallel here"
+  [X c-idxes cluster-n]
+  (let [x-count-0 (vec (repeat cluster-n
+                               0))
+        x-sum-0 (vec (repeat cluster-n
+                             (m/zero-vector (m/column-count X))))
+        identity-element [x-sum-0 x-count-0]
+        x-accu (r/fold (r/monoid (partial map m/add)
+                                 (constantly identity-element))
+                       (fn [[x-sum x-count] [c-idx x]]
+                         [(update x-sum
+                                  c-idx
+                                  (partial m/add x))
+                          (update x-count
+                                  c-idx
+                                  inc)])
+                       (map vector c-idxes X))]
+    (map m/div
+         (first x-accu)
+         (second x-accu))))
+
+(defn optimize-cluster
+  "iterate cluster"
+  [X init-C]
+  (let [c-idxes (cluster X init-C)
+        new-C (centroids-of-clusters X
+                                     c-idxes
+                                     (m/row-count init-C))]
+    (if (m/equals init-C new-C)
+      {:indexes c-idxes :centroids init-C}
+      (recur X new-C))))
+
+(defnp k-means
+  [X k]
+  (let [init-C (take k (distinct (repeatedly (partial rand-nth
+                                                      (seq X)))))]
+    (optimize-cluster X init-C)))
+
+
+(defnp cov
+  "Coverence, [[x1^2 x2x1]
+               [x1x2 x2^2]]
+  "
+  [X]
+  (m/mul (/ 1
+            (m/row-count X))
+         (m/mmul (m/transpose X)
+                 X)))
+
+(defnp pca
+  "find basis span max variances, and corresponding variance value"
+  [X]
+  (m-l/svd (cov X)))
+
+
+(defnp pca-project
+  "project to basis of max variance(first k columns of U)"
+  [X U k]
+  (m/mmul X
+          (m/select U
+                    :all
+                    (range k))))
+
+(defnp pca-recover
+  "Z in basis of max variance(first k columns of U)"
+  [Z U]
+  (m/mmul Z
+          (m/transpose (m/select U
+                                 :all
+                                 (range (m/column-count Z))))))
+
+
+(defn add-lines
+  [plot points & more]
+  (last (map #(i-c/add-lines plot
+                             (m/select % :all :first)
+                             (m/select % :all :last))
+             (cons points more))))
+
+(defn add-points
+  [plot points & more]
+  (last (map #(i-c/add-points plot
+                              (m/select % :all :first)
+                              (m/select % :all :last))
+             (cons points more))))
+
+(defn scatter-plot
+  [points & more]
+  (doto (i-c/scatter-plot)
+    ((partial apply add-points) (cons points more))
+    i/view))
+
+(defn single-var-gaussian
+  "`X` is a vector or n * 1 matrix, this is rarely used, most case use `mul-var-gaussian` "
+  [X mu sigma2]
+  (m/mul (/ 1
+            (math/sqrt (* 2 Math/PI sigma2)))
+         (m/exp (m/sub (m/div (m/pow (m/sub X mu)
+                                     2)
+                              (* 2 sigma2))))))
+
+
+(defn mul-var-gaussian
+  "A surface whose double integral is 1, integral on 1 demention get the probabilities on the other demantion"
+  [X Mu Cov]
+  (m/mul (/ 1
+            (* (math/expt (* 2 Math/PI)
+                          (/ (m/column-count X)
+                             2))
+               (math/sqrt (m/det Cov))))
+         (m/exp (m/sub (m/mul (/ 1 2)
+                              (let [X-Mu (m/sub X Mu)]
+                                ;; transpose X-Mu -> transform -> inner product
+                                (m/matrix (map (comp m/scalar m/mmul)
+                                               X-Mu
+                                               (m/transpose (m/mmul (m/inverse Cov)
+                                                                    (m/transpose X-Mu)))))))))))
+
+
+
+(defn estimate-gaussian
+  "`X`s gaussian distribute parameters.
+  Sigma2 similar to m-s/variance, but variance divide total variance by m-1, which will make (m-s/variance [1]) -> ##NaN"
+  [X]
+  (let [mu (m-s/mean X)]
+    {:mu mu
+     :sigma2 (m-s/mean (m/pow (m/sub X mu)
+                              2))}))
+
+
+(defn true-positives
+  "Terms base on Y-hat"
+  [Y-hat Y]
+  (m-s/sum (m/emap #(if (== 1 %1 %2)
+                      1
+                      0)
+                   Y-hat
+                   Y)))
+
+(defn false-positives [Y-hat Y]
+  (m-s/sum (m/emap #(if (and (== 1 %1)
+                             (== 0 %2))
+                      1
+                      0)
+                   Y-hat
+                   Y)))
+
+(defn false-negtives [Y-hat Y]
+  (m-s/sum (m/emap #(if (and (== 0 %1)
+                             (== 1 %2))
+                      1
+                      0)
+                   Y-hat
+                   Y)))
+
+(defn precision [Y-hat Y]
+  (let [tp (true-positives Y-hat Y)]
+    (if (== 0 tp)
+      0
+      (/ tp
+         (+ tp (false-positives Y-hat Y))))))
+
+(defn recall [Y-hat Y]
+  (let [tp (true-positives Y-hat Y)]
+    (if (== 0 tp)
+      0
+      (/ tp
+         (+ tp (false-negtives Y-hat Y))))))
+
+(defn f1-score [Y-hat Y]
+  (let [prec (precision Y-hat Y)
+        rec (recall Y-hat Y)]
+    (if (== 0 prec rec)
+      0
+      (/ (* 2 prec rec)
+         (+ prec rec)))))
+
+(defn select-threshold
+  "`P` - probabilities, `Y` - 0 & 1s
+  May contains different epsilon with same f1"
+  [P Y]
+  (let [min-p (m/minimum P)
+        max-p (m/maximum P)
+        step (/ (- max-p min-p)
+                1000)]
+    (apply max-key :f1
+           (map (fn [epsilon]
+                  {:epsilon epsilon
+                   :f1 (f1-score (m/lt P epsilon)
+                                 Y)})
+                (concat (range min-p max-p step)
+                        [max-p])))))
+
+(defn anomalies
+  "`epsilon` - threshold"
+  [X P epsilon]
+  (m/matrix (map first (filter  #(< (last %)
+                                    epsilon)
+                                (map vector X P)))))
+
 (defn cartesian-coord
   "polar-coord in format: [r theta]"
   [polar-coord]
@@ -326,8 +579,9 @@
   e.g. (roll % (map m/shape THETAs))"
   (if (seq shapes)
     (let [[m n] (first shapes)
-          [c r] (split-at (* m n)
+          [_ r] (split-at (* m n)
                           X)]
-      (cons (m/matrix (partition-all n c))
+      (cons (m/reshape X
+                       [m n])
             (roll r (rest shapes))))
     []))

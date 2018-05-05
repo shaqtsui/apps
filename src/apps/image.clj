@@ -2,55 +2,41 @@
   (:require [mikera.image.core :as img]
             [mikera.image.colours :as imgc]
             [taoensso.timbre :as timbre]
-            [apps.tools :refer [wrap-spy]]))
+            [apps.tools :refer [wrap-spy]]
+            [clojure.core.matrix :as m]
+            [mikera.image-matrix :as img-m]
+            ))
 
-(defn gray->grb [grayscale]
-  (-> grayscale
-      ((juxt #(bit-shift-left % 16) #(bit-shift-left % 8) identity))
-      (->> (cons 0xff000000)
-           (apply bit-or))))
 
-(defn seq->img [xs size min-grayscale max-grayscale]
-  (-> (img/new-image (first size) (second size))
-      (doto
-       (as-> $
-             (img/set-pixels $ (-> $
-                                   img/get-pixels
-                                   (doto
-                                    (as-> $
-                                          (doall (map
-                                                  #(aset $ %1 %2) ;; type mismatch error when invoke aset via apply
-                                                  (range)
-                                                  (map #(-> %
-                                                            (- min-grayscale)
-                                                            (/ (- max-grayscale min-grayscale))
-                                                            (* 255)
-                                                            -
-                                                            (+ 255)
-                                                            (Math/round)
-                                                            gray->grb)
-                                                       xs)))))))))
-      (img/rotate 90)
-      (img/flip :horizontal)))
+(m/set-current-implementation :vectorz)
 
-(defn merge-imgs [imgs col-number]
-  (let [sample-img (first imgs)
-        width  (-> sample-img
-                   img/width
-                   (* col-number))
-        height (-> sample-img
-                   img/height
-                   (* (-> imgs
-                          count
-                          (/ col-number)
-                          inc)))
-        target-img (img/new-image width height)
-        graphic (.getGraphics target-img)
-        locations (for [y (range 0 height (img/height sample-img))
-                        x (range 0 width (img/width sample-img))]
-                    [x y])]
-    (doall (map (fn [src-img loc]
-                  (.drawImage graphic src-img (first loc) (last loc) nil))
-                imgs
-                locations))
-    target-img))
+(defn grayscale->grba
+  "Operate on 1 img, all component values range from 0 to 1
+  this img can be vector/matrix of :persistent-vector, as f of emap need to retrun vector"
+  [Grayscale]
+  (let [min-g (m/emin Grayscale)
+        max-g (m/emax Grayscale)
+        g-distance (- max-g min-g)]
+    (m/emap (fn [g]
+              (let [g-norm (-> g
+                               (- min-g)
+                               (/ g-distance))]
+                [g-norm g-norm g-norm 1]))
+            (m/matrix :persistent-vector Grayscale))))
+
+(defn grayscale->img
+  "Opt on 1 img, transpose matrix to enable matrix join to achieve img join"
+  [Grayscale [w h]]
+  (-> (m/reshape Grayscale
+                 [w h])
+      m/transpose
+      grayscale->grba
+      (->> (m/matrix :buffered-image))))
+
+
+(defn join-img
+  [imgs [r c]]
+  "r - row, c - column, ignore redaunt items"
+  (apply m/join-along 0
+         (map #(apply m/join-along 1 %)
+              (take r (partition c imgs)))))

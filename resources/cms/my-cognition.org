@@ -4,9 +4,31 @@
 #+STARTUP: showstars
 
 * All about: COGNITION OF 心 AND THE WORLD
+一颗心，只是起不起意的区别
+
+有两种心：意识心 非意识心，两者都见闻觉知
+
+不同心理状态生不同东西
+
 心行恒一，无所不达
 
 i.e. 制心一处无事不办
+
+调整到某个状态（或动或静）后，制心一处即便有尘而不去识，感，欲，情以保持这个状态（如守门猫）。如不制心一处心中有个习惯去识别尘，感受尘，生欲，生情让自己忙碌“充实”
+
+开觉而不识不动
+
+心定在这不做任何事
+
+心做某事，六根只是去帮他
+
+心专注于不动
+
+观一是把心绑在一个地方的方法使心不动
+
+用心绑，不管外尘，绑在一个地方等都是制心一处的方法对应不同情况
+
+意识心不可知非意识心为什么这样
 
 所以伤害自己就是影响自己正常心行，呵护正常心行就是呵护自己
 对别人也一样
@@ -19,7 +41,7 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 
 关注心行本身，他才会生所获，关注所获不会生所获
 
-基本心行：身，口，观，情，欲
+基本心行：观（只有观一刻不离，是为本心？观之见变，但观不变），身，口，情，欲
 欲 － 这个欲是有根本目标的：离苦即乐
 观 － 好象一个时间点只能看一个或两个东西，没法同时看到三个或以上的东西
       观是指有效的观，无效的观不是观，如：睡着观不能集中，老被打断的观不能集中
@@ -125,6 +147,7 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 学习就是观尘？ 
 学习就是心行观
 Just see the real stuff
+Visual Understanding, i.e. Insight not Numbers
 NOT the language, as language is just a reference to the real Stuff
 You can NOT see the whole stuff which contains anything you not see
 So, do NOT guess, decompose & compose until you see it
@@ -133,6 +156,15 @@ You can see one or two stuff at single time, If more than 2 stuffs, pls iteratly
 数字这个符号指的是某物之数，所以见数字不是真见，要见他所指的物
 So don't just reply on math language(e.g. operations & equations), you need to see the stuff first then use math language
 不要乱看到顺着从下往上看
+外界现在看到都是树状的，东西真看清这后应当也是树状的，任何东西（叶）都有生他的枝，枝又有生他的干
+知识从广度和深度上讲都是无穷的，现在我所知的真的只是海中一滴水
+知识只是工具，是混饭吃的工具
+
+你学了很多专业知识后并使用，不是你牛，是知识这个工具牛，你只是观而后搬到你心中
+
+世界包括：Things & Transforms
+
+Algebra研究：Things & Transforms(Operators)
 
 两百万让我懂得了：在非我专业领域我的水平远远低于平均水平
 
@@ -3134,8 +3166,23 @@ Note: use `as` to operate argument
 Process = Logic + Redex & Continuation
 Process = Logic + Time(relative)
 
+
+***** Data and View
+A single Data can have multiple View
+Multiple Data can have a single View
+
+E.g. (Data -> View)
+map -> APersistentMap$KeySeq
+vector -> PersistentVector$ChunkedSeq
+map -> associative view
+vector -> associative view
+map + vector + ... -> LazySeq
+
+
 ***** Abstract Semantic over Impl Semantic
-Abstract Semantic: Sequence corresponding Impl Semantic: Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
+Seems this is implemented via Data and View
+
+Abstract Semantic: Sequence corresponding Impl Semantic: LazySeq, Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
 Abstract Semantic: core.matrix/wrapper corresponding Impl Semantic: NDWrapper, PersistentVector
 
 e.g.
@@ -3655,7 +3702,7 @@ some data's view is it's self e.g. pair & list
 coll? = true
 normally no additional space required
 All collections, include non-sequential(seq? = false), can have a sequence view.
-Implementations can be: Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
+Implementations can be: LazySeq, Cons, PersistentList, PersistentVector$ChunkedSeq, PersistentArrayMap$Seq, APersistentMap$KeySeq ...
 Support: cons, car(first), cdr(rest)  
 The base of: filter, map, for, doseq, take, partition …  
 All collections provide Sequence abstraction to navigate its content  

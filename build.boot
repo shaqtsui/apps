@@ -1,6 +1,5 @@
 (set-env!
- :source-paths #{"src"}
- :resource-paths #{"resources"}
+ :resource-paths #{"src" "resources"}
  :dependencies '[;; here not used as runtime, runtime specified in boot.properties, just have this here to cut other indirect deps of clojure
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/core.async "0.4.474" :exclusions [org.ow2.asm/asm-all]]
@@ -9,9 +8,11 @@
                  [org.clojure/tools.nrepl "0.2.13"]
                  [org.clojure/clojurescript "1.9.946"]
                  [org.clojure/math.numeric-tower "0.0.4"]
+                 [org.clojure/data.csv "0.1.4"]
 
                  ;; logging
                  [com.taoensso/timbre "4.10.0"]
+                 [com.taoensso/tufte "2.0.0"]
                  [com.fzakaria/slf4j-timbre "0.3.8"]
                  [org.slf4j/jcl-over-slf4j "1.7.25"]
                  ;; apps.nrepl-cider
@@ -63,6 +64,7 @@
                  [incanter "1.9.2" :exclusions [org.bouncycastle/bctsp-jdk14 bouncycastle/bcmail-jdk14 bouncycastle/bcprov-jdk14]]
                  ;; for ml week 4
                  [net.mikera/imagez "0.12.0"]
+                 [org.clojars.xfcjscn/image-matrix "0.1.1"]
 
                  ;; func-plot
                  [prismatic/dommy "1.1.0"]
@@ -87,73 +89,4 @@
  ;; cider don't inject this automaticlly, so duplicate with code in nrepl-cider
  repl {:middleware '[cemerick.piggieback/wrap-cljs-repl]})
 
-(require '[adzerk.boot-cljs :refer [cljs]]
-         '[adzerk.boot-reload :refer [reload]]
-         '[metosin.boot-alt-http :refer [serve]]
-         '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
-         '[apps.bootstrap.cljs :refer [download-foreign-source index-html]]
-         '[apps.dcs :refer [as]]
-         '[adzerk.boot-test :refer [test]]
-         '[crisptrutski.boot-cljs-test :refer [test-cljs]]
-         '[taoensso.timbre :as timbre]
-         '[clojure.pprint :refer [pprint]]
-         '[clojure.java.io :as io])
-
-(deftask download-online-js
-  "download online js in deps.cljs"
-  []
-  (fn wrapper [next-handler]
-    #(-> %
-         (doto
-          (as $ (timbre/debug "start download-online-js..."))
-           (as $ (download-foreign-source)))
-         next-handler)))
-
-(deftask add-index
-  []
-  (fn wrapper [next-handler]
-    #(-> %
-         (doto (as $ (timbre/debug "start add-index...")))
-         (boot.core/add-resource (doto
-                                  (boot.core/tmp-dir!)
-                                   (-> (io/file "public/index.html")
-                                       (doto io/make-parents)
-                                       (spit index-html))))
-         boot.core/commit!
-         next-handler)))
-
-(deftask testing
-  "Not a wrapper, just add test for CLJ/CLJS testing purpose"
-  []
-  (set-env! :source-paths #(conj % "test"))
-  identity)
-
-(deftask dev
-  "lanch IFDE"
-  []
-  (comp
-   (add-index)
-   (download-online-js)
-   ;; directly serve files from temp folder
-   #_(serve :directories #{"target/public"} :port 3000)
-   (serve :port 3000)
-   (watch)
-   ;; put before cljs as they need to update .cljs.edn
-   (reload)
-   (cljs-repl)
-   ;; I don't like to put cljs task options in .cljs.edn, as this is part of bootstrap config.
-   ;; but currently only .cljs.edn can config :require. so I have no choice to only put :require in .clj.edn
-   (cljs :compiler-options {:asset-path "js/main.out"
-                            :output-dir "public/js/main.out"
-                            :output-to "public/js/main.js"})
-   ;; directly serve files from temp folder
-   #_(target)))
-
-(deftask tdd
-  "Lanch tdd env"
-  []
-  (comp
-   (testing)
-   (watch)
-   (test-cljs :update-fs? true :phantom :namespaces '#{apps.test})
-   (test :namespaces '#{apps.test})))
+(require '[apps.bootstrap.tasks :refer :all])
