@@ -50,6 +50,9 @@
 (setenv "BOOT_JVM_OPTIONS"
 	"-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled")
 
+;; direct-linking avoid function var dereference, in the cost of dynamic runtime
+;; -Dclojure.compiler.direct-linking=true
+
 
 ;; webi input method
 ;; to registe pyim in input method list, a default small pinyin dict(pyim-pymap) included

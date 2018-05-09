@@ -104,6 +104,45 @@
    :mtj 'cav.mtj.core.matrix
    :aljabr 'thinktopic.aljabr.core))
 
+(defn broadcast-on
+  "`dim` - target dimension
+  e.g.
+  (broadcast-on [[1 2] [3 4]] 2 [2]) -> [[[1.0,1.0]
+                                          [2.0,2.0]]
+                                         [[3.0,3.0]
+                                          [4.0,4.0]]]"
+  [m dim ex-shape]
+  (if (zero? dim)
+    (m/broadcast m
+                 (concat ex-shape
+                         (m/shape m)))
+    (m/matrix (map #(broadcast-on %
+                                  (dec dim)
+                                  ex-shape)
+                   m))))
+
+(defn add-lines
+  [plot & points]
+  (last (map #(i-c/add-lines plot
+                             (m/get-column % 0)
+                             (m/get-column % 1))
+             points)))
+
+(defn add-points
+  [plot & points]
+  (last (map #(i-c/add-points plot
+                              (m/get-column % 0)
+                              (m/get-column % 1))
+             points)))
+
+(defn scatter-plot
+  [& points]
+  (let [plot (i-c/scatter-plot)]
+    (when points
+      (apply add-points plot points))
+    (i/view plot)
+    plot))
+
 (defn del
   "2 side approximate del via secant(finite difference approximation)
   E.g. 1
@@ -130,6 +169,41 @@
                         (partial map f)))
              (reduce m/sub))
         (m/div (* 2 dx)))))
+
+(defn del2
+  "2 side approximate del via secant(finite difference approximation)
+  different from `del` is that this support `X` as matrix not only vector
+  E.g. 1
+    f: [x y z] -> v
+    (del f): [x y z] -> [v1 v2 v3]
+
+  E.g. 2
+    f: [x1 x2 x3 ... xm] -> [y1 y2 y3 ... yn]
+    (del f): [x1 x2 x3 ... xm] -> (n colum, m row matrix)
+
+  If default dx is too small, some matrix inverse will get error. Tested in one matrix minimal value is 1E-2.
+  "
+  [f & {:keys [dx]
+        :or {dx 1E-2}}]
+  (fn [X]
+    (m/reshape (m/matrix (map (comp (fn [[pre-X next-X]]
+                                      (m/div (m/sub (f next-X)
+                                                    (f pre-X))
+                                             (* 2 dx)))
+                                    (fn [idx]
+                                      (let [orig-x (first (m/select-indices X
+                                                                            [idx]))
+                                            pre-x (- orig-x dx)
+                                            next-x (+ orig-x dx)]
+                                        [(m/set-indices X
+                                                        [idx]
+                                                        [pre-x])
+                                         (m/set-indices X
+                                                        [idx]
+                                                        [next-x])])))
+                              (m/index-seq X)))
+               (concat (m/shape X)
+                       (m/shape (f X))))))
 
 ;; ======================================================================
 ;; del examples
@@ -168,9 +242,58 @@
           (m/div factor)))
     (m/round X)))
 
+(defn fmin-plugin-error-detect
+  "Throw exception when result not descending on rate `r`"
+  [r]
+  (let [store (atom nil)]
+    (fn [f X-0 opts]
+      (if-let [iters (:iters opts)]
+        (when (-> iters
+                  (mod r)
+                  zero?)
+          (let [y (f X-0)
+                previous-y (peek @store)]
+            (if (< y previous-y)
+              (reset! store (conj @store y))
+              (throw (Exception. (str "NOT descending!!!\n" previous-y " -> " y))))))
+        (reset! store [(- ##Inf)])))))
+
+(defn fmin-plugin-log
+  "Print info on rate `r`"
+  [r]
+  (fn [f X-0 opts]
+    (when-let [iters (:iters opts)]
+      (when (-> iters
+                (mod r)
+                zero?)
+        (timbre/debug "iters: " iters "\n" "y: " (f X-0))))))
+
+(defn fmin-plugin-plot
+  "Plot info on rate `r`"
+  [r]
+  (let [store (atom nil)]
+    (fn [f X-0 opts]
+      (if-let [iters (:iters opts)]
+        (when (-> iters
+                  (mod r)
+                  zero?)
+          (add-points @store [[iters (f X-0)]]))
+        (reset! store (scatter-plot))))))
+
+(defn fmin-plugin-last-x
+  [r store]
+  (fn [f X-0 opts]
+    (if-let [iters (:iters opts)]
+      (when (-> iters
+                (mod r)
+                zero?)
+        (reset! store X-0))
+      (reset! store nil))))
+
 (defn fmin
   "List all keys so invoker can know supported parameters.
-  Declare default in :or so invoker can know which parameter is optional"
+  Declare default in :or so invoker can know which parameter is optional
+  `X-0` is a vector, as its easy to get its hessian matrix, and able to combine multiple vector into 1"
   [f X-0
    & {:keys [gradient-fn hessian-fn precision method alpha plugin]
       :or {precision 1E-6
@@ -244,21 +367,25 @@
               (map (partial poly-term X)
                    (range 1 (inc degree))))))
 
+(defn mean-normalize
+  "(m-s/mean normlized-X) -> 0
+  Operate on dimention 1"
+  [X]
+  (let [mu (m-s/mean X)]
+    {:mu mu
+     :norm (m/sub X mu)}))
+
+
 (defn feature-normalize
   "(m-s/mean normlized-X) -> 0
-  (mean-of-squares normalized-X) -> 1
-  (sqrt mean-of-squares) -> 1
-  i.e.
   (m-s/sd normalized-X) -> 1
   Operate on dimention 1"
   [X]
-  (let [mu (m-s/mean X)
-        sigma (m-s/sd X)]
-    {:mu mu
-     :sigma sigma
-     :norm (m/div (m/sub X
-                         mu)
-                  sigma)}))
+  (let [sigma (m-s/sd X)]
+    (-> X
+        mean-normalize
+        (assoc :sigma sigma)
+        (update :norm m/div sigma))))
 
 (defn add-constant-comp
   "Operate on dimention 1"
@@ -419,26 +546,6 @@
                                  (range (m/column-count Z))))))
 
 
-(defn add-lines
-  [plot points & more]
-  (last (map #(i-c/add-lines plot
-                             (m/select % :all :first)
-                             (m/select % :all :last))
-             (cons points more))))
-
-(defn add-points
-  [plot points & more]
-  (last (map #(i-c/add-points plot
-                              (m/select % :all :first)
-                              (m/select % :all :last))
-             (cons points more))))
-
-(defn scatter-plot
-  [points & more]
-  (doto (i-c/scatter-plot)
-    ((partial apply add-points) (cons points more))
-    i/view))
-
 (defn single-var-gaussian
   "`X` is a vector or n * 1 matrix, this is rarely used, most case use `mul-var-gaussian` "
   [X mu sigma2]
@@ -547,6 +654,80 @@
                                     epsilon)
                                 (map vector X P)))))
 
+(defnp matrixs->vector [& ms]
+  (apply m/join-along 0 (map m/as-vector
+                             ms)))
+
+(defnp vector->matrixs [v & shapes]
+  (if shapes
+    (let [s (first shapes)
+          [hv tv] (split-at (apply * s)
+                            v)]
+      (cons (m/reshape hv s)
+            (apply vector->matrixs tv (rest shapes))))
+    nil))
+
+(defnp cofi-cost
+  "`R` - 1, 0 matrix indicate where rated corresponding to Y
+  all parameters except lambda are matrix not vector
+  NO bias feature here
+  Parallel compute here"
+  ([THETA X R Y lambda]
+   (apply + (pvalues (* (/ 1 2)
+                        (m/esum (m/pow (m/mul (m/sub (m/mmul X
+                                                             (m/transpose THETA))
+                                                     Y)
+                                              R)
+                                       2)))
+                     (* (/ lambda 2)
+                        (m/esum (m/pow THETA
+                                       2)))
+                     (* (/ lambda 2)
+                        (m/esum (m/pow X
+                                       2))))))
+  ([THETA-X theta-shape x-shape R Y lambda]
+   (let [[THETA X] (vector->matrixs THETA-X theta-shape x-shape)]
+     (cofi-cost THETA X R Y lambda))))
+
+(defnp cofi-gradient-theta
+  [THETA X R Y lambda]
+  (m/add (m-s/sum (m/mul (broadcast-on (m/mul (m/sub (m/mmul X
+                                                             (m/transpose THETA))
+                                                     Y)
+                                              R)
+                                       2
+                                       [(m/column-count X)])
+                         (broadcast-on X 1
+                                       [(m/column-count Y)])))
+         (m/mul lambda
+                #_(m/set-column THETA
+                                0
+                                (m/zero-vector (m/row-count THETA)))
+                THETA)))
+
+
+(defnp cofi-gradient-x
+  [THETA X R Y lambda]
+  (m/add (m-s/sum (m/mul (broadcast-on (m/transpose (m/mul (m/sub (m/mmul X
+                                                                          (m/transpose THETA))
+                                                                  Y)
+                                                           R))
+                                       2
+                                       [(m/column-count X)])
+                         (broadcast-on THETA
+                                       1
+                                       [(m/row-count Y)])))
+         (m/mul lambda
+                X)))
+
+(defnp cofi-gradient
+  "`THETA-X` is a vector of THETA & X rolled & joined, result is the same
+  Parallel computation here."
+  [THETA-X theta-shape x-shape R Y lambda]
+  (let [[THETA X] (vector->matrixs THETA-X theta-shape x-shape)]
+    (matrixs->vector (cofi-gradient-theta THETA X R Y lambda)
+                     (cofi-gradient-x THETA X R Y lambda))))
+
 (defn cartesian-coord
   "polar-coord in format: [r theta]"
   [polar-coord]
@@ -571,7 +752,7 @@
 
 (defn unroll [Xs]
   "Convert sequence of matrix to a flatten vector"
-  (apply m/join-along 0 (map m/to-vector
+  (apply m/join-along 0 (map m/as-vector
                              Xs)))
 
 (defn roll [X shapes]

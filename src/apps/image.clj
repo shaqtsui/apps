@@ -22,7 +22,7 @@
                                (- min-g)
                                (/ g-distance))]
                 [g-norm g-norm g-norm 1]))
-            (m/matrix :persistent-vector Grayscale))))
+            (m/coerce :persistent-vector Grayscale))))
 
 (defn grayscale->img
   "Opt on 1 img, transpose matrix to enable matrix join to achieve img join"
@@ -31,7 +31,7 @@
                  [w h])
       m/transpose
       grayscale->grba
-      (->> (m/matrix :buffered-image))))
+      (->> (m/coerce :buffered-image))))
 
 
 (defn join-img
