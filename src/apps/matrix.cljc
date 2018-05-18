@@ -290,6 +290,32 @@
         (reset! store X-0))
       (reset! store nil))))
 
+(defn root-fn
+  "All search of convergence point of 2 lines can reduce to root problem(1 line with x-axis) "
+  [& {:keys [gradient-fn precision method alpha plugin]
+      :or {precision 1E-6
+           method :gradient-desent
+           alpha 1E-2
+           gradient-fn (del f)}
+      :as opts}]
+  (fn [f & Xs]
+    (let [iters (or (:iters opts)
+                    0)
+          Ys (apply f Xs)]
+      (if (map m/maximum Ys)
+        {:X X-0 :y (f X-0) :iters iters}
+        (recur f
+               (m/sub X-0
+                      (case method
+                        :gradient-desent (m/mul gradient
+                                                alpha)
+                        :newton-raphson (m/mmul (let [hess-inv (m/inverse (round (hessian-fn X-0)
+                                                                                 :precision 6))]
+                                                  #dbg ^{:break/when (nil? hess-inv)}
+                                                  hess-inv)
+                                                gradient)))
+               (assoc opts :iters (inc iters)))))))
+
 (defn fmin
   "List all keys so invoker can know supported parameters.
   Declare default in :or so invoker can know which parameter is optional

@@ -143,6 +143,10 @@ best-res
                   (->> (m/emap r/read-string))
                   m/matrix))
 
+
+(def Y-img (a-i/matrix->img Ymov))
+(img/save Y-img "Y-img.png")
+
 (def X Xmov)
 #_(def Y Ymov)
 #_(def R Rmov)
@@ -208,7 +212,8 @@ Y-norm
 
 (def THETA-X @store)
 #_(csv/write-csv (io/writer "last-THETA-X.csv")
-                 THETA-X)
+                 [THETA-X])
+
 #_(def temp (a-m/vector->matrixs THETA-X
                                [(m/column-count Y-norm) 10] [(m/row-count Y-norm) 10]))
 
@@ -223,9 +228,14 @@ Y-norm
 (def p (m/mmul best-X
                (m/transpose best-THETA)))
 
+(def p-img (a-i/matrix->img p))
+(img/save p-img "p.png")
+
+
 (m/esum (m/mul R
-               (m/sub p
-                      Y-norm)))
+               (m/pow (m/sub p
+                             Y-norm)
+                      2)))
 
 (def my-rates (m/add (m/get-column p 0)
                      rate-mean-per-movie))

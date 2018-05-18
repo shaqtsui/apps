@@ -5,9 +5,23 @@
             [apps.dcs :refer [as]]
             [taoensso.timbre :as timbre]
             [net.cgrand.enlive-html :refer :all]
+            [clojure.java.shell :as sh]
             [postal.core :refer :all])
   (:import java.net.URL))
 
+(sh/sh "ls" :dir "/home/shark")
+
+(defn aria-loop []
+  (let [res (sh/sh "aria2c" "--log=/home/shark/aria.log" "--check-certificate=false" "https://ia802706.us.archive.org/zip_dir.php?path=/6/items/MIT6.006F11.zip&formats=MPEG4" :dir "/home/shark")]
+    (if (= 0 (:exit res))
+      res
+      (do (doall (map println res))
+          (println "Sleep 120 seconds............")
+          (Thread/sleep (* 1000 120))
+          (println "Start retry")
+          (recur)))))
+
+(def res (aria-loop))
 
 (defn wrap-spy [f]
   (fn [& more]

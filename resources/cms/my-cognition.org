@@ -20,6 +20,8 @@ i.e. 制心一处无事不办
 
 心定在这不做任何事
 
+心不起意时不需额外的意，心起意时要新意来除旧意
+
 心做某事，六根只是去帮他
 
 心专注于不动
@@ -166,7 +168,15 @@ So don't just reply on math language(e.g. operations & equations), you need to s
 
 世界包括：Things & Transforms
 
-Algebra研究：Things & Transforms(Operators)
+Algebra研究：Things & Transforms(Operators, Functions)
+Analysis研究：changes of Things on one side(input/output) of Transforms
+
+Relation/Mapping - Transform from one's postiton to the other's
+Language/Information - Mapping from symbol to stuff
+Space - A set of stuff
+
+在学习的某些阶断，对目标认识的还很肤浅，这时要求深入条件不一定成熟，因为：1, 未来在条件具足时深层就显而易见。2, 大量的精力去求深入会影响不起意
+人对于不知道的东西会有畏惧感，从而让你远离这个东西，清楚的知道边界可以去除这种畏惧感
 
 两百万让我懂得了：在非我专业领域我的水平远远低于平均水平
 
@@ -6447,7 +6457,7 @@ One stuff contains isomorphic stuff
 
 So it's a container
 
-Examples:
+Examples can implemented via Recursion:
 List:
   container contains 1 isomorphic stuff & 1 another stuff
 Tree:
@@ -6461,6 +6471,15 @@ Recursion-Logic:
   Execution of Recursion-Logic will create/extract Recursion Data if:
     1, Nearbyly Executed Logic pass data
     2, wrape/unwrape passed data
+Complex State:
+  A State = another State(previous State) + one Change
+Set:
+  A Set = another Set(sub Set) + a Incremental
+Number:
+  A Number = another Number + 1
+Any Complex Stuff:
+  A Complex Stuff = another Complex Stuff(sub Complex Stuff) + a Incremental
+
 
 ## Details
 ### Can be created via:
@@ -11098,6 +11117,9 @@ Supervisor
 		
 	Creating a Configuration File
 		echo_supervisord_conf > /etc/supervisord.conf
+    
+    Start deamon: supervisord
+    Start control: supervisorctl
 
 
 ****** thymeleaf
