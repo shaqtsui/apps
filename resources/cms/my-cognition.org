@@ -156,6 +156,7 @@ NOT the language, as language is just a reference to the real Stuff
 You can NOT see the whole stuff which contains anything you not see
 So, do NOT guess, decompose & compose until you see it
 E.g. if you want to see the change of a stuff, you need to see how the stuff created
+Abstract:
 You can see one or two stuff at single time, If more than 2 stuffs, pls iteratly group to one or two stuff to make them a 2 forks tree shape
 数字这个符号指的是某物之数，所以见数字不是真见，要见他所指的物
 So don't just reply on math language(e.g. operations & equations), you need to see the stuff first then use math language
@@ -166,6 +167,19 @@ So don't just reply on math language(e.g. operations & equations), you need to s
 
 你学了很多专业知识后并使用，不是你牛，是知识这个工具牛，你只是观而后搬到你心中
 
+看这个世界的方法：少意
+  专注 － 只看一个东西
+  系统 － 形成一个东西（connected together avoid forget, avoid duplicate）
+  Abstract － 看少一点东西(limited sight see large stuff)
+
+起意之别：
+能力本无差别，只有意的多少(体现为别人所说的学习“能力”，真正的能力在圣不增在凡不减？)
+  想其他事只会让你分心
+    一直想快时属于下等的多意，不但让你分心更严重的是还会让你跳过一些基础
+  一意之时看一个东西自然是在一这个范围内，就是系统
+  看清一个东西后自然他不会占用你的sight了，就是在抽象
+
+
 世界包括：Things & Transforms
 
 Algebra研究：Things & Transforms(Operators, Functions)
@@ -174,6 +188,23 @@ Analysis研究：changes of Things on one side(input/output) of Transforms
 Relation/Mapping - Transform from one's postiton to the other's
 Language/Information - Mapping from symbol to stuff
 Space - A set of stuff
+
+Prime - Can NOT perform decompose Transform in a Context
+Composite - Can perform decompose Transform in a Context
+
+Isomorphic - Stuffs from same Composite Transform on different stuff
+Recursion - Stuff from Composite Transform on Isomorphic stuff
+  benifit: 1, inner stuff & other stuff are isomorphic 2, changes are isomorphic
+
+
+Transform:
+  Prime Transform
+    e.g.
+      Transform by positon: a -> A, b -> B, ... ,  #t -> True, #f -> False, G -> GREEN, - R -> RED, B -> BLUE
+      Transform by composition: (wrape x []) -> [x]
+      Transform by decomposition: (decomp [x]) -> x & []
+  Composite Transform - Decompose -> Transform -> Compose: e.g. book -> BOOK
+    This need it's Inputs to be isomorphic
 
 在学习的某些阶断，对目标认识的还很肤浅，这时要求深入条件不一定成熟，因为：1, 未来在条件具足时深层就显而易见。2, 大量的精力去求深入会影响不起意
 人对于不知道的东西会有畏惧感，从而让你远离这个东西，清楚的知道边界可以去除这种畏惧感
