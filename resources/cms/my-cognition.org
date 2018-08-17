@@ -4,7 +4,21 @@
 #+STARTUP: showstars
 
 * All about: COGNITION OF 心 AND THE WORLD
-一颗心，只是起不起意的区别
+一颗心，只是观与不观和起不起意的区别
+
+昏沉 － 不观
+
+七情六欲 － 起意
+
+观而不起意 － 目标
+
+观则不起意 － 使目标简单化
+
+起意之时还需意来灭
+
+念佛是谁 － 要参是灭意之意，参他就是抱他、看他，正在参时就是观而不起意
+
+心神不宁 － 心总是起意
 
 有两种心：意识心 非意识心，两者都见闻觉知
 
@@ -171,6 +185,7 @@ So don't just reply on math language(e.g. operations & equations), you need to s
   专注 － 只看一个东西
   系统 － 形成一个东西（connected together avoid forget, avoid duplicate）
   Abstract － 看少一点东西(limited sight see large stuff)
+  Hold Root Remove Derivatives - Generally in a system, one Root generate many Derivatives, so Root is generally simple Derivatives is generally complex
 
 起意之别：
 能力本无差别，只有意的多少(体现为别人所说的学习“能力”，真正的能力在圣不增在凡不减？)
