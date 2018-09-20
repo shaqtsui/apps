@@ -19,7 +19,7 @@ auto-revert-mode/auto-revert-tail-mode - alot detact changes & reload
 
 
 other
-heml - similar to IDO
+helm - similar to IDO
 company - code complete, default supported by cider via backend: capf(standard complete at point function)
 auto-complete - same as company
 flycheck - on the fly syntax check
@@ -34,10 +34,11 @@ paren-face - show parentheses with differnt style, functions covered by rainbow-
 malabar-mode - moved to jdee
 emacs-eclim - reply on eclipse backend
 jdee - java env, now actively maintained from 2015, but as of 2017/08 its still very young, will support build tools in future
-ensime - mainly support scala, java support via enjime, support sbt, lein, maven, gradle
-meghanada-emacs - same architecture as ensime, no debug support as of 2017/08
+ensime - lsp like,mainly support scala, java support via enjime, support sbt, lein, maven, gradle
+meghanada-emacs - lsp like, same architecture as ensime, no debug support as of 2017/08
 cdt - debug clojure code to invoke JDI, which connect to remove VM, no update since 2012
 ritz - similar to cdt, but more functionality,  no update since 2012
+lsp - microsoft's protocal for general editor & languages
 
 
 

@@ -5,7 +5,7 @@
             [adzerk.boot-reload :refer [reload]]
             [metosin.boot-alt-http :refer [serve]]
             [adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
-            [adzerk.boot-test :refer [test]]
+            [adzerk.boot-test :as bt]
             [crisptrutski.boot-cljs-test :refer [test-cljs]]
             [taoensso.timbre :as timbre]
             [clojure.pprint :refer [pprint]]
@@ -80,4 +80,4 @@
    (testing)
    (watch)
    (test-cljs :update-fs? true :phantom :namespaces '#{apps.test})
-   (test :namespaces '#{apps.test})))
+   (bt/test :namespaces '#{apps.test})))

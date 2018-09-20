@@ -164,6 +164,16 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 
 学习就是观尘？ 
 学习就是心行观
+
+How to see > What u see about the real > What u see about the reference(language/notation)
+
+How to see:
+BD - Be DING
+SFDD - See from different dimension
+OHKFS - Only hold key for simplicity
+
+
+
 Just see the real stuff
 Visual Understanding, i.e. Insight not Numbers
 NOT the language, as language is just a reference to the real Stuff
@@ -283,6 +293,12 @@ plot high order function from component function's shape
 
 观不执相而生定
 观执多相而生知(Cognition)
+
+Never arbitrary add stuff into a system
+E.g.
+add case to macbook pro harm: cooling, damange original case during install & uninstall
+add keyboard mo harm: screen as by design there is no gap between screen & keyboard
+add screen protector will cause it not closely closed
 
 ** 心
 
@@ -6499,6 +6515,10 @@ happens-before
 ***** algorithm
 
 ****** recursion
+A shape
+
+E.g. Recursive Container - similar stuffes can put into this Container
+
 One stuff contains isomorphic stuff
 
 So it's a container
@@ -8767,7 +8787,8 @@ Basic setups:
 		add client's public key(~/.ssh/id_rsa.pub) to server's authorized_keys (~/.ssh/authorized_keys)
 
 
-Network manual config:
+Network interface config: (/etc/network/interfaces)
+# static config
 auto p6p1
 iface p6p1 inet static
 address 192.168.31.100
@@ -8775,7 +8796,13 @@ netmask 255.255.255.0
 broadcast 192.168.31.255
 gateway 192.168.31.1
 dns-nameservers 192.168.31.1
+# get config from dhcp server
+auto p6p1
+iface p6p1 inet dhcp
 
+Interface start & down:
+ifdown p6p1
+ifup p6p1
 
 Runlevel is a mode of operation in one of the computer operating systems that implement Unix System V-style initialization.
     A runlevel defines the state of the machine after boot.
@@ -15481,6 +15508,9 @@ E.g.
 A bootstrap program for clojure
 Follow explicit over implicit
 One JVM instance for multiple Clojure runtime
+
+Cons:
+files duplicated each time boot executed, this make too much disk IO & take too much disk space
 ******** Runtime structure of Classes
 
                            
@@ -15971,6 +16001,16 @@ Solution Generator will generate actions to get it.
 
 
 
+
+
+* Network 
+IP addr = net addr + host addr 
+network mask - used to indicate which part is net addr & which part is host addr
+direct broadcast address - net addr + 255
+limited broadcast address - special net addr(255.255.255) + 255, this special net addr means current local net
+gateway address - address of server in a local net which will connect to out net
+
+DHCP - Dynamic Host Configuration Protocal
 
 
 

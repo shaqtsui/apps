@@ -2,13 +2,70 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.tools.logging :as log]
+            [clojure.data.json :as json]
             [apps.dcs :refer [as]]
             [taoensso.timbre :as timbre]
             [net.cgrand.enlive-html :refer :all]
             [clojure.java.shell :as sh]
-            [postal.core :refer :all])
+            [postal.core :refer :all]
+            [dk.ative.docjure.spreadsheet :as sp])
   (:import java.net.URL))
 
+
+(defn json-process []
+  (let [j (atom nil)
+        n (atom nil)]
+    (do (println "input target json:")
+        (reset! j
+                (json/read-str (read-line)))
+        (println "input key name:")
+        (reset! n
+                (read-line))
+        (println "value is:")
+        (get @j @n))))
+
+(def -main
+  json-process)
+
+
+(def res (->> (sp/load-workbook-from-file "/Users/fuchengxu/Downloads/管件%2B发货通知.xls")
+              (sp/select-sheet "Sheet1")
+              (sp/row-seq)
+              (remove nil?)
+              (map sp/cell-seq)
+              (map #(map sp/read-cell %))
+              rest rest butlast butlast
+              (group-by #(clojure.string/join [(nth % 1) (nth % 2) (nth % 3) (nth % 6)]))
+              (map (fn [ety]
+                     (->> (val ety)
+                          (reduce (fn [r r2]
+                                    (update (vec  r) 5
+                                            #(str (+ (Integer/parseInt %1)
+                                                     (Integer/parseInt %2)))
+                                            (nth r2 5)))))))
+           
+
+              ))
+
+(->> res
+     (sp/create-workbook "By Clojure")
+     (sp/save-workbook-into-file! "RES.xlsx"))
+
+(defn kaoji
+  "Buggy, cpu load not down after this completed"
+  ([]
+   (kaoji nil))
+  ([t]
+   (let [burn (future (last (repeatedly #(pmap inc (vec (range 10))))))]
+     (println "Start kaoji...")
+     (when t
+       (Thread/sleep (* 1000 t))
+       (future-cancel burn)
+       (println "Burn" t "seconds, cancel result:"
+                (future-cancelled? burn))))))
+
+
+[dk.ative/docjure "1.12.0"]
 (sh/sh "ls" :dir "/home/shark")
 
 (defn aria-loop []

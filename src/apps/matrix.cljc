@@ -290,7 +290,7 @@
         (reset! store X-0))
       (reset! store nil))))
 
-(defn root-fn
+#_(defn root-fn
   "All search of convergence point of 2 lines can reduce to root problem(1 line with x-axis) "
   [& {:keys [gradient-fn precision method alpha plugin]
       :or {precision 1E-6

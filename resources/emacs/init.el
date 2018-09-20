@@ -3,7 +3,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary pyim pyim-wbdict))
+(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary pyim pyim-wbdict lsp-java company-lsp lsp-ui dap-mode yasnippet))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -17,19 +17,42 @@
 (global-linum-mode t)
 (global-auto-revert-mode t)
 (ido-mode t)
+
 ;; 3rd part lib init
+;; java support, lsp-java base on lsp-mode(maintained by same team)
+;; below packages manully installed:
+;; company-lsp(this more powerfull than company-capf) - support code complete
+;; lsp-ui & flycheck - error report
+;; lsp-ui - javadoc hover, code action
+;; dap-mode - debugger, test runner
+;; lsp-java will auto download java language server
+(require 'lsp-java)
+(setq lsp-inhibit-message t)
+(add-hook 'java-mode-hook #'lsp-java-enable)
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+(dap-mode t)
+(dap-ui-mode t)
+(require 'dap-java)
+(require 'lsp-imenu)
+(add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+
+;; yasnippet can be used by company-lsp to support expand snippets on completion
+(yas-global-mode t)
+
 ;; this need to be called before gesiter init
 (setq geiser-active-implementations '(racket))
 (setq cider-boot-parameters "dev")
 (global-company-mode)
 (add-to-list 'company-backends 'company-restclient)
+(push 'company-lsp company-backends)
 (require 'magit)
 (setq magit-diff-hide-trailing-cr-characters nil)
 ;; evaluate cider.el, so that fun & vars available to flycheck-clojure
 (require 'cider)
 ;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
 ;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
 ;; paredit enable
 (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
@@ -48,7 +71,7 @@
 (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
 (setenv "BOOT_JVM_OPTIONS"
-	"-client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled")
+	"--add-modules java.xml.bind -client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled")
 
 ;; direct-linking avoid function var dereference, in the cost of dynamic runtime
 ;; -Dclojure.compiler.direct-linking=true
