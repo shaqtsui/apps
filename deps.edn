@@ -13,7 +13,10 @@
   ring {:mvn/version "1.6.3"}
   ring-logger {:mvn/version "1.0.1"}
   ring-webjars {:mvn/version "0.2.0" :exclusions [com.fasterxml.jackson.core/jackson-core]}
-  weasel {:mvn/version "0.7.0"}
+  ;; browser nrepl via websocket, supposed to be auto injected by cider-jack-in-cljs, additional customize is required to use this
+  ;; prefer piggieback(nrepl middleware, cljs.repl adapter) configed via emacs customize:
+  ;; (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
+;;  weasel {:mvn/version "0.7.0"}
   acyclic/squiggly-clojure {:mvn/version "0.1.8"}
   buddy/buddy-auth {:mvn/version "2.1.0"}
   cljsjs/three {:mvn/version "0.0.87-0"}
@@ -48,5 +51,9 @@
   org.webjars.bower/tether {:mvn/version "1.4.4"}
   prismatic/dommy {:mvn/version "1.1.0"}
   ring/ring-defaults {:mvn/version "0.3.1"}}
+
+
+ :aliases
+ {:java9+ {:jvm-opts ["--add-modules" "java.xml.bind"]} }
 
  }

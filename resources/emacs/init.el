@@ -35,7 +35,7 @@
 (require 'dap-java)
 (require 'lsp-imenu)
 (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
-(setq lsp-java--workspace-folders (list "/Users/fuchengxu/gitrepo/shimdandy"))
+;; (setq lsp-java--workspace-folders (list "/Users/fuchengxu/gitrepo/shimdandy"))
 
 ;; yasnippet can be used by company-lsp to support expand snippets on completion
 (yas-global-mode t)
@@ -72,7 +72,9 @@
 
 ;; direct-linking avoid function var dereference, in the cost of dynamic runtime
 ;; -Dclojure.compiler.direct-linking=true
+(setq cider-clojure-cli-global-options "-A:java9+")
 
+(cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
 
 ;; webi input method
 ;; to registe pyim in input method list, a default small pinyin dict(pyim-pymap) included
