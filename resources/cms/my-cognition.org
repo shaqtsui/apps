@@ -8230,7 +8230,7 @@ Logging System Contains:
 			JCL(Jakarta Common Logging), SLF4J
 	Log Impl
 		E.g. 
-			log4j, logback, JUL(Java Util Logging)
+			log4j, logback, JUL(Java Util Logging), timbre
 
 
 Normally Logging System will be initialized when first invoke getLogger()
@@ -10018,7 +10018,7 @@ Simple Logging Facade for Java
 	StaticLoggerBinder implements LoggerFactoryBinder
 		Bind to ILoggerFactory via hard code
 		This is different from JCL which bind to concrete log impl via commons-logging.properties
-		StaticLoggerBinder not in slf4j.jar but in: slf4j-nop.jar, slf4j-simple.jar, slf4j-log4j12.jar, slf4j-jdk14.jar or logback-classic.jar
+		StaticLoggerBinder not in slf4j.jar but in: slf4j-nop.jar, slf4j-simple.jar, slf4j-log4j12.jar, slf4j-jdk14.jar or logback-classic.jar, slf4j-timbre
 		
 		
 	Bridges:

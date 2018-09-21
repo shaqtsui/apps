@@ -35,13 +35,13 @@
 (require 'dap-java)
 (require 'lsp-imenu)
 (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+(setq lsp-java--workspace-folders (list "/Users/fuchengxu/gitrepo/shimdandy"))
 
 ;; yasnippet can be used by company-lsp to support expand snippets on completion
 (yas-global-mode t)
 
 ;; this need to be called before gesiter init
 (setq geiser-active-implementations '(racket))
-(setq cider-boot-parameters "dev")
 (global-company-mode)
 (add-to-list 'company-backends 'company-restclient)
 (push 'company-lsp company-backends)
@@ -70,9 +70,6 @@
    (ditaa . t)))
 (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
-(setenv "BOOT_JVM_OPTIONS"
-	"--add-modules java.xml.bind -client -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx8g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled")
-
 ;; direct-linking avoid function var dereference, in the cost of dynamic runtime
 ;; -Dclojure.compiler.direct-linking=true
 
@@ -93,6 +90,8 @@
 
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
+(setq make-backup-files nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

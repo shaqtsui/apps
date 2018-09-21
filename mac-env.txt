@@ -11,8 +11,10 @@ brew cask install lantern
 # Not recommand, as safri provide more functionality & power efficient in mac
 #brew cask install google-chrome
 brew cask install java
-brew install boot-clj
-brew install leiningen
+brew install clojure
+# boot need to copy src to tmp each time it run, I don't want too much useless io, will harm my mac
+#brew install boot-clj
+#brew install leiningen
 brew install emacs --with-cocoa
 
 # benchmark, geekbench is not free
