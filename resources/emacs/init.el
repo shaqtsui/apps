@@ -14,7 +14,8 @@
 ;; build-in lib init
 (recentf-mode t)
 (desktop-save-mode t)
-(global-linum-mode t)
+;; old linum-mode will slow down emacs when large file
+(global-display-line-numbers-mode t)
 (global-auto-revert-mode t)
 (ido-mode t)
 
