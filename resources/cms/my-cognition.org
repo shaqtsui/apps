@@ -3735,13 +3735,19 @@ Note:
         indicator of target namespace
 
 Note:  
-Symbol's Semantic is the Symbol's corresponding Value  
+Symbol's Semantic is the Symbol's corresponding Value
+
+Var:
+Var added only to support interactive development(change symbol binding on runtime)
+Symbol -> Var -> Value
+              -> Metadata
 Var by default bind to: object[clojure.lang.Var$Unbound 0x2ad20528 "Unbound: #'${var's symbol}"]  
 Var can be invoked, which internally invoke it's corresponding Value  
-Var created via: defXXX, declare, intern  
-Value is immutable Data. Even record, which compiled to java object, is Value  
-All code executed in thread, below is code and corresponding impact:
+Var created via: defXXX, declare, intern
 
+Value is immutable Data. Even record, which compiled to java object, is Value  
+
+All code executed in thread, below is code and corresponding impact:
  * create/remove namespace -> namespace repo
  * def* -> namespace
  * switch namespace -> indicator of target namespace
@@ -16039,3 +16045,42 @@ reagent integration: soda-ash (component naming follow JS)
 Theme customization in compile time(less variable)
 
 
+
+**** eval
+The presence of eval blurs the line between runtime and compilation time requiring that everything available in the latter be present in the former
+
+**** aleph
+NIO vs IO:
+About how to perform IO(here IO mainly from/to Socket)
+Block Style:
+Thread --read/wirte-- Socket
+Thread --read/wirte-- Socket
+Thread --read/wirte-- Socket
+
+Non Block Style:
+Thread --use-- Selector -- Socket
+                        -- Socket
+                        -- Socket
+
+NIO lib(netty), can be used by client & server, one top of it provided impl of HTTP...
+
+
+
+
+
+
+
+
+
+**** clojure core.async
+I think this is not FP
+I prefer all Values coms from: Symbol, Literal, Function Application
+Use parking(thread pool pulling?) to:
+1, remove callbacks
+2, avoid too many threads blocking
+
+**** programe language design
+First formost, Semantic is the core.
+Don't think from Data perspective, as its Semantic is Thing
+
+So Vector can not be implemented as Function, as from Semnatic perspective Vector is not a Relation

@@ -1,15 +1,9 @@
 (ns apps.cms
   (:require [clojure.java.io :as io]
-            [clojure.core.async :as async]
             [clojure.tools.logging :as log]
             [ring.util.response :as response]
-            [ring.middleware.reload :refer [wrap-reload]]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [ring.middleware.webjars :refer [wrap-webjars]]
-            ;; prone.middleware have abundant info than ring.middleware.stacktrace
-            [prone.middleware :as prone]
             [prone.debug :refer [debug]]
-            [ring.logger :as logger]
+
             [compojure.core :refer :all]
             [compojure.route :as route]
             [hiccup.core :refer [html]]
@@ -18,11 +12,11 @@
             [hiccup.form :refer :all]
             [clj-org.org :refer [parse-org]]
             [datomic.api :as d]
+            [apps.ring-mw :as mw]
 
             [endophile.core :refer [mp]]
             [endophile.hiccup :refer [to-hiccup]]
-            [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
-            [buddy.auth.backends :as backends]
+
             [oauth.v2 :as oauth2]
             [com.stuartsierra.component :as component]
             [system.repl :refer [system set-init! start stop reset]]
@@ -109,9 +103,7 @@
    :qq-openid-uri "https://graph.qq.com/oauth2.0/me"
    :qq-user-info-uri "https://graph.qq.com/user/get_user_info"})
 
-(defonce all-the-sessions (atom {}))
-
-(defn app-routes-factory [qq-oauth2]
+(def handler
   (routes
    (GET "/" request (-> "cms/my-cognition.org"
                         io/resource
@@ -165,45 +157,11 @@
                             str))
    (route/not-found "Page Not Found")))
 
-(defn wrap-history [handler & {:keys [max-size ignore-4xx ignore-5xx]}]
-  (fn [request]
-    (let [response (handler request)
-          max-size (or max-size 10)]
-      (if (or (zero? max-size)
-              (and ignore-4xx (> (:status response) 399) (< (:status response) 500))
-              (and ignore-5xx (> (:status response) 499) (< (:status response) 600)))
-        response
-        (->  (if (contains? response :session)
-               response
-               (assoc response :session (:session request)))
-             (update-in [:session :history]
-                        (fn [history]
-                          (as-> (or history []) $$
-                            (if (or (< max-size 0) (> max-size (count $$)))
-                              $$
-                              (subvec $$ 1 max-size))
-                            (conj $$ (:uri request))))))))))
-
-(defn app-factory [app-routes]
-  (let [auth-backend (backends/session)]
-    (-> app-routes
-        (wrap-history :max-size 5 :ignore-4xx true :ignore-5xx true)
-        (wrap-authorization auth-backend)
-        (wrap-authentication auth-backend)
-        (prone/wrap-exceptions {:app-namespaces '[apps]})
-        (logger/wrap-with-logger {:printer :no-color})
-        wrap-webjars
-        (wrap-defaults (-> site-defaults
-                           (assoc-in [:security :frame-options] {:allow-from "www.sharkxu.com"})
-                           (assoc-in [:security :anti-forgery] false)
-                           (assoc-in [:session :store] (ring.middleware.session.memory/memory-store all-the-sessions))))
-        wrap-reload)))
 
 ;; this must be no parameter so it can be invoked by system/init
 (defn system-cms []
-  (as-> qq-oauth2 $
-    (app-routes-factory $)
-    (app-factory $)
+  (as-> handler $
+    (mw/wrap-defaults $)
     (component/system-map
           ;; in linux port below 1024 can only be opened by root
      :web (new-web-server 8080 $)

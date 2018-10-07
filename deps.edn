@@ -1,60 +1,65 @@
-{:deps
- {clatrix {:mvn/version "0.5.0"}
-  clj-org {:mvn/version "0.0.2"}
-  compojure {:mvn/version "1.6.1"}
-  endophile {:mvn/version "0.2.1"}
-  enlive {:mvn/version "1.1.6"}
-  etaoin {:mvn/version "0.2.4"}
-  hiccup {:mvn/version "1.0.5"}
-  hickory {:mvn/version "0.7.1"}
-  hipo {:mvn/version "0.5.2"}
-  oauth-clj {:mvn/version "0.1.16" :exclusions [commons-logging]}
-  prone {:mvn/version "1.6.0"}
-  ring {:mvn/version "1.6.3"}
-  ring-logger {:mvn/version "1.0.1"}
-  ring-webjars {:mvn/version "0.2.0" :exclusions [com.fasterxml.jackson.core/jackson-core]}
-  ;; browser nrepl via websocket, supposed to be auto injected by cider-jack-in-cljs, additional customize is required to use this
-  ;; prefer piggieback(nrepl middleware, cljs.repl adapter) configed via emacs customize:
-  ;; (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
-;;  weasel {:mvn/version "0.7.0"}
-  acyclic/squiggly-clojure {:mvn/version "0.1.8"}
-  buddy/buddy-auth {:mvn/version "2.1.0"}
-  cljsjs/three {:mvn/version "0.0.87-0"}
-  com.cemerick/piggieback {:mvn/version "0.2.2"}
-  com.cemerick/pomegranate {:mvn/version "1.0.0" :exclusions [commons-logging]}
-  com.datomic/datomic-free {:mvn/version "0.9.5656" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop com.google.guava/guava]}
-  com.draines/postal {:mvn/version "2.0.2"}
-  ;; slf4j's impl as timbre
-  com.fzakaria/slf4j-timbre {:mvn/version "0.3.12"}
-  com.taoensso/timbre {:mvn/version "4.10.0"}
-  com.taoensso/tufte {:mvn/version "2.0.1"}
-  dk.ative/docjure {:mvn/version "1.12.0"}
-  net.mikera/core.matrix {:mvn/version "0.62.0"}
-  net.mikera/imagez {:mvn/version "0.12.0"}
-  net.mikera/vectorz-clj {:mvn/version "0.48.0"}
-  org.clojars.melodylane/cljs-react-material-ui {:mvn/version "1.4.0-0"}
-  org.clojure/clojurescript {:mvn/version "1.10.339"}
-  org.clojure/core.async {:mvn/version "0.4.474" :exclusions [org.ow2.asm/asm-all]}
-  org.clojure/data.csv {:mvn/version "0.1.4"}
-  org.clojure/data.json {:mvn/version "0.2.6"}
-  org.clojure/math.numeric-tower {:mvn/version "0.0.4"}
-  org.clojure/tools.logging {:mvn/version "0.4.0"}
-  org.clojure/tools.reader {:mvn/version "1.3.0"}
-  org.danielsz/system {:mvn/version "0.4.1"}
-  ;; jcl redirect to slf4j(common-logging.jar need to be exclude from cp)
-  org.slf4j/jcl-over-slf4j {:mvn/version "1.7.25"}
-  ;; log4j redirect to slf4j(log4j.jar need to be exclude from cp)
-  org.slf4j/log4j-over-slf4j {:mvn/version "1.7.25"}
-  ;; jul redirect to slf4j(no jar to be excluded, as jul in java pkg)
-  org.slf4j/jul-to-slf4j {:mvn/version "1.7.25"}
-  org.webjars.bower/tether {:mvn/version "1.4.4"}
-  prismatic/dommy {:mvn/version "1.1.0"}
-  reagent {:mvn/version "0.8.1"}
-  ring/ring-defaults {:mvn/version "0.3.1"}
+{:paths ["src" "resources"]
 
-  }
+ :deps {
+        aleph {:mvn/version "0.4.6"}
+        clatrix {:mvn/version "0.5.0"}
+        clj-org {:mvn/version "0.0.2"}
+        compojure {:mvn/version "1.6.1"}
+        endophile {:mvn/version "0.2.1"}
+        enlive {:mvn/version "1.1.6"}
+        etaoin {:mvn/version "0.2.4"}
+        hiccup {:mvn/version "1.0.5"}
+        hickory {:mvn/version "0.7.1"}
+        hipo {:mvn/version "0.5.2"}
+        oauth-clj {:mvn/version "0.1.16" :exclusions [commons-logging]}
+        prone {:mvn/version "1.6.0"}
+        ring {:mvn/version "1.6.3"}
+        ring-logger {:mvn/version "1.0.1"}
+        ring-webjars {:mvn/version "0.2.0" :exclusions [com.fasterxml.jackson.core/jackson-core]}
+        ;; browser nrepl via websocket, supposed to be auto injected by cider-jack-in-cljs, additional customize is required to use this
+        ;; prefer piggieback(nrepl middleware, cljs.repl adapter) configed via emacs customize:
+        ;; (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
+        ;;  weasel {:mvn/version "0.7.0"}
+        acyclic/squiggly-clojure {:mvn/version "0.1.8"}
+        buddy/buddy-auth {:mvn/version "2.1.0"}
+        cljsjs/three {:mvn/version "0.0.87-0"}
+        com.cemerick/piggieback {:mvn/version "0.2.2"}
+        com.cemerick/pomegranate {:mvn/version "1.0.0" :exclusions [commons-logging]}
+        com.datomic/datomic-free {:mvn/version "0.9.5697" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop com.google.guava/guava]}
+        com.draines/postal {:mvn/version "2.0.2"}
+        ;; slf4j's impl as timbre
+        com.fzakaria/slf4j-timbre {:mvn/version "0.3.12"}
+        com.taoensso/timbre {:mvn/version "4.10.0"}
+        com.taoensso/tufte {:mvn/version "2.0.1"}
+        dk.ative/docjure {:mvn/version "1.12.0"}
+        mount {:mvn/version "0.1.13"}
+        net.mikera/core.matrix {:mvn/version "0.62.0"}
+        net.mikera/imagez {:mvn/version "0.12.0"}
+        net.mikera/vectorz-clj {:mvn/version "0.48.0"}
+        org.clojars.melodylane/cljs-react-material-ui {:mvn/version "1.4.0-0"}
+        org.clojure/clojurescript {:mvn/version "1.10.339"}
+        org.clojure/core.async {:mvn/version "0.4.474" :exclusions [org.ow2.asm/asm-all]}
+        org.clojure/data.csv {:mvn/version "0.1.4"}
+        org.clojure/data.json {:mvn/version "0.2.6"}
+        org.clojure/math.numeric-tower {:mvn/version "0.0.4"}
+        org.clojure/tools.logging {:mvn/version "0.4.0"}
+        org.clojure/tools.reader {:mvn/version "1.3.0"}
+        org.danielsz/system {:mvn/version "0.4.1"}
+        ;; jcl redirect to slf4j(common-logging.jar need to be exclude from cp)
+        org.slf4j/jcl-over-slf4j {:mvn/version "1.7.25"}
+        ;; log4j redirect to slf4j(log4j.jar need to be exclude from cp)
+        org.slf4j/log4j-over-slf4j {:mvn/version "1.7.25"}
+        ;; jul redirect to slf4j(no jar to be excluded, as jul in java pkg)
+        org.slf4j/jul-to-slf4j {:mvn/version "1.7.25"}
+        org.webjars.bower/tether {:mvn/version "1.4.4"}
+        prismatic/dommy {:mvn/version "1.1.0"}
+        reagent {:mvn/version "0.8.1"}
+        ring/ring-defaults {:mvn/version "0.3.1"}
+        ring/ring-json {:mvn/version "0.4.0"}
+        }
 
- :aliases
- {:java9+ {:jvm-opts ["--add-modules" "java.xml.bind"]} }
+ :aliases {
+           :java9+ {:jvm-opts ["--add-modules" "java.xml.bind"]}
+           }
 
  }
