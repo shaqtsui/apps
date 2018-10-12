@@ -80,6 +80,8 @@ sudo apt-get install mysql-server
 curl -fLO https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-64-bit.deb
 sudo dpkg -i lantern-installer-64-bit.deb
 
+# directory compare(beyound compare is not free)
+sudo apt install meld
 
 # tty unicode support (show chinese char) via wrapper
 sudo apt-get install language-pack-zh-hans
