@@ -3,7 +3,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary pyim pyim-wbdict lsp-java company-lsp lsp-ui dap-mode yasnippet))
+(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary pyim pyim-wbdict lsp-java company-lsp lsp-ui dap-mode yasnippet ztree))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -73,7 +73,7 @@
 
 ;; direct-linking avoid function var dereference, in the cost of dynamic runtime
 ;; -Dclojure.compiler.direct-linking=true
-(setq cider-clojure-cli-global-options "-A:java9+")
+(setq cider-clojure-cli-global-options "-A:java9+:dev")
 
 (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
 

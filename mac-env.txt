@@ -12,6 +12,8 @@ brew cask install lantern
 #brew cask install google-chrome
 brew cask install java
 brew install clojure
+## used to download java sources via: mvn dependency:sources, which can be used by cider to look for java sources
+brew install maven
 # boot need to copy src to tmp each time it run, I don't want too much useless io, will harm my mac
 #brew install boot-clj
 #brew install leiningen
@@ -23,6 +25,11 @@ brew cask install cinebench
 # logitech mouse advanced driver & setting tool
 brew cask install homebrew/cask-drivers/logitech-options
 
+# flash plugin for safri
+brew cask install flash-npapi
+
+# xun lei
+brew cask install thunder
 
 # system mornitor
 ## not a good solution, as it keep running & show in menu

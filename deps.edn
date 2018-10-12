@@ -4,6 +4,7 @@
         aleph {:mvn/version "0.4.6"}
         clatrix {:mvn/version "0.5.0"}
         clj-org {:mvn/version "0.0.2"}
+        cljs-ajax {:mvn/version "0.7.4"}
         compojure {:mvn/version "1.6.1"}
         endophile {:mvn/version "0.2.1"}
         enlive {:mvn/version "1.1.6"}
@@ -25,7 +26,7 @@
         cljsjs/three {:mvn/version "0.0.87-0"}
         com.cemerick/piggieback {:mvn/version "0.2.2"}
         com.cemerick/pomegranate {:mvn/version "1.0.0" :exclusions [commons-logging]}
-        com.datomic/datomic-free {:mvn/version "0.9.5697" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop com.google.guava/guava]}
+        com.datomic/datomic-free {:mvn/version "0.9.5697" :exclusions [commons-codec org.apache.httpcomponents/httpclient org.slf4j/slf4j-nop com.google.guava/guava io.netty/netty-all]}
         com.draines/postal {:mvn/version "2.0.2"}
         ;; slf4j's impl as timbre
         com.fzakaria/slf4j-timbre {:mvn/version "0.3.12"}
@@ -59,7 +60,8 @@
         }
 
  :aliases {
-           :java9+ {:jvm-opts ["--add-modules" "java.xml.bind"]}
+           :java9+ {:jvm-opts ["--add-modules" "java.xml.bind" "--add-exports" "jdk.compiler/com=ALL-UNNAMED" "--add-exports" "jdk.javadoc/jdk.javadoc.internal.api=ALL-UNNAMED"]}
+           :dev {:extra-paths ["/Users/fuchengxu/.m2/repository/io/netty/netty-handler/4.1.25.Final/netty-handler-4.1.25.Final-sources.jar"]}
            }
 
  }

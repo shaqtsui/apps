@@ -4,8 +4,12 @@
             [cljsjs.material-ui]
             [cljs-react-material-ui.core :refer [create-mui-theme color]]
             [cljs-react-material-ui.reagent :as ui]
-            [cljs-react-material-ui.icons :as ic]))
+            [cljs-react-material-ui.icons :as ic]
+            [ajax.core :as aj]))
 
+
+
+(aj/GET "http://localhost:8080/hello")
 
 (def base-theme (create-mui-theme {:palette {:primary {:main (color :light-blue 700)}
                                                               :secondary {:main (color :teal :A100)}

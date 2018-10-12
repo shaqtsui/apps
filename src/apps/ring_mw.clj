@@ -50,7 +50,7 @@
         (logger/wrap-with-logger {:printer :no-color})
         mw-wj/wrap-webjars
         (mw-def/wrap-defaults (-> mw-def/site-defaults
-                           (assoc-in [:security :frame-options] {:allow-from "www.sharkxu.com"})
+                           (assoc-in [:security :frame-options] {:allow-from "http://localhost:8080"})
                            (assoc-in [:security :anti-forgery] false)))
         mw-r/wrap-reload)))
 

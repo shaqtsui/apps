@@ -16084,3 +16084,11 @@ First formost, Semantic is the core.
 Don't think from Data perspective, as its Semantic is Thing
 
 So Vector can not be implemented as Function, as from Semnatic perspective Vector is not a Relation
+
+
+**** emacs
+TRAMP (included) used to access remote files
+/ssh:shark@192.168.124.3:Desktop/kvm.txt
+
+ztree-diff is a directory-diff tool for Emacs inspired by commercial tools like Beyond Compare or Araxis Merge. 
+
