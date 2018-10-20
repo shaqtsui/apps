@@ -173,6 +173,35 @@ SFDD - See from different dimension
 OHKFS - Only hold key for simplicity
 
 
+Scientist are those guys who:
+Distill the world, express the result with their language
+Note:
+  Distill is Abstract
+  Normally Distill via front view & side view
+  Function can model: transform, link, relationship ...
+  18.01, 18.02, 18.03
+    front view is modeled by original Function
+    side view is modeled by original Function's derivative Function
+  18.06
+    Directed Line modeled by Vector, Transform modeled by a Function
+  18.062J
+    Induction - About Equal Function. Iteratively apply Equal Function to get induct proof
+    Number Theory - About Divide Function. Interleavly apply Divide Function to get gcd
+    Graph Theory - About Add Function. Iteratively apply Add Function on 1-Node & *-Edge to exsting Graph to get new Graph
+    Sums - About Multiple Function. Iteratively apply Multiple Function to get a serial
+    Divide and conquer Recurrence - About Divide Function. Iteratively apply Divide Function to get Recurrence
+    Linear Recurrence - About Substract Function. Iteratively apply Substract Function to get Recurrence
+    Counting rules I - About Perspective Function. Apply Perspective Function to map Perspectives
+    Counting rules II - About Add Function. Iteratively apply Add Function on new layer to exsting layers create new layers with overlaps
+    Probability introduction - About Group Function. Group Sample Points to form an Event
+    Conditional probability - About Add Function. Add new Event to existing Events
+    Independence - About Equal Function. The new added Event have same ratio in existing Events
+    Random variable - About Link Function. Sample point Linked to a Value
+    Expection - About Add Function. Add Values in Sample Point Unit or Event Unit
+    Large deviation - About Perspective Function. View Sample Point from the Perspective of distance from mean
+    Random walks -
+
+
 
 Just see the real stuff
 Visual Understanding, i.e. Insight not Numbers
@@ -16091,4 +16120,42 @@ TRAMP (included) used to access remote files
 /ssh:shark@192.168.124.3:Desktop/kvm.txt
 
 ztree-diff is a directory-diff tool for Emacs inspired by commercial tools like Beyond Compare or Araxis Merge. 
+
+**** clojure sql lib
+
+***** yesql
+put plain sql in seq file, and abstract it into a function
+
+
+***** korma
+clojure forms simulate plain sql
+
+***** honeysql
+clojure data format to sql
+
+***** hugsql
+like yesql
+
+**** clojure web lib
+
+***** luminus
+a template, most libs are carefully selected
+most of these selections same as my opinion
+
+***** duct
+like luminus, by author of ring
+prefer component over mount
+
+
+
+**** clojure ajax lib
+
+***** cljs-http
+bind with core.async
+
+***** cljs-ajax
+support clj & cljs, no core.async binding, used by luminus
+
+
+
 
