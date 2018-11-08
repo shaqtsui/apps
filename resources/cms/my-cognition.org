@@ -16121,6 +16121,54 @@ TRAMP (included) used to access remote files
 
 ztree-diff is a directory-diff tool for Emacs inspired by commercial tools like Beyond Compare or Araxis Merge. 
 
+**** postgresql
+install:
+;; standard pkg
+brew install postgresql
+;; mac app pkg
+brew cask install postgres
+
+standard pkg config:
+;; init Database Cluster(database storage area on disk, SQL standard term: catalog cluster, default created db: postgres, template1 - base db, copied for new db creation)
+initdb -D DATA_DIRECTORY -EUTF-8 --locale=XX_XX.UTF-8
+or via wrapper program pg_ctl:
+pg_ctl -D /usr/local/pgsql/data initdb
+
+
+;; start server
+postgres -D /usr/local/pgsql/data
+or via wrapper program pg_ctl:
+pg_ctl start -D DATA_DIRECTORY -w -l DATA_DIRECTORY/postgres-server.log
+
+
+connect to postgre with super user(unix-domain socket):
+"/Applications/Postgres.app/Contents/Versions/11/bin/psql"
+or specify db:
+"/Applications/Postgres.app/Contents/Versions/11/bin/psql" -p5432 -d "fuchengxu"
+
+
+;; create db
+;; login & sql command:
+create database name;
+or via wrapper program createdb:
+createdb USERNAME
+
+
+;; auth(pg_hba.conf)
+
+
+
+
+**** clojure.java.jdbc
+db-spec can be:
+{:datasource ds}
+
+
+**** hikari-cp
+mandatory config options:
+:adapter or :jdbc-url
+
+
 **** clojure sql lib
 
 ***** yesql

@@ -16,7 +16,12 @@ brew install clojure
 brew install maven
 # boot need to copy src to tmp each time it run, I don't want too much useless io, will harm my mac
 #brew install boot-clj
-#brew install leiningen
+# used by luminus
+brew install leiningen
+
+# db
+brew install postgresql
+
 brew install emacs --with-cocoa
 
 # benchmark, geekbench is not free

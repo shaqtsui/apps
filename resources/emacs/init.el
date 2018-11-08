@@ -3,7 +3,7 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
-(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary pyim pyim-wbdict lsp-java company-lsp lsp-ui dap-mode yasnippet ztree))
+(defvar my-packages '(geiser rainbow-delimiters clojure-mode cider magit company expand-region paredit flycheck flycheck-clojure restclient company-restclient youdao-dictionary pyim pyim-wbdict lsp-java company-lsp lsp-ui dap-mode yasnippet ztree))
 (dolist (p my-packages)
   (unless (package-installed-p p)
     (package-install p)))
@@ -20,6 +20,9 @@
 (ido-mode t)
 
 ;; 3rd part lib init
+(require 'expand-region)
+(global-set-key (kbd "M-2") 'er/expand-region)
+
 ;; java support, lsp-java base on lsp-mode(maintained by same team)
 ;; below packages manully installed:
 ;; company-lsp(this more powerfull than company-capf) - support code complete
