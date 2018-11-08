@@ -3,7 +3,7 @@
             [aleph.http :as http]
             [apps.ring-mw :as mw]
             [mount.core :as mnt]
-            [cprop.core :as prp]
+            [cprop.source :as cps]
             [clojure.java.jdbc :as j]
             [hikari-cp.core :as hcp]
             [hugsql.core :as hugsql]
@@ -26,7 +26,24 @@
 
 
 
-(def env (prp/load-config :resource "apps/gng_config.edn"))
+(def env (-> {:db-url "datomic:mem://localhost:4334/gng"
+              :datasource-options {:auto-commit        true
+                                   :read-only          false
+                                   :connection-timeout 30000
+                                   :validation-timeout 5000
+                                   :idle-timeout       600000
+                                   :max-lifetime       1800000
+                                   :minimum-idle       10
+                                   :maximum-pool-size  10
+                                   :pool-name          "db-pool"
+                                   :adapter            "postgresql"
+                                   :username           "fuchengxu"
+                                   :password           "password"
+                                   :database-name      "fuchengxu"
+                                   :server-name        "localhost"
+                                   :port-number        5432
+                                   :register-mbeans    false}}
+             (merge (:gng (cps/from-system-props)))))
 
 (mnt/defstate db-conn
   :start (do (d/create-database (env :db-url))
@@ -62,8 +79,8 @@
 (insert-item db-spec {:name "iPhone" :detail "iphone SE"})
 
 (def migration-options {:store :database
-                       :migration-dir "apps/gng_migrations"
-                       :db db-spec})
+                        :migration-dir "apps/gng_migrations"
+                        :db db-spec})
 
 (migratus/migrate migration-options)
 (migratus/rollback migration-options)

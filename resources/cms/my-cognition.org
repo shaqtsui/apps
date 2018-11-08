@@ -16157,6 +16157,16 @@ createdb USERNAME
 ;; auth(pg_hba.conf)
 
 
+**** clojure configuration libs
+cprop - support data, provide low level env access api, load-config need at least one edn file, use low level api in cprop.source instead
+aero - explicit, use tags, but edn file is mandatory
+environ - implicit, rely on build tool
+immuconf - edn file mandatory
+nomad - rely on defconfig
+omniconf - predefined scheme, populate & get
+schematic - rely on Component
+
+
 
 
 **** clojure.java.jdbc

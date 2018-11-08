@@ -5,7 +5,7 @@
         clatrix {:mvn/version "0.5.0"}
         clj-org {:mvn/version "0.0.2"}
         cljs-ajax {:mvn/version "0.7.4"}
-        ;; properties support
+        ;; load config from env
         cprop {:mvn/version "0.1.13"}
         migratus {:mvn/version "1.1.7"}
         hikari-cp {:mvn/version "2.6.0"}

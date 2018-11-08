@@ -3,7 +3,7 @@
             [clojure.tools.logging :as log]
             [ring.util.response :as response]
             [prone.debug :refer [debug]]
-            [cprop.core :as prp]
+            [cprop.source :as cps]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [hiccup.core :refer [html]]
@@ -93,7 +93,20 @@
 
 
 ;; logic
-(def env (prp/load-config :resource "apps/cms_config.edn"))
+
+(def env (-> {:qq-oauth2 {:authorization-uri "https://graph.qq.com/oauth2.0/authorize"
+                                               :redirect-uri "http://www.sharkxu.com/oauth2/callback"
+                                               :client-id "101326937"
+                                               :client-secret "b9892d627e6ff3985eb25b32c1ade573"
+                                               :options {:scope ["get_user_info"]
+                                                         :response-type "code"}
+                                               :access-token-uri "https://graph.qq.com/oauth2.0/token"
+
+                                               :qq-openid-uri "https://graph.qq.com/oauth2.0/me"
+                          :qq-user-info-uri "https://graph.qq.com/user/get_user_info"}}
+             (merge (:cms (cps/from-system-props)))))
+
+
 (def qq-oauth2 (env :qq-oauth2))
 
 (def handler
@@ -110,37 +123,37 @@
                                (-> file .listFiles (link-list request) (default-layout request) html)
                                (-> file slurp mp to-hiccup (default-layout request) html))))
    (GET "/remove-identity" {session :session}
-     (as-> session $
-       (dissoc $ :identity)
-       (assoc (response/redirect "/") :session $)))
+        (as-> session $
+          (dissoc $ :identity)
+          (assoc (response/redirect "/") :session $)))
    (GET "/oauth2/entrypoint" []
-     (as-> qq-oauth2 $
-       (into ((juxt :authorization-uri :client-id :redirect-uri) $) (->> $ :options (apply concat)))
-       (apply oauth2/oauth-authorization-url $)
-       (response/redirect $)))
+        (as-> qq-oauth2 $
+          (into ((juxt :authorization-uri :client-id :redirect-uri) $) (->> $ :options (apply concat)))
+          (apply oauth2/oauth-authorization-url $)
+          (response/redirect $)))
    (GET "/oauth2/callback" {{code :code} :params session :session}
-     #_(debug)
-     (as-> qq-oauth2 $
-       (conj ((juxt :access-token-uri :client-id :client-secret) $) code (:redirect-uri $))
-       (apply oauth2/oauth-access-token $)
-       (:access-token $)
-       (oauth2/oauth-client $)
-       (assoc session :oauth-client $)
-       (assoc $ :identity (as-> $ $$
-                            (:oauth-client $$)
-                            ($$ {:method :get
-                                 :url (:qq-openid-uri qq-oauth2)})
-                            (str $$)
-                            (re-find #"(?<=\"openid\":\").*(?=\")" $$)
-                            (clojure.string/replace $$ "-" "")))
-       (assoc $ :qq-user-info (as-> $ $$
-                                (:oauth-client $$)
-                                ($$ {:method :get
-                                     :url (:qq-user-info-uri qq-oauth2)
-                                     :query-params {"oauth_consumer_key" (:client-id qq-oauth2)
-                                                    "openid" (:identity $)}
-                                     :as :json})))
-       (assoc (response/redirect (-> $ :history rseq (nth 1))) :session $)))
+        #_(debug)
+        (as-> qq-oauth2 $
+          (conj ((juxt :access-token-uri :client-id :client-secret) $) code (:redirect-uri $))
+          (apply oauth2/oauth-access-token $)
+          (:access-token $)
+          (oauth2/oauth-client $)
+          (assoc session :oauth-client $)
+          (assoc $ :identity (as-> $ $$
+                               (:oauth-client $$)
+                               ($$ {:method :get
+                                    :url (:qq-openid-uri qq-oauth2)})
+                               (str $$)
+                               (re-find #"(?<=\"openid\":\").*(?=\")" $$)
+                               (clojure.string/replace $$ "-" "")))
+          (assoc $ :qq-user-info (as-> $ $$
+                                   (:oauth-client $$)
+                                   ($$ {:method :get
+                                        :url (:qq-user-info-uri qq-oauth2)
+                                        :query-params {"oauth_consumer_key" (:client-id qq-oauth2)
+                                                       "openid" (:identity $)}
+                                        :as :json})))
+          (assoc (response/redirect (-> $ :history rseq (nth 1))) :session $)))
    (POST "/comment" [content] (as-> (log/spy content) $
                                 [:db/add (d/tempid :db.part/user) :cms/comment $]
                                 [$]
@@ -156,9 +169,9 @@
   (as-> handler $
     (mw/wrap-defaults $)
     (component/system-map
-          ;; in linux port below 1024 can only be opened by root
+     ;; in linux port below 1024 can only be opened by root
      :web (new-web-server 8080 $)
-          ;;run: bin\transactor config\samples\dev-transactor-template.properties to start transactor
+     ;;run: bin\transactor config\samples\dev-transactor-template.properties to start transactor
      :datomic-db (new-datomic-db "datomic:mem://localhost:4334/cms"))))
 
 (defn init-schema []
