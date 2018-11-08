@@ -1,15 +1,3 @@
--- :name create-items-table
--- :command :execute
--- :result :raw
--- :doc create items table
-create table items (
-  id serial,
-  name varchar(40),
-  detail varchar(40)
-
-)
-
-
 -- :name insert-item :! :n
 -- :doc insert a item return affected row count
 insert into items (name, detail)

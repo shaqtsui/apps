@@ -3,7 +3,7 @@
             [clojure.tools.logging :as log]
             [ring.util.response :as response]
             [prone.debug :refer [debug]]
-
+            [cprop.core :as prp]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [hiccup.core :refer [html]]
@@ -90,18 +90,11 @@
     :db/doc "Comments for article"
     :db.install/_attribute :db.part/db}])
 
-;; logic
-(def qq-oauth2
-  {:authorization-uri "https://graph.qq.com/oauth2.0/authorize"
-   :redirect-uri "http://www.sharkxu.com/oauth2/callback"
-   :client-id "101326937"
-   :client-secret "b9892d627e6ff3985eb25b32c1ade573"
-   :options {:scope ["get_user_info"]
-             :response-type "code"}
-   :access-token-uri "https://graph.qq.com/oauth2.0/token"
 
-   :qq-openid-uri "https://graph.qq.com/oauth2.0/me"
-   :qq-user-info-uri "https://graph.qq.com/user/get_user_info"})
+
+;; logic
+(def env (prp/load-config :resource "apps/cms_config.edn"))
+(def qq-oauth2 (env :qq-oauth2))
 
 (def handler
   (routes

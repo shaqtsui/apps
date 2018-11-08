@@ -6,7 +6,8 @@
             [cprop.core :as prp]
             [clojure.java.jdbc :as j]
             [hikari-cp.core :as hcp]
-            [hugsql.core :as hugsql])
+            [hugsql.core :as hugsql]
+            [migratus.core :as migratus])
   (:import io.netty.handler.logging.LoggingHandler
            io.netty.handler.logging.LogLevel))
 
@@ -25,13 +26,12 @@
 
 
 
-(def env (prp/load-config))
+(def env (prp/load-config :resource "apps/gng_config.edn"))
 
 (mnt/defstate db-conn
   :start (do (d/create-database (env :db-url))
              (d/connect (env :db-url)))
   :stop (d/release db-conn))
-
 
 
 
@@ -41,6 +41,11 @@
   :stop (.close server))
 
 
+(mnt/defstate db-spec
+  :start {:datasource (hcp/make-datasource (env :datasource-options))}
+  :stop (-> db-spec
+            :datasource
+            hcp/close-datasource))
 
 (mnt/start)
 
@@ -52,12 +57,16 @@
 (hugsql/def-db-fns "apps/gng.sql")
 
 
-
-(def db-spec {:datasource (hcp/make-datasource (env :datasource-options))})
-
-;;(create-items-table db-spec)
-
 (item-by-id db-spec {:id 2})
 
 (insert-item db-spec {:name "iPhone" :detail "iphone SE"})
+
+(def migration-options {:store :database
+                       :migration-dir "apps/gng_migrations"
+                       :db db-spec})
+
+(migratus/migrate migration-options)
+(migratus/rollback migration-options)
+
+;;(migratus/create migration-options "create-user")
 
