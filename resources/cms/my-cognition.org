@@ -16238,6 +16238,6 @@ only support json, without ring middle support
 **** clojure state manage
 component - reply on Record, OO like, deps tree manually constructed
 
-mount - rely on namespace load sequence to mantain deps tree, restart state when namespace reloaded
+mount - rely on namespace load sequence to mantain deps tree & restart state
 
 

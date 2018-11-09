@@ -9,10 +9,20 @@
             [hikari-cp.core :as hcp]
             [hugsql.core :as hugsql]
             [prone.debug :as pd]
-            [migratus.core :as migratus])
+            [migratus.core :as migratus]
+            [taoensso.timbre :as timbre] ;; implicit require macro
+            [taoensso.timbre.appenders.core :as appenders]
+            )
   (:import io.netty.handler.logging.LoggingHandler
            io.netty.handler.logging.LogLevel))
 
+;; current config: (clojure.pprint/pprint timbre/*config*)
+;; alternative env setup:  export TIMBRE_LEVEL=':trace'
+;; alternative simple level change: (timbre/set-level! :trace)
+(timbre/merge-config!
+ {:level :trace
+  ;;:appenders {:spit (appenders/spit-appender {:fname "apps.log"})}
+  })
 
 
 (defn handler [req]
@@ -23,8 +33,6 @@
 
 (def app
   (mw/wrap-defaults handler))
-
-
 
 
 

@@ -54,6 +54,7 @@
         (mw-def/wrap-defaults (-> mw-def/site-defaults
                            (assoc-in [:security :frame-options] {:allow-from "http://localhost:8080"})
                            (assoc-in [:security :anti-forgery] false)))
+        ;; bug: inside server to stop & start external server when reload ns cause server state restart
         ;; track source file & reload it, wrap-reload follow implicit over explicit
         ;; use emacs C-k to explict reload, states will be restarted by mount
         #_mw-r/wrap-reload)))
