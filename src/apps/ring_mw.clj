@@ -8,6 +8,7 @@
             [ring.middleware.webjars :as mw-wj]
             [buddy.auth.middleware :as mw-au]
             [muuntaja.middleware :as mw-mu]
+            [ring.middleware.cors :as mw-cors]
 ))
 
 
@@ -51,8 +52,10 @@
         (prone/wrap-exceptions {:app-namespaces '[apps]})
         (logger/wrap-with-logger {:printer :no-color})
         mw-wj/wrap-webjars
+        (mw-cors/wrap-cors :access-control-allow-origin [#".*"]
+                           :access-control-allow-methods [:get :put :post :delete])
         (mw-def/wrap-defaults (-> mw-def/site-defaults
-                           (assoc-in [:security :frame-options] {:allow-from "http://localhost:8080"})
+                           (assoc-in [:security :frame-options] {:allow-from "*"})
                            (assoc-in [:security :anti-forgery] false)))
         ;; bug: inside server to stop & start external server when reload ns cause server state restart
         ;; track source file & reload it, wrap-reload follow implicit over explicit
