@@ -12,6 +12,9 @@
             [migratus.core :as migratus]
             [taoensso.timbre :as timbre] ;; implicit require macro
             [taoensso.timbre.appenders.core :as appenders]
+            [compojure.core :as cpj]
+            [ring.util.response :as resp]
+            [muuntaja.middleware :as mw-mu]
             )
   (:import io.netty.handler.logging.LoggingHandler
            io.netty.handler.logging.LogLevel))
@@ -20,21 +23,20 @@
 ;; alternative env setup:  export TIMBRE_LEVEL=':trace'
 ;; alternative simple level change: (timbre/set-level! :trace)
 (timbre/merge-config!
- {:level :trace
+ {:level :error
   ;;:appenders {:spit (appenders/spit-appender {:fname "apps.log"})}
   })
 
 
-(defn handler [req]
-  #_(pd/debug)
-  {:status 200
-   :headers {"content-type" "text/plain"}
-   :body "Hello World 5"})
+
 
 (def app
-  (mw/wrap-defaults handler))
-
-
+  (mw/wrap-defaults (cpj/routes
+                     (cpj/POST "/hello" request
+                               (println (str "--------->" request))
+                               (resp/response (merge {:r1 1
+                                                      "r2" 2}
+                                                     (:body-params request)))))))
 
 (defn add-log [pl]
   (.addLast pl
@@ -69,10 +71,10 @@
 
 
 #_(mnt/defstate server
-  :start (http/start-server hello-world-handler {:port 8080
-                                                 ;;:pipeline-transform add-log
-                                                 })
-  :stop (.close server))
+    :start (http/start-server hello-world-handler {:port 8080
+                                                   ;;:pipeline-transform add-log
+                                                   })
+    :stop (.close server))
 
 (mnt/defstate server
   :start (web/run app {:port 8080})

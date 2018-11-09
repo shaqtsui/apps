@@ -9,7 +9,9 @@
 
 
 
-(aj/GET "http://localhost:8080/hello")
+(aj/POST "http://localhost:8080/hello" {:handler #(println %)
+                                        :params {:p1 "p1"
+                                                 :p2 "p2"}})
 
 (def base-theme (create-mui-theme {:palette {:primary {:main (color :light-blue 700)}
                                                               :secondary {:main (color :teal :A100)}
