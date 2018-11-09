@@ -23,26 +23,9 @@
 ;; alternative env setup:  export TIMBRE_LEVEL=':trace'
 ;; alternative simple level change: (timbre/set-level! :trace)
 (timbre/merge-config!
- {:level :error
+ {:level :debug
   ;;:appenders {:spit (appenders/spit-appender {:fname "apps.log"})}
   })
-
-
-
-
-(def app
-  (mw/wrap-defaults (cpj/routes
-                     (cpj/POST "/hello" request
-                               (println (str "--------->" request))
-                               (resp/response (merge {:r1 1
-                                                      "r2" 2}
-                                                     (:body-params request)))))))
-
-(defn add-log [pl]
-  (.addLast pl
-            (LoggingHandler. LogLevel/DEBUG)))
-
-
 
 (def env (-> {:db-url "datomic:mem://localhost:4334/gng"
               :datasource-options {:auto-commit        true
@@ -63,11 +46,48 @@
                                    :register-mbeans    false}}
              (merge (:gng (cps/from-system-props)))))
 
-(mnt/defstate db-conn
+
+#_(mnt/defstate db-conn
   :start (do (d/create-database (env :db-url))
              (d/connect (env :db-url)))
   :stop (d/release db-conn))
 
+(mnt/defstate db-spec
+  :start {:datasource (hcp/make-datasource (env :datasource-options))}
+  :stop (-> db-spec
+            :datasource
+            hcp/close-datasource))
+
+
+
+
+
+(hugsql/def-db-fns "apps/gng.sql")
+
+(def app
+  (mw/wrap-defaults (cpj/routes
+                     (cpj/POST "/hello" request
+                                (resp/response (merge {:r1 1
+                                                      "r2" 2}
+                                                     (:body-params request))))
+                     (cpj/POST "/login" request
+                               (let [p (-> request
+                                           timbre/spy
+                                           :params)
+                                     op (folk-by-name db-spec p)]
+                                 (if (nil? op)
+                                   (do
+                                     (insert-folk db-spec p)
+                                     {:status :ok})
+                                   {:status :error
+                                    :message "name exist"})
+                                 )))))
+
+
+
+(defn add-log [pl]
+  (.addLast pl
+            (LoggingHandler. LogLevel/DEBUG)))
 
 
 #_(mnt/defstate server
@@ -81,12 +101,6 @@
   :stop (web/stop))
 
 
-(mnt/defstate db-spec
-  :start {:datasource (hcp/make-datasource (env :datasource-options))}
-  :stop (-> db-spec
-            :datasource
-            hcp/close-datasource))
-
 (mnt/start)
 
 
@@ -94,12 +108,6 @@
 
 
 
-(hugsql/def-db-fns "apps/gng.sql")
-
-
-(item-by-id db-spec {:id 2})
-
-(insert-item db-spec {:name "iPhone" :detail "iphone SE"})
 
 (def migration-options {:store :database
                         :migration-dir "apps/gng_migrations"
@@ -112,4 +120,3 @@
 
 
 ;;(migratus/create migration-options "create-user")
-

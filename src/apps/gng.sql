@@ -10,6 +10,18 @@ insert into item (name, detail)
 values :tuple*:items
 
 
+-- :name insert-folk :! :n
+-- :doc insert a folk
+insert into folk (name, password)
+values (:name, :password)
+
+
+-- :name folk-by-name :? :1
+-- :doc get folk by name
+select * from folk
+where name = :name
+
+
 -- :name item-by-id :? :1
 -- :doc get item by id
 select * from item

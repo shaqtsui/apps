@@ -39,6 +39,23 @@
         [ui/grid
          "ddddd"]]])))
 
+(defn login []
+  (let [state (r/atom nil)]
+    (fn []
+      [ui/mui-theme-provider {:theme base-theme}
+       [:form {:action "http://localhost:8080/login"
+               :method :post}
+        [ui/form-group
+         [ui/text-field {:label "Name"
+                         :name "name"}]
+         [ui/text-field {:label "Password"
+                         :type :password
+                         :name "password"}]
 
-(r/render [main]
+         [ui/button {:type :submit}
+          "Submit"]]
+        ]])))
+
+
+(r/render [login]
           (dommy/sel1 :#app))
