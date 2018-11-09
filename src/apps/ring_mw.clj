@@ -7,6 +7,7 @@
             [ring.middleware.defaults :as mw-def]
             [ring.middleware.webjars :as mw-wj]
             [buddy.auth.middleware :as mw-au]
+            [muuntaja.middleware :as mw-mu]
 ))
 
 
@@ -43,14 +44,17 @@
   [handler]
   (let [auth-backend (backends/session)]
     (-> handler
-        (wrap-history)
+        wrap-history
         (mw-au/wrap-authorization auth-backend)
         (mw-au/wrap-authentication auth-backend)
+        mw-mu/wrap-format
         (prone/wrap-exceptions {:app-namespaces '[apps]})
         (logger/wrap-with-logger {:printer :no-color})
         mw-wj/wrap-webjars
         (mw-def/wrap-defaults (-> mw-def/site-defaults
                            (assoc-in [:security :frame-options] {:allow-from "http://localhost:8080"})
                            (assoc-in [:security :anti-forgery] false)))
-        mw-r/wrap-reload)))
+        ;; track source file & reload it, wrap-reload follow implicit over explicit
+        ;; use emacs C-k to explict reload, states will be restarted by mount
+        #_mw-r/wrap-reload)))
 

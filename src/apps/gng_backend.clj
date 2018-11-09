@@ -1,23 +1,31 @@
 (ns apps.gng-backend
   (:require [datomic.api :as d]
             [aleph.http :as http]
+            [immutant.web :as web]
             [apps.ring-mw :as mw]
             [mount.core :as mnt]
             [cprop.source :as cps]
             [clojure.java.jdbc :as j]
             [hikari-cp.core :as hcp]
             [hugsql.core :as hugsql]
+            [prone.debug :as pd]
             [migratus.core :as migratus])
   (:import io.netty.handler.logging.LoggingHandler
            io.netty.handler.logging.LogLevel))
 
 
-(def hello-world-handler
-  (mw/wrap-defaults
-   (fn [req]
-     {:status 200
-      :headers {"content-type" "text/plain"}
-      :body "Hello World"})))
+
+(defn handler [req]
+  #_(pd/debug)
+  {:status 200
+   :headers {"content-type" "text/plain"}
+   :body "Hello World 5"})
+
+(def app
+  (mw/wrap-defaults handler))
+
+
+
 
 
 (defn add-log [pl]
@@ -52,10 +60,15 @@
 
 
 
-(mnt/defstate server
+#_(mnt/defstate server
   :start (http/start-server hello-world-handler {:port 8080
-                                                 :pipeline-transform add-log})
+                                                 ;;:pipeline-transform add-log
+                                                 })
   :stop (.close server))
+
+(mnt/defstate server
+  :start (web/run app {:port 8080})
+  :stop (web/stop))
 
 
 (mnt/defstate db-spec
@@ -83,7 +96,10 @@
                         :db db-spec})
 
 (migratus/migrate migration-options)
-(migratus/rollback migration-options)
+
+
+;;(migratus/rollback migration-options)
+
 
 ;;(migratus/create migration-options "create-user")
 

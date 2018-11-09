@@ -35,6 +35,10 @@ brew cask install flash-npapi
 
 # xun lei
 brew cask install thunder
+# qq for remote assist
+brew cask install qq
+# for remote assist
+brew cask install teamviewer
 
 # system mornitor
 ## not a good solution, as it keep running & show in menu

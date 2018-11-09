@@ -1,2 +1,12 @@
-drop table items5
+drop table item;
+
+--;;
+
+drop table folk;
+
+--;;
+
+drop type gdr;
+
+--;;
 

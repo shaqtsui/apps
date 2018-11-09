@@ -2,7 +2,6 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.tools.logging :as log]
-            [clojure.data.json :as json]
             [apps.dcs :refer [as]]
             [taoensso.timbre :as timbre]
             [net.cgrand.enlive-html :refer :all]
@@ -11,21 +10,6 @@
             [dk.ative.docjure.spreadsheet :as sp])
   (:import java.net.URL))
 
-
-(defn json-process []
-  (let [j (atom nil)
-        n (atom nil)]
-    (do (println "input target json:")
-        (reset! j
-                (json/read-str (read-line)))
-        (println "input key name:")
-        (reset! n
-                (read-line))
-        (println "value is:")
-        (get @j @n))))
-
-(def -main
-  json-process)
 
 
 (def res (->> (sp/load-workbook-from-file "/Users/fuchengxu/Downloads/管件%2B发货通知.xls")

@@ -16217,3 +16217,27 @@ support clj & cljs, no core.async binding, used by luminus
 
 
 
+
+**** clojure data formatters
+ring-json
+only support json, seems this is the oldest option
+
+ring-middleware-format
+support a lot of format
+
+muuntaja
+base on ring-middleware-format, but rewritten, & 30X faster
+
+ring-transit
+author recommend ring-middleware-format
+
+clojure.data.json
+only support json, without ring middle support
+
+
+**** clojure state manage
+component - reply on Record, OO like, deps tree manually constructed
+
+mount - rely on namespace load sequence to mantain deps tree, restart state when namespace reloaded
+
+
