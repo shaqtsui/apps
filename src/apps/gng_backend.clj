@@ -13,8 +13,12 @@
             [taoensso.timbre :as timbre] ;; implicit require macro
             [taoensso.timbre.appenders.core :as appenders]
             [compojure.core :as cpj]
+            [compojure.route :as cpj-r]
             [ring.util.response :as resp]
             [muuntaja.middleware :as mw-mu]
+            [buddy.auth :as auth]
+            [buddy.auth.accessrules :as auth-ac]
+
             )
   (:import io.netty.handler.logging.LoggingHandler
            io.netty.handler.logging.LogLevel))
@@ -48,9 +52,9 @@
 
 
 #_(mnt/defstate db-conn
-  :start (do (d/create-database (env :db-url))
-             (d/connect (env :db-url)))
-  :stop (d/release db-conn))
+    :start (do (d/create-database (env :db-url))
+               (d/connect (env :db-url)))
+    :stop (d/release db-conn))
 
 (mnt/defstate db-spec
   :start {:datasource (hcp/make-datasource (env :datasource-options))}
@@ -64,25 +68,41 @@
 
 (hugsql/def-db-fns "apps/gng.sql")
 
+
+;; session work when in same site
 (def app
-  (mw/wrap-defaults (cpj/routes
-                     (cpj/POST "/hello" request
-                                (resp/response (merge {:r1 1
-                                                      "r2" 2}
-                                                     (:body-params request))))
-                     (cpj/POST "/login" request
-                               (let [p (-> request
-                                           timbre/spy
-                                           :params)
-                                     op (folk-by-name db-spec p)]
-                                 (resp/response
-                                  (if (nil? op)
-                                    (do
-                                      (insert-folk db-spec p)
-                                      {:status :ok})
-                                    {:status :error
+  (-> (cpj/routes
+       (cpj/POST "/hello" request
+                 (resp/response (merge {:r1 1
+                                        "r2" 2}
+                                       (:body-params request))))
+       (cpj/POST "/login" request
+                 (let [p (-> request
+                             timbre/spy
+                             #_:params
+                             :body-params)
+                       op (folk-by-name db-spec p)]
+                   (if (nil? op)
+                     (do
+                       (insert-folk db-spec p)
+                       (-> {:status :ok}
+                           resp/response
+                           (assoc :session
+                            (-> request :session
+                                (assoc :identity "foo")))
+                           timbre/spy))
+                     (resp/response {:status :error
                                      :message "name exist"}))
-                                 )))))
+                   ))
+       (cpj/GET "/folk" request
+                (resp/response (folk-by-name db-spec (:body-params request))))
+       (cpj-r/not-found "page not found"))
+      (auth-ac/wrap-access-rules {:rules [{:uri "/folk"
+                                           :handler auth/authenticated?}]
+                                  :on-error (fn [req val]
+                                              {:status 200
+                                               :body (str "Access to: " (:uri req) " is not authorized")})})
+      mw/wrap-defaults))
 
 
 

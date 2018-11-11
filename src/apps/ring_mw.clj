@@ -56,7 +56,9 @@
                            :access-control-allow-methods [:get :put :post :delete])
         (mw-def/wrap-defaults (-> mw-def/site-defaults
                            (assoc-in [:security :frame-options] {:allow-from "*"})
-                           (assoc-in [:security :anti-forgery] false)))
+                           (assoc-in [:security :anti-forgery] false)
+                           ;; unrestricted session to enable cross site session
+                           (assoc :session {:cookie-attrs {:max-age 3600}})))
         ;; bug: inside server to stop & start external server when reload ns cause server state restart
         ;; track source file & reload it, wrap-reload follow implicit over explicit
         ;; use emacs C-k to explict reload, states will be restarted by mount

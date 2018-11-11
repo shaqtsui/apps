@@ -43,6 +43,14 @@
 (aj/POST "http://localhost:8080/hello" {:handler #(println %)
                                         :params {:p1 "p1"
                                                  :p2 "p2"}})
+(aj/GET "http://localhost:8080/ddddd" {:handler #(println %)})
+(aj/GET "http://localhost:8080/folk" {:handler #(println %)})
+
+
+(aj/POST "http://localhost:8080/login" {:handler #(println %)
+                                        :params {:name "T4"
+                                                 :password "T"}})
+
 
 (def base-theme (create-mui-theme {:palette {:primary {:main (color :light-blue 700)}
                                                               :secondary {:main (color :teal :A100)}
