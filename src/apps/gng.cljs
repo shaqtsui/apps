@@ -5,8 +5,29 @@
             [cljs-react-material-ui.core :refer [create-mui-theme color]]
             [cljs-react-material-ui.reagent :as ui]
             [cljs-react-material-ui.icons :as ic]
-            [ajax.core :as aj]))
+            [ajax.core :as aj]
+            [secretary.core :as secretary]
+            [goog.events :as events]
+            [goog.history.EventType :as HistoryEventType]
+            )
+  (:import goog.History))
 
+
+(secretary/set-config! :prefix "#")
+(secretary/defroute "/folks/:id" {:as params}
+  (js/console.log (str "user: " (:id params))))
+
+(secretary/dispatch! "/folks/sh")
+
+
+(defn hook-browser-navigation! []
+  (doto (History.)
+    (#_events/listen dommy/listen! HistoryEventType/NAVIGATE
+                   #(secretary/dispatch! (.-token %)))
+    (.setEnabled true)))
+
+;; will hang the browser
+;;(hook-browser-navigation!)
 
 
 (aj/POST "http://localhost:8080/hello" {:handler #(println %)
@@ -59,3 +80,4 @@
 
 (r/render [login]
           (dommy/sel1 :#app))
+

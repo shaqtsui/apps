@@ -75,12 +75,13 @@
                                            timbre/spy
                                            :params)
                                      op (folk-by-name db-spec p)]
-                                 (if (nil? op)
-                                   (do
-                                     (insert-folk db-spec p)
-                                     {:status :ok})
-                                   {:status :error
-                                    :message "name exist"})
+                                 (resp/response
+                                  (if (nil? op)
+                                    (do
+                                      (insert-folk db-spec p)
+                                      {:status :ok})
+                                    {:status :error
+                                     :message "name exist"}))
                                  )))))
 
 
