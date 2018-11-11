@@ -9,6 +9,7 @@
             [secretary.core :as secretary]
             [goog.events :as events]
             [goog.history.EventType :as HistoryEventType]
+            [struct.core :as st]
             )
   (:import goog.History))
 
@@ -28,6 +29,15 @@
 
 ;; will hang the browser
 ;;(hook-browser-navigation!)
+
+
+(def folk-schema
+  [[:name st/required st/string]
+   [:password st/required st/string]])
+
+
+(st/validate {:name "Shark" :password 2} folk-schema)
+(st/valid? {:name "Shark" :password "dd"} folk-schema)
 
 
 (aj/POST "http://localhost:8080/hello" {:handler #(println %)

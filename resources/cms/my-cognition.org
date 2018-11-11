@@ -16240,4 +16240,8 @@ component - reply on Record, OO like, deps tree manually constructed
 
 mount - rely on namespace load sequence to mantain deps tree & restart state
 
+**** clojure validation lib
+bouncer
+struct - base on similar ideas of bouncer
+
 
