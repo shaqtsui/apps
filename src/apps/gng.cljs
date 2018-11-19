@@ -44,11 +44,12 @@
                                         :params {:p1 "p1"
                                                  :p2 "p2"}})
 (aj/GET "http://localhost:8080/ddddd" {:handler #(println %)})
-(aj/GET "http://localhost:8080/folk" {:handler #(println %)})
+(aj/GET "http://localhost:8080/folk" {:handler #(println %)
+                                      :params {:name "T9"}})
 
 
 (aj/POST "http://localhost:8080/login" {:handler #(println %)
-                                        :params {:name "T4"
+                                        :params {:name "T19"
                                                  :password "T"}})
 
 

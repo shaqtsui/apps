@@ -16243,5 +16243,10 @@ mount - rely on namespace load sequence to mantain deps tree & restart state
 **** clojure validation lib
 bouncer
 struct - base on similar ideas of bouncer
+schema
+clojure.spec
+
+**** clojure rest lib
+Compojure-api - rely on data type declaration, like static language
 
 

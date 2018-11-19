@@ -18,6 +18,7 @@
             [muuntaja.middleware :as mw-mu]
             [buddy.auth :as auth]
             [buddy.auth.accessrules :as auth-ac]
+            [clojure.spec.alpha :as s]
 
             )
   (:import io.netty.handler.logging.LoggingHandler
@@ -69,6 +70,149 @@
 (hugsql/def-db-fns "apps/gng.sql")
 
 
+
+(s/valid? even? 10)
+
+(s/conform even? 1)
+
+(s/def ::name (s/and string? #(> (count %) 2)))
+
+(s/valid? ::name "123")
+
+(s/explain ::name 1)
+
+
+(s/def ::folk (s/keys :req [::name]
+                      :opt [::password]))
+
+(s/def ::vip (s/merge ::folk
+                      (s/keys :req [::star])))
+
+(s/conform ::folk {::name "ddd"
+                   ::password "dd"
+                   ::age 13})
+
+(s/explain ::folk {
+                   ::password "dd"
+                   ::age 13})
+
+(s/def :unq/folk (s/keys :req-un [::name]))
+
+(s/explain :unq/folk {:name "d"})
+
+;; error
+#_(s/def :unfolk (s/keys :req-un [::name]))
+
+
+(s/explain ::vip {::name "ddd"
+                  ::star 12})
+
+(s/explain ::vip {::name "ddd"})
+
+(s/conform (s/coll-of keyword?)
+           [:a :b 3])
+
+(s/conform (s/coll-of number?)
+           #{1 2 "d"})
+
+
+(s/def ::vnum3 (s/coll-of number? :kind vector? :count 3 :distinct true))
+
+(s/conform ::vnum3 #{1 2 3})
+
+(s/conform ::vnum3 [1 2 3])
+
+
+(s/def ::point (s/tuple double? double? double?))
+
+
+(s/conform ::point [1 2 3])
+
+(s/conform ::point [1.1 2.2 3.3])
+
+
+(s/def ::scores (s/map-of string? int?))
+
+(s/conform ::scores {"dd" 1})
+
+(s/conform ::scores {:dd 1})
+
+(s/def ::ingredient (s/cat :quant number?
+                           :unit keyword?))
+
+(s/conform ::ingredient [2 :dd])
+
+(s/conform ::ingredient [2 :dd 3 :cc])
+
+(s/def ::seq-of-kw (s/* keyword?))
+
+(s/conform ::seq-of-kw [1 2])
+
+(s/conform ::seq-of-kw [:1 :3])
+
+
+(s/def ::odd-may-even (s/cat :odds (s/+ odd?)
+                             :even (s/? even?)))
+
+
+(s/conform ::odd-may-even [1 3])
+(s/conform ::odd-may-even [1 3 2 2])
+(s/conform ::odd-may-even [1 3 2])
+
+(s/conform ::odd-may-even [])
+
+(s/conform ::odd-may-even [10])
+
+
+
+(s/def ::config (s/* (s/cat :p string?
+                            :v (s/alt :s string?
+                                      :b boolean?))))
+
+(s/explain ::config ["server" true "port" "09"])
+
+(s/explain ::config ["server" true "port" :90])
+
+
+(s/describe ::config)
+
+(s/def ::even-strings (s/& (s/* string?)
+                           #(even? (count %))))
+
+
+(s/explain ::even-strings ["a" "b"])
+
+(s/explain ::even-strings ["a" "b" "c"])
+
+(s/def ::nested
+  (s/cat :n-kw #{:names}
+         :names (s/spec (s/* string?))
+         :nu-kw #{:nums}
+         :nums (s/spec (s/* number?))))
+
+
+(s/explain ::nested [:names ["a" "b"]
+                     :nums [1 2]])
+
+(s/explain ::nested [:names ["a" "b"]
+                     :nums [1 2 ""]])
+
+
+
+(::name {::name "ddd"})
+
+
+
+(s/fdef ttt
+  :args (s/and (s/cat :start int?
+                      :end int?)
+               #(< (:start %) (:end %)))
+  :ret int?)
+
+(defn  ttt [start end]
+  (+ start end))
+
+
 ;; session work when in same site
 (def app
   (-> (cpj/routes
@@ -95,7 +239,7 @@
                                      :message "name exist"}))
                    ))
        (cpj/GET "/folk" request
-                (resp/response (folk-by-name db-spec (:body-params request))))
+                (resp/response (folk-by-name db-spec (:params request))))
        (cpj-r/not-found "page not found"))
       (auth-ac/wrap-access-rules {:rules [{:uri "/folk"
                                            :handler auth/authenticated?}]
