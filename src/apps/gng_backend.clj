@@ -19,6 +19,8 @@
             [buddy.auth :as auth]
             [buddy.auth.accessrules :as auth-ac]
             [clojure.spec.alpha :as s]
+            [clojure.spec.test.alpha :as st]
+            [clojure.spec.gen.alpha :as sg]
 
             )
   (:import io.netty.handler.logging.LoggingHandler
@@ -75,6 +77,8 @@
 
 (s/conform even? 1)
 
+;; registry to a namespaced keyword
+;; s/def better rename to s/bind!
 (s/def ::name (s/and string? #(> (count %) 2)))
 
 (s/valid? ::name "123")
@@ -211,6 +215,24 @@
 
 (defn  ttt [start end]
   (+ start end))
+
+
+
+;; rely on spes, so need to pass fully-qualified symbol
+;; instrument func to add spec corresponding validation
+(st/instrument `ttt)
+(ttt 1 2)
+(ttt 2 1)
+(clojure.pprint/pprint (st/check `ttt))
+(s/exercise-fn `ttt)
+
+
+
+;; generater
+(sg/generate (s/gen int?))
+
+(sg/sample (s/gen int?))
+
 
 
 ;; session work when in same site
