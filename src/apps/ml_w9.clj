@@ -10,7 +10,6 @@
             [apps.image :as a-i]
             [apps.matrix :as a-m]
             [mikera.image.core :as img]
-            [mikera.image-matrix :as img-m]
             [clojure.math.numeric-tower :as math]
             [incanter.core :as i]
             [incanter.charts :as i-c]

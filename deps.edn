@@ -1,6 +1,8 @@
 {:paths ["src" "resources"]
 
  :deps {
+        incanter/incanter-core {:mvn/version "1.9.3"}
+        incanter/incanter-charts {:mvn/version "1.9.3"}
         aleph {:mvn/version "0.4.6"}
         clatrix {:mvn/version "0.5.0"}
         clj-org {:mvn/version "0.0.2"}

@@ -4,7 +4,6 @@
             [taoensso.timbre :as timbre]
             [apps.matrix :as a-m]
             [clojure.core.matrix :as m]
-            [mikera.image-matrix :as img-m]
             ))
 
 
