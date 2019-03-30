@@ -7,10 +7,24 @@
             [net.cgrand.enlive-html :refer :all]
             [clojure.java.shell :as sh]
             [postal.core :refer :all]
-            [dk.ative.docjure.spreadsheet :as sp])
+            [dk.ative.docjure.spreadsheet :as sp]
+            [datoteka.core :as fs]
+            #_[cuerdas.core :as cstr])
   (:import java.net.URL))
 
 
+
+(defn rename-files [dir]
+  (-> dir
+      fs/normalize
+      (fs/list-dir "y2mate*.mp4")
+      (->> (map (fn [f]
+                  (let [old-name (fs/name f)]
+                    (fs/move f
+                             (fs/path (fs/parent f)
+                                      (str/replace-first (fs/name f) "y2mate.com" "HMC - math131")))))))))
+
+(rename-files "~/Downloads")
 
 (def res (->> (sp/load-workbook-from-file "/Users/fuchengxu/Downloads/管件%2B发货通知.xls")
               (sp/select-sheet "Sheet1")

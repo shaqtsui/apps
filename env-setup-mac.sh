@@ -10,6 +10,20 @@
 brew cask install lantern
 # Not recommand, as safri provide more functionality & power efficient in mac
 #brew cask install google-chrome
+# for video downloadhelper, as this plugin is blocked in chrome
+brew cask install firefox
+# stream downloader, downloadhelper addionaly need external apps installed in MAC, youtube-dl is complex than you-get
+
+# usage, list formates: youtube-dl -F https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
+# usage, only show info without download: youtube-dl --get-filename https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
+# usage, only show info without download: youtube-dl --get-format https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
+# usage: youtube-dl --download-archive archive.txt -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
+# prefer mp4, as quicktime doesn't support webm
+# usage: youtube-dl --download-archive ../archive.txt -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best' https://www.youtube.com/playlist?list=PLun8-Z_lTkC6qJF1sVh3_Hx7aL6FPd0IN
+brew install youtube-dl
+# merge video & audio, as youtube seprate video & audio for movies better quality than 1080p, it will invoked by youtube-dl
+brew install ffmpeg
+
 brew cask install java
 brew install clojure
 ## used to download java sources via: mvn dependency:sources, which can be used by cider to look for java sources
@@ -33,12 +47,17 @@ brew cask install homebrew/cask-drivers/logitech-options
 # flash plugin for safri
 brew cask install flash-npapi
 
-# xun lei
-brew cask install thunder
-# qq for remote assist
-brew cask install qq
+# download manager
+brew install aria2
+# xun lei (Afraid of hack)
+# brew cask install thunder
+
+# qq for remote assist(Can not control qq in win, and afraid of hack)
+# brew cask install qq
 # for remote assist
 brew cask install teamviewer
+# media player as quickplayer support limited media types
+brew cask install vlc
 
 # system mornitor
 ## not a good solution, as it keep running & show in menu

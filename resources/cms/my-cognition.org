@@ -175,6 +175,7 @@ OHKFS - Only hold key for simplicity
 
 Scientist are those guys who:
 Distill the world, express the result with their language
+Mathematics focus on material independent property(quantity, shape/structure, relation/operation)
 Note:
   Distill is Abstract
   Normally Distill via front view & side view
@@ -200,6 +201,24 @@ Note:
     Expection - About Add Function. Add Values in Sample Point Unit or Event Unit
     Large deviation - About Perspective Function. View Sample Point from the Perspective of distance from mean
     Random walks -
+
+
+RPC - Recursion Produce Complex
+
+Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
++ - add, put together
+x - multiply, duplicate
+
+Language: Compose Symbols to refer to Stuff.
+Context + Symbol ----> Stuff
+E.g.
+3 x 3 - first 3 refer to 3 meter, second 3 refer to 3 times, x refer to duplicate
+A transform, strength something 3 times then 3 times, as these two 3s can change position, so first 3 can not be meter any more
+a+bi x c+di - x refer to a sequences of operations:
+a+bi x c, a+bi x di, combine them
+a duplicate c, b duplicate d, combine them as real part, a duplicate d, b duplicate c, combine them as img part.
+Corresponding real stuff: strength c times, strength d times & rotate 90 degree, add together
+a+bi x i - counter clockwise rotate 90 degree
 
 
 
@@ -259,6 +278,11 @@ Transform:
       Transform by decomposition: (decomp [x]) -> x & []
   Composite Transform - Decompose -> Transform -> Compose: e.g. book -> BOOK
     This need it's Inputs to be isomorphic
+
+
+Structure
+  Space structure
+  Time structure
 
 在学习的某些阶断，对目标认识的还很肤浅，这时要求深入条件不一定成熟，因为：1, 未来在条件具足时深层就显而易见。2, 大量的精力去求深入会影响不起意
 人对于不知道的东西会有畏惧感，从而让你远离这个东西，清楚的知道边界可以去除这种畏惧感
@@ -6561,6 +6585,10 @@ E.g. Recursive Container - similar stuffes can put into this Container
 One stuff contains isomorphic stuff
 
 So it's a container
+
+RPC - Recursion produce Complex: Prime + Adder + Adder ...
+
+Recursion make Infinite possible
 
 Examples can implemented via Recursion:
 List:
@@ -16242,11 +16270,23 @@ mount - rely on namespace load sequence to mantain deps tree & restart state
 
 **** clojure validation lib
 bouncer
-struct - base on similar ideas of bouncer
-schema
+struct - base on similar ideas of bouncer, stars:<100 as 2019/3
+schema - similar to struct, stars:>1900 as 2019/3
 clojure.spec
 
 **** clojure rest lib
 Compojure-api - rely on data type declaration, like static language
+
+
+
+
+***** Mac OS X
+homebrew
+build package in /usr/local/Cellar
+brew link will create symbol link under /usr/local/bin to expose these packaegs
+
+**/opt/xxx - optional packages, invented to replace /usr/local? as /usr better to be read only
+
+**/local/xxx - local developed packages
 
 

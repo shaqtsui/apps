@@ -1,0 +1,170 @@
+Bill Kinney (Bethel University)
+Seems Professor Kinney's course is in a slow pace
+1 course of Abstract Algebra(youtube-dl --get-filename https://www.youtube.com/playlist?list=PLmU0FIlJY-Mn3Pt-r5zQ_-Ar8mAnBZTf2)
+Abstract Algebra, Lecture 1, Syllabus, Intro to Groups, Modular Arithmetic, Sets, & Functions-lx3qJ-zjn5Y.mp4
+Abstract Algebra, Lec 2A, Group Exs, Modular Arithmetic, Sets & Functions, Composition of Functions-yG8zAqV_Rxc.mp4
+Abstract Algebra, Lec 2B, Equivalence Relations, Partitions, Induction, Foundational Number Theory-pZcVzAtJD2g.mp4
+Abstract Algebra, Lec 3A, Defining Inverse Functions, Review Group Exs and Equivalence Relations-mSDD4kGVWsc.mp4
+Abstract Algebra, Lec 3B, Modular Arithmetic on Equivalence Classes, Number Theory Proofs-GnFMLMNqC0M.mp4
+Abstract Algebra, Lec 4A, Group Definition, Basic Properties, Cayley Tables, Observations--KfAbXf-ZRQ.mp4
+Abstract Alg, Lec 4B, Symmetries of Equilateral Triangle, Equiv Relations, gcd(a,b)_lcm(a,b)=a_b-GiXlUUK7N0s.mp4
+Abstract Algebra, Lecture 5A, Group Theory Definitions, Basic Facts, Notation-fl-Bo5kX3h0.mp4
+Abstract Alg, Lec 5B, Conjugacy, Cayley Tables for Z6 & D3, Order of Group & Element, Subgroups-kuZ8LFUe7nk.mp4
+Abstract Algebra, Lec 6A, Properties of Mod n Addition, Order, Subgroups, (One Step) Subgroup Test-V6sDNqH7syc.mp4
+Abstract Algebra, Lec 6B, Subgroup Tests, Cyclic Subgroups, Center of Group, Cyclic Groups-I9-vFgs-gKw.mp4
+Abstract Algebra, Lec 7A, More Mod Arithmetic Proofs, GL(2,Zp), Cyclic Groups, Center, Centralizer-b84iU6A-Tls.mp4
+Abstract Algebra, Lec 7B, Intersections of Subgroups, Cyclic Groups and Non-Cyclic Groups-G6b6l_lzuQs.mp4
+Abstract Algebra, Lec 8A, Goals, Rationals & Equiv Classes, Product of Subgroups, Cyclic Groups-36ztEnorgfI.mp4
+Abstract Algebra, Lec 8B, Cyclic Groups - Empirical Observation of Properties-GVg4De7tCDs.mp4
+Abstract Algebra, Lec 9A, U(n) Cayley Table on Mathematica, Proof of Theorem on Cyclic Groups-M1Cp2MgenQ0.mp4
+Abstract Algebra, Lec 9B, Powers of Cyclic Group Generators, Subgroup Lattice, Permutations-8AbIv1PQO44.mp4
+Abstract Algebra, Lec 10A, Euclidean Algorithm, Subgroup Lattices, Permutation Groups-2VFJG4pHxKA.mp4
+Abstract Algebra, Lec 10B, Symmetric Group S3, Generators & Relations, Permutation Properties-Gxfof7RK53o.mp4
+Abstract Algebra, Lec 11A, Idea of Proof of Part of Fund Thm of Cyclic Groups, Permutation Groups-1OVBRpCfbS8.mp4
+Abstract Algebra, Lec 11B, Symmetric Group S4 (Empirical Observations), Intro to Isomorphisms-gmSgQ6iZYcg.mp4
+Abstract Alg, Lec 12A, Fund Thm Cyclic Groups, Groups of Order 1, 2, 3, 4, or prime, Symmetric Gp S4-FvRevDhelkA.mp4
+Abstract Algebra, Lecture 12B, Review for Exam 1 (on Foundational Group Theory)-CR_fJEmtQdM.mp4
+Abstract Alg, Lec 13, Visualize Cyclic Gps, S5 & A5, Isomorphisms & Properties, Intro Lagrange's Thm-BtmbhIrIuYQ.mp4
+Abstract Algebra, Lec 14A, Non-Isomorphic Groups, Cayley's Theorem, Regular Representations-amcluZqG8b8.mp4
+Abstract Algebra, Lec 14B, Automorphisms, Inner Automorphisms, Lagrange's Theorem, Cosets-lkGW8m62qtc.mp4
+Abstract Algebra, Lecture 15A, Review Aut(G) and Inn(G), Properties of Cosets-I0lOkOYAjHA.mp4
+Abstract Algebra, Lec 15B, More on Cosets, Lagrange's Thm, Converse is False, Orbit-Stabilizer Thm-1eScprmf3Kw.mp4
+Abstract Algebra, Lec 16A, Aut and Inn are Invariants, Converse of Lagrange, Sylow's First Theorem-uuKd-OiWDAI.mp4
+Abstract Algebra, Lec 16B, Proof of Orbit-Stabilizer Theorem, External Direct Products-ftINyo9m2Gs.mp4
+Abstract Alg, Lec 17A, Abstract Nonsense  --), Apps of Group Theory, 'Products' & Ext Direct Products--DEShQ59gpc.mp4
+Abstract Alg, Lec 17B, External Direct Product Order Calculations, Isomorphisms, Normal Subgroups-Xube6bF0XPI.mp4
+Abstract Algebra, Lec 18A, External Direct Products Calculations & Isomorphisms, Normal Subgroups-OjxRIJ8_9Iw.mp4
+Abstract Algebra, Lec 18B, Normal Subgroups, Factor (Quotient) Groups-P8FdLVcCnfk.mp4
+Abstract Alg, Lec 19A, Factor (Quotient) Group Cayley Tables, Factor Gp Operation is Well-Defined-WWw3FprPZQg.mp4
+Abstract Algebra, Lec 19B, More on Factor (Quotient) Groups, Internal Direct Products-r1qimLIl91M.mp4
+Abstract Alg, Lec 20, Prove G_Z Thm, G_Z(G) iso to Inn(G), Cauchy's Thm, Intro Group Homomorphisms-bRLa9ThpV0I.mp4
+Abstract Alg, Lec 21A, Internal Direct Products, Homomorphisms, Kernels, First Isomorphism Thm-hBfenC_uyh0.mp4
+Abstract Algebra, Lec 21B, Using First Isomorphism Theorem, Review for Exam 2-qc1OcOH1K2c.mp4
+Abstract Alg, Lec 22, First Isomorphism Thm, Fund Thm Finite Abelian Groups, Sylow Theorems-SW8xmbebVC4.mp4
+Abstract Algebra, Lec 23, Summarize Advanced Group Theory Topics, Ring Definition & Examples-vc06oN-O8yE.mp4
+Abstract Algebra, Lec 24A, Ring Definition, Examples, Basic Properties, Proofs-9EnbWK8MQRw.mp4
+Abstract Algebra, Lec 24B, Subrings, Subring Test, Groups of Units, Integral Domains, Fields-lGYqeiyuknA.mp4
+Abstract Algebra, Lec 25A, Integral Domains, Fields, Ring Characteristic, Nilpotents & Idempotents-97EMN2g19IA.mp4
+Abstract Algebra, Lec 25B, Ideals, Factor (Quotient) Rings, Prime Ideals, Maximal Ideals-Kph_TIHLGvY.mp4
+Abstract Algebra, Lec 26A, Polynomials over a Commutative Ring and over a Field, Division Algorithm-F9zMnOT8IeA.mp4
+Abstract Alg, Lec 26B, Division Alg & Corollaries, Irreducible Polys over Field & Maximal Ideals-RwijpVoObI4.mp4
+Abstract Algebra, Lec 27A, Facts about Ideals & Fields, Factor Ring Calculations (with Mathematica)-UdRAByKKPKU.mp4
+Abstract Algebra, Lec 27B, More Factor Ring Calculations (with Mathematica), Ring Homomorphisms-Ss_uXgs02fM.mp4
+Abstract Algebra, Lec 28A, Ring Homomorphisms, Polynomial Long Division & Synthetic Division-VFkgqs5n72w.mp4
+Abstract Alg, #28B, F[x] is a Principal Ideal Domain, Irreducibility over Integral Domains & Fields-eR0Hx3vnS50.mp4
+Abstract Alg, Lec 29A, Gaussian Integers (a Euclidean Domain), Mathematica Visuals, Constructing C-UjKps5k2Izs.mp4
+Abstract Algebra, Lec 29B, Polynomial Irreducibility_Reducibility Theorems and Examples-d4_HlsuQvuY.mp4
+Abstract Algebra, Lec 30A, Rational Root Theorem Ex, Associates, Irreducibles, Primes, Norms-1dClZ4uSbic.mp4
+Abstract Alg, Lec 30B, Irreducibles, Primes, PIDs, UFDs, Fermat's Last Thm, EDs-_0tdikp6LHY.mp4
+Abstract Algebra, Lec 31A, Review Irreducibles, Primes, UFDs, PIDs, EDs-4FUyw8Id6jw.mp4
+Abstract Algebra, Lec 31B, Z[sqrt(-5)] is not a UFD, Exam 3 Review - (Mostly) Ring Theory-4tVq0SZ5Mqc.mp4
+Abstract Algebra, Lec 32, Fields of Order p^2, Vector Spaces, a Field Extension of Q-OpOBqc1LKTQ.mp4
+Abstract Algebra, Lec 33A, Review Linear Independence, Basis, Dimension, Examples-HCnjQGjkuMk.mp4
+Abstract Algebra, Lec 33B, Field Extensions, Splitting Fields, Fund Thm Field Theory, Examples-w7c7ST8xBmg.mp4
+Abstract Algebra, Lec 34A, Field Extension and Splitting Field Examples-ShzdyfhdJzA.mp4
+Abstract Algebra, Lec 34B, More Splitting Field Examples, Algebraic vs. Transcendental Extensions-m_Rd1dZ2_H4.mp4
+Abstract Algebra, Lec 35A, Spitting Field for an Irreducible Cubic Over Z2-BXxT8cIbAiE.mp4
+Abstract Algebra, Lec 35B, Facts about Finite Fields and Algebraic Extensions-DDWv4xl9XbI.mp4
+Abstract Algebra, Lec 36A, Review Field Theory-kbIKCcsGYw4.mp4
+Abstract Algebra, Lec 36B, Review Fields, Galois Theory Introduction-hL83cWnZvRI.mp4
+Abstract Algebra, Lec 37, Galois Theory - Definitions, Two Examples, Insolvability of a Quintic-5mglrMIKJws.mp4
+Abstract Algebra, Lec 38, Galois Group Example, Grad School Topics, Review for Final-ToYTeNpbaX8.mp4
+
+
+
+1 Course of Real Analysis
+1 Course of Complex Analysis
+
+
+
+
+
+
+
+
+
+
+James Cook
+Multiple courses of Algebra I(youtube-dl --get-filename https://www.youtube.com/playlist?list=PLBY4G2o7DhF0b_5v6fBo97bLd7v8THq96)
+Abstract Algebra - integers and Euclidean algorithm-e0Lrl8M19uU.mp4
+Abstract Algebra - modular arithmetic-bVKb-O_MH68.mp4
+Abstract Algebra - cycle notation for permutations-lR3tOILINkE.mp4
+Abstract Algebra - motivation and defn of group, cancellation laws, ring, 8-27-18-Kz6cZfZFfEA.mp4
+Abstract Algebra - examples of groups from Zn, matrix group over ring, 8-29-18-NR8TTzwCg3c.mp4
+Abstract Algebra - isomorphism, Wu Tang equivalence to Batman, 8-31-18-dY78QsoIuuk.mp4
+Abstract Algebra - help session, nth roots of unity, order of inverse, 8-31-18-CfTjoPURqng.mp4
+Abstract Algebra - subgroups, isomorphism theorems, 9-3-18-e0RMT2V9ZtU.mp4
+Abstract Algebra - symmetries and dihedral group, 9-5-18-GRqwUofUNsM.mp4
+Abstract Algebra - order of Dn reflection, product group, cyclic examples, 9-7-18-b5ChhDngiMA.mp4
+Abstract Algebra - help session, questions, part of Lecture 6, 9-7-18-D7LEUd9hb0k.mp4
+Abstract Algebra - properties of cyclic groups, fundamental theorem begins, 9-10-18-nsSGvmTC9Y8.mp4
+Abstract Algebra - Fundamental Theorem of Cyclic Groups, 9-12-18-MeC3rLSx77Q.mp4
+Abstract Algebra - end of Lecture 8 with added proofs, 9-14-18-NZAIXKzP7kQ.mp4
+Abstract Algebra - automorphism and permutation representations, 9-14-18-93iJGyhU_Jw.mp4
+Abstract Algebra - kernel injectivity Thm, subgroup lattice, review, 9-17-18-8kQBdWbWtnQ.mp4
+Abstract Algebra - cosets and Lagrange's Theorem, 9-21-18-bTBuNZDK8f8.mp4
+Abstract Algebra - normal subgroups and the Quotient Group, 9-24-18-E6-ZI2MXYiM.mp4
+Abstract Algebra - direct product of cyclic, U(n) tech, toy encryption, 9-28-18-PiYXCE3da2c.mp4
+Abstract Algebra - direct products of three or more, quotient space, cosets, 9-28-18-IgCcldGMfIw.mp4
+Abstract Algebra - first isomorphism theorem, 10-1-18-sw01v6O44H8.mp4
+Abstract Algebra - group actions, orbit stabilizer theorem, 10-3-18-Q-1l3u6LKzQ.mp4
+Abstract Algebra - class equation and conjugacy action, 10-8-18-V2Trlg9IyKQ.mp4
+Abstract Algebra - matrix groups, 10-10-18-RXqcBwvXNXM.mp4
+Abstract Algebra - matrix Lie groups, maximal tori result, 10-12-18-grlydHJId7Q.mp4
+Abstract Algebra - symmetries of tetrahedron, bad impression, help with hwk, 10-12-18-k63NT9mw3xE.mp4
+Abstract Algebra - rings, subrings, integral domain, characteristic, 10-15-18-HsPCc6YAoGg.mp4
+Abstract Algebra - review for Test 2, 10-17-18-cKnt0TPZy7U.mp4
+Abstract Algebra - ideals, principal ideals, factor rings, 10-22-18-lsqyhv5s8qY.mp4
+Abstract Algebra - prime and maximal ideals, 10-24-18-erz2fgNSu_o.mp4
+Abstract Algebra - maximal implies quotient is field, examples and help, 10-16-18 part 1-Dmr1fib0v1w.mp4
+Abstract Algebra - maximal implies quotient is field, examples and help, 10-16-18 part 2-2WbxghUgE1k.mp4
+Abstract Algebra - ring isomorphisms, field of fractions, 10-26-18-wA4nGaK0WBo.mp4
+Abstract Algebra - polynomials as sequences, PID introduced, 10-29-18-LCTv-I87T-c.mp4
+Abstract Algebra - PIDs, irreducible iff maximal theorem for poly over ID, 10-31-18-858KTeEqGsA.mp4
+Abstract Algebra - irreducible, associate and prime in an integral domain, 11-2-18-lXg9PrGgF-k.mp4
+Abstract Algebra - irred implies prime in PID, how to find inverse in poly factor ring, 11-2-18 p1-3aZU2a7uM6M.mp4
+Abstract Algebra - irred implies prime in PID, how to find inverse in poly factor ring, 11-2-18 p2-BBV2im4grL0.mp4
+Abstract Algebra - on the internal direct product or sum, 9-26-18-l9iOViX0aZo.mp4
+Abstract Algebra - Euclidean Domains, UFD begins, 11-5-18-GuIGR6jqJ2k.mp4
+Abstract Algebra - PID implies UFD, extension fields begins, 11-7-18-GjK0L5DgS-8.mp4
+Abstract Algebra - extension fields, 11-9-18-VTqAYznN2Lk.mp4
+Abstract Algebra - factor ring tinkering, extensions fields continues, 11-9-18 part 2-1gGBBjU2tLo.mp4
+Abstract Algebra - factor ring tinkering, extensions fields continues, 11-9-18 part 3-q6LP99VyWBU.mp4
+Abstract Algebra - review for Test 3 on rings and things, 11-12-18-n22hcUTTPTA.mp4
+Abstract Algebra - associative algebra and regular representation, 11-16-18-Xu2xwhoY0uk.mp4
+Abstract Algebra - calculus over an algebra, 11-26-18-bPcpq0vWEOc.mp4
+Abstract Algebra - on solving DEqns over an algebra, 11-28-18-lD1tiG6kF3s.mp4
+Abstract Algebra - Lie Algebra survey, 11-30-18-rPDde9IN7SM.mp4
+Abstract Algebra - correcting the solution of quiz review 3, 11-30-18 part 1-HAMY1fxM-ns.mp4
+Abstract Algebra - correcting the solution of quiz review 3, 11-30-18 part 2-tRxnQb3cyIk.mp4
+
+
+
+Multiple courses of Algebra II
+Multiple courses of Complex Analysis
+Multiple courses of Topology & Analysis
+
+
+
+
+
+Winston Ou
+Several courses on analysis
+101 - Introduction to Analysis
+131 - Principle of Mathematical Analysis(Principle of Real Analysis 1)
+Old version miss some lectrues
+
+135 - Complex Analysis
+139 - Fourier Analysis
+??? - Basic Functional & Harmonic(Functional Analysis?)
+
+
+
+
+
+Arkady Etkin
+Slow handwriting in his course
+
+Math Analysis
+Complex Variables
+Topics in Analysis
