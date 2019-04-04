@@ -8212,6 +8212,19 @@ Firewall
 			ufw
 		
  
+**** program tree
+program logic is orgnized like a tree
+
+Normally leafs/subtree are abstractions, as they are api calls
+
+Only Tree Owner can master the tree, as even abstraction parts are under control(can be replaced)
+
+
+NOTE:
+framework/IoC introducted means that you give up Tree Owner
+explicit-over-implicit means you are the Tree Owner
+
+
 **** IoC
 IoC (Inversion of Control)
 	It's a architecture style
@@ -16271,8 +16284,8 @@ mount - rely on namespace load sequence to mantain deps tree & restart state
 **** clojure validation lib
 bouncer
 struct - base on similar ideas of bouncer, stars:<100 as 2019/3
-schema - similar to struct, stars:>1900 as 2019/3
-clojure.spec
+schema - s/defn give up Tree Owner, similar to struct, stars:>1900 as 2019/3
+clojure.spec - also give up Tree Owner
 
 **** clojure rest lib
 Compojure-api - rely on data type declaration, like static language
