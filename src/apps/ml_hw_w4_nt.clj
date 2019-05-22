@@ -28,16 +28,6 @@
       (m/emap r/read-string $)
       (def y $))
 
-(def x-imgs
-  (convert-to-img ex3-data-1-x (m/emin ex3-data-1-x) (m/emax ex3-data-1-x)))
-
-(-> x-imgs
-    (nth 1000)
-    img/show)
-
-(-> x-imgs
-    (merge-imgs 100)
-    img/show)
 
 (def x
   (map-feature ex3-data-1-x 1))

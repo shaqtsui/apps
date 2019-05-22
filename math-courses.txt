@@ -1,3 +1,26 @@
+My Goal - Uniform picture of the math domain
+
+MIT
+18.06 = 18.700
+18.701+18.702 = (18.06/18.700) + 18.703
+
+
+Video Lecture vs books
+                 + tree structure
+		 + complete
+		 + speed easy controlled
+
++people
++english listen
++usually pick some import charpters
++combine many books
+
+
+learning from any other source is no better than learn from practice
+
+
+
+
 Bill Kinney (Bethel University)
 Seems Professor Kinney's course is in a slow pace
 1 course of Abstract Algebra(youtube-dl --get-filename https://www.youtube.com/playlist?list=PLmU0FIlJY-Mn3Pt-r5zQ_-Ar8mAnBZTf2)
@@ -86,6 +109,13 @@ Abstract Algebra, Lec 38, Galois Group Example, Grad School Topics, Review for F
 
 James Cook
 Multiple courses of Algebra I(youtube-dl --get-filename https://www.youtube.com/playlist?list=PLBY4G2o7DhF0b_5v6fBo97bLd7v8THq96)
+No notes on 2017 edition
+2016 version VS 2018 version
+                + background
+		+ overall abstract algebra
+
+
+
 Abstract Algebra - integers and Euclidean algorithm-e0Lrl8M19uU.mp4
 Abstract Algebra - modular arithmetic-bVKb-O_MH68.mp4
 Abstract Algebra - cycle notation for permutations-lR3tOILINkE.mp4
@@ -168,3 +198,13 @@ Slow handwriting in his course
 Math Analysis
 Complex Variables
 Topics in Analysis
+
+
+
+
+S.H. Kulkarni
+real analysis
+
+
+Edward Su
+real analysis

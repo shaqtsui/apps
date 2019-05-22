@@ -14,7 +14,9 @@ GUD - Grand Unified Debugger, interface to many symbolic debuggers, e.g. GDB(GUN
 	jdb -attach 8000 -sourcepathd:/Shark/Apps/Java/jdk1.8.0_144/src.zip
 	for other java source can be added via project.clj
 
-auto-revert-mode/auto-revert-tail-mode - alot detact changes & reload 
+auto-revert-mode/auto-revert-tail-mode - alot detact changes & reload
+winner-mode - enable undo window config(layout, size...)
+
 
 
 
@@ -28,7 +30,7 @@ racket-mode - like cider, for racket
 geiser - like cider, for racket chichen ...
 rainbow-delimiters - show different color for parens in different depth
 paren-face - show parentheses with differnt style, functions covered by rainbow-delimiters
-
+hydra - simulate mode(invoke a parent func to capture input to invoke child function)
 
 # java plugins
 malabar-mode - moved to jdee

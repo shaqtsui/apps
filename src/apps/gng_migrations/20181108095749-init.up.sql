@@ -14,6 +14,7 @@ create table folk (
 
 --;;
 
+-- canot support money failed to parse to Double
 create table item (
   id serial primary key,
   name varchar(40),
@@ -21,12 +22,14 @@ create table item (
   product_date timestamp,
   bought_date timestamp,
   public_date timestamp,
-  img_urls varchar(300)[],
-  price money,
+  img_urls varchar(300) array,
+  price numeric(10, 3),
   location point,
   owner_id integer references folk(id)
 
 )
+
+
 
 --;;
 

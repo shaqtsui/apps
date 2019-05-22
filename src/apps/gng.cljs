@@ -1,5 +1,6 @@
 (ns apps.gng
   (:require [reagent.core :as r]
+            [taoensso.timbre :as timbre]
             [dommy.core :as dommy]
             [cljsjs.material-ui]
             [cljs-react-material-ui.core :refer [create-mui-theme color]]
@@ -12,6 +13,9 @@
             [struct.core :as st]
             )
   (:import goog.History))
+
+
+#_(enable-console-print!)
 
 
 (secretary/set-config! :prefix "#")
@@ -97,6 +101,40 @@
         ]])))
 
 
-(r/render [login]
+(defn home []
+  (let [state (r/atom {})]
+    (aj/GET "http://localhost:8080/item" {:handler #(swap! state assoc :items %)})
+    (fn []
+      [ui/mui-theme-provider {:theme base-theme}
+       [:div
+        [ui/toolbar
+         [ui/button "subscripe"]
+         [ui/typography "My Stuffes"]
+         [ui/icon-button
+          [ic/search]]
+         [ui/button "sign up"]]
+        [ui/paper
+         [ui/typography {:variant "h3"}
+          "This is the home page"]]
+        [ui/grid {:container true}
+         (map (fn [item]
+                [ui/grid {:item true
+                          :md 3
+                          :key (:id item)}
+                 [ui/card
+                  [ui/card-header {:title  (timbre/spy (:name item))
+                                   :subheader "This is subheader"
+                                   }]
+                  [ui/card-media {:image (-> item :img_urls first)}]
+                  [ui/card-content (:detail item)]]])
+              (:items @state))]
+        ]])))
+
+(aj/GET "http://localhost:8080/item" {:handler #(timbre/debug  %)
+                                      :response-format :json
+                                      })
+
+
+(r/render [home]
           (dommy/sel1 :#app))
 

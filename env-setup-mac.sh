@@ -24,13 +24,15 @@ brew install youtube-dl
 # merge video & audio, as youtube seprate video & audio for movies better quality than 1080p, it will invoked by youtube-dl
 brew install ffmpeg
 
+# used to compare & sync folders, meld is hang when compare large folders, emacs/ztree-diff can not compare file size
+brew cask install freefilesync
 brew cask install java
 brew install clojure
 ## used to download java sources via: mvn dependency:sources, which can be used by cider to look for java sources
 brew install maven
 # boot need to copy src to tmp each time it run, I don't want too much useless io, will harm my mac
 #brew install boot-clj
-# used by luminus
+# used by luminus and 3rd part project source
 brew install leiningen
 
 # db

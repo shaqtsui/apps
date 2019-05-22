@@ -34,4 +34,7 @@ select * from item
 where id in (:v*:ids)
 
 
+-- :name items :? :*
+-- :doc get items via conditions
+select * from item
 

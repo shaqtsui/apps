@@ -3,6 +3,8 @@
 #+STARTUP: showstars
 
 * All about: COGNITION OF 心 AND THE WORLD
+心不着相
+
 一颗心，只是观与不观和起不起意的区别
 
 昏沉 － 不观
@@ -202,8 +204,10 @@ Note:
     Large deviation - About Perspective Function. View Sample Point from the Perspective of distance from mean
     Random walks -
 
+World(Thing) is - Container with Things & Relations
+                  Primes + Recursions
 
-RPC - Recursion Produce Complex
+Recursion - A Structure can used to build/decompose all complex
 
 Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
 + - add, put together

@@ -1,24 +1,31 @@
 (ns apps.gng-backend
-  (:require [datomic.api :as d]
-            [immutant.web :as web]
-            [apps.ring-mw :as mw]
-            [mount.core :as mnt]
-            [cprop.source :as cps]
-            [clojure.java.jdbc :as j]
-            [hikari-cp.core :as hcp]
-            [hugsql.core :as hugsql]
-            [prone.debug :as pd]
-            [migratus.core :as migratus]
-            [taoensso.timbre :as timbre] ;; implicit require macro
-            [taoensso.timbre.appenders.core :as appenders]
-            [compojure.core :as cpj]
-            [compojure.route :as cpj-r]
-            [ring.util.response :as resp]
+  (:require [apps.ring-mw :as mw]
             [buddy.auth :as auth]
             [buddy.auth.accessrules :as auth-ac]
+            [clojure.java.jdbc :as j]
+            [compojure.core :as cpj]
+            [compojure.route :as cpj-r]
+            [cprop.source :as cps]
+            [datomic.api :as d]
+            [hikari-cp.core :as hcp]
+            [hugsql.core :as hugsql]
+            [immutant.web :as web]
+            [migratus.core :as migratus]
+            [mount.core :as mnt]
+            [prone.debug :as pd]
+            [ring.util.response :as resp]
             [struct.core :as st]
+            [taoensso.timbre :as timbre]
+            [taoensso.timbre.appenders.core :as appenders]))
 
-            ))
+
+
+
+
+
+
+
+
 
 ;; current config: (clojure.pprint/pprint timbre/*config*)
 ;; alternative env setup:  export TIMBRE_LEVEL=':trace'
@@ -61,6 +68,17 @@
 
 (hugsql/def-db-fns "apps/gng.sql")
 
+(defn to-clj-data
+  "PgArray -> Array -> seq
+  PgArray cannot be encoded by muuntaja format application/json
+  Array cannot be encoded by muuntaja format application/transit+json
+  "
+  [ms key]
+  (map #(update % key
+                (comp seq
+                      (memfn getArray)))
+       ms))
+
 ;; session work when in same site
 (def app
   (-> (cpj/routes
@@ -88,6 +106,11 @@
                    ))
        (cpj/GET "/folk" request
                 (resp/response (folk-by-name db-spec (:params request))))
+       (cpj/GET "/item" request
+                (-> db-spec
+                    items
+                    (to-clj-data :img_urls)
+                    resp/response))
        (cpj-r/not-found "page not found"))
       (auth-ac/wrap-access-rules {:rules [{:uri "/folk"
                                            :handler auth/authenticated?}]
@@ -103,9 +126,9 @@
 
 (mnt/start)
 
-
 #_(mnt/stop)
 
+#_(items db-spec)
 
 (def migration-options {:store :database
                         :migration-dir "apps/gng_migrations"
@@ -114,7 +137,15 @@
 (migratus/migrate migration-options)
 
 
+
 ;;(migratus/rollback migration-options)
 
+;;(migratus/create migration-options "data")
 
-;;(migratus/create migration-options "create-user")
+
+;;(str/trim "dd")
+
+
+
+
+

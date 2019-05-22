@@ -14,45 +14,66 @@
 
 
 
+(defn launchd
+  "Space NOT supported in cmd"
+  [cmd dir]
+  (let [params (conj (str/split cmd #"\s+") :dir dir)
+        _ (timbre/debug "invoke cmd:" params)
+        res (apply sh/sh params)]
+    (timbre/debug (update res :out str/split #"\r|\n"))
+    (when-not (= 0 (:exit res))
+      (timbre/debug "Retry after 30 sec sleep")
+      (Thread/sleep (* 30 1000))
+      (recur cmd dir)
+      )))
+
+#_(def res
+    (launchd "./dl.sh" "/Volumes/Cheng/Cheng/math/Liberty/math421-fall-2018"))
+
+
+
+
 (defn rename-files [dir]
   (-> dir
       fs/normalize
-      (fs/list-dir "y2mate*.mp4")
+      (fs/list-dir "*.mp4")
       (->> (map (fn [f]
                   (let [old-name (fs/name f)]
+                    
                     (fs/move f
                              (fs/path (fs/parent f)
-                                      (str/replace-first (fs/name f) "y2mate.com" "HMC - math131")))))))))
+                                      (str/replace-first old-name #"^(.+)-(mod.*)(.mp4)" "$2-$1$3")))))))))
 
-(rename-files "~/Downloads")
 
-(def res (->> (sp/load-workbook-from-file "/Users/fuchengxu/Downloads/管件%2B发货通知.xls")
-              (sp/select-sheet "Sheet1")
-              (sp/row-seq)
-              (remove nil?)
-              (map sp/cell-seq)
-              (map #(map sp/read-cell %))
-              rest rest butlast butlast
-              (group-by #(clojure.string/join [(nth % 1) (nth % 2) (nth % 3) (nth % 6)]))
-              (map (fn [ety]
-                     (->> (val ety)
-                          (reduce (fn [r r2]
-                                    (update (vec  r) 5
-                                            #(str (+ (Integer/parseInt %1)
-                                                     (Integer/parseInt %2)))
-                                            (nth r2 5)))))))
-           
+#_(rename-files "/Volumes/Cheng/math/NPTEL/real-analysis")
 
-              ))
+#_(def res (->> (sp/load-workbook-from-file "/Users/fuchengxu/Downloads/管件%2B发货通知.xls")
+                (sp/select-sheet "Sheet1")
+                (sp/row-seq)
+                (remove nil?)
+                (map sp/cell-seq)
+                (map #(map sp/read-cell %))
+                rest rest butlast butlast
+                (group-by #(clojure.string/join [(nth % 1) (nth % 2) (nth % 3) (nth % 6)]))
+                (map (fn [ety]
+                       (->> (val ety)
+                            (reduce (fn [r r2]
+                                      (update (vec  r) 5
+                                              #(str (+ (Integer/parseInt %1)
+                                                       (Integer/parseInt %2)))
+                                              (nth r2 5)))))))
+                
 
-(->> res
-     (sp/create-workbook "By Clojure")
-     (sp/save-workbook-into-file! "RES.xlsx"))
+                ))
+
+#_(->> res
+(sp/create-workbook "By Clojure")
+(sp/save-workbook-into-file! "RES.xlsx"))
 
 (defn kaoji
-  "Buggy, cpu load not down after this completed"
-  ([]
-   (kaoji nil))
+"Buggy, cpu load not down after this completed"
+([]
+ (kaoji nil))
   ([t]
    (let [burn (future (last (repeatedly #(pmap inc (vec (range 10))))))]
      (println "Start kaoji...")
@@ -64,7 +85,7 @@
 
 
 [dk.ative/docjure "1.12.0"]
-(sh/sh "ls" :dir "/home/shark")
+(sh/sh "ls" :dir "/")
 
 (defn aria-loop []
   (let [res (sh/sh "aria2c" "--log=/home/shark/aria.log" "--check-certificate=false" "https://ia802706.us.archive.org/zip_dir.php?path=/6/items/MIT6.006F11.zip&formats=MPEG4" :dir "/home/shark")]
@@ -92,16 +113,16 @@
        (doto (as $
                  (doall (map (partial io/copy $)
                              (-> $
-                              (as $ (partial (memfn getNextEntry) $))
-                              repeatedly
-                              (as $ (take-while (comp not nil?) $))
-                              (as $ (filter (comp not (memfn isDirectory)) $))
-                              (as $
-                                  (map
-                                   (comp #(doto % io/make-parents)
-                                         (partial io/file path)
-                                         (memfn getName))
-                                   $)))))))
+                                 (as $ (partial (memfn getNextEntry) $))
+                                 repeatedly
+                                 (as $ (take-while (comp not nil?) $))
+                                 (as $ (filter (comp not (memfn isDirectory)) $))
+                                 (as $
+                                     (map
+                                      (comp #(doto % io/make-parents)
+                                            (partial io/file path)
+                                            (memfn getName))
+                                      $)))))))
        .close))
 
   ([url]
