@@ -21,6 +21,11 @@ winner-mode - enable undo window config(layout, size...)
 
 
 other
+ivy - set var completing-read-function from completing-read-default to ivy-completing-read, var completion-in-region-function from completion--in-region to ivy-completion-in-region
+counsel - replace other common emacs commands to use ivy based functions
+swiper - alternative to isearch
+avy - jump via char-based decision tree
+
 helm - similar to IDO
 company - code complete, default supported by cider via backend: capf(standard complete at point function)
 auto-complete - same as company

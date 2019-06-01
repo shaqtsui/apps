@@ -1,52 +1,98 @@
-(condition-case
-    nil
-    (require 'use-package)
-  (file-error
-   (require 'package)
-   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-   (package-initialize)
-   (package-refresh-contents)
-   (package-install 'use-package)
-   (require 'use-package)))
+;; prepare use-package
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(package-initialize)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
 
+
+(setq use-package-verbose t)
+
+
+(use-package ivy
+  :ensure t
+  :defer t
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  ;; enable this if you want `swiper' to use it
+  ;; (setq search-default-mode #'char-fold-to-regexp)
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "<f6>") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package avy
+  :ensure t
+  :defer t)
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :config
+  (treemacs-tag-follow-mode t)
+  (treemacs-git-mode 'simple))
 
 (use-package geiser
   :ensure t
+  :defer t
   :config
   (setq geiser-active-implementations '(racket)))
 
 (use-package rainbow-delimiters
-  :ensure t)
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
 
+;; auto-mode-alist code alread in autoload
 (use-package clojure-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package hydra
-  :ensure t)
+  :ensure t
+  :defer t)
 
 ;; clj-refactor rely on refactor-nrepl, but refactor-nrepl.ns.slam.hound.search cannot be loaded maybe require:  mranderson048.orchard.v0v3v0.orchard.classpath?
 (use-package clj-refactor
   :ensure t
+  :hook (clojure-mode . clj-refactor-mode)
   :config
-  (add-hook 'clojure-mode-hook 'clj-refactor-mode)
   (cljr-add-keybindings-with-prefix "C-c C-m"))
 
 ;; direct-linking avoid function var dereference, in the cost of dynamic runtime
 ;; -Dclojure.compiler.direct-linking=true
 (use-package cider
   :ensure t
+  :defer t
   :config
   (setq cider-clojure-cli-global-options "-A:java9+:dev")
-  (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements))
+  (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
+  :custom-face
+  (cider-debug-code-overlay-face ((t (:underline (:color foreground-color :style wave)))))
+  )
 
 (use-package cider-hydra
   :ensure t
-  :config
-  (add-hook 'clojure-mode-hook 'cider-hydra-mode)
-  )
+  :hook (clojure-mode . cider-hydra-mode))
 
 (use-package magit
   :ensure t
+  :defer t
   :config
   (setq magit-diff-hide-trailing-cr-characters nil))
 
@@ -58,8 +104,7 @@
 
 (use-package expand-region
   :ensure t
-  :config
-  (global-set-key (kbd "M-2") 'er/expand-region))
+  :bind ("M-2" . er/expand-region))
 
 (use-package paredit
   :ensure t
@@ -74,19 +119,20 @@
 
 (use-package flycheck
   :ensure t
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  :hook (after-init . global-flycheck-mode))
 
 
 ;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
 ;; evaluate cider.el first, so that fun & vars available to flycheck-clojure
 (use-package flycheck-clojure
   :ensure t
+  :after (flycheck)
   :config
   (flycheck-clojure-setup))
 
 (use-package restclient
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package company-restclient
   :ensure t
@@ -94,7 +140,8 @@
   (add-to-list 'company-backends 'company-restclient))
 
 (use-package youdao-dictionary
-  :ensure t)
+  :ensure t
+  :defer t)
 
 ;; webi input method
 ;; to registe pyim in input method list, a default small pinyin dict(pyim-pymap) included
@@ -106,12 +153,15 @@
 ;; (pyim-basedict-enable)
 (use-package pyim
   :ensure t
+  :defer t
   :config
   (setq pyim-default-scheme 'wubi))
 
 ;;(pyim-wbdict-gb2312-enable)
 (use-package pyim-wbdict
   :ensure t
+  :defer t
+  :after (pyim)
   :config
   (pyim-wbdict-v98-enable))
 
@@ -119,9 +169,9 @@
 ;; lsp-java will auto download java language server
 (use-package lsp-java
   :ensure t
+  :hook (java-mode . lsp)
   :config
-  (setq lsp-inhibit-message t)
-  (add-hook 'java-mode-hook 'lsp))
+  (setq lsp-inhibit-message t))
 
 ;; company-lsp(this more powerfull than company-capf) - support code complete
 (use-package company-lsp
@@ -133,14 +183,16 @@
 ;; lsp-ui - javadoc hover, code action
 (use-package lsp-ui
   :ensure t
+  :hook (lsp-mode . lsp-ui-mode)
   :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   (require 'lsp-ui-imenu)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
 
 ;; dap-mode - debugger, test runner
 (use-package dap-mode
   :ensure t
+  :defer t
+  :after (lsp-mode)
   :config
   (dap-mode t)
   (dap-ui-mode t)
@@ -149,11 +201,11 @@
 ;; yasnippet can be used by company-lsp to support expand snippets on completion
 (use-package yasnippet
   :ensure t
-  :config
-  (yas-global-mode t))
+  :defer t)
 
 (use-package ztree
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package projectile
   :ensure t
@@ -162,16 +214,22 @@
 
 (use-package ace-window
   :ensure t
+  :bind ("M-o" . ace-window))
+
+
+;;; built-in packages
+(use-package paren
   :config
-  (global-set-key (kbd "M-o") 'ace-window))
+  (show-paren-mode t))
 
+(use-package recentf
+  :config
+  (recentf-mode) t)
 
+(use-package windmove
+  :config
+  (windmove-default-keybindings))
 
-
-;; enable additional mode and feature
-;; autoloaded function, no need to require first
-;; build-in lib init
-(recentf-mode t)
 (desktop-save-mode t)
 ;; old linum-mode will slow down emacs when large file
 (global-display-line-numbers-mode t)
@@ -182,6 +240,8 @@
 
 ;; ditaa
 ;; ditaa rt is prerequest : sudo apt-get install ditaa
+;; mac os: brew install ditaa
+;; mac jar path: /usr/local/Cellar/ditaa/0.11.0/libexec/ditaa-0.11.0-standalone.jar
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
@@ -189,17 +249,17 @@
 (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
 
-
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
 (setq make-backup-files nil)
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (paredit magit company cider))))
+ '(package-selected-packages
+   (quote
+    (ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
