@@ -21,6 +21,8 @@ winner-mode - enable undo window config(layout, size...)
 
 
 other
+lispy - reimange of paredit, short key to invoke function before ( & after ) instead of insert
+which-key - pop available commands when prefix key pressed. Same logic as hydra, but successive key will mostly triger reminder function no other function
 ivy - set var completing-read-function from completing-read-default to ivy-completing-read, var completion-in-region-function from completion--in-region to ivy-completion-in-region
 counsel - replace other common emacs commands to use ivy based functions
 swiper - alternative to isearch
@@ -35,7 +37,7 @@ racket-mode - like cider, for racket
 geiser - like cider, for racket chichen ...
 rainbow-delimiters - show different color for parens in different depth
 paren-face - show parentheses with differnt style, functions covered by rainbow-delimiters
-hydra - simulate mode(invoke a parent func to capture input to invoke child function)
+hydra - simulate mode(invoke a parent func to capture input to invoke child function). Logic: A leader key state is stored, so all succesive keys behavior depends on leader key, a special key(some ending key) will remove leader from store. Possible Impl: (s1 s2 s3 s4 s5 s6 ...); key press -> append key sequence -> trigger function(may update/delete key sequence)
 
 # java plugins
 malabar-mode - moved to jdee

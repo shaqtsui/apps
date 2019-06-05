@@ -11,6 +11,32 @@
 (setq use-package-verbose t)
 
 
+(use-package lispy
+  :ensure t
+  :hook ((clojure-mode emacs-lisp-mode) . lispy-mode))
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+(use-package ace-link
+  :ensure t
+  :config
+  (ace-link-setup-default))
+
+(use-package emms
+  :ensure t
+  :defer t
+  :custom
+  (emms-setup-default-player-list
+  '(emms-player-vlc
+    emms-player-vlc-playlist)
+  "*Default list of players for emms-setup, only vlc.")
+  :config
+  (emms-all)
+  (emms-default-players))
+
 (use-package ivy
   :ensure t
   :defer t
@@ -23,7 +49,7 @@
   (global-set-key "\C-s" 'swiper)
   (global-set-key (kbd "C-c C-r") 'ivy-resume)
   (global-set-key (kbd "<f6>") 'ivy-resume)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
+;;  (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (global-set-key (kbd "<f1> f") 'counsel-describe-function)
   (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
@@ -39,7 +65,9 @@
 
 (use-package avy
   :ensure t
-  :defer t)
+  :bind
+  (("M-g w" . avy-goto-word-1)
+  ("M-g f" . avy-goto-line)))
 
 (use-package treemacs
   :ensure t
@@ -106,7 +134,9 @@
   :ensure t
   :bind ("M-2" . er/expand-region))
 
+;; use lispy instead
 (use-package paredit
+  :disabled
   :ensure t
   :config
   (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
@@ -234,7 +264,7 @@
 ;; old linum-mode will slow down emacs when large file
 (global-display-line-numbers-mode t)
 (global-auto-revert-mode t)
-(ido-mode t)
+(ido-mode nil)
 (winner-mode t)
 
 
