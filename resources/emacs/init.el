@@ -11,6 +11,10 @@
 (setq use-package-verbose t)
 
 
+(use-package julia-mode
+  :ensure t
+  :defer t)
+
 (use-package lispy
   :ensure t
   :hook ((clojure-mode emacs-lisp-mode) . lispy-mode))
