@@ -11,6 +11,13 @@
 (setq use-package-verbose t)
 
 
+;; use-package steps:
+;; 1, download if :ensure t
+;; 2, if :after, hook following with :after & END
+;; 3, execute :init & hook :config with require status of pkg
+;; 4, if :defer = nil, require package
+
+
 (use-package julia-mode
   :ensure t
   :defer t)
@@ -41,37 +48,31 @@
   (emms-all)
   (emms-default-players))
 
-(use-package ivy
+;; ivy, swiper is counsel dependency, auto downloaded
+(use-package counsel
   :ensure t
-  :defer t
+  :bind
+  (("C-s" . swiper)
+   ("C-c C-r" . ivy-resume)
+   ("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file))
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   ;; enable this if you want `swiper' to use it
   ;; (setq search-default-mode #'char-fold-to-regexp)
-  (global-set-key "\C-s" 'swiper)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key (kbd "<f6>") 'ivy-resume)
-;;  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-  (global-set-key (kbd "<f1> l") 'counsel-find-library)
-  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  (global-set-key (kbd "C-c g") 'counsel-git)
-  (global-set-key (kbd "C-c j") 'counsel-git-grep)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
-  (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package ivy-hydra
+  :ensure t
+  :after (hydra counsel))
 
 (use-package avy
   :ensure t
   :bind
   (("M-g w" . avy-goto-word-1)
-  ("M-g f" . avy-goto-line)))
+   ("M-g f" . avy-goto-line)))
 
 (use-package treemacs
   :ensure t
@@ -111,6 +112,7 @@
 (use-package cider
   :ensure t
   :defer t
+  :after (clojure-mode)
   :config
   (setq cider-clojure-cli-global-options "-A:java9+:dev")
   (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
@@ -120,11 +122,12 @@
 
 (use-package cider-hydra
   :ensure t
+  :after (cider hydra)
   :hook (clojure-mode . cider-hydra-mode))
 
 (use-package magit
   :ensure t
-  :defer t
+  :bind ("C-x g" . magit-status)
   :config
   (setq magit-diff-hide-trailing-cr-characters nil))
 
@@ -160,7 +163,7 @@
 ;; evaluate cider.el first, so that fun & vars available to flycheck-clojure
 (use-package flycheck-clojure
   :ensure t
-  :after (flycheck)
+  :after (flycheck clojure-mode)
   :config
   (flycheck-clojure-setup))
 
@@ -170,6 +173,8 @@
 
 (use-package company-restclient
   :ensure t
+  :defer t
+  :after (company restclient)
   :config
   (add-to-list 'company-backends 'company-restclient))
 
@@ -210,6 +215,8 @@
 ;; company-lsp(this more powerfull than company-capf) - support code complete
 (use-package company-lsp
   :ensure t
+  :defer t
+  :after (company lsp-java)
   :config
   (push 'company-lsp company-backends))
 
@@ -226,7 +233,7 @@
 (use-package dap-mode
   :ensure t
   :defer t
-  :after (lsp-mode)
+  :after (lsp-java)
   :config
   (dap-mode t)
   (dap-ui-mode t)
@@ -243,8 +250,10 @@
 
 (use-package projectile
   :ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  (setq projectile-completion-system 'ivy))
 
 (use-package ace-window
   :ensure t
