@@ -14,6 +14,12 @@ brew cask install lantern
 brew cask install firefox
 # stream downloader, downloadhelper addionaly need external apps installed in MAC, youtube-dl is complex than you-get
 
+# latex used by org to generate pdf
+brew cask install mactex-no-gui
+
+# ispell used by emacs flysepll & ispell
+brew install ispell
+
 # usage, list formates: youtube-dl -F https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
 # usage, only show info without download: youtube-dl --get-filename https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
 # usage, only show info without download: youtube-dl --get-format https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ

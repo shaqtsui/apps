@@ -1,0 +1,132 @@
+#+STARTUP: indent
+
+#+OPTIONS: toc:nil
+#+OPTIONS: num:0
+#+OPTIONS: \n:t
+
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+#+LATEX_HEADER: \lhead{RESUME}
+
+
+* PERSONAL INFORMATION
+| Name           | : | Xu Fucheng                                 |
+| Gender         | : | Male                                       |
+| Contact Number | : | (86)18621180023                            |
+| Email          | : | xfcjscn@163.com                            |
+| Nationality    | : | Chinese                                    |
+| Education      | : | Nanjin University of Economics and Finance |
+
+* CAREER SUMMARY
+| 01/2017-Present | Shanghai San Zhi Wei Information and Technology |
+| 06/2014-12/2016 | VCredit Financial Tech                          |
+|                 | Sr. Development Manager                         |
+| 08/2007-08/2013 | EBT, Citi Software Technology of Shanghai       |
+|                 | Dev, Sr. Dev, Development Manager               |
+| 05/2007-8/2007  | Triman Software Co. Ltd.                        |
+|                 | Dev                                             |
+
+* PROFILE
+10+ years experience in Banking and Internet Financial IT field, which cover development, team lead, tech architect, sr. development manager.
+Experiences and ability hereby elaborated in two perspectives: tech and leading/management.
+Tech:
+I have full stack web development experience from front end to back end. Experiences cover Infrastructure Architecture, Security Architecture, Application Design, Application Development, IT Automation, Machine Learning.
+Leading and Management:
+More than 5 years foreign and local team(30+ members) management experience. Leading experience across various teams: Development Team, Design Team, Test Team, Infra Team. Especially good at setup team from ground up. Rich experiences in team setup and bring up, deliver quality products and satisfy stake holders.
+Major successfully delivered applications include: Online Banking(Internet Portal), Online Credit Card System(Internet Portal), Reward System, P2P System(Core, Web, Mobile, BMS)...
+
+* MAJOR TECH SKILL SCOPE
+JavaEE, Spring, Frontend, DevOps, Scrum, SOA, SPA, Test Automation, Clojure, Machine Learning
+
+* PROFESSIONAL EXPERIENCE
+
+** P1
+| /                 | <                                                         |
+| 01/2017 - Present | Company: Shang Hai San Zhi Wei Information and Technology |
+
+Major works & achievement:
+Machine Learning infrastructure algorithm implementation which include: Gradient Descend, Newton’s Method, Quasi Newton’s Method, Linear Regression, Logistic Regression, Regularized Regression, Backpropagation, Forwardpropagation, Neural Network, Multiclass Classification, Bias & Variance Diagonal(Underfitting & Overfitting Analysis), Precision and Recall Analysis, SVM, Gaussian Kernel, K-Means Algorithm, Unsupervised Learning, Clustering, Principle Component Analysis, Dimensionality Reduction, Data Compression, Data Visualization, Reconstruction from Compressed Representation, Anomaly Detection, Content Based Recommendation, Collaborative Filtering
+Development  of ML based Anti-Fraud Detection System, which is a anomaly detection system rely on machine learning instead of rule engine. Biggest advantage for using machine learning instead of rule engine is that even there is no cumulated professional experiences, which is the base of rule engine approach, we can create Deep Neural Network to learn from existing customer's status and behavior information which include: personal information, phone call connection network, social security information, Ali credit score, online shopping behavior... and get the boundary between normal & abnormal customer. Compare to traditional detection system which require dedicated specialist to manually maintain rule set in a passive pattern, boundary is keeping updated when more and more data introduced which enable system to perform automatic calibration in a proactive pattern.
+
+
+** P2
+| /                 | <                               |
+| 06/2014 - 12/2016 | Company: VCredit Financial Tech |
+|                   | Department: Online Business     |
+|                   | Role: Sr. Development Manager   |
+
+
+VCredit is a Hongkong listed company with main business in personal finance which include personal unsecured loan, p2p.
+
+Major responsibilities:
+Report to general manager, overall IT management on VMoney(subsidiary of VCredit)
+Build up IT teams.
+Cooperate with other departments, give product strategy to meet company strategy.
+Lead all IT teams to provide product design, development, test and production support.
+
+Major achievements:
+Started IT department(30+ employees), built up all IT related teams from ground up which include: UI design team, development team, mobile team, testing team, infrastructure team.
+Design and completed Wei Jin Hui(P2P), core functions include: Web, Core Backend, Management Backend, Mobile App, in 5 months. Followed up with: Third-party Deposit and Management, Bank Independent Deposit and Management, Local Bank Deposit and Management, which makes our company be one of the companies(as of 2017 total number is less than 100) which support Local Bank Deposit and Management.
+We integrated our platform with other products from different subsidiary of VCredit, first time complete VCredit's end-to-end online business cycle.
+Export infrastructure and common services to other new subsidiaries, which include: Infrastructure Architecture, Security Architecture, High Availability, Cache Architecture, IT Automation Framework, Test Automation Framework, Frontend Framework, Backend Framework...
+For product support, 2-weeks periodic scrum iteration makes small-medium business requirements available to public in just 2 weeks.
+To high light the testing, it's the first time, in group, we made more than 90 percents of integration tests into automation tests, which guarantee that 2-weeks periodic scrum iteration have minimal impact on existing functions.
+
+** P3
+| /                 | <                          |
+| 12/2012 - 08/2013 | Company: CSTS              |
+|                   | Department: eBusiness      |
+|                   | Project: Asia Go to Common |
+|                   | Role: Development Manager  |
+
+CSTS is a software company under Citi Group. Main business is to deliver tech related solutions for Citi bank.
+eBusiness department focus on Citi bank's Internet(Online) system and mobile application.
+
+Major responsibilities and achievements:
+Overall tech management for citi bank online credit card system.
+Discuss with business and make detailed design, development, test, deliver plan to meet their requirements.
+Follow the whole SDLC process, guarantee that team is following schedule. 
+Identify tech related risks and ensure efficient prevention measures or backups available to make sure those risks under control.
+Conduct scrum process to replace water fall process, enable more active reaction on business requirement changes.
+Participate infrastructure, common service and core function coding.
+Roll-out single code base across 13 countries. Previously each country maintains their own code base for their online application, now we consolidated all the bases and enable country specific requirement implemented via business rule configuration. With single code base, we get several benefits: For new requirement roll-out, in the limited cost of first round development effort increment, what we gain is that we can now roll-out to multiple countries without duplicated coding efforts, country specific requirements are mainly achieved via business rule configuration. A big advantage in cost and time saving, give same quality assurance across all related countries. For production support, removed tremendous duplicated codes, reduced the overall system complexity, 13 code base maintenances reduced to single code base maintenance with a set of configurations.
+Provide both development & maintainence support for citi online credit card system
+
+
+** P4
+| /               | <                                |
+| 1/2010 -12/2012 | Company: CSTS                    |
+|                 | Department: eBusiness            |
+|                 | Project: AP Regional BAU Support |
+|                 | Role: Senior Developer           |
+
+Responsibilities:
+Setup & lead development team of 10+ people
+Provide 7 * 24 Online Credit Card system Production Support for Singapore, Hongkong, Malaysia, Philippline
+Infrastructure & core function coding
+Conduct Proof of Concept for new technology application
+
+
+** P5
+| /               | <                                                            |
+| 08/2007-12/2009 | Company: CSTS                                                |
+|                 | Department: eBusiness                                        |
+|                 | Project: HongKong Online Card Application System & AP Rainbow |
+|                 | Role: Developer                                              |
+
+
+Responsibilities: development, test, documentation
+Techs involved: Java Financial Platform(citi internal framework based on struts), jsp, javascript, jquery, IBM MQ, DB2, websphere, CI
+
+
+** P6
+| /               | <                                       |
+| 04/2007-08/2007 | Company: Triman Software Co. Ltd.       |
+|                 | Project: Minghang Government GIS System |
+|                 | Role: Developer                         |
+
+Triman is a software company majored in GIS software for government
+
+Responsibilities: development, test
+Techs involved: servlet, jsp, javascript, oracle, websphere
+
