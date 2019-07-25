@@ -1,7 +1,8 @@
 ---
 # Before run this need to have ssh key pair(id_rsa and id_rsa.pub) in ~/.ssh
 # If no ssh key pair use: 'ssh-keygen -t rsa -b 4096' to create
-#
+# If password ssh connection disabled, add put key to server's authorized_keys:
+#   cat .ssh/id_rsa.pub | ssh fuchengxu@localhost 'cat >> .ssh/authorized_keys'
 # Encrypted passowrd can be generated via:
 #   mkpasswd --method=SHA-512
 # or:

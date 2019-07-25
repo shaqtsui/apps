@@ -15237,6 +15237,9 @@ Ansible
 	
 	Modules:
 		ansible all -i  hosts -u root -k -m authorized_key -a "user=root key=https://raw.githubusercontent.com/xfcjscn/ZhongYong/master/3ZW/%E4%BF%AE%E9%81%93%E4%B9%8B%E8%B0%93%E6%95%99/EECS/MyPublicKey/id_rsa.pub"
+
+      localhost:
+              ansible localhost -m ping
 		
 		
 ***** apache ds
@@ -16295,6 +16298,17 @@ clojure.spec - also give up Tree Owner
 Compojure-api - rely on data type declaration, like static language
 
 
+**** repl
+It's a function. get input, evaluate, send output
+
+get input & send output can only from different stream:
+standard input &  standard output
+network socket & network socket
+
+
+input & output can only be in different stream format:
+string stream
+structed data stream
 
 
 ***** Mac OS X
