@@ -41,6 +41,10 @@
           desc: for remote assist
         - name: vlc
           desc: media player as quickplayer support limited media types
+	- name: virtualbox
+	  desc: it's opensource compare to parallel & vmware fusion
+	- name: vmware-fusion
+	  desc: much better(performance, heat, UI) than virtualbox, license available online
 
     - git:
         repo: 'https://github.com/xfcjscn/apps.git'

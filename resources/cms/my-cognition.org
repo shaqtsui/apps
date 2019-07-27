@@ -16321,3 +16321,11 @@ brew link will create symbol link under /usr/local/bin to expose these packaegs
 **/local/xxx - local developed packages
 
 
+
+**** vmware unity
+View perspective, overlay guest's windows(taskbar is also a window, so better to hidde it in unity mode) on top of host's screen.
+Input perspective, as taskbar hidded, host will create some interface(same function as task bar buttons) to invoke guest's application via command.
+  e.g. "show system tray" create "system tray" buttons to invoke guest's task-bar/system-tray's application
+       "VMware Fusion Application Menu" create "start menu" buttons to invke guest's task-bar/start-menu's application
+
+
