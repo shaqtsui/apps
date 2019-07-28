@@ -18,6 +18,9 @@
 ;; 4, if :defer = nil, require package
 
 
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+
 (use-package julia-mode
   :ensure t
   :defer t)
