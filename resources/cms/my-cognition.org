@@ -166,6 +166,12 @@ Note: 这句话只是观生之见，重要但他局限在观。这句话的所�
 学习就是观尘？ 
 学习就是心行观
 
+Root -> Generate Pattern -> Solution, a instance of Pattern
+
+Practice ia 1, change yourself to behave with looking into these Roots & Patterns. 2, Connect daily Instances of its Pattern & Root, so that the tree is complete
+
+学习是一层基于一层的。你的底层不清楚上层就不一定对，你也会因为怀疑而被上下两层拉扯。
+
 How to see > What u see about the real > What u see about the reference(language/notation)
 
 How to see:
@@ -16340,4 +16346,24 @@ Input perspective, as taskbar hidded, host will create some interface(same funct
 shell have 2 mode:
 repl mode - start directly, it will behavior like repl
 one-time mode - like normally function, "command" passed to it as argument
+
+
+**** Julia
+module/package system
+
+module name is a symbol, resolve similar to other symbols
+
+
+module name resolve:
+Main/REPL resolve to root module instance
+Others find module instance in its current module instance, if not available use root module instance
+
+normal module instance contains uuid -> deps map
+root module instance only contains deps map
+
+
+normal module instance loaded from project.toml
+root module instance loaded from active enviroment's project.toml/source tree & merged with other roots map in LOAD_PATH
+
+
 

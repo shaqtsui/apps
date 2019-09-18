@@ -27,6 +27,7 @@
         name: "{{ item.name }}"
       loop:
         - name: lantern
+        - name: nordvpn
         - name: mactex-no-gui
           desc: latex used by org to generate pdf
         - name: ispell

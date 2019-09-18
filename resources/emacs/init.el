@@ -16,14 +16,72 @@
 ;; 2, if :after, hook following with :after & END
 ;; 3, execute :init & hook :config with require status of pkg
 ;; 4, if :defer = nil, require package
+;; Two kinds of pkg: 1, provide set of functions. 2, executed to enhance/change something
+;; Note; require pkg should not defaultly required, normally 1st kind of pkg exposed via :command/autoload
+;; 2rd kind, required & executed with :after or if autoload function to be executed use one time hook like after-init
 
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
+;; install package from source
+(use-package quelpa-use-package
+  :ensure t)
+
+;; seems hooked with files in lsp project folder
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :config
+  (setq lsp-log-io t))
+
+;; company-lsp(this more powerfull than company-capf) - support code complete
+;; autoconfiged by lsp-mode
+(use-package company-lsp
+  :ensure t
+  :defer t)
+
+;; lsp-ui & flycheck - error report
+;; lsp-ui - javadoc hover, code action
+;; autoconfiged by lsp-mode
+(use-package lsp-ui
+  :ensure t
+  :defer t)
+
+;; dap-mode - debugger, test runner
+(use-package dap-mode
+  :ensure t
+  :defer t)
+
+
+;; change ensure function to use quelpa instead of package for installation
+(setq use-package-ensure-function 'quelpa)
+
+;; lsp provided by lsp-mode
+;; after julia-mode & direct config
+(use-package lsp-julia
+  :quelpa (lsp-julia :fetcher github :repo "xfcjscn/lsp-julia")
+  :ensure t
+  :after (julia-mode)
+  :config
+  (add-hook 'julia-mode-hook 'lsp))
+
+(setq use-package-ensure-function 'use-package-ensure-elpa)
+
+
 (use-package julia-mode
   :ensure t
   :defer t)
+
+(use-package julia-repl
+  :ensure t
+  :hook (julia-mode . julia-repl-mode))
+
+(use-package flycheck-julia
+  :ensure t
+  :after (flycheck julia-mode)
+  :config (flycheck-julia-setup))
+
 
 (use-package lispy
   :ensure t
@@ -31,13 +89,11 @@
 
 (use-package which-key
   :ensure t
-  :config
-  (which-key-mode))
+  :hook (after-init . which-key-mode))
 
 (use-package ace-link
   :ensure t
-  :config
-  (ace-link-setup-default))
+  :hook (after-init . ace-link-setup-default))
 
 (use-package emms
   :ensure t
@@ -115,18 +171,15 @@
 (use-package cider
   :ensure t
   :defer t
-  :after (clojure-mode)
   :config
   (setq cider-clojure-cli-global-options "-A:java9+:dev")
   (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
   :custom-face
-  (cider-debug-code-overlay-face ((t (:underline (:color foreground-color :style wave)))))
-  )
+  (cider-debug-code-overlay-face ((t (:underline (:color foreground-color :style wave))))))
 
 (use-package cider-hydra
   :ensure t
-  :after (cider hydra)
-  :hook (clojure-mode . cider-hydra-mode))
+  :hook (cider-mode . cider-hydra-mode))
 
 (use-package magit
   :ensure t
@@ -136,9 +189,7 @@
 
 (use-package company
   :ensure t
-  :config
-  (global-company-mode))
-
+  :hook (after-init . global-company-mode))
 
 (use-package expand-region
   :ensure t
@@ -203,54 +254,36 @@
 (use-package pyim-wbdict
   :ensure t
   :defer t
-  :after (pyim)
   :config
   (pyim-wbdict-v98-enable))
 
+
 ;; lsp-java base on lsp-mode(maintained by same team)
 ;; lsp-java will auto download java language server
+;; lsp is autoload provided by lsp-mode
+;; java-mode is not a pkg, dummy here to delay the load
 (use-package lsp-java
   :ensure t
-  :hook (java-mode . lsp)
+  :after (java-mode)
   :config
+  (add-hook 'java-mode-hook 'lsp)
   (setq lsp-inhibit-message t))
 
-;; company-lsp(this more powerfull than company-capf) - support code complete
-(use-package company-lsp
-  :ensure t
-  :defer t
-  :after (company lsp-java)
-  :config
-  (push 'company-lsp company-backends))
-
-;; lsp-ui & flycheck - error report
-;; lsp-ui - javadoc hover, code action
-(use-package lsp-ui
-  :ensure t
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (require 'lsp-ui-imenu)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
-
-;; dap-mode - debugger, test runner
-(use-package dap-mode
-  :ensure t
-  :defer t
-  :after (lsp-java)
-  :config
-  (dap-mode t)
-  (dap-ui-mode t)
-  (require 'dap-java))
+;; dap-java inside lsp-java, so no :ensure here
+;; java-mode is not a pkg, dummy here to delay the load
+(use-package dap-java
+  :after (java-mode))
 
 ;; yasnippet can be used by company-lsp to support expand snippets on completion
+;; can't defer, a bug in lsp-mode lsp-enable-snippet didn't require it explicitly
 (use-package yasnippet
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package ztree
   :ensure t
   :defer t)
 
+;; seems projectile is hooked with all files in project folder
 (use-package projectile
   :ensure t
   :bind-keymap
@@ -265,16 +298,13 @@
 
 ;;; built-in packages
 (use-package paren
-  :config
-  (show-paren-mode t))
+  :hook (after-init . show-paren-mode))
 
 (use-package recentf
-  :config
-  (recentf-mode) t)
+  :hook (after-init . recentf-mode))
 
 (use-package windmove
-  :config
-  (windmove-default-keybindings))
+  :hook (after-init . windmove-default-keybindings))
 
 (desktop-save-mode t)
 ;; old linum-mode will slow down emacs when large file

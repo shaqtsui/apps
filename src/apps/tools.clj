@@ -28,7 +28,7 @@
       )))
 
 #_(def res
-    (launchd "./dl.sh" "/Volumes/Cheng/Cheng/math/Liberty/math421-fall-2018"))
+    (launchd "./dl.sh" "/Volumes/Cheng/Cheng/MIT/EECS-Foundation/6.001/"))
 
 
 
