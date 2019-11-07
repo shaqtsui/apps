@@ -8,14 +8,8 @@
         type: string
         state: absent
 
-    - win_stat:
-        path: C:\ProgramData\chocolatey\bin
-      register: chocolatey_info
-
-    - debug:
-        var: chocolatey_info.stat.exists
 
     - win_shell: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      when: chocolatey_info.stat.exists == false
+      creats: C:\ProgramData\chocolatey\bin
 
 

@@ -1,58 +1,57 @@
 ---
-# run with: ansible-playbook env-setup-mac.yml -v
+# install ansible:
+# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+# sudo python get-pip.py
+# sudo pip install ansible
+# run with: ansible-playbook env-setup-mac.yml -v --ask-become-pass
 - hosts: localhost
   tasks:
     - shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      args:
+        creates: /usr/local/bin/brew
 
-    - homebrew:
-        name: "{{ item.name }}"
-      loop:
-        - name: ispell
-          desc: used by emacs flysepll & ispell
-        - name: youtube-dl
-          desc: youtube-dl -F https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
-        - name: ffmpeg
-          desc: merge video & audio, as youtube seprate video & audio for movies better quality than 1080p, it will invoked by youtube-dl
-        - name: clojure
-        - name: maven
-          desc: used to download java sources via 'mvn dependency:sources, which can be used by cider to look for java sources'
-        - name: leiningen
-          desc: used by luminus and 3rd part project source
-        - name: postgresql
-        - name: emacs --with-cocoa
-        - name: aria2
-          desc: download manager
 
     - homebrew_cask:
         name: "{{ item.name }}"
       loop:
-        - name: lantern
         - name: nordvpn
         - name: mactex-no-gui
           desc: latex used by org to generate pdf
-        - name: ispell
-          desc: used by emacs flysepll & ispell
-        - name: freefilesync
-          desc: used to compare & sync folders, meld is hang when compare large folders, emacs/ztree-diff can not compare file size
         - name: java
-        - name: cinebench
         - name: flash-npapi
           desc: flash plugin for safri
         - name: teamviewer
           desc: for remote assist
         - name: vlc
           desc: media player as quickplayer support limited media types
-	- name: virtualbox
-	  desc: it's opensource compare to parallel & vmware fusion
-	- name: vmware-fusion
-	  desc: much better(performance, heat, UI) than virtualbox, license available online
 
-    - git:
-        repo: 'https://github.com/xfcjscn/apps.git'
-        dest: ~/Desktop/gitrepo
-        update: no
+
+    - homebrew:
+        name: "{{ item.name }}"
+      loop:
+        - name: youtube-dl
+          desc: youtube-dl -F https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
+        - name: ffmpeg
+          desc: merge video & audio, as youtube seprate video & audio for movies better quality than 1080p, it will invoked by youtube-dl
+        - name: ispell
+          desc: used by emacs flysepll & ispell
+        - name: clojure
+        - name: maven
+          desc: used to download java sources via 'mvn dependency:sources, which can be used by cider to look for java sources'
+        - name: leiningen
+          desc: used by luminus and 3rd part project source
+        - name: postgresql
+        - name: emacs
+          install_options: with-cocoa
+        - name: aria2
+          desc: download manager
+
 
     - file:
-        src: "~/Desktop/gitrepo/apps/resources/emacs/init.el"
+        path: "~/.emacs.d"
+        state: directory
+
+    - file:
+        src: "~/Desktop/apps/resources/emacs/init.el"
         path: "~/.emacs.d/init.el"
         state: link

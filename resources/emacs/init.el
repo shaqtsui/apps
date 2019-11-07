@@ -63,6 +63,7 @@
   :quelpa (lsp-julia :fetcher github :repo "xfcjscn/lsp-julia")
   :ensure t
   :after (julia-mode)
+  :init (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/lsp-julia/languageserver")
   :config
   (add-hook 'julia-mode-hook 'lsp))
 
