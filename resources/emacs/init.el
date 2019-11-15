@@ -26,7 +26,8 @@
 
 ;; install package from source
 (use-package quelpa-use-package
-  :ensure t)
+  :ensure t
+  :config (setq quelpa-update-melpa-p nil))
 
 ;; seems hooked with files in lsp project folder
 (use-package lsp-mode

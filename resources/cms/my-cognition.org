@@ -209,9 +209,16 @@ Note:
     Expection - About Add Function. Add Values in Sample Point Unit or Event Unit
     Large deviation - About Perspective Function. View Sample Point from the Perspective of distance from mean
     Random walks -
+  18.703
+    elements recurse(+ or *) to another element
+    every element have its value, so value equal(=) exist
 
 World(Thing) is - Container with Things & Relations
-                  Primes + Recursions
+                  Primes + Recursions:
+                    Recursion is recursive composition, and all composition are recursive, so simply name it Recursion
+                    Relation is the recursion contains multiple elements, such that element A -> recursion -> element B
+                    Transform it self can be Prime or Recursion
+
 
 Recursion - A Structure can used to build/decompose all complex
 
