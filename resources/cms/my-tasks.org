@@ -91,3 +91,10 @@ they not repeat
 
 ** TODO SMO in SVM
 - State "TODO"       from ""           [2018-04-19 Thu 18:44]
+
+
+** DONE julia div vs /
+- State "DONE"       from "TODO"       [2019-12-25 Wed 09:22]
+- State "TODO"       from              [2019-12-24 Tue 16:32]
+
+

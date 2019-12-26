@@ -16374,3 +16374,34 @@ root temp module instance loaded from active enviroment's project.toml/source tr
 
 
 
+parametric type
+A type only define a structure, this structure can ship any parametric data
+This consistent with (Primes + Recursions)
+
+
+limited operations:
+inside():
+:call, :quote, :$(only inside :quote), :string
+outside():
+retrive value of symbol/literal
+
+
+Hygiene
+macro result to be processed:
+variables with no global decaration is renamed via gensym
+except expr inside :escape, which simply keep it verbatim & unwrap :escape
+
+Symbol resolvation follow closure(resovle to value in the definition context)
+
+
+Generated functions
+Function's logic can divide into 2 parts: arguments' type determined, arguments' value determined. 
+First part is same across values of same type (e.g. matrix dimention).
+
+@generated: a macro to generate function & register to compiler?
+body of this generated function is the first part, result is the second part
+
+when use this generated function, also divided to 2 parts:
+invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
+
+

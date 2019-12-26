@@ -14,6 +14,7 @@
     - homebrew_cask:
         name: "{{ item.name }}"
       loop:
+        - name: julia
         - name: nordvpn
         - name: mactex-no-gui
           desc: latex used by org to generate pdf
@@ -52,6 +53,18 @@
         state: directory
 
     - file:
-        src: "~/Desktop/apps/resources/emacs/init.el"
+        src: "~/Desktop/Projects/apps/resources/emacs/init.el"
         path: "~/.emacs.d/init.el"
         state: link
+
+    - git_config:
+        name: user.email
+        value: xfcjscn@gmail.com
+        scope: global
+
+    - git_config:
+        name: user.name
+        value: xfcjscn
+        scope: global
+
+

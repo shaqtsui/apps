@@ -61,10 +61,11 @@
 ;; lsp provided by lsp-mode
 ;; after julia-mode & direct config
 (use-package lsp-julia
+  :disabled 
   :quelpa (lsp-julia :fetcher github :repo "xfcjscn/lsp-julia")
   :ensure t
   :after (julia-mode)
-  :init (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/lsp-julia/languageserver")
+  ;; :init (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/lsp-julia/languageserver")
   :config
   (add-hook 'julia-mode-hook 'lsp))
 
