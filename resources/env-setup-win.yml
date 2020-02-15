@@ -1,4 +1,18 @@
 ---
+# install ansible:
+# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+# sudo python get-pip.py
+# sudo pip install ansible
+#
+# guest host config:
+# enable ssh server feature in optional features
+# start sshd service
+#
+# see my-congnition for more info
+#
+# run with: ansible-playbook env-setup-win.yml -v -u ${remost server user name for ssh connection} -i hosts
+
+
 - hosts: all
   tasks:
     - win_regedit:
@@ -8,8 +22,20 @@
         type: string
         state: absent
 
-
     - win_shell: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      creats: C:\ProgramData\chocolatey\bin
+      args:
+        creates: C:\ProgramData\chocolatey\bin
+
+    - win_chocolatey:
+        name: "{{item}}"
+      loop:
+        - notepadplusplus
+        - wechat
+        - teamviewer
+        - winrar
+        - adobereader
+        - vlc
+        - flashplayerppapi
+        
 
 

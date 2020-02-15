@@ -11229,6 +11229,10 @@ which fragment will be rendered depends on
 
 
 ***** ssh
+1, ssh client connect to remote ssh server
+2, ssh server start shell(configable)
+3, pipeline that shell to connection
+
 Secure Shell
 	Generate Key:
 		ssh-keygen -t rsa
@@ -15256,8 +15260,25 @@ Ansible
 
 
     control windows server:
+      connection options: ssh(prefered), winrm
       1, in windows erver: enable sshd & add pub key to authorized_keys(if user under admin group administrator_authorized_key, file permission incorrect also cause error!)
-      2, in host invertory: config remote server's shell: ansible_shell_type=powershell
+           copy id_rsa.pub C:\ProgramData\ssh\administrators_authorized_keys # as Match Group administrators in c:\programdata\ssh\sshd_config
+           icacls administrators_authorized_keys /inheritance:r
+           make sure owner: administrators in permission list
+         Note: use "sshd -ddd" to debug
+      2, in host invertory: config remote server's shell base on target server's configuration(refer to ssh section): ansible_shell_type=powershell
+
+      software installation(https://docs.ansible.com/ansible/latest/user_guide/windows_usage.html):
+        win_chocolatey(recommend)
+        win_package
+        win_command or win_shell
+
+
+
+
+
+
+
 
 		
 		

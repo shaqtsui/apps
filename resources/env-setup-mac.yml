@@ -67,4 +67,7 @@
         value: xfcjscn
         scope: global
 
+    - openssh_keypair:
+        path: ~/.ssh/id_rsa
+
 
