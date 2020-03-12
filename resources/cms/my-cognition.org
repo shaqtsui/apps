@@ -219,6 +219,7 @@ World(Thing) is - Container with Things & Relations
                     Relation is the recursion contains multiple elements, such that element A -> recursion -> element B
                     Transform it self can be Prime or Recursion
 
+Clear Logic Induction is also: Primes + Recursions.
 
 Recursion - A Structure can used to build/decompose all complex
 
@@ -16375,6 +16376,37 @@ shell have 2 mode:
 repl mode - start directly, it will behavior like repl
 one-time mode - like normally function, "command" passed to it as argument
 
+**** IO
+stand io - hold by process creater
+socket io - many process hold 1 input & many output
+
+they are stream based communication, while messages(e.g. http msg) are base on stream, but 1, stream is segmented. 2, follow a formatter definition.  
+
+**** Computer Role
+It help people to do these things which people know how but too lazy to do
+e.g.
+AI - people know how to find function's root, but lazy to do the numerical calculation
+Web - people know how to draw a picture to share information, but lazy to draw & deliver to others
+CAD - people know the object's structure, but lazy to draw on paper
+
+
+**** jupyter
+it contains 2 parts:
+  kernels:
+    IPython - Python programe
+    IJulia - Julia programe
+    IRkernel - R programe
+    Community maintained kernels:
+      IHaskell
+      IRuby
+      ...
+  interfaces:
+    notebook - web application
+    console - python application, no gui
+    qt console - python application, with gui, support image show...
+    Community maintained interfaces:
+      emacs-jupyter
+      ...
 
 **** Julia
 module/package system
@@ -16425,4 +16457,14 @@ body of this generated function is the first part, result is the second part
 when use this generated function, also divided to 2 parts:
 invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
 
+
+REPL
+  a program implemented with julia language
+
+  internal repl
+    key press -> starter process(e.g. bash, emacs) -via stio, instantly send-> repl
+
+
+  3rd part repl
+    key press -> starter process(e.g. bash, emacs) -> interface program(e.g. jupyter-console, jupyter-qtconsole, jupyter-notebook, emacs-jupyter) -via ZeroMQ, buffered & send-> repl
 

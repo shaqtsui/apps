@@ -29,6 +29,15 @@
   :ensure t
   :config (setq quelpa-update-melpa-p nil))
 
+;; jupyter-run-repl will start kernel in active directory not emacs process's directory
+;; so run it when u open that project's direcory
+;; debug: (setq jupyter--debug t)
+(use-package jupyter
+  :ensure t
+  :defer t
+  :init
+  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin"))))
+
 ;; seems hooked with files in lsp project folder
 (use-package lsp-mode
   :ensure t
@@ -324,7 +333,9 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (ditaa . t)))
+   (ditaa . t)
+   (julia . t)
+   (jupyter . t)))
 (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
 
@@ -336,6 +347,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(custom-enabled-themes (quote (wombat)))
+ '(emms-setup-default-player-list (quote (emms-player-vlc emms-player-vlc-playlist)) t)
  '(package-selected-packages
    (quote
     (ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))))
