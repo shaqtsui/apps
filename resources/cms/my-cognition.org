@@ -16340,19 +16340,19 @@ Compojure-api - rely on data type declaration, like static language
 
 
 **** repl
-It's a function. get input, evaluate, send output
+It's a program. get input, evaluate, send output
 
-get input & send output can only from different stream:
-standard input &  standard output
-network socket & network socket
+Category:
+| standard io repl | raw stream repl                |
+|------------------+--------------------------------|
+| socket io repl   | segmented stream(message) repl |
 
+e.g.
+most internal repls - standard io repl,  raw stream repl
+clojure socket repl - socket io repl, raw stream repl
+IJulia, IPython, clojure nrepl - socket io repl, segmented stream(message) repl
 
-input & output can only be in different stream format:
-string stream
-structed data stream
-
-
-***** Mac OS X
+**** Mac OS X
 homebrew
 build package in /usr/local/Cellar
 brew link will create symbol link under /usr/local/bin to expose these packaegs
@@ -16382,6 +16382,7 @@ socket io - many process hold 1 input & many output
 
 they are stream based communication, while messages(e.g. http msg) are base on stream, but 1, stream is segmented. 2, follow a formatter definition.  
 
+
 **** Computer Role
 It help people to do these things which people know how but too lazy to do
 e.g.
@@ -16392,10 +16393,10 @@ CAD - people know the object's structure, but lazy to draw on paper
 
 **** jupyter
 it contains 2 parts:
-  kernels:
-    IPython - Python programe
-    IJulia - Julia programe
-    IRkernel - R programe
+  kernels(socket io repl, segmented stream(message) repl exposed via ZeroMQ):
+    IPython - Python program
+    IJulia - Julia program
+    IRkernel - R program
     Community maintained kernels:
       IHaskell
       IRuby
@@ -16457,14 +16458,4 @@ body of this generated function is the first part, result is the second part
 when use this generated function, also divided to 2 parts:
 invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
 
-
-REPL
-  a program implemented with julia language
-
-  internal repl
-    key press -> starter process(e.g. bash, emacs) -via stio, instantly send-> repl
-
-
-  3rd part repl
-    key press -> starter process(e.g. bash, emacs) -> interface program(e.g. jupyter-console, jupyter-qtconsole, jupyter-notebook, emacs-jupyter) -via ZeroMQ, buffered & send-> repl
 
