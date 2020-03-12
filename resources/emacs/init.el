@@ -36,7 +36,8 @@
   :ensure t
   :defer t
   :init
-  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin"))))
+  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin")))
+  (setq org-babel-default-header-args:jupyter-julia '((:session . "jl"))))
 
 ;; seems hooked with files in lsp project folder
 (use-package lsp-mode
@@ -185,9 +186,7 @@
   :defer t
   :config
   (setq cider-clojure-cli-global-options "-A:java9+:dev")
-  (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
-  :custom-face
-  (cider-debug-code-overlay-face ((t (:underline (:color foreground-color :style wave))))))
+  (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements))
 
 (use-package cider-hydra
   :ensure t
@@ -334,7 +333,6 @@
  'org-babel-load-languages
  '((emacs-lisp . t)
    (ditaa . t)
-   (julia . t)
    (jupyter . t)))
 (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
 
@@ -342,6 +340,10 @@
 ;; encoding setting
 (prefer-coding-system 'utf-8-unix)
 (setq make-backup-files nil)
+;; font size
+(set-face-attribute 'default nil :height 130)
+(scroll-bar-mode -1)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -354,9 +356,5 @@
  '(package-selected-packages
    (quote
     (ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(cider-debug-code-overlay-face ((t (:underline (:color foreground-color :style wave))))))
+
+

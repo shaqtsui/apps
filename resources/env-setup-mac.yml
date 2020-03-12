@@ -10,6 +10,8 @@
       args:
         creates: /usr/local/bin/brew
 
+    - homebrew_tap:
+        name: d12frosted/emacs-plus
 
     - homebrew_cask:
         name: "{{ item.name }}"
@@ -42,8 +44,8 @@
         - name: leiningen
           desc: used by luminus and 3rd part project source
         - name: postgresql
-        - name: emacs
-          install_options: with-cocoa
+        - name: emacs-plus
+          desc: support librsvg to show svg in jupyter reple
         - name: aria2
           desc: download manager
 

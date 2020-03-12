@@ -31,6 +31,8 @@ avy - jump via char-based decision tree
 ein - api for interacting with jupyter notebook frontend, notebook viewer
 emacs-jupyter - api for interacting with jupyter kernels, 2 frontends: built-in repl & org-mode source block
 
+ob-julia - pkg to support julia language in org, but it rely on ess
+
 helm - similar to IDO
 company - code complete, default supported by cider via backend: capf(standard complete at point function)
 auto-complete - same as company
