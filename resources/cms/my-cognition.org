@@ -221,6 +221,10 @@ World(Thing) is - Container with Things & Relations
 
 Clear Logic Induction is also: Primes + Recursions.
 
+Language is: Primes + Recursions
+  Syntax - Recursion structure
+  Word - Prime
+
 Recursion - A Structure can used to build/decompose all complex
 
 Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
@@ -16384,6 +16388,8 @@ they are stream based communication, while messages(e.g. http msg) are base on s
 
 
 **** Computer Role
+Thing in mind -> Thing in Computer -> Thing in other place
+
 It help people to do these things which people know how but too lazy to do
 e.g.
 AI - people know how to find function's root, but lazy to do the numerical calculation
@@ -16410,8 +16416,12 @@ it contains 2 parts:
       ...
 
 **** Julia
-module/package system
+***** Prime(api)
+****** Runtime Polymorphism
+Normal functions support runtime polymorphism
+(clojure only have defmulti support this)
 
+****** module/package system 
 module name is a symbol, resolve similar to other symbols
 
 
@@ -16426,20 +16436,13 @@ root temp module instance only contains deps map
 normal module instance loaded from project.toml
 root temp module instance loaded from active enviroment's project.toml/source tree & merged with other roots map in LOAD_PATH
 
-
-
-parametric type
-A type only define a structure, this structure can ship any parametric data
-This consistent with (Primes + Recursions)
-
-
-limited operations:
+****** limited operations:
 inside():
 :call, :quote, :$(only inside :quote), :string
 outside():
 retrive value of symbol/literal
 
-
+****** macro
 Hygiene
 macro result to be processed:
 variables with no global decaration is renamed via gensym
@@ -16447,8 +16450,7 @@ except expr inside :escape, which simply keep it verbatim & unwrap :escape
 
 Symbol resolvation follow closure(resovle to value in the definition context)
 
-
-Generated functions
+****** Generated functions
 Function's logic can divide into 2 parts: arguments' type determined, arguments' value determined. 
 First part is same across values of same type (e.g. matrix dimention).
 
@@ -16457,5 +16459,14 @@ body of this generated function is the first part, result is the second part
 
 when use this generated function, also divided to 2 parts:
 invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
+
+
+***** Recursion
+****** syntax
+similar to mathematic
+
+****** parametric type
+A type only define a structure, this structure can ship any parametric data
+This consistent with (Primes + Recursions)
 
 
