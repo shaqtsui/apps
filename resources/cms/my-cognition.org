@@ -16397,9 +16397,45 @@ Web - people know how to draw a picture to share information, but lazy to draw &
 CAD - people know the object's structure, but lazy to draw on paper
 
 
+**** languageserver
+difference between socket io repl:
+  languageserver expose dedicated functions, socket io repl expose generic function: eval
+  repl is to execute code, languageserver is to edit code
+exposed functionalities:
+  linting, code complete, go to definition, find all reference, format code...
+benifit:
+  you can use the language to edite itself
+
+**** emacs & pkgs
+***** use-package
+****** basic steps:
+1, download pkg
+2, init
+3, require
+4, config
+
+****** detailed steps:
+1, download if :ensure t
+2, if :after, hook following with :after & END
+3, execute :init & hook :config with require status of pkg
+4, if :defer = nil, require package
+
+****** :defer move require & config out of process of use-package
+pkg category:
+1, provide set of functions - normally moved to :command/autoload
+2, executed to enhance/change something
+  a, enhance logic in function - normally moved to :command/autoload & link to one time hook like after-init
+  b, enhance logic out of function - normally should NOT move out as no function to support :command/autoload, should be executed now or later(via :after)
+
+
+
 **** jupyter
 it contains 2 parts:
-  kernels(socket io repl, segmented stream(message) repl exposed via ZeroMQ):
+  kernel:
+    socket io repl, segmented stream(message) repl + optional dedicated functions(actually can be inplemented via repl): code-complete, inspect, history, is-complete, shutdown
+    exposed via ZeroMQ
+
+    kernel list:
     IPython - Python program
     IJulia - Julia program
     IRkernel - R program
@@ -16468,5 +16504,12 @@ similar to mathematic
 ****** parametric type
 A type only define a structure, this structure can ship any parametric data
 This consistent with (Primes + Recursions)
+
+
+***** package management
+preview command - preview pkg management operation NO change on project
+develop pkg - clone & refer in project
+free pkg - undo develop operation
+ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
 
 

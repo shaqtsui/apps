@@ -9,82 +9,88 @@
 
 
 (setq use-package-verbose t)
-
-
-;; use-package steps:
-;; 1, download if :ensure t
-;; 2, if :after, hook following with :after & END
-;; 3, execute :init & hook :config with require status of pkg
-;; 4, if :defer = nil, require package
-;; Two kinds of pkg: 1, provide set of functions. 2, executed to enhance/change something
-;; Note; require pkg should not defaultly required, normally 1st kind of pkg exposed via :command/autoload
-;; 2rd kind, required & executed with :after or if autoload function to be executed use one time hook like after-init
+(setq use-package-always-defer t)
 
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
+(use-package env
+  :config
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH"))))
 
 ;; install package from source
 (use-package quelpa-use-package
   :ensure t
+  :demand t
   :config (setq quelpa-update-melpa-p nil))
 
 ;; jupyter-run-repl will start kernel in active directory not emacs process's directory
 ;; so run it when u open that project's direcory
 ;; debug: (setq jupyter--debug t)
+;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
 (use-package jupyter
-  :ensure t
-  :defer t
-  :init
-  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin")))
-  (setq org-babel-default-header-args:jupyter-julia '((:session . "jl"))))
+  :ensure t)
+
+;; subpkg of jupyter, here only to config it
+(use-package jupyter-repl
+  :config
+  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin"))))
+
+(use-package org
+  :config
+  (setq org-confirm-babel-evaluate nil)
+  (org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (ditaa . t)
+   (jupyter . t))))
 
 ;; seems hooked with files in lsp project folder
 (use-package lsp-mode
   :ensure t
-  :defer t
   :config
   (setq lsp-log-io t))
 
 ;; company-lsp(this more powerfull than company-capf) - support code complete
 ;; autoconfiged by lsp-mode
 (use-package company-lsp
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; lsp-ui & flycheck - error report
 ;; lsp-ui - javadoc hover, code action
 ;; autoconfiged by lsp-mode
 (use-package lsp-ui
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; dap-mode - debugger, test runner
 (use-package dap-mode
-  :ensure t
-  :defer t)
+  :ensure t)
 
 
 ;; change ensure function to use quelpa instead of package for installation
 (setq use-package-ensure-function 'quelpa)
 
 ;; lsp provided by lsp-mode
-;; after julia-mode & direct config
+    ;; after julia-mode & direct config
+    ;; defer t will cause not register error
+    ;; register lsp-client
 (use-package lsp-julia
-  :disabled 
+  ;;  :disabled
   :quelpa (lsp-julia :fetcher github :repo "xfcjscn/lsp-julia")
   :ensure t
+  :demand t
   :after (julia-mode)
-  ;; :init (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/lsp-julia/languageserver")
   :config
-  (add-hook 'julia-mode-hook 'lsp))
+  (setq lsp-julia-package-dir "~/Desktop/Projects/appjulia")
+  )
 
 (setq use-package-ensure-function 'use-package-ensure-elpa)
 
-
+;; from JuliaEditorSupport
 (use-package julia-mode
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package julia-repl
   :ensure t
@@ -110,7 +116,6 @@
 
 (use-package emms
   :ensure t
-  :defer t
   :custom
   (emms-setup-default-player-list
   '(emms-player-vlc
@@ -148,14 +153,12 @@
 
 (use-package treemacs
   :ensure t
-  :defer t
   :config
   (treemacs-tag-follow-mode t)
   (treemacs-git-mode 'simple))
 
 (use-package geiser
   :ensure t
-  :defer t
   :config
   (setq geiser-active-implementations '(racket)))
 
@@ -165,12 +168,10 @@
 
 ;; auto-mode-alist code alread in autoload
 (use-package clojure-mode
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package hydra
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; clj-refactor rely on refactor-nrepl, but refactor-nrepl.ns.slam.hound.search cannot be loaded maybe require:  mranderson048.orchard.v0v3v0.orchard.classpath?
 (use-package clj-refactor
@@ -183,7 +184,6 @@
 ;; -Dclojure.compiler.direct-linking=true
 (use-package cider
   :ensure t
-  :defer t
   :config
   (setq cider-clojure-cli-global-options "-A:java9+:dev")
   (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements))
@@ -233,19 +233,16 @@
   (flycheck-clojure-setup))
 
 (use-package restclient
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package company-restclient
   :ensure t
-  :defer t
   :after (company restclient)
   :config
   (add-to-list 'company-backends 'company-restclient))
 
 (use-package youdao-dictionary
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; webi input method
 ;; to registe pyim in input method list, a default small pinyin dict(pyim-pymap) included
@@ -257,14 +254,12 @@
 ;; (pyim-basedict-enable)
 (use-package pyim
   :ensure t
-  :defer t
   :config
   (setq pyim-default-scheme 'wubi))
 
 ;;(pyim-wbdict-gb2312-enable)
 (use-package pyim-wbdict
   :ensure t
-  :defer t
   :config
   (pyim-wbdict-v98-enable))
 
@@ -291,8 +286,7 @@
   :ensure t)
 
 (use-package ztree
-  :ensure t
-  :defer t)
+  :ensure t)
 
 ;; seems projectile is hooked with all files in project folder
 (use-package projectile
@@ -317,32 +311,49 @@
 (use-package windmove
   :hook (after-init . windmove-default-keybindings))
 
+(use-package desktop
+  :hook (after-init . desktop-save-mode))
 (desktop-save-mode t)
-;; old linum-mode will slow down emacs when large file
-(global-display-line-numbers-mode t)
-(global-auto-revert-mode t)
-(ido-mode nil)
-(winner-mode t)
 
+;; old linum-mode will slow down emacs when large file
+(use-package display-line-numbers
+  :hook (after-init . global-display-line-numbers-mode))
+
+(use-package autorevert
+  :hook (after-init . global-auto-revert-mode))
+
+(use-package ido
+  :hook (after-init . ido-mode))
+
+(use-package winner
+  :hook (after-init . winner-mode))
+
+(use-package scroll-bar
+  :demand t
+  :hook (after-init . scroll-bar-mode))
+(scroll-bar-mode -1)
 
 ;; ditaa
 ;; ditaa rt is prerequest : sudo apt-get install ditaa
 ;; mac os: brew install ditaa
 ;; mac jar path: /usr/local/Cellar/ditaa/0.11.0/libexec/ditaa-0.11.0-standalone.jar
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (ditaa . t)
-   (jupyter . t)))
-(setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
+(use-package ob-ditaa
+  :config
+  (setq org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar"))
+
+(use-package mule-cmds
+  :config
+  (prefer-coding-system 'utf-8-unix))
 
 
-;; encoding setting
-(prefer-coding-system 'utf-8-unix)
-(setq make-backup-files nil)
-;; font size
-(set-face-attribute 'default nil :height 130)
-(scroll-bar-mode -1)
+(use-package files
+  :config
+  (setq make-backup-files nil))
+
+(use-package faces
+  :config
+  (set-face-attribute 'default nil :height 130))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -358,3 +369,9 @@
     (ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))))
 
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
