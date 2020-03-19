@@ -21,6 +21,9 @@
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH"))))
 
 ;; install package from source
+;; 2 approach to use:
+;; :quelpa to replace :ensure  - can config details
+;; change ensure function & use :ensure - not recommand, :quelpa ignored, cann't config details
 (use-package quelpa-use-package
   :ensure t
   :demand t
@@ -42,10 +45,10 @@
   :config
   (setq org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (ditaa . t)
-   (jupyter . t))))
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (ditaa . t)
+     (jupyter . t))))
 
 ;; seems hooked with files in lsp project folder
 (use-package lsp-mode
@@ -69,24 +72,19 @@
   :ensure t)
 
 
-;; change ensure function to use quelpa instead of package for installation
-(setq use-package-ensure-function 'quelpa)
-
 ;; lsp provided by lsp-mode
-    ;; after julia-mode & direct config
-    ;; defer t will cause not register error
-    ;; register lsp-client
+;; after julia-mode & direct config
+;; defer t will cause not register error
+;; register lsp-client
 (use-package lsp-julia
-  ;;  :disabled
-  :quelpa (lsp-julia :fetcher github :repo "xfcjscn/lsp-julia")
-  :ensure t
+  :quelpa (lsp-julia :fetcher github :repo "gdkrmr/lsp-julia")
   :demand t
   :after (julia-mode)
-  :config
+  :init
   (setq lsp-julia-package-dir "~/Desktop/Projects/appjulia")
+  ;; (setq lsp-julia-package-dir "~/.emacs.d/quelpa/build/lsp-julia/languageserver")
   )
 
-(setq use-package-ensure-function 'use-package-ensure-elpa)
 
 ;; from JuliaEditorSupport
 (use-package julia-mode
@@ -118,9 +116,9 @@
   :ensure t
   :custom
   (emms-setup-default-player-list
-  '(emms-player-vlc
-    emms-player-vlc-playlist)
-  "*Default list of players for emms-setup, only vlc.")
+   '(emms-player-vlc
+     emms-player-vlc-playlist)
+   "*Default list of players for emms-setup, only vlc.")
   :config
   (emms-all)
   (emms-default-players))

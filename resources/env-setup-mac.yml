@@ -11,7 +11,10 @@
         creates: /usr/local/bin/brew
 
     - homebrew_tap:
-        name: d12frosted/emacs-plus
+        name: "{{ item.name }}"
+      loop:
+        -name: d12frosted/emacs-plus
+        -name: homebrew/cask-versions
 
     - homebrew_cask:
         name: "{{ item.name }}"

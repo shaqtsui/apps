@@ -16361,6 +16361,17 @@ homebrew
 build package in /usr/local/Cellar
 brew link will create symbol link under /usr/local/bin to expose these packaegs
 
+homebrew repos:
+/usr/local/Homebrew - brew app itself
+  origin: https://github.com/Homebrew/brew.git
+/usr/local/Homebrew/Library/Taps - taped repo under this folder
+/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core
+  origin: https://github.com/Homebrew/homebrew-core.git
+/usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
+  origin: https://github.com/Homebrew/homebrew-cask.git
+
+
+
 **/opt/xxx - optional packages, invented to replace /usr/local? as /usr better to be read only
 
 **/local/xxx - local developed packages
@@ -16511,5 +16522,34 @@ preview command - preview pkg management operation NO change on project
 develop pkg - clone & refer in project
 free pkg - undo develop operation
 ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
+
+
+***** debug
+Debugger.jl - officical debugger
+  @enter expression, start debug & break on enter
+  @run expression, start debug
+  breakpoint(function name) - add bp on function enter
+  break_on(:error) - add bp on error
+  @bp - add bp on current location
+
+
+
+Rebugger.jl
+interpret mode
+  Meta-i follow expression to debug expression
+  ? show commands
+edit mode
+  Meta-e on expression(first letter) to trace expression
+  direct edit code (Meta-enter to insert line to add code)
+capture stacktrace
+  Meta-s follow expression to capture stacktrace
+  [up]/[down] on the end to navigate method in stack trace
+  direct edit code
+
+Note: mode exist when express finished
+
+
+Gallium.jl - deprecated
+
 
 
