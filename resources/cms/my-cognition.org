@@ -16208,12 +16208,6 @@ Don't think from Data perspective, as its Semantic is Thing
 So Vector can not be implemented as Function, as from Semnatic perspective Vector is not a Relation
 
 
-**** emacs
-TRAMP (included) used to access remote files
-/ssh:shark@192.168.124.3:Desktop/kvm.txt
-
-ztree-diff is a directory-diff tool for Emacs inspired by commercial tools like Beyond Compare or Araxis Merge. 
-
 **** postgresql
 install:
 ;; standard pkg
@@ -16418,6 +16412,36 @@ benifit:
   you can use the language to edite itself
 
 **** emacs & pkgs
+***** elisp
+autoloaded
+like a dummy function loaded before real lib(contains real function) loaded
+so that symbol can be add to global without load the lib
+With this feature, u can load a lib via invoke a autoloaded function
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Autoload.html
+
+***** debugging
+****** Debugger
+Can not see the code
+M-:
+(debug-on-error)
+(debug-on-entry 'functionname)
+add (debug) in source
+****** Edebug
+source level debugger
+C-u C-M-x(eval defun with prefix argument) - instrument function
+debug command:
+? - display help message
+h - here
+f - forward
+o - step out
+i - step in
+c - continue
+e - evaluate expression
+
+
+***** quoted-insert
+C-q - insert non-graphic char
+
 ***** use-package
 ****** basic steps:
 1, download pkg
@@ -16439,6 +16463,80 @@ pkg category:
   b, enhance logic out of function - normally should NOT move out as no function to support :command/autoload, should be executed now or later(via :after)
 
 
+
+
+***** tramp
+TRAMP (included) used to access remote files
+/ssh:shark@192.168.124.3:Desktop/kvm.txt
+
+***** ztree
+ztree-diff is a directory-diff tool for Emacs inspired by commercial tools like Beyond Compare or Araxis Merge. 
+
+
+***** other
+built-in
+IDO - choice narrow
+electric-pair-mode - auto insert pares
+flymake - on-the-fly syntax check, outdated, last update on 2009, use flycheck replace
+GUD - Grand Unified Debugger, interface to many symbolic debuggers, e.g. GDB(GUN Debugger), DBX, SDB, PDB(python), JDB(java). Issue: it iterface with these debugger tools via process IO, which is a misuse of these tools, as process IO supposed to interface with human beings.
+    jdb
+	All these variables are used to search source path, nothing to do with classpath for runtime:
+	gud-jdb-use-classpath specify source lookup in classpath or gud-jdb-directories
+	(prefer use-classpath, as start is quick & easy to control)
+	gud-jdb-classpath normally auto setted to the value returned by jdb instance
+	gud-jdb-sourcepath auto setted to the value provided to jdb via -sourcepath, this value will preappend to gud-jdb-classpath to be the source search dir.
+
+	JDK source not in classpath, so startup command should be:
+	jdb -attach 8000 -sourcepathd:/Shark/Apps/Java/jdk1.8.0_144/src.zip
+	for other java source can be added via project.clj
+
+auto-revert-mode/auto-revert-tail-mode - alot detact changes & reload
+winner-mode - enable undo window config(layout, size...)
+
+
+other
+lispy - reimange of paredit, short key to invoke function before ( & after ) instead of insert
+which-key - pop available commands when prefix key pressed. Same logic as hydra, but successive key will mostly triger reminder function no other function
+ivy - set var completing-read-function from completing-read-default to ivy-completing-read, var completion-in-region-function from completion--in-region to ivy-completion-in-region
+counsel - replace other common emacs commands to use ivy based functions
+swiper - alternative to isearch
+avy - jump via char-based decision tree
+
+ein - api for interacting with jupyter notebook frontend, notebook viewer
+emacs-jupyter - api for interacting with jupyter kernels, 2 frontends: built-in repl & org-mode source block
+
+ob-julia - pkg to support julia language in org, but it rely on ess
+
+helm - similar to IDO
+company - code complete, default supported by cider via backend: capf(standard complete at point function)
+auto-complete - same as company
+flycheck - on the fly syntax check
+flycheck-clojure(squiggly-clojure) - clojure support for flycheck
+racket-mode - like cider, for racket
+geiser - like cider, for racket chichen ...
+rainbow-delimiters - show different color for parens in different depth
+paren-face - show parentheses with differnt style, functions covered by rainbow-delimiters
+hydra - simulate mode(invoke a parent func to capture input to invoke child function). Logic: A leader key state is stored, so all succesive keys behavior depends on leader key, a special key(some ending key) will remove leader from store. Possible Impl: (s1 s2 s3 s4 s5 s6 ...); key press -> append key sequence -> trigger function(may update/delete key sequence)
+
+# java plugins
+malabar-mode - moved to jdee
+emacs-eclim - reply on eclipse backend
+jdee - java env, now actively maintained from 2015, but as of 2017/08 its still very young, will support build tools in future
+ensime - lsp like,mainly support scala, java support via enjime, support sbt, lein, maven, gradle
+meghanada-emacs - lsp like, same architecture as ensime, no debug support as of 2017/08
+cdt - debug clojure code to invoke JDI, which connect to remove VM, no update since 2012
+ritz - similar to cdt, but more functionality,  no update since 2012
+lsp - microsoft's protocal for general editor & languages
+
+
+
+most dowloads to be checked:
+yasnippet - template system, good for verbose language like html, lisp-family is consise
+projectile - easy find file in project, good for complex project, but lisp-family is consie
+smartparents - like paredit, but support more languages, this means this is complex as language agnostic
+expand-region - seems can be replace by paredit mode via navi & node select
+paredit-mode - op on pares, not maintained in github, only support lisp-family lauguagae, seems this is more geek compared to smartparents. As I don't want to touch other complex language, lisp-family is my focus, so I prefer this pkg.
+autopair - very similar to electric-pair-mode, author prefer electric-pair-mode
 
 **** jupyter
 it contains 2 parts:
@@ -16525,7 +16623,9 @@ ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
 
 
 ***** debug
+
 Debugger.jl - officical debugger
+  Need to run in julia repl
   @enter expression, start debug & break on enter
   @run expression, start debug
   breakpoint(function name) - add bp on function enter
@@ -16533,8 +16633,9 @@ Debugger.jl - officical debugger
   @bp - add bp on current location
 
 
-
 Rebugger.jl
+When I input Meta-i in command & execute, it will show invalid char error
+I think it can not run out of repl, sine Meta-e rely on point position
 interpret mode
   Meta-i follow expression to debug expression
   ? show commands
