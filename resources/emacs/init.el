@@ -1,6 +1,8 @@
 ;; prepare use-package
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+
 (package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -81,8 +83,9 @@
   :demand t
   :after (julia-mode)
   :init
-  (setq lsp-julia-package-dir "~/Desktop/Projects/appjulia")
-  ;; (setq lsp-julia-package-dir "~/.emacs.d/quelpa/build/lsp-julia/languageserver")
+  ;; (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
+  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/my-ls")
+  ;; (setq lsp-julia-package-dir "/Users/fuchengxu/.emacs.d/quelpa/build/lsp-julia/languageserver")
   )
 
 
@@ -99,10 +102,11 @@
   :after (flycheck julia-mode)
   :config (flycheck-julia-setup))
 
-
-(use-package lispy
-  :ensure t
-  :hook ((clojure-mode emacs-lisp-mode) . lispy-mode))
+;; confict with edebug key binding
+;; (use-package lispy
+;;   :disabled
+;;   :ensure t
+;;   :hook ((clojure-mode emacs-lisp-mode) . lispy-mode))
 
 (use-package which-key
   :ensure t
@@ -204,9 +208,8 @@
   :ensure t
   :bind ("M-2" . er/expand-region))
 
-;; use lispy instead
+;; duplicate with lispy
 (use-package paredit
-  :disabled
   :ensure t
   :config
   (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)

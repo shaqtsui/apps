@@ -188,10 +188,15 @@ Note:
   Distill is Abstract
   Normally Distill via front view & side view
   Function can model: transform, link, relationship ...
+
   18.01, 18.02, 18.03
+    18.01 - curve similar to short lines
+    18.02 - surface similar to small plane
+    18.03 - other stuff base on above 2
     front view is modeled by original Function
     side view is modeled by original Function's derivative Function
   18.06
+    18.06 - vector is bases & coresponding factors
     Directed Line modeled by Vector, Transform modeled by a Function
   18.062J
     Induction - About Equal Function. Iteratively apply Equal Function to get induct proof
@@ -212,6 +217,9 @@ Note:
   18.703
     elements recurse(+ or *) to another element
     every element have its value, so value equal(=) exist
+  18.100B
+    Recursion(sequence) go smaller & smaller with no ending
+
 
 World(Thing) is - Container with Things & Relations
                   Primes + Recursions:
@@ -3020,14 +3028,6 @@ Topology and Geometry
 
 **** Base
 function
-**** 18.01
-curve similar to short lines
-**** 18.02
-surface similar to small plane
-**** 18.03
-other stuff base on above 2
-**** 18.06
-vector is bases & coresponding factors
 
 *** EECS
 curriculum organized around topics
@@ -3036,9 +3036,6 @@ curriculum organized around topics
 2. circuits - 6.002 - Circuits and Electronics
 3. signal processing - 6.003 - Signals and Systems
 4. architecture - 6.004 - Computation Structures
-
-Above curriculums are compulsory for EECS(4 out of 5, the other is Differential Equations - 18.03). 
-
 
 now move to curriculum organized around applications:  
 let's build and program a robot; let's build and program a cell phone
@@ -16336,6 +16333,14 @@ clojure.spec - also give up Tree Owner
 **** clojure rest lib
 Compojure-api - rely on data type declaration, like static language
 
+
+
+**** vlc
+screen capture
+add aditional plugin:
+sudo apt install vlc-plugin-access-extra
+media -> open capture device -> destop
+H.265 is the latest formatter tech
 
 **** repl
 It's a program. get input, evaluate, send output
