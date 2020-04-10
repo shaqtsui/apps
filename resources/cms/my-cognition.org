@@ -8869,6 +8869,14 @@ Folder Content:
 mount
 	connect content of a device(a file under /dev) to a dir
 	
+environment
+  /etc/profile - system wide config
+  ~/.bash_profile(prefered) or ~/.profile - user profile
+  .bashrc - executed for every new shell opened
+
+  /etc/paths or /etc/paths.d/* - for mac's $PATH
+
+
 
 Basic setups:
   install chinese fonts to show chinese char in browser:
@@ -16649,6 +16657,15 @@ similar to mathematic
 ****** parametric type
 A type only define a structure, this structure can ship any parametric data
 This consistent with (Primes + Recursions)
+
+
+***** Plots
+plot()
+argument t can be a sequence or from & to
+if only one t given, promote t, x = t.index, y = t.value
+if 2+ t given, x = t1.value, y = t2.value, z = t3.value
+if additional functions given, x = f1(t.value), y = f2(t.value), z= f3(t.value)
+
 
 
 ***** package management

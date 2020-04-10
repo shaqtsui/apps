@@ -13,8 +13,8 @@
     - homebrew_tap:
         name: "{{ item.name }}"
       loop:
-        -name: d12frosted/emacs-plus
-        -name: homebrew/cask-versions
+        - name: d12frosted/emacs-plus
+        - name: homebrew/cask-versions
 
     - homebrew_cask:
         name: "{{ item.name }}"
@@ -61,6 +61,12 @@
         src: "~/Desktop/Projects/apps/resources/emacs/init.el"
         path: "~/.emacs.d/init.el"
         state: link
+
+    - lineinfile:
+        path: /Users/fuchengxu/.bash_profile
+        create: yes
+        regexp: '^export PATH=/Users/fuchengxu/.julia/conda/3/bin:'
+        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
 
     - git_config:
         name: user.email
