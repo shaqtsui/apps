@@ -230,6 +230,7 @@ Prime + Recursion
   Recursion is recursive composition, and all composition are recursive, so simply name it Recursion
   Relation is the recursion contains multiple elements, such that element A -> recursion -> element B
   Transform it self can be Prime or Recursion
+  Recursion keep ahead no backward. Recurse Inverse is the "Dummy Backward(Peel)"
 
   instance:
     World - Container with Things & Relations
@@ -254,6 +255,8 @@ Prime + Recursion
       18.06, 18.703
     Space
       any point compose with different distance
+    Variable
+      init value + change + change ...
 
 
 Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
