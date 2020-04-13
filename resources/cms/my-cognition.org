@@ -233,6 +233,8 @@ Prime + Recursion
   Recursion keep ahead no backward. Recurse Inverse is the "Dummy Backward(Peel)"
 
   instance:
+    Mental Construction(Think)
+      It's Process & itself are both Recursion, but remember that Prime can be other Recursion
     World - Container with Things & Relations
     Logic Induction
     Language
