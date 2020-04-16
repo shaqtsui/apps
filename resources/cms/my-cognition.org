@@ -247,6 +247,10 @@ Prime + Recursion
     Process
       18.062J
     Function
+      Base Pair + Change Pair + Change Pair ...
+      Total Linear: Identity -> Identity, Generator -> Generator(Change Pairs are same)
+      Partial Linear: Generator -> Generator(Change Pairs are same)
+      Isomorphism is Total Linear
       deferential:
         x change sequence & y change sequence
       integral:
@@ -258,6 +262,7 @@ Prime + Recursion
     Space
       any point compose with different distance
     Variable
+      Identity + Generator + Generator ...
       init value + change + change ...
 
 

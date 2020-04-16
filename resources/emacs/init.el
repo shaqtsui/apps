@@ -83,8 +83,12 @@
   :demand t
   :after (julia-mode)
   :init
-  ;; (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
-  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/my-ls")
+  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
+  ;; fix error in : LanguageServer.FoldingRangeCapabilities
+  (setq lsp-enable-folding t)
+  (setq lsp-folding-range-limit 100)
+  
+
   ;; (setq lsp-julia-package-dir "/Users/fuchengxu/.emacs.d/quelpa/build/lsp-julia/languageserver")
   )
 
@@ -367,7 +371,8 @@
  '(emms-setup-default-player-list (quote (emms-player-vlc emms-player-vlc-playlist)) t)
  '(package-selected-packages
    (quote
-    (ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))))
+    (ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window)))
+ '(safe-local-variable-values (quote ((flycheck-disabled-checkers emacs-lisp-checkdoc)))))
 
 
 (custom-set-faces

@@ -20,6 +20,9 @@
         name: "{{ item.name }}"
       loop:
         - name: julia
+        - name: atom
+          desc: ide to support julia
+        - name: visual-studio-code
         - name: nordvpn
         - name: mactex-no-gui
           desc: latex used by org to generate pdf
