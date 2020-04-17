@@ -16456,6 +16456,13 @@ benifit:
   you can use the language to edite itself
 
 **** emacs & pkgs
+***** modifier keys
+Control - C-x @ c
+Meta - C-x @ m
+Super - C-x @ s
+Hyper - C-x @ h
+Alt - C-x @ a
+
 ***** org
 C-c C-x C-v - org-toggle-inline-images
 ***** widget
@@ -16548,6 +16555,9 @@ auto-revert-mode/auto-revert-tail-mode - alot detact changes & reload
 winner-mode - enable undo window config(layout, size...)
 
 
+Decision Tree like app:
+ivy, counsel, swiper, avy, ace-window, lispy, hydra, which-key, IDO, helm, company, auto-complete
+
 other
 lispy - reimange of paredit, short key to invoke function before ( & after ) instead of insert
 which-key - pop available commands when prefix key pressed. Same logic as hydra, but successive key will mostly triger reminder function no other function
@@ -16556,13 +16566,15 @@ counsel - replace other common emacs commands to use ivy based functions
 swiper - alternative to isearch
 avy - jump via char-based decision tree
 
+
 ein - api for interacting with jupyter notebook frontend, notebook viewer
 emacs-jupyter - api for interacting with jupyter kernels, 2 frontends: built-in repl & org-mode source block
 
 ob-julia - pkg to support julia language in org, but it rely on ess
 
 helm - similar to IDO
-company - code complete, default supported by cider via backend: capf(standard complete at point function)
+company - Seems about management of back-ends. code complete, default supported by cider via backend: capf(standard complete at point function)
+
 auto-complete - same as company
 flycheck - on the fly syntax check
 flycheck-clojure(squiggly-clojure) - clojure support for flycheck

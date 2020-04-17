@@ -31,37 +31,80 @@
   :demand t
   :config (setq quelpa-update-melpa-p nil))
 
-;; jupyter-run-repl will start kernel in active directory not emacs process's directory
-;; so run it when u open that project's direcory
-;; debug: (setq jupyter--debug t)
-;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
-(use-package jupyter
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Decision Tree Like app ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; conflict with edebug key binding
+(use-package lispy
+  :disabled
+  :ensure t
+  :hook ((clojure-mode emacs-lisp-mode) . lispy-mode))
+
+(use-package which-key
+  :ensure t
+  :hook (after-init . which-key-mode))
+
+(use-package ace-link
+  :ensure t
+  :hook (after-init . ace-link-setup-default))
+
+;; ivy, swiper is counsel dependency, auto downloaded
+(use-package counsel
+  :ensure t
+  :bind
+  (("C-s" . swiper)
+   ("C-c C-r" . ivy-resume)
+   ("M-x" . counsel-M-x)
+   ("C-x C-f" . counsel-find-file))
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  ;; enable this if you want `swiper' to use it
+  ;; (setq search-default-mode #'char-fold-to-regexp)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
+
+(use-package avy
+  :ensure t
+  :bind
+  (("M-g w" . avy-goto-word-1)
+   ("M-g f" . avy-goto-line)))
+
+(use-package hydra
   :ensure t)
 
-;; subpkg of jupyter, here only to config it
-(use-package jupyter-repl
+(use-package company
+  :ensure t
+  :hook (after-init . global-company-mode)
   :config
-  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin"))))
+  (setq company-minimum-prefix-length 2
+        company-idle-delay 0.0))
 
-(use-package org
-  :config
-  (setq org-confirm-babel-evaluate nil)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (ditaa . t)
-     (jupyter . t))))
+(use-package ace-window
+  :ensure t
+  :bind ("M-o" . ace-window))
 
-;; seems hooked with files in lsp project folder
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp related ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lsp-mode
   :ensure t
   :config
-  (setq lsp-log-io t))
+  (setq lsp-log-io t)
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)))
 
 ;; company-lsp(this more powerfull than company-capf) - support code complete
 ;; autoconfiged by lsp-mode
 (use-package company-lsp
   :ensure t)
+
+(use-package lsp-ivy
+  :ensure t)
+
+(use-package lsp-treemacs
+  :ensure t
+  :config
+  (lsp-treemacs-sync-mode 1))
 
 ;; lsp-ui & flycheck - error report
 ;; lsp-ui - javadoc hover, code action
@@ -87,12 +130,27 @@
   ;; fix error in : LanguageServer.FoldingRangeCapabilities
   (setq lsp-enable-folding t)
   (setq lsp-folding-range-limit 100)
-  
+  :hook (julia-mode . lsp-deferred))
 
-  ;; (setq lsp-julia-package-dir "/Users/fuchengxu/.emacs.d/quelpa/build/lsp-julia/languageserver")
-  )
+;; lsp-java base on lsp-mode(maintained by same team)
+;; lsp-java will auto download java language server
+;; lsp is autoload provided by lsp-mode
+;; java-mode is not a pkg, dummy here to delay the load
+(use-package lsp-java
+  :ensure t
+  :after (java-mode)
+  :hook (java-mode . lsp-deferred))
 
 
+;; dap-java inside lsp-java, so no :ensure here
+;; java-mode is not a pkg, dummy here to delay the load
+(use-package dap-java
+  :after (java-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; julia related ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from JuliaEditorSupport
 (use-package julia-mode
   :ensure t)
@@ -106,77 +164,13 @@
   :after (flycheck julia-mode)
   :config (flycheck-julia-setup))
 
-;; confict with edebug key binding
-;; (use-package lispy
-;;   :disabled
-;;   :ensure t
-;;   :hook ((clojure-mode emacs-lisp-mode) . lispy-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package which-key
-  :ensure t
-  :hook (after-init . which-key-mode))
 
-(use-package ace-link
-  :ensure t
-  :hook (after-init . ace-link-setup-default))
-
-(use-package emms
-  :ensure t
-  :custom
-  (emms-setup-default-player-list
-   '(emms-player-vlc
-     emms-player-vlc-playlist)
-   "*Default list of players for emms-setup, only vlc.")
-  :config
-  (emms-all)
-  (emms-default-players))
-
-;; ivy, swiper is counsel dependency, auto downloaded
-(use-package counsel
-  :ensure t
-  :bind
-  (("C-s" . swiper)
-   ("C-c C-r" . ivy-resume)
-   ("M-x" . counsel-M-x)
-   ("C-x C-f" . counsel-find-file))
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t)
-  ;; enable this if you want `swiper' to use it
-  ;; (setq search-default-mode #'char-fold-to-regexp)
-  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
-
-(use-package ivy-hydra
-  :ensure t
-  :after (hydra counsel))
-
-(use-package avy
-  :ensure t
-  :bind
-  (("M-g w" . avy-goto-word-1)
-   ("M-g f" . avy-goto-line)))
-
-(use-package treemacs
-  :ensure t
-  :config
-  (treemacs-tag-follow-mode t)
-  (treemacs-git-mode 'simple))
-
-(use-package geiser
-  :ensure t
-  :config
-  (setq geiser-active-implementations '(racket)))
-
-(use-package rainbow-delimiters
-  :ensure t
-  :hook (prog-mode . rainbow-delimiters-mode))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; clojure related ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; auto-mode-alist code alread in autoload
 (use-package clojure-mode
-  :ensure t)
-
-(use-package hydra
   :ensure t)
 
 ;; clj-refactor rely on refactor-nrepl, but refactor-nrepl.ns.slam.hound.search cannot be loaded maybe require:  mranderson048.orchard.v0v3v0.orchard.classpath?
@@ -198,15 +192,74 @@
   :ensure t
   :hook (cider-mode . cider-hydra-mode))
 
+;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
+;; evaluate cider.el first, so that fun & vars available to flycheck-clojure
+(use-package flycheck-clojure
+  :ensure t
+  :after (flycheck clojure-mode)
+  :config
+  (flycheck-clojure-setup))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; jupyter-run-repl will start kernel in active directory not emacs process's directory
+;; so run it when u open that project's direcory
+;; debug: (setq jupyter--debug t)
+;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
+(use-package jupyter
+  :ensure t)
+
+;; subpkg of jupyter, here only to config it
+(use-package jupyter-repl
+  :config
+  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin"))))
+
+(use-package org
+  :config
+  (setq org-confirm-babel-evaluate nil)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (ditaa . t)
+     (jupyter . t))))
+
+(use-package emms
+  :ensure t
+  :custom
+  (emms-setup-default-player-list
+   '(emms-player-vlc
+     emms-player-vlc-playlist)
+   "*Default list of players for emms-setup, only vlc.")
+  :config
+  (emms-all)
+  (emms-default-players))
+
+(use-package ivy-hydra
+  :ensure t
+  :after (hydra counsel))
+
+(use-package treemacs
+  :ensure t
+  :config
+  (treemacs-tag-follow-mode t)
+  (treemacs-git-mode 'simple))
+
+(use-package geiser
+  :ensure t
+  :config
+  (setq geiser-active-implementations '(racket)))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status)
   :config
   (setq magit-diff-hide-trailing-cr-characters nil))
 
-(use-package company
-  :ensure t
-  :hook (after-init . global-company-mode))
 
 (use-package expand-region
   :ensure t
@@ -215,27 +268,12 @@
 ;; duplicate with lispy
 (use-package paredit
   :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-  (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-  (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-  (add-hook 'clojure-mode-hook           #'enable-paredit-mode))
+  :hook ((clojure-mode emacs-lisp-mode eval-expression-minibuffer-setup-hook ielm-mode-hook lisp-mode-hook lisp-interaction-mode-hook scheme-mode-hook) . enable-paredit-mode))
 
 (use-package flycheck
   :ensure t
   :hook (after-init . global-flycheck-mode))
 
-
-;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
-;; evaluate cider.el first, so that fun & vars available to flycheck-clojure
-(use-package flycheck-clojure
-  :ensure t
-  :after (flycheck clojure-mode)
-  :config
-  (flycheck-clojure-setup))
 
 (use-package restclient
   :ensure t)
@@ -269,21 +307,6 @@
   (pyim-wbdict-v98-enable))
 
 
-;; lsp-java base on lsp-mode(maintained by same team)
-;; lsp-java will auto download java language server
-;; lsp is autoload provided by lsp-mode
-;; java-mode is not a pkg, dummy here to delay the load
-(use-package lsp-java
-  :ensure t
-  :after (java-mode)
-  :config
-  (add-hook 'java-mode-hook 'lsp)
-  (setq lsp-inhibit-message t))
-
-;; dap-java inside lsp-java, so no :ensure here
-;; java-mode is not a pkg, dummy here to delay the load
-(use-package dap-java
-  :after (java-mode))
 
 ;; yasnippet can be used by company-lsp to support expand snippets on completion
 ;; can't defer, a bug in lsp-mode lsp-enable-snippet didn't require it explicitly
@@ -301,9 +324,6 @@
   :config
   (setq projectile-completion-system 'ivy))
 
-(use-package ace-window
-  :ensure t
-  :bind ("M-o" . ace-window))
 
 
 ;;; built-in packages
@@ -326,9 +346,6 @@
 
 (use-package autorevert
   :hook (after-init . global-auto-revert-mode))
-
-(use-package ido
-  :hook (after-init . ido-mode))
 
 (use-package winner
   :hook (after-init . winner-mode))
