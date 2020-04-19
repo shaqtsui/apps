@@ -231,8 +231,12 @@ Prime + Recursion
   Relation is the recursion contains multiple elements, such that element A -> recursion -> element B
   Transform it self can be Prime or Recursion
   Recursion keep ahead no backward. Recurse Inverse is the "Dummy Backward(Peel)"
+  If all addition are the same, it's Linear Recursion
+  Cognition down to Recursion, then it's Thorough
 
   instance:
+    Learning/Study/Cognition
+      The process is Recursion
     Mental Construction(Think)
       It's Process & itself are both Recursion, but remember that Prime can be other Recursion
     World - Container with Things & Relations
@@ -257,7 +261,7 @@ Prime + Recursion
         sum small parts
       18.01, 18.02, 18.03, 18.100B
     Group
-      group generator compose to generate all elements
+      group generator compose(+, *) to generate all elements
       18.06, 18.703
     Space
       any point compose with different distance
@@ -16627,6 +16631,21 @@ it contains 2 parts:
       ...
 
 **** Julia
+***** folder contents
+~/.julia/registries - git repo which contains all package info
+~/.julia/clones - git repos cloned from remote repo
+~/.julia/dev - git repo cloned from remote repo for development
+~/.julia/packages - packages source, exported from repo in clones(no git meta data), building performed here
+~/.julia/compiled - compiled julia bytes
+
+~/.julia/environments - different julia project(only Project.toml & Manifest.toml)
+~/.julia/logs - history info
+
+~/.julia/prefs - package configs(by julia or conda?)
+
+~/.julia/artifacts - non-julia stuff
+~/.julia/conda - conda managemented stuff
+
 ***** Prime(api)
 ****** Runtime Polymorphism
 Normal functions support runtime polymorphism

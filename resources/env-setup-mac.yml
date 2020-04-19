@@ -71,6 +71,12 @@
         regexp: '^export PATH=/Users/fuchengxu/.julia/conda/3/bin:'
         line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
 
+    - lineinfile:
+        path: /Users/fuchengxu/.zshenv
+        create: yes
+        regexp: '^export PATH=/Users/fuchengxu/.julia/conda/3/bin:'
+        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
+
     - git_config:
         name: user.email
         value: xfcjscn@gmail.com

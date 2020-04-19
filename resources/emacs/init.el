@@ -13,7 +13,8 @@
 (setq use-package-verbose t)
 (setq use-package-always-defer t)
 
-
+(setq mac-command-modifier 'super)
+(setq ns-function-modifier 'hyper)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 (setq exec-path (append exec-path '("/usr/local/bin")))
@@ -75,7 +76,7 @@
   :ensure t
   :hook (after-init . global-company-mode)
   :config
-  (setq company-minimum-prefix-length 2
+  (setq company-minimum-prefix-length 1
         company-idle-delay 0.0))
 
 (use-package ace-window
@@ -213,6 +214,9 @@
 (use-package jupyter-repl
   :config
   (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin"))))
+
+(use-package ein
+  :ensure t)
 
 (use-package org
   :config
