@@ -3,6 +3,8 @@
 #+STARTUP: showstars
 
 * All about: COGNITION OF 心 AND THE WORLD
+未发，发皆节而复未
+
 心不着相
 
 一颗心，只是观与不观和起不起意的区别
@@ -235,6 +237,7 @@ Prime + Recursion
   Cognition down to Recursion, then it's Thorough
 
   instance:
+    Fa Zhi Jie
     Learning/Study/Cognition
       The process is Recursion
     Mental Construction(Think)
