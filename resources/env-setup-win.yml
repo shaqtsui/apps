@@ -36,6 +36,18 @@
         - adobereader
         - vlc
         - flashplayerppapi
-        
+
+    - win_service:
+        name: "{{item.name}}"
+        start_mode: manual
+      loop:
+        - name: WSearch
+          display_name: Windows search
+        - name: WerSvc
+          display_name: Windows Error Reporting Service
+        - name: wuauserv
+          display_name: windows update
+        - name: EventLog
+          display_name: Windows Event Log
 
 

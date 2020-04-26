@@ -16991,3 +16991,85 @@ other - first letter of english world
 | 雷电    | N                    |             |                                     |
 | 夜神    | Y                    |           3 | rely on virtual box, not using gpu? |
 
+**** storage speed
+| brand           | name           | read speed | write speed | size           | price            | comment       |
+|-----------------+----------------+------------+-------------+----------------+------------------+---------------|
+| apple           | mbp15 2018 256 | 2400MB     | 1200MB      | 256            |                  |               |
+| samsung         | x5             | 2800MB     | 2300MB      | 500/1T/2T      | 1.8K/3K/6K       |               |
+|                 | T7             | 1050MB     | 1000MB      | 500/1T/2T      | 1.2K/1.8K/3.4K   |               |
+|                 | T5             | 540MB      | 500MB       | 500/1T         | 740/1340         |               |
+|                 | DUO +          | 300MB      |             | 32/64/128/256  | 140/190/300/600  |               |
+| sandisk         | E80            | 1050MB     |             | 500/1T/2T      | 1K/1.6K/2.9K     |               |
+|                 | E60            | 550MB      |             | 500/1T/2T      | 640/1.1K/2.3K    |               |
+|                 | zhizunchaojisu | 420MB      | 380MB       | 128/256        | 270/500          |               |
+| lenovo          | l7c            | 550MB      | 500MB       | 128/256/512/1T | 240/430/700/1.2K |               |
+| western digital | PSSD           | 540MB      |             | 500/1T/2T      | 700              |               |
+| lacie           | PSSD           | 540MB      |             | 500/1T/2T      | 1.2K/2K/4K       | too expansive |
+| seagate         | kuyu           | 540MB      |             | 500/1T/2T      | 750/1.2K/2.8K    |               |
+| aigo            | P1             | 1084MB     | 970MB       | 500/1T         | 800/1.4K         |               |
+| thinkplus       | x320           | 550MB      | 500MB       | 500            | 770              |               |
+| hp              | p800           | 2400MB     | 1200MB      | 500/1T         | 1.4K/2.7K        |               |
+|                 | p700           | 1000MB     | 1000MB      | 250/500/1T     | 500/770/1.3K     |               |
+|                 | p600           | 560MB      | 500MB       | 500/1T         | 580/1K           |               |
+| banq(not benq)  | x60            | 500MB      |             | 250/500/1T     | 240/400/700      |               |
+
+**** WTGA
+Process
+| Onboard Firmeware | UEFI(clover)    | macOS 10.15 |
+|                   |                 | macOS 10.14 |
+|                   |                 | ...         |
+|                   | UEFI(microsoft) | windows 10  |
+|                   |                 | windows 8.1 |
+|                   |                 | windows pe  |
+|                   |                 | ...         |
+|                   | UEFI(deepin)    | ubuntu      |
+|                   |                 | ...         |
+
+
+
+UEFI
+Unified Extensiable Firmware Interface
+A OS in BIOS + ESP(EFI system partion)
+ESP need disk in GPT/GUID partion
+ESP have a special GUID
+ESP have file system: fat32/fat16
+ESP part:
+microsoft(windows), clover(mac), deepin(linux)
+
+
+MSR
+Microsoft Reserved Partition
+
+BCD
+Boot Config Data
+Inside ESP
+
+WIM
+Windows Imaging Format
+
+Ramdisk
+Virtual disk with RAM
+
+
+VHD/VHDX - virtual hard disk defined by microsoft
+System will install to this virtual disk
+Additional load program need to load & boot it
+
+Benifits:
+Encapsulate
+Inheritance
+
+
+**** bootice
+a software to edit BCD file, VHD file...
+
+**** macOS hibernate
+hibernatemode
+| mode | memory power on | memory persistence | comment    |
+|    0 | true            | false              |            |
+|    1 | false           | ture               |            |
+|    3 | true            | true               | safe sleep |
+|      |                 |                    |            |
+
+
+
