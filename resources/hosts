@@ -1,1 +1,21 @@
-192.168.94.128  ansible_shell_type=cmd
+all:
+  children:
+    macservers:
+      hosts:
+#        localhost:
+      vars:
+        ansible_connection: local
+    linuxservers:
+      hosts:
+#        192.168.31.128:
+      vars:
+        ansible_user: shark
+        ansible_become_password: shark
+    winservers:
+      hosts:
+#        192.168.31.112:
+#        192.168.31.103:
+        192.168.31.128:
+      vars:
+        ansible_user: shark
+        ansible_shell_type: cmd

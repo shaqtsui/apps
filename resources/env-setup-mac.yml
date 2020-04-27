@@ -3,10 +3,74 @@
 # curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 # sudo python get-pip.py
 # sudo pip install ansible
-# run with: ansible-playbook env-setup-mac.yml -v --ask-become-pass
-- hosts: localhost
+# ansible password connection reply on 'sshpass' which is not allowed in macOS, so add key for password free connection: cat ~/.ssh/id_rsa.pub | ssh shark@192.168.31.128 'cat >> ~/.ssh/authorized_keys'
+# run with: ansible-playbook env-setup-mac.yml -v -i hosts
+#
+# for windows:
+# guest host config:
+# enable ssh server feature in optional features
+# start sshd service(only this service will generate sshd related config file): Start-Service sshd
+# add authorized_key in: C:\ProgramData\ssh\administrators_authorized_keys
+# fix file permission(disable permission inheritance): icacls administrators_authorized_keys /inheritance:r
+# add user(the one who start sshd) permission if needed
+# see my-congnition for more info
+
+
+# this not required most of the time
+- hosts: linuxservers
+  environment:
+    PATH: /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:{{ ansible_env.PATH }}
   tasks:
-    - shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    - name: add pub key to authorized_keys to support password free login
+      authorized_key: user="{{ ansible_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    # use become root to install under: /home/linuxbrew/.linuxbrew
+    - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      args:
+        creates: /home/linuxbrew/.linuxbrew
+      become: yes
+
+    - lineinfile:
+        path: /etc/profile.d/brew-env.sh
+        line: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+        create: yes
+      become: yes
+      
+    - lineinfile:
+        path: /etc/ssh/sshd_config
+        line: PermitUserEnvironment yes
+        insertafter: '^#PermitUserEnvironment no'
+        state: absent
+      become: yes
+
+    - lineinfile:
+        path: ~/.ssh/environment
+        line: "{{item}}"
+        create: yes
+      loop:
+        - HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+        - HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+        - HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+        - PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}"
+        - MANPATH="/home/linuxbrew/.linuxbrew/share/man${MANPATH+:$MANPATH}"
+        - INFOPATH="/home/linuxbrew/.linuxbrew/share/info${INFOPATH+:$INFOPATH}"
+
+    - name: homebrew mirror
+      shell: "{{ item }}"
+      loop:
+        - git -C "$(brew --repo)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+        - git -C "$(brew --repo homebrew/core)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/linuxbrew-core.git
+  
+    - homebrew_cask:
+        name: "{{ item.name }}"
+      loop:
+        - name: julia
+       
+
+
+- hosts: macservers
+  tasks:
+    - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
       args:
         creates: /usr/local/bin/brew
 
@@ -75,13 +139,11 @@
     - lineinfile:
         path: /Users/fuchengxu/.bash_profile
         create: yes
-        regexp: '^export PATH=/Users/fuchengxu/.julia/conda/3/bin:'
         line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
 
     - lineinfile:
         path: /Users/fuchengxu/.zshenv
         create: yes
-        regexp: '^export PATH=/Users/fuchengxu/.julia/conda/3/bin:'
         line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
 
     - git_config:
@@ -99,3 +161,48 @@
 
     - debug:
         var: ansible_facts
+
+
+- hosts: winservers
+  tasks:
+    - win_service:
+        name: "{{item.name}}"
+        start_mode: auto
+        state: started
+      loop:
+        - name: sshd
+          display_name: OpenSSH SSH Server
+
+    - win_regedit:
+        path: HKLM:\SOFTWARE\OpenSSH
+        name: DefaultShell
+        data: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+        type: string
+        state: absent
+
+    # no need to install before this, as it will install if not available
+    - win_chocolatey:
+        name: "{{item}}"
+      loop:
+        - notepadplusplus
+        - wechat
+        - teamviewer
+        - winrar
+        - adobereader
+        - vlc
+        - flashplayerppapi
+
+    - win_service:
+        name: "{{item.name}}"
+        start_mode: manual
+      loop:
+        - name: WSearch
+          display_name: Windows search
+        - name: WerSvc
+          display_name: Windows Error Reporting Service
+        - name: wuauserv
+          display_name: windows update
+        - name: EventLog
+          display_name: Windows Event Log
+
+
