@@ -17108,3 +17108,10 @@ hibernatemode
 
 
 
+
+*** homebrew vs apt vs yum
+|          | pkg scope                 | support pkg versions | impl languae |
+| homebrew | user local(in /usr/local) | single               | ruby         |
+| apt, yum | OS(overwrite OS pkg)      | multiple             | c?           |
+
+
