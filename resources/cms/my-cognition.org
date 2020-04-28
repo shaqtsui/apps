@@ -15375,6 +15375,10 @@ environment variable is not same as normal bash, I don't know where it comes fro
         win_command or win_shell
 
 ***** Modules
+****** setup
+ansible localhost -m setup
+return ansible_facts
+
 ****** ping
 ansible localhost -m ping
 
@@ -15398,6 +15402,41 @@ else
 | target line location(regexp)               | M       | target line location not available(not specified or no match) | M      |
 | insert location(insertafter, insertbefore) |         | M                                                             |        |
 | new content                                | M       | M                                                             |        |
+
+****** package
+generic os pkg manager
+call different pkg module: apt, yum...
+detect package manager via fact environment: ansible_pkg_mgr
+ansible localhost -m setup | grep ansible_pkg_mgr
+| os     | pkg mgr  |
+| ubuntu | apt      |
+| macOS  | homebrew |
+
+
+code example:
+- name: install the latest version of Apache and MariaDB
+  package:
+    name:
+      - httpd
+      - mariadb-server
+    state: latest
+
+****** snap
+snap pkg manage
+- snap:
+    name:
+      - foo
+      - bar
+    classic: yes
+
+****** get_url
+- name: Download file with checksum url (sha256)
+  get_url:
+    url: http://example.com/path/file.conf
+    dest: /etc/foo.conf
+    checksum: sha256:http://example.com/path/sha256sum.txt
+
+*checksum formatter:  <algorithm>:<checksum|url>
 
 **** apache ds
 ApacheDS
@@ -17143,14 +17182,15 @@ hibernatemode
 
 
 
-*** homebrew vs apt vs yum
-|          | pkg scope                                  | support pkg versions | impl languae |
-| homebrew | user local(in /usr/local, so no need sudo) | single               | ruby         |
-| apt, yum | OS(overwrite OS pkg, so need sudo)         | multiple             | c?           |
+*** homebrew vs apt/yum vs snap
+|          | pkg scope                                  | package content       | support pkg versions | impl languae |
+| homebrew | user local(in /usr/local, so no need sudo) |                       | single               | ruby         |
+| apt, yum | OS(overwrite OS pkg, so need sudo)         | no dependencies       | multiple             | c?           |
+| snap     |                                            | dependencies included |                      |              |
 
 
 
-**** shell type
+*** shell type
        A  login  shell  is  one whose first character of argument
        zero is a -, or one started with the --login option.
 
@@ -17197,7 +17237,7 @@ hibernatemode
        but the value of the PATH variable is not used  to  search
        for the file name.
 
-**** .profile in linux
+*** .profile in linux
 .profile - loaded for login shells
 .bashrc - loaded for interactive shell
 ssh session is not login shell or interactive shell

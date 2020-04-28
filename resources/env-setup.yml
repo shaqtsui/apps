@@ -4,7 +4,7 @@
 # sudo python get-pip.py
 # sudo pip install ansible
 # ansible password connection reply on 'sshpass' which is not allowed in macOS, so add key for password free connection: cat ~/.ssh/id_rsa.pub | ssh shark@192.168.31.128 'cat >> ~/.ssh/authorized_keys'
-# run with: ansible-playbook env-setup-mac.yml -v -i hosts
+# run with: ansible-playbook env-setup.yml -v -i hosts.yml
 #
 # for windows:
 # guest host config:
@@ -22,7 +22,11 @@
     PATH: /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:{{ ansible_env.PATH }}
   tasks:
 #    - name: add user deployer in group sudo
-#      user: name=deployer password="$6$rounds=656000$7..lsc.9Pn4OIYjY$HvgSnuP3ya1wXxCh/JIJg/U5XADlhXQlJLY4E6TsrpLS5VlTANeE6Rq4ZEY3WQkn6dHQ8TlFoXbC33v9MgGeQ/" groups=sudo update_password=on_create
+#      user:
+#        name: deployer
+#        password: "$6$rounds=656000$7..lsc.9Pn4OIYjY$HvgSnuP3ya1wXxCh/JIJg/U5XADlhXQlJLY4E6TsrpLS5VlTANeE6Rq4ZEY3WQkn6dHQ8TlFoXbC33v9MgGeQ/"
+#        groups: sudo
+#        update_password: on_create
 
     - name: add pub key to authorized_keys to support password free login
       authorized_key: user="{{ ansible_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
@@ -49,15 +53,40 @@
         name: "{{ item.name }}"
       loop:
         - name: homebrew/cask
-  
-    - homebrew_cask:
+
+
+    - homebrew:
         name: "{{ item.name }}"
       loop:
-        - name: android-sdk
-        - name: julia
-       
+        - name: youtube-dl
+          desc: youtube-dl -F https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
+        - name: ffmpeg
+          desc: merge video & audio, as youtube seprate video & audio for movies better quality than 1080p, it will invoked by youtube-dl
+        - name: ispell
+          desc: used by emacs flysepll & ispell
+        - name: clojure
+        - name: maven
+          desc: used to download java sources via 'mvn dependency:sources, which can be used by cider to look for java sources'
+        - name: leiningen
+          desc: used by luminus and 3rd part project source
+        - name: postgresql
+        - name: aria2
+          desc: download manager
 
 
+    # not able to run in linux  
+#    - homebrew_cask:
+#        name: "{{ item.name }}"
+#      loop:
+#        - name: android-sdk
+#        - name: julia
+
+    - snap:
+        name:
+          - android-studio
+        classic: yes
+      become: yes
+    
 - hosts: macservers
   tasks:
     - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -76,7 +105,8 @@
       loop:
         - name: d12frosted/emacs-plus
         - name: homebrew/cask-versions
-
+        
+          
     - homebrew_cask:
         name: "{{ item.name }}"
       loop:
@@ -95,27 +125,17 @@
         - name: vlc
           desc: media player as quickplayer support limited media types
 
-
-    - homebrew:
-        name: "{{ item.name }}"
-      loop:
-        - name: youtube-dl
-          desc: youtube-dl -F https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
-        - name: ffmpeg
-          desc: merge video & audio, as youtube seprate video & audio for movies better quality than 1080p, it will invoked by youtube-dl
-        - name: ispell
-          desc: used by emacs flysepll & ispell
-        - name: clojure
-        - name: maven
-          desc: used to download java sources via 'mvn dependency:sources, which can be used by cider to look for java sources'
-        - name: leiningen
-          desc: used by luminus and 3rd part project source
-        - name: postgresql
-        - name: emacs-plus
-          desc: support librsvg to show svg in jupyter reple
-        - name: aria2
-          desc: download manager
-
+    - package:
+        name:
+          - youtube-dl
+          - ffmpeg
+          - ispell
+          - clojure
+          - maven
+          - leiningen
+          - postgresql
+          - emacs-plus
+          - aria2
 
     - file:
         path: "~/.emacs.d"
@@ -148,9 +168,6 @@
 
     - openssh_keypair:
         path: ~/.ssh/id_rsa
-
-    - debug:
-        var: ansible_facts
 
 
 - hosts: winservers
