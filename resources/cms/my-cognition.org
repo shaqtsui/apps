@@ -9003,14 +9003,30 @@ X Window System(refer to X Window System.gif)
           If need to use java awt, graphics related native libs need to be installed via "sudo apt-get install xorg")
         start: sudo X
         verify: U can see xserver screen turn to black
-	Note: to enable different user access xserver, u need to disable access control via xhost
-	When use XServer via ssh tunneling, X11 forwarding, ssh client will auto set variable DISPLAY in the tty to a local(xclient server) display, it will redirect this local display to remove(xserver server) display.
+        if need remote access, grant remote access:
+          xhost $remote_ip
+    	    or: disable access control: xhost +
 
     XClient:
         export DISPLAY=$server_address:$display_number.$screen_number(if same server value is: ':0')
         start application
         u will see UI display in xserver's screen
-        
+
+X11Forwarding
+  When ssh to remote server which contains xclient app, by change variable $DISPLAY xclient app can directly use remote xserver.
+  But also can via X11Forwarding.
+
+  Flow:
+    ssh client -> ssh server -> xclient app -> localhost:10.0 -> ssh server -> ssh client -> xserver
+    So that xserver access is local access
+    
+  config: make sure "X11Forwarding yes" in /etc/ssh/sshd_config
+  command:
+    X11 SECURITY extension control:
+      ssh username@hostname -X
+    NO X11 SECURITY extension control:
+      ssh username@hostname -Y
+
 
 Window Manager
   An XClient, used to manage windows.
@@ -17243,4 +17259,12 @@ hibernatemode
 ssh session is not login shell or interactive shell
 
 
+
+
+*** xquartz
+xserver impl for macos
+to enable remote connection, u need to enable network access in preference/security and grant access(see xhost)
+
+*** xming
+xserver impl for windows
 
