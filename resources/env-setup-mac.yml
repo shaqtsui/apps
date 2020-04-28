@@ -21,6 +21,9 @@
   environment:
     PATH: /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:{{ ansible_env.PATH }}
   tasks:
+#    - name: add user deployer in group sudo
+#      user: name=deployer password="$6$rounds=656000$7..lsc.9Pn4OIYjY$HvgSnuP3ya1wXxCh/JIJg/U5XADlhXQlJLY4E6TsrpLS5VlTANeE6Rq4ZEY3WQkn6dHQ8TlFoXbC33v9MgGeQ/" groups=sudo update_password=on_create
+
     - name: add pub key to authorized_keys to support password free login
       authorized_key: user="{{ ansible_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
@@ -36,34 +39,21 @@
         create: yes
       become: yes
       
-    - lineinfile:
-        path: /etc/ssh/sshd_config
-        line: PermitUserEnvironment yes
-        insertafter: '^#PermitUserEnvironment no'
-        state: absent
-      become: yes
-
-    - lineinfile:
-        path: ~/.ssh/environment
-        line: "{{item}}"
-        create: yes
-      loop:
-        - HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-        - HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
-        - HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
-        - PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}"
-        - MANPATH="/home/linuxbrew/.linuxbrew/share/man${MANPATH+:$MANPATH}"
-        - INFOPATH="/home/linuxbrew/.linuxbrew/share/info${INFOPATH+:$INFOPATH}"
-
     - name: homebrew mirror
       shell: "{{ item }}"
       loop:
         - git -C "$(brew --repo)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
         - git -C "$(brew --repo homebrew/core)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/linuxbrew-core.git
+
+    - homebrew_tap:
+        name: "{{ item.name }}"
+      loop:
+        - name: homebrew/cask
   
     - homebrew_cask:
         name: "{{ item.name }}"
       loop:
+        - name: android-sdk
         - name: julia
        
 
