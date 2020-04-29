@@ -15426,18 +15426,8 @@ ansible all -i  hosts -u root -k -m authorized_key -a "user=root key=https://raw
  Encrypted passowrd can be generated via: mkpasswd --method=SHA-512
 
 ***** lineinfile
-'target line' have location & content, identified by regexp or line.
-if state == absent
-  target line = nil
-else
-  location = location || insertxxxxx
-  content = 'new content'
-
-|                                            | replace | insert                                                        | delete |
-| target file location(path)                 | M       | M                                                             | M      |
-| target line location(regexp)               | M       | target line location not available(not specified or no match) | M      |
-| insert location(insertafter, insertbefore) |         | M                                                             |        |
-| new content                                | M       | M                                                             |        |
+original content identified by path & (regexp or line or insertxxx)
+new content identified by line or nil(absent)
 
 ***** package
 generic os pkg manager
@@ -17289,8 +17279,22 @@ to enable remote connection, u need to enable network access in preference/secur
 xserver impl for windows
 
 *** changes
-| change components | comments                                                        |
-| location          | better to use relative location, location can be gap of 2 lines |
-| new content       | nil means delete                                                |
+| change components | comments                                        |
+| from content      | can be different scale. e.g. folder, file, line |
+| to content        | nil means delete.                               |
 
+Chained changes:
+One change's "from content" is another change's "to content"
+
+Parallel changes:
+Two changes have different "from content"
+
+change conflict:
+Two changes not Parallel or Chained
+E.g.
+Two changes share same "from content" but different "to content".
+So 2 changes can not exist together, need to manually merge
+
+rebase error:
+Chain of Chained changes be broken
 
