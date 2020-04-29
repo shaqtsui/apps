@@ -8788,10 +8788,7 @@ Use this we can open different type of data by useing according application.
 
 
 
-*** different programs & protocal
-
-
-**** redis
+*** redis
 Redis
 	Redis is key-value store
 	
@@ -8800,7 +8797,7 @@ Redis
 
 
 
-**** OS
+*** OS
 
 Operating System
 	software that 
@@ -8813,7 +8810,7 @@ a copy of the entire state of a computer system stored in some non-volatile form
 
 
 
-***** android
+**** android
 Development Platform:
 	Android SDK
 		SDK Tools
@@ -8899,7 +8896,7 @@ Project Structure:
 	AndroidManifest.xml
 		project core config
 
-***** linux
+**** linux
 People -> shell -> kernel -> hardware
 
 
@@ -9046,23 +9043,23 @@ build-essentials
     make
     dpkg-dev - debian package development tools
     
-***** BIOS
+**** BIOS
 Start from BIOS
 	Check Hardware
 	Find Startable MBR(end with "55AA") in all disks
 	Execute BootLoader in above MBR
 
-***** windows
+**** windows
 partition
     primary partition{1-4}
     extended partition{0-1}(can not directly use)
         logical partition
 
-**** DB
+*** DB
 DB
 	It need to make sure any record at any time have only one value.
 
-***** MySQL
+**** MySQL
 
 Install Manually:
 	1, change my-default.ini to give below values:
@@ -9092,7 +9089,7 @@ Client connect, change password, create database, user:
 
 
 
-***** oracle
+**** oracle
 server process (Network service)
 	Enable external app request router to DB instance .
 	related config: listener.ora,sqlnet.ora,tnsnames.ora 
@@ -9100,7 +9097,7 @@ server process (Network service)
 	
 Sqlplus directly connect to DB instance without go through server process.
 
-**** middleware
+*** middleware
 Middleware
 	Software in the middle of Softwares
 	
@@ -9108,7 +9105,7 @@ Middleware
 		a computer software that provides services to software applications beyond those available from the operating system
 
 
-***** application server
+**** application server
 Modern Application Server 
 		Divide server to (Refer to DesignInProgram.txt): 
 			Core (Group Attributes)
@@ -9131,7 +9128,7 @@ Applicaton Server主要有两个组成部分：EJB Container和Servlet Engine。
 	EJB Container负责EJB（Session Bean和Entity Bean）的运行时态的管理维护（Create、Active、Passive、Destroy等等）
 	Servlet Engine负责Servlet和JSP的运行管理（Init、Service、Destroy等等）
 
-****** geronimo
+***** geronimo
 A running Geronimo server is composed of the following two sets of architectural parts: (GBeans & corresponding ClassLoader) and Geronimo kernel.
 
 Geronimo is composed of a lightweight core (or kernel) and many modules.
@@ -9160,7 +9157,7 @@ source path:
 
 
 
-****** undertow
+***** undertow
 undertow
 	web server written in java
 	
@@ -9182,7 +9179,7 @@ undertow
 	ServletContextImpl implements ServletContext
 
 
-****** wildfly
+***** wildfly
 Configurations
 	standalone.xml (default)
 		Java Enterprise Edition 7 web profile certified configuration with the required technologies plus those noted in the table above.
@@ -9591,7 +9588,7 @@ Domain
 
 
 
-****** tomcat
+***** tomcat
 3 approaches to deploy a application
 
 1 - Copy war to webapps folder
@@ -9608,7 +9605,7 @@ Bugs:
 	Can not read input stream before getParameter(), it will cause null parameters returned. This is because the first invocation of getParameter() will parse the input stream. 
 
 
-****** tomcat connection pool
+***** tomcat connection pool
 Stack Trace:
 	DataSourceProxy.getConnection()
 	ConnectionPool.getConnection()
@@ -9673,7 +9670,7 @@ PoolProperties.isPoolSweeperEnabled()
 
 
 
-****** websphere
+***** websphere
 Relationship between Application(e.g. war application) & Websphere Server Instance is only temp, 
 so no need to put Application folder under server folder. 
 
@@ -9707,7 +9704,7 @@ The targe machine can config different virtual machine, which is used to handle 
 
 So the target machine(websphere server) will receive all the packages and read the head find their request url, finally handle it according to virtual machine config(forward the request to different machine)
 
-****** weblogic
+***** weblogic
 domain creatation
 1, %MW_HOME%\wlserver\server\bin\setWLSEnv.cmd
 2, %JAVA_HOME%\bin\java.exe -Xmx1024m -XX:MaxPermSize=128m weblogic.Server  (in empty folder)
@@ -9722,20 +9719,20 @@ enctriped password
 3DES key will be under:
 ${domain}\security\SerializedSystemIni.dat
 
-***** message oriented middleware
+**** message oriented middleware
 MOM - Message oriented middleware
 	Refer to Middleware
 	
 	Software or hardware infrastructure supporting sending and receiving messages between distributed systems.
 	
 	
-****** JMS
+***** JMS
 当前，CORBA、DCOM、RMI等RPC中间件技术已广泛应用于各个领域。但是面对规模和复杂度都越来越高的分布式系统，这些技术也显示出其局限性： （1）同步通信：客户发出调用后，必须等待服务对象完成处理并返回结果后才能继续执行；（2）客户和服务对象的生命周期紧密耦合：客户进程和服务对象进程 都必须正常运行；如果由于服务对象崩溃或者网络故障导致客户的请求不可达，客户会接收到异常；（3）点对点通信：客户的一次调用只发送给某个单独的目标对 象。 
 
 面向消息的中间件（Message Oriented Middleware，MOM）较好的解决了以上问题。发送者将消息发送给消息服务器，消息服务器将消息存放在若干队列中，在合适的时候再将消息转发给接 收者。这种模式下，发送和接收是异步的，发送者无需等待；二者的生命周期未必相同：发送消息的时候接收者不一定运行，接收消息的时候发送者也不一定运行； 一对多通信：对于一个消息可以有多个接收者。 
 已有的MOM系统包括IBM的MQSeries、Microsoft的MSMQ和BEA的MessageQ等。由于没有一个通用的标准，这些系统很难实现 互操作和无缝连接。Java Message Service（JMS）是SUN提出的旨在统一各种MOM系统接口的规范，它包含点对点（Point to Point，PTP）和发布/订阅（Publish/Subscribe，pub/sub）两种消息模型，提供可靠消息传输、事务和消息过滤等机制。 
 
-**** isis
+*** isis
 all you need to write in order to get an application up-and-running is the domain model
 
 	Deploy on your own App (deploy on some other framework's runtime)
@@ -9753,13 +9750,13 @@ all you need to write in order to get an application up-and-running is the domai
 		Isis' RestfulObjects viewer is an implementation of Restful Objects specification, making any Isis domain object automatically available via REST.
 
 
-**** RSA
+*** RSA
 
 Rational Software Architect
     Like websphere profile, it support install profile(to install different component set)
 
 
-**** RTC
+*** RTC
 A Product run on Jazz
 	Uses the Change and Configuration Management (CCM) application to provide features that integrate development project tasks
 		Provide WorkItem & related stuffs Data
@@ -9960,7 +9957,7 @@ Parent task's planfor equals to last planfor of child
 
 
 
-**** gen
+*** gen
 gem - a pkg manage tool
 
 Install Steps:
@@ -9975,7 +9972,7 @@ Install Steps:
 		
 		
 
-**** SCM
+*** SCM
 software configuration management
 
 Different Data Files + Different Tree(link Data file & maintain structure)
@@ -10018,7 +10015,7 @@ Checkout - update Tree of working copy
 
 Checkin - save Tree working copy to reop copy
 
-***** svn
+**** svn
 Normal Folder Structure:
 Project
 	trunk			-> Global latest code
@@ -10030,7 +10027,7 @@ Checkout - Only way to download File & SCM data to local.
 Export - Only download File to local. 
 
 
-***** git
+**** git
 Core:
 	CommitObjects & Refs(branch/tag/HEAD)
 	
@@ -10047,7 +10044,11 @@ Distributed SCM:
 		Can be specified in .git/config/[branch "${branchName}"]/remote
 	Downstream - In terms of flow of data, refer to the cloned repo
 	
-	
+git remote set-url origin https://xfcjscn:Shark1011@github.com/xfcjscn/apps.git
+
+revert operate on indexed/commited stuff, but the result will put into work tree
+
+discard operate on work tree, of courae the result will in work tree	
 
 Branches:
 	master - local master branch
@@ -10056,6 +10057,30 @@ Branches:
 		use 'git fetch ${xxx} master' to sync data
 		Note:
 			'git fetch ${xxx} master' + 'git merge ${xxx}/master master' = 'git pull ${xxx} master'
+
+ref - reference of location
+
+commands:
+| local commands          |                                                                            |
+|-------------------------+----------------------------------------------------------------------------|
+| git commit              | create, edit(with --amend) commit                                          |
+| git branch              | create, move branch                                                        |
+| git checkout            | move "HEAD" sync workspace                                                 |
+| git rebase              | edit current branch's commits(insert before)                               |
+| git rebase -i           | interactive rebase, edit current branch's commit                           |
+| git merge               | create new commit to extend 2 branch so include all                        |
+| git reset               | move branch & delete commits afterward                                     |
+| git revert              | new inverse commit                                                         |
+| git cherry-pick         | copy commits to current branch                                             |
+| git tag $name [$target] | create tag                                                                 |
+|-------------------------+----------------------------------------------------------------------------|
+| remote comands          |                                                                            |
+|-------------------------+----------------------------------------------------------------------------|
+| git clone               | get commits, branchs, tags, create remote branch, create track of branches |
+| git fetch               | only fetch commits from remote, and sync local repo's remote branch        |
+| git pull                | git fetch + git merge/git rebase(if with --rebase)                         |
+| git push                | push commits, move remote repo's branch, sync local repo's remote branch   |
+
 
 Code example:
 	~/gitrepo/forumweb
@@ -10113,7 +10138,7 @@ Branch Best Practice
 	Merage Feature branches with "no-ff"
 		git merge --no-ff myfeature
 
-**** selenium
+*** selenium
 Selenium's Tool Suite
 	Selenium 2 (aka. Selenium Webdriver)
 	Selenium 1 (aka. Selenium RC or Remote Control)
@@ -10194,7 +10219,7 @@ Create Script & Run:
 
 
 
-**** servlet 3.0
+*** servlet 3.0
 异步处理支持
 新增的注解支持
 可插性支持
@@ -10202,7 +10227,7 @@ ServletContext 的性能增强
 HttpServletRequest 对文件上传的支持
 
 
-**** slf4j
+*** slf4j
 Simple Logging Facade for Java
 	Refer to Logging
 	
@@ -10252,9 +10277,9 @@ Simple Logging Facade for Java
 
 
 
-**** spring
+*** spring
 
-***** spring boot
+**** spring boot
 Spring Boot
 	Provided:
 		Embeded servlet container, which is a lite edition tomcat and don't load web*.xml
@@ -10394,7 +10419,7 @@ Steps to add auto-config:
 		
 
 
-***** spring data
+**** spring data
 Spring Data - Data access lib
 	Support different data source like: 
 		Relational DB
@@ -10425,7 +10450,7 @@ An lib to simplify the DAO layer
             Can use @Autowired to inject into your bean
 
 
-***** spring framework
+**** spring framework
 Spring Framework is a lightweight solution and a potential one-stop-shop for building  your enterprise-ready applications.
 	
 	All Spring components are run on SIC(Spring IoC Container)
@@ -10777,7 +10802,7 @@ contextInitialized()
 
 
 
-***** spring integration
+**** spring integration
 Refer to EIP/EIP.txt
 
 
@@ -11026,7 +11051,7 @@ FTP/FTPS Adapters
 
 
 
-***** spring io
+**** spring io
 
 POM hierarchy:
 	org.springframework.boot:spring-boot-dependencies
@@ -11035,7 +11060,7 @@ POM hierarchy:
 
 
 
-***** spring security
+**** spring security
 Spring  Security  provides  a  comprehensive  security  solution  for  J2EE-based  enterprise  software applications. 
 	Basically it contains a lot of security related checkers
 	
@@ -11150,7 +11175,7 @@ Spring  Security  provides  a  comprehensive  security  solution  for  J2EE-base
 
 
 
-***** spring session
+**** spring session
 Spring Session
 	Spring Session provides an API and implementations for managing a user's session information.
 	
@@ -11189,7 +11214,7 @@ Spring Session
 
 
 
-***** spring social
+**** spring social
 With Spring Social, your application can play the part of the service consumer, interacting with a service provider on behalf of its users. 
 
 	For the flow refer to OAuth
@@ -11309,7 +11334,7 @@ With Spring Social, your application can play the part of the service consumer, 
 		
 	
 
-***** spring webflow
+**** spring webflow
 Advantage:
 Control all the flows in one xml file.
 While Struts put flow control in action config(forward config) & page form's action parameter.
@@ -11327,7 +11352,7 @@ which fragment will be rendered depends on
 	2, request parameter fragments
 
 
-**** ssh
+*** ssh
 1, ssh client connect to remote ssh server
 2, ssh server start shell(configable)
 3, pipeline that shell to connection
@@ -11356,7 +11381,7 @@ Secure Shell
 		
 
 
-**** struts
+*** struts
 
 ActionMessage -  only contains String key & Object values[]
 
@@ -11380,7 +11405,7 @@ ValidatorPlugIn
 Validator - Contains ValidatorResources & other infos
 
 
-**** supervisor
+*** supervisor
 Supervisor
 	A Process Control System
 	
@@ -11395,7 +11420,7 @@ Supervisor
     Start control: supervisorctl
 
 
-**** thymeleaf
+*** thymeleaf
 Thymeleaf
 	Template Engine Framework (Template Engine created base on?)
 	
@@ -11593,12 +11618,12 @@ Component:
 		
 		
 
-**** urbancode
+*** urbancode
 UrbanCode Deploy
 	Application Deployment Automation
 	
 	
-**** VIM
+*** VIM
 Vim
 	Vim is a highly configurable text editor built to enable efficient text editing. 
 	It is an improved version of the vi editor distributed with most UNIX systems.
@@ -11666,11 +11691,11 @@ Vim
 		z
 
 
-**** webminifier
+*** webminifier
 minify & conbine js also change html js import
 
 
-**** worklignt
+*** worklignt
 
 Eclipse Install
 http://public.dhe.ibm.com/ibmdl/export/pub/software/mobile-solutions/worklight/wdeupdate/
@@ -11678,7 +11703,7 @@ http://public.dhe.ibm.com/ibmdl/export/pub/software/mobile-solutions/worklight/m
 
 
 
-**** wss4j
+*** wss4j
 Web Services Security for Java
 	Java implementation of the WS-Security specifications
 		SOAP Message Security 1.1
@@ -11720,7 +11745,7 @@ Web Services Security for Java
 		
 	
 
-**** yeoman
+*** yeoman
 Yeoman is a workflow & a collection of tools & best practices to make web development better
 	Contains:
 		Yo - scafold out a new application
@@ -11745,7 +11770,7 @@ Yeoman is a workflow & a collection of tools & best practices to make web develo
 		grunt                             # build the application for deployment
 
 
-**** requirejs
+*** requirejs
 
 Refer to javascript/AMD.txt for more info
 
@@ -11808,7 +11833,7 @@ API:
 	require.onResourceLoad - called after Module loaded
 
 
-**** OData
+*** OData
 OData - Open Data
 	A standardized protocol
 	
@@ -11840,7 +11865,7 @@ OData - Open Data
 		NavigationProperty - <link>
 		Property - <d:xxx>
 
-**** OSGi
+*** OSGi
 Open Service Gateway Initiative
 
 
@@ -11874,7 +11899,7 @@ id      State       Bundle
 2       INSTALLED   com.hishark.osgi.dicquery_1.0.0.201201162317
 
 -----------------------console end-----------------------
-**** olingo
+*** olingo
 Components:
 	ODataRequestHandler
 		ODataContext
@@ -11931,7 +11956,7 @@ Bugs:
 		private List<Step> stepList;
 
 
-**** Nginx
+*** Nginx
 nginx - engine x
 	What's Nginx
 		It's a: 
@@ -12109,7 +12134,7 @@ server {
 #}
 
 
-**** primavera6
+*** primavera6
 structure
 Project Structure:
 EPS(Enterprise Project Structure)
@@ -12141,7 +12166,7 @@ pubuser
 bgjobuser
 
 
-**** nodejs
+*** nodejs
 Chrome's JavaScript Runtime + Library
 	Library:
 		HTTP - HTTP Server
@@ -12149,16 +12174,16 @@ Chrome's JavaScript Runtime + Library
 			
 	__dirname - the parth of current file folder
 
-**** connect
+*** connect
 An extensible HTTP server framework
 	Built on NodeJS HTTP Library
 	
 
-**** express
+*** express
 Web Application Framework
 	Built upon Connect
 
-**** npm
+*** npm
 npm - nodejs package manager
 	run on nodejs
 	package.json - define the pkg dependencies
@@ -12186,7 +12211,7 @@ npm - nodejs package manager
 		set TMPDIR=c:\temp
 	
 
-**** polymer
+*** polymer
 Polymer is a implementation of Web Components
 
 Git Components:
@@ -12293,10 +12318,10 @@ ShadowDOM/src/wappers.js
 
 
 
-**** mylyn
+*** mylyn
 Mylyn is used to manager tasks via eclipse plugin.
 
-**** odoo
+*** odoo
 Install
 	Refer to ansible/setupEnv.yml
 
@@ -12305,7 +12330,7 @@ Admin
 	2, Create DB
 	3, Config Application
 
-**** OFBiz
+*** OFBiz
 OFBiz - Open For Business
 	an open source product for the automation of enterprise processes
 	
@@ -12322,7 +12347,7 @@ OFBiz - Open For Business
 			
 
 
-**** maven
+*** maven
 Maven - A platform to run plugin goals
 
 	mvn ${groupID}:${artifactID}:${version}:${goal}
@@ -12528,7 +12553,7 @@ Stage
 		
 		
 
-**** meteor
+*** meteor
 Meteor
 	Platform for building web apps
 	
@@ -12624,10 +12649,10 @@ Meteor
 		Reactivity
 			Reactive data source getter will add runtime computation to its dependent list
 			
-**** linked data
+*** linked data
 Linked Data - Connect Distributed Data across the Web
 
-**** log4j
+*** log4j
 LOG4J major components: 
 	Logger, Appender, Layout
 
@@ -12663,7 +12688,7 @@ log4j.appender.Console.layout.ConversionPattern=(%r ms) [%t] %-5p: %c#%M %x: %m%
 
 
 
-**** logback
+*** logback
 logback - concrete log impl
 	
 	Init
@@ -12677,7 +12702,7 @@ logback - concrete log impl
 
 
 	
-**** JRebel
+*** JRebel
 Class Hot Deployment achieved via : 
 	javaagent (Instrumentation), change the class bytes directly. 
 
@@ -12719,7 +12744,7 @@ JRebel
 There is a bug for JSP(other resource) hot deployment when link path is "/":
 	After control delivered to original servlet, JSP2Dom will parse JSP to load included sub-jsp base on changed resource path (contextURL).
 	
-**** intellij
+*** intellij
 Concept Mapping (intellij <-> eclipse):
 	Project	<->	Workspace
 	Module	<->	Project
@@ -12737,7 +12762,7 @@ Stash VS Shelve
     Stash rely on git
     Shelve rely on IDE
 
-**** jaxb
+*** jaxb
 JAXB is used to generate class files from xml and generatne xml from objects.
 
 JAXBContext.newInstance("com.xdc"); // this will find jaxb.properties in the path.
@@ -12766,7 +12791,7 @@ Ex:
       <xs:attribute name="logicSupported" type="xs:string" />
   </xs:complexType>
 
-**** LDAP
+*** LDAP
 LDAP - Lightweight Directory Access Protocol
 	A protocol defines Directory related stuff:
 		Directory Functional Model
@@ -12797,7 +12822,7 @@ LDAP - Lightweight Directory Access Protocol
 						ObjectClass : the set of AttributeType that can or must be used in an entry
 						Syntax : The syntax the values must abide to
 						MatchingRule : The rules used to retrieve the data
-**** jaxrs
+*** jaxrs
 Provider
 	Annotated with @Provider
 	Mark it should be discoverable by JAX-RS runtime during a provider scanning phase
@@ -12862,7 +12887,7 @@ Name binding
     @NameBinding is used as meta annotation for other user implemented annotations that are applied to a providers and resource methods.
     name-bound annotations(annotation with @NameBinding), apply to resource & fileter/interceptro, to bind fileter/interceptro to resource
 
-**** jersey1
+*** jersey1
 Request Process Steps:
 	RootResourceClassesRule.accept(path)
 		RightHandPathRule.accept(path)
@@ -12916,7 +12941,7 @@ Without below config - List<Post> convert to : {post: [{id:"xxx", name:"xxx"},{i
 
 
 
-**** jersey 2
+*** jersey 2
 Runtime Stack:
 	ServletContainer.service()
 		WebComponent.service()
@@ -12980,7 +13005,7 @@ Startup Process (assume):
 	Find Resources
 	Create ConsumesProducesAcceptor
 
-**** jazz
+*** jazz
 Jazz
 	An Initiative to transform software and systems delivery by making it more collaborative, productive and transparent, through integration of information and tasks across the phases of the lifecycle. 
 	
@@ -13042,7 +13067,7 @@ Jazz
 		Independent topology
 			Multiple Platform for different Products
 			
-**** jaydata
+*** jaydata
 JayData - data access library
 	attach() is a must before you change on the Entity, since it will give ${entity}.entityState init value
 
@@ -13061,7 +13086,7 @@ JayData - data access library
 			E.g.
 				$data.Queryable.first(), $data.Queryable.forEach(), $data.Queryable.length()
 
-**** jboxx modules
+*** jboxx modules
 JBoss Modules is a standalone implementation of a modular (non-hierarchical) class loading and execution environment for Java. 
 
 	In other words, rather than a single class loader which loads all JARs into a flat class path, each library becomes a module which only links against the exact modules it depends on, and nothing more. 
@@ -13071,7 +13096,7 @@ JBoss Modules is a standalone implementation of a modular (non-hierarchical) cla
 		module resolution system
 
 
-**** JDO
+*** JDO
 JDO bytecode enhancement contract require it a must.
 
 3 categories of classes(The Meta-Data defines which classes fit into these categories)
@@ -13081,10 +13106,10 @@ JDO bytecode enhancement contract require it a must.
     PersistenceAware
     normal classes
 
-**** jekyll
+*** jekyll
 A tool to generate static html from md file
 
-**** jenkins
+*** jenkins
 Jenkins
 	Monitors executions of repeated jobs
 	
@@ -13093,7 +13118,7 @@ Jenkins
 		Monitoring executions of externally-run jobs
 
 
-**** modernizr
+*** modernizr
 Modernizr - Tests which native CSS3 and HTML5 features are available in the current UA
 	makes the results available to you in two ways:
 		as properties on a global Modernizr object
@@ -13130,12 +13155,12 @@ Modernizr - Tests which native CSS3 and HTML5 features are available in the curr
 		U can find official extended testers under modernizr/feature-detects
 		
 		
-**** mozilla java plugin 
+*** mozilla java plugin 
 Link below "so" file to mozilla plugin folder
 jre1.6.0_30/lib/i386/libnpjp2.so
 
 
-**** mutation observer
+*** mutation observer
 MutationObserver
 	Object be used to observe mutations to the tree of nodes
 
@@ -13157,7 +13182,7 @@ MutationObserver
 	  boolean characterDataOldValue = false;
 	  sequence<DOMString> attributeFilter;
 	};
-**** JMeter
+*** JMeter
 JMeter
 	Apache software to load test functional behavior and measure performance
 	
@@ -13175,7 +13200,7 @@ JMeter
 						ConfigTestElement - Http Default Config
 						ResultCollector - Result Checker
 
-**** JMX
+*** JMX
 JMX - Java Management Extensions
 	JMX technology provides a standard API for management and monitoring of resources
 	
@@ -13229,7 +13254,7 @@ JMX - Java Management Extensions
 			     -Dcom.sun.management.jmxremote.ssl=false \
 			     com.example.Main
 
-**** JNDI
+*** JNDI
 Java Naming & Directory Interface
 	Retrieve or bind object to server through serialize/unserialize object.
 
@@ -13248,12 +13273,12 @@ ENC - environment naming context
 Note:
 unserialize do not need to invoke constructor.
 
-**** Jolokia
+*** Jolokia
 Jolokia
 	A JMX-HTTP bridge
 	Giving an alternative to JSR-160 connectors
 
-**** JDPA
+*** JDPA
 Java Platform Debugger Architecture
 
      interfaces
@@ -13270,18 +13295,18 @@ Java Platform Debugger Architecture
         jdb ?
 	javadt ?
 
-**** jshint
+*** jshint
 Check js coding style
 	.jshintrc - define the check rules
 
-**** js-import-maven-plugin
+*** js-import-maven-plugin
 Use antlr3 (with template: ECMAScriptLexer.tokens) to parse JS file
 Find out defined & required variables, so that it can analysis dependency tree.
 
-**** jslint
+*** jslint
 Used to verify js grammar
 
-**** JTA
+*** JTA
 JPA - Java Transaction API
 	interfaces between:
 		a transaction manager (Refer to DTP.txt)
@@ -13303,7 +13328,7 @@ JPA - Java Transaction API
 	Note:
 		When a Transaction opened, not all works performed after the opening belongs to it, only those performed by Resource Manager belongs to it.
 
-**** JVM
+*** JVM
 Memory Model
 	Three types of memory: heap(data), stack(data), method area(commond)
 	
@@ -13661,7 +13686,7 @@ Class<?> loadClass(String name, boolean resolve)
 不知道上面对这两种加载方式的解释是否足够清楚，就在此举个例子吧，例如JDBC DRIVER的加载，我们在加载JDBC驱动的时候都是使用的forName而非是ClassLoader的loadClass方法呢？我们知道，JDBC驱动是通过DriverManager，必须在DriverManager中注册，如果驱动类没有被初始化，则不能注册到 DriverManager中，因此必须使用forName而不能用loadClass。
 
 通过ClassLoader我们可以自定义类加载器，定制自己所需要的加载方式，例如从网络加载，从其他格式的文件加载等等都可以，其实 ClassLoader还有很多地方没有讲到，例如ClassLoader内部的一些实现等等，本来希望能够讲得简单易懂一点，可是结果自己看回头好像感觉并不怎么样，郁闷，看来自己的文笔还是差太多了，希望能够给一些有需要的朋友一点帮助吧。
-**** httpd
+*** httpd
 Apache web server
     httpd.conf
         Define SRVROOT "C:/apps/Apache24" - Specify the software path
@@ -13689,7 +13714,7 @@ Apache web server
 		httpd.exe
 
 
-**** infinispan
+*** infinispan
 Runtimes
 	Java SE, started by your application
 	an application server which provides Infinispan as a service
@@ -14085,7 +14110,7 @@ Using Infinispan as remote Second Level Cache
 		Rather than having the second level cache in a remote server, you want to simply keep the cache in a separate VM still within the same machine. 
 		Size the cache separate from the application, since the cache and the application server have very different memory profiles.
 		
-**** hibernate
+*** hibernate
 Hibernate
 	ORM(Object/Relational Mapping) solution for Java environments
 	
@@ -14135,9 +14160,9 @@ Envers is to provide historical versioning of your application's entity data
 	Each transaction relates to one global revision number which can be used to identify groups of changes
 	As the revisions are global, having a revision number, you can query for various entities at that revision, retrieving a (partial) view of the database at that revision.
 	You can find a revision number having a date, and the other way round, you can get the date at which a revision was committed.
-**** ERP
+*** ERP
 	Enterprise resource planning
-**** datomic
+*** datomic
 Setup:
     install client jar to local maven repo:
         mvn install:install-file -DgroupId=com.datomic -DartifactId=datomic-pro -Dfile=datomic-pro-0.9.5359.jar -DpomFile=pom.xml
@@ -14173,9 +14198,9 @@ Datalog - datomic query language
 
 Datomic - save whole data (data's past parts and current part)
 Traditional DB - save part of data (data's current part)
-**** AMQP
+*** AMQP
 Internet Protocol for Business Messaging
-**** flyway
+*** flyway
 Flyway
 	database migration tool
 	
@@ -14183,20 +14208,15 @@ Flyway
 	
 	Migrate
 		Flyway updates the database from one version to the next using migrations
-**** git
-git remote set-url origin https://xfcjscn:Shark1011@github.com/xfcjscn/apps.git
 
-revert operate on indexed/commited stuff, but the result will put into work tree
-
-discard operate on work tree, of courae the result will in work tree
-**** github
+*** github
 models of collaborative development
 	Fork & Pull
 		Fork an existing repository and push changes to their personal fork without requiring access be granted to the source repository.
 		The changes must then be pulled into the source repository by the project maintainer.
 	Shared Repository Model
 		Everyone is granted push access to a single shared repository
-**** putty
+*** putty
 Key location & name:
 	Private Key:
 		*.ppk
@@ -14220,7 +14240,7 @@ Key format:
 		Comment: "${any text can be here}"
 		${public key string}
 		---- END SSH2 PUBLIC KEY ----
-**** Go
+*** Go
 Go is a tool to support CD (Refer to CD.txt)
 	Go will capture snapshot of system env variables when start
 		
@@ -14640,7 +14660,7 @@ e2e for linux:
 	</templates>
 
 </cruise>
-**** GPG
+*** GPG
 GPG
 	keyring file
 		for pub keyring
@@ -14675,7 +14695,7 @@ GPG
 	
 		gpg2 --edit-key E8D5D8F3
 			edit key
-**** gradle
+*** gradle
 Plugin
 	An extension to Gradle
 
@@ -14712,7 +14732,7 @@ Continuous build
 
 	Enable:
 		Add argument '--continuous' in the command
-**** grunt
+*** grunt
 Task manage tool run in Node.js
 	Task may have multiple Targets
 		Target is the execution of Task
@@ -14843,24 +14863,24 @@ Task manage tool run in Node.js
 
 	grunt-bower-install:
 		Check dependencies in bower.json & inject corresponding script & link tag into html (between <!-- bower:js --><!-- endbower --> & <!-- bower:css --><!-- endbower -->)
-**** HA proxy
+*** HA proxy
 
 HAProxy
 	offering high availability, load balancing, and proxying for TCP and HTTP-based applications.
 		
-**** configer
+*** configer
 Config
 	Configurer (Contains Instruction Data) read ConfigInfo to init Object/Value which will be used in later runtime.
 	
 	ConfigInfo
 		Non-Instruction Data
 
-**** avast
+*** avast
 Sandbox
 Process will run in a virtual env (sandbox folder, changes will store here). 
 So changes will only done in the sandbox folder, not real files. 
 
-**** eclipse
+*** eclipse
 Eclipse - 
 	Workbench - Work window
 		Perspective(s) - A group of views & editors
@@ -14880,17 +14900,17 @@ Means Eclipse will do:
 2, Perform fuzzy search (Parent Type may refer to sub Type)
 		
 
-**** eclipselink
+*** eclipselink
 EclipseLink - A JPA provider, adopted by sun as reference implementation
 	Contains JPA-RS(a comp to expose JPA entity as RESTful web services)
 		JPA-RS URI syntax: /persistence/{unit-name}/entity/{type}/{id}
 			E.g. http://localhost:8080/persistence/ExamplePU/entity/Foo/1
 
-**** axis
+*** axis
 Elements info under xs:schema used to generte JAXB/xmlBeans objects
 Other elements info will generate to Stub
 
-**** cargo
+*** cargo
 Cargo
 	
 	2 set of config:
@@ -14900,7 +14920,7 @@ Cargo
 		configuration - instance config
 			type : standalone, existing, runtime
 
-**** bitronix
+*** bitronix
 Bitronix
 	JTA impl
 	
@@ -14920,16 +14940,16 @@ Bitronix
             setCurrentContext(ctx);
 			
 
-**** cxf
+*** cxf
 Servlet Config Without Spring: org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet
-**** atomikos
+*** atomikos
 AtomikosDataSourceBean
 	extends DataSource
 	encapsulate real XA datasource
 		E.g.
 			com.mysql.jdbc.jdbc2.optional.MysqlXADataSource
 
-**** twitter bootstrap
+*** twitter bootstrap
 Front-end UI component lib
 	Different form other UI component, bootstrap UI components are responsive(change base on device)
 	
@@ -14938,7 +14958,7 @@ Front-end UI component lib
 		navbar-toggle will only show in small screen
 		navbar-collapse will only overwrite collapse in big screen
 		
-**** cordova
+*** cordova
 Cordova - Wrap Web App into mobile Native App
 
 	Implement:
@@ -15007,7 +15027,7 @@ Cordova - Wrap Web App into mobile Native App
 			Register Activity in AndroidManifest.xml
 				<activity android:launchMode="singleTask" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/app_name" android:name="net.gplatform.questionnaire.Questionnaire" android:theme="@android:style/Theme.Black.NoTitleBar">
 				</activity>
-**** bower
+*** bower
 A package manager for the web
 	Config:
 		.bowerrc - bower command config
@@ -15028,7 +15048,7 @@ A package manager for the web
 		bower list - list dependencies
 		
 
-**** browser
+*** browser
 
 	Request & Present web resource
 	
@@ -15114,10 +15134,10 @@ GUI渲染线程和JavaScript引擎线程是互斥的，JavaScript执行时GUI渲
 文档模式
 	浏览器显示网页HTML的方式，在接到返回的HTML文件后，决定以哪个IE版本的文档模式解析该页面
 
-**** bugzilla
+*** bugzilla
 Bugzilla is server software designed to help you manage software development.
 
-**** dojo
+*** dojo
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.1/dojo/dojo.js"
         data-dojo-config="async:true, parseOnLoad:true">
 </script>
@@ -15309,8 +15329,8 @@ Store - A List to store data
 
 	
 	
-**** ansible
-***** intruduction
+*** ansible
+**** intruduction
 	Ansible is an IT automation tool
 	
 	most Ansible modules usually do not work like simple scripts. 
@@ -15350,7 +15370,7 @@ Store - A List to store data
 		 Roles are just automation around ‘include’ directives as described above, and really don’t contain much additional magic beyond some improvements to search path handling for referenced files.
 		 Role dependencies can also be installed from source control repos or tar files
 		
-***** Internal Principle:	
+**** Internal Principle:	
 
   | process:                  | connect                                                          | -> | privilige esclation                                                                 |
   | corresponding parameters: | ansible_connection, ansible_port, ansible_user, ansible_password |    | ansible_become, ansible_become_method, ansible_become_user, ansible_become_password |
@@ -15369,7 +15389,7 @@ environment variable is not same as normal bash, I don't know where it comes fro
 
              
 
-***** control windows server:
+**** control windows server:
       connection options: ssh(prefered), winrm
       1, enable ssh server feature in optional features
       2, start sshd service(only this service will generate sshd related config file): Start-Service sshd
@@ -15390,22 +15410,22 @@ environment variable is not same as normal bash, I don't know where it comes fro
         win_package
         win_command or win_shell
 
-***** Modules
-****** setup
+**** Modules
+***** setup
 ansible localhost -m setup
 return ansible_facts
 
-****** ping
+***** ping
 ansible localhost -m ping
 
-****** authorized_key
+***** authorized_key
 ansible all -i  hosts -u root -k -m authorized_key -a "user=root key=https://raw.githubusercontent.com/xfcjscn/ZhongYong/master/3ZW/%E4%BF%AE%E9%81%93%E4%B9%8B%E8%B0%93%E6%95%99/EECS/MyPublicKey/id_rsa.pub"
 
-****** user
+***** user
  code example: - user: name=deployer password="$6$rounds=656000$7..lsc.9Pn4OIYjY$HvgSnuP3ya1wXxCh/JIJg/U5XADlhXQlJLY4E6TsrpLS5VlTANeE6Rq4ZEY3WQkn6dHQ8TlFoXbC33v9MgGeQ/" groups=sudo update_password=on_create
  Encrypted passowrd can be generated via: mkpasswd --method=SHA-512
 
-****** lineinfile
+***** lineinfile
 'target line' have location & content, identified by regexp or line.
 if state == absent
   target line = nil
@@ -15419,7 +15439,7 @@ else
 | insert location(insertafter, insertbefore) |         | M                                                             |        |
 | new content                                | M       | M                                                             |        |
 
-****** package
+***** package
 generic os pkg manager
 call different pkg module: apt, yum...
 detect package manager via fact environment: ansible_pkg_mgr
@@ -15437,7 +15457,7 @@ code example:
       - mariadb-server
     state: latest
 
-****** snap
+***** snap
 snap pkg manage
 - snap:
     name:
@@ -15445,7 +15465,7 @@ snap pkg manage
       - bar
     classic: yes
 
-****** get_url
+***** get_url
 - name: Download file with checksum url (sha256)
   get_url:
     url: http://example.com/path/file.conf
@@ -15454,7 +15474,7 @@ snap pkg manage
 
 *checksum formatter:  <algorithm>:<checksum|url>
 
-**** apache ds
+*** apache ds
 ApacheDS
 	LDAP server
 	
@@ -15480,7 +15500,7 @@ ApacheDS
 		
 			
 
-**** angularjs 1
+*** angularjs 1
 Tech Stack to Support MVC (loose coupling and high cohesion):
 	M
 
@@ -15599,7 +15619,7 @@ Module - Support modulization(Group components)
 	Run blocks
 		Create Service
 		
-**** open cooperative web framework
+*** open cooperative web framework
 An operation/collaborative engine consist of coweb server(java servlet) & coweb client(js) used to publish/subscribe notification of changes via ajax
 
 Install:
@@ -15623,7 +15643,7 @@ Code Example:
 		collab.sendSync("change", value, "update", pos);
 
 
-**** open id
+*** open id
 OpenID
 	Not a SSO solution, a solution for Single Credential Multiple Sign On
 
@@ -15673,13 +15693,13 @@ After the OpenID has been verified, authentication is considered successful and 
 
 
 
-**** open JPA
+*** open JPA
 openJPA - A JPA provider, just as eclipselink
 	Contains JEST (a comp to expose JPA entity as RESTful web services)
 		JEST URI syntax : http://{host}[:port]/{context}/{action}[/qualifier]* [?argument] [&argument]*
 			E.g.  http://www.example.com:8080/jest/find/format=json?type=Person&1234
 
-**** openshift
+*** openshift
 A PaaS Provider, provide Server Runtime(Tomcat...), Version Control(Git), Project Manage(Maven), Continuous Integration(Jenkin)
 	.openshift folder is mandatory, since some server configs are here
 	
@@ -15760,7 +15780,7 @@ Red Hat Client, used to operate OpenShift service
 		rhc cartridge storage php-5.3 -a myapp --add 3gb
 		rhc app tidy ApplicationName
 
-**** machine learning
+*** machine learning
 Square Error Cost Function
 
 J(theta0, theta1)
@@ -15790,7 +15810,7 @@ estimated-y[], y[] -> error[], cost-func -> cost[]
 theta[], mean(cost[]) -> 
 
 
-**** bootstrap
+*** bootstrap
 A program to create Execution of other program
   read bootstrap info -> prepare Enveroment & Executor -> start Execution
 
@@ -15803,14 +15823,14 @@ E.g.
   maven:
     pom.xml -> Enveroment: Java Runtime ExecutionContext(class name binding, 'this' binding i.e. method invoke target) + Class Path + Asset Path + Services & Executor: Java Runtime thread(all in different JVM process) -> Invoke Target Method
 
-***** boot
+**** boot
 A bootstrap program for clojure
 Follow explicit over implicit
 One JVM instance for multiple Clojure runtime
 
 Cons:
 files duplicated each time boot executed, this make too much disk IO & take too much disk space
-****** Runtime structure of Classes
+***** Runtime structure of Classes
 
                            
 | *Load Location* | start up                           | start up                         | Boot.main()                                 | ClojureRuntimeShim.newRuntime()                      | Compiler.eval()                                        |
@@ -15851,9 +15871,9 @@ files duplicated each time boot executed, this make too much disk IO & take too 
 |                 |                                    |                                  |                                             | .                                                    | .                                                      |
 |                 |                                    |                                  |                                             | .                                                    | .                                                      |
 
-****** aether shim
+***** aether shim
 only aether.uber.jar, contains clojure ...,  in shim classpath to use boot.aether to resolve deps
-****** Startup code
+***** Startup code
 boot.bin.ParentClassLoader extend URLClassLoader
 Boot
   import java.*
@@ -15864,7 +15884,7 @@ Boot
     loader set as thread context class loader
     loader load boot.App
     invoke boot.App.main
-****** fileset
+***** fileset
 a map of: file relative path -> TmpFile (file info: folder, path, hash, time...)
 different folders base on dimention: user(files in project, not generated by build task), input(on class path), output(in target folder)
 benifie: fast search 
@@ -15874,17 +15894,17 @@ boot.core/commit! - sync fileset to disk(add/remove files form disk), all change
 
 
 	  
-****** Don't know
+***** Don't know
 Why all boot Tasks, both required and not required, created via clojure.lang.AFunction.withMeta() with class: clojure.lang.AFunction$1? Because deftask used with meta?
 
 Why AddableClassLoader set to clojure.lang.Compiler.LOADER?
 
-***** leiningen
+**** leiningen
 plugin
 
 simply function named $TASK in ns: leiningen.$TASK
 
-**** mocha
+*** mocha
 Mocha
 	JavaScript test framework running on node.js and the browser
 	
@@ -15896,19 +15916,19 @@ Mocha
 	
 	
 		
-**** dommy & enfocus
+*** dommy & enfocus
 Enfocus VS Dommy
 Both are clojure idiomatic. 
 Enfocus - use at, from, defaction which seems implicit over explicit
 Dommy - use append seems explicit over implicit, latest version removed templating features, can use hipo instead.
 
-**** cljs html generate
+*** cljs html generate
 hiccup in cljs
 hiccups - generate string
 crate - generate node
 hipo - generate node, also support reconciliate, interceptor, attribute handler, namespace
 
-**** docker
+*** docker
 ## Use case
 Can NOT remove, even hide, OS layer. So may not suitable for small team.
 
@@ -15976,7 +15996,7 @@ Encapsulate artifact and runtime of program and its dependency, so that u can:
 
 
 
-**** kubernetes
+*** kubernetes
 # Use case
 Manage containers. 
 
@@ -17267,4 +17287,10 @@ to enable remote connection, u need to enable network access in preference/secur
 
 *** xming
 xserver impl for windows
+
+*** changes
+| change components | comments                                                        |
+| location          | better to use relative location, location can be gap of 2 lines |
+| new content       | nil means delete                                                |
+
 
