@@ -441,6 +441,7 @@ Note:
 Prime + Recursion
   A Structure can used to build/decompose all complex
   Recursion is recursive composition, and all composition are recursive, so simply name it Recursion
+  Prime is not absolute, it's by definition
   Relation is the recursion contains multiple elements, such that element A -> recursion -> element B
   Transform it self can be Prime or Recursion
   Recursion keep ahead no backward. Recurse Inverse is the "Dummy Backward(Peel)"
@@ -476,7 +477,17 @@ Prime + Recursion
       18.01, 18.02, 18.03, 18.100B
     Group
       group generator compose(+, *) to generate all elements
-      18.06, 18.703
+      18.703
+    Group/Vector
+      i)i)i)j)j)k)k)k)k)
+      is)js)ks) - R, Recursion of i, j, k
+      i, j, k, - Prime of is)js)ks)
+      ) -> +
+      all Primes - Basis
+      Pi = R)-Pj)-Pk)
+      i.e.
+      is = R)-js)-ks)
+      18.06
     Space
       any point compose with different distance
     Variable
