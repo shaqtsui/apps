@@ -123,11 +123,11 @@
 ;; defer t will cause not register error
 ;; register lsp-client
 (use-package lsp-julia
-  :quelpa (lsp-julia :fetcher github :repo "gdkrmr/lsp-julia")
+  :quelpa (lsp-julia :fetcher github :repo "gdkrmr/lsp-julia" :files (:defaults "languageserver"))
   :demand t
   :after (julia-mode)
   :init
-  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
+;;  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
   ;; fix error in : LanguageServer.FoldingRangeCapabilities
   (setq lsp-enable-folding t)
   (setq lsp-folding-range-limit 100)

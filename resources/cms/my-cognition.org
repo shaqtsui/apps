@@ -2,7 +2,7 @@
 #+STARTUP: hidestars
 #+STARTUP: showstars
 
-* 未发，发皆中节
+* 未发（中），发皆中节（和）
 ** 未发
 
 
