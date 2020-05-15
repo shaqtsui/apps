@@ -17309,3 +17309,36 @@ So 2 changes can not exist together, need to manually merge
 rebase error:
 Chain of Chained changes be broken
 
+
+*** screen vs tmux
+terminal multiplexer
+Architecture:
+
+| Client |         | Server | Session 0 |          |        |
+|        | ------> |        | Session 1 | Window 0 | Pane 0 |
+|        |         |        |           |          | Pane 1 |
+|        |         |        |           |          | ...    |
+|        |         |        |           | Window 1 |        |
+|        |         |        |           | ...      |        |
+|        |         |        | ...       |          |        |
+
+Commands:
+| command                | comment                                     |
+| tmux                   | new session, run a shell                    |
+| tmux new -- emacs -nw  | new session, run emacs                      |
+| tmux attach            | attach to last session                      |
+| tmux attach -t1        | attach to session 1                         |
+| tmux attach -dt1       | attach to session 1, detach other client    |
+| tmux ls                | list sessions                               |
+| C-b :                  | promote from commands                       |
+| C-b c                  | new-window                                  |
+| C-b {index}/p/n/l      | change to indexed/previous/next/last window |
+| C-b Left/Right/Up/Down | chagne pane                                 |
+| C-b s/w                | tree mode(show all stuffes)                 |
+| C-b D                  | client mode(show clients)                   |
+| C-b &/x                | kill window/pane                            |
+
+
+
+
+
