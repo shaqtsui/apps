@@ -493,6 +493,10 @@ Prime + Recursion
     Variable
       Identity + Generator + Generator ...
       init value + change + change ...
+    ALL
+      If you need to go to internal, it's Recursion, otherwise it's Prime
+    ANY
+      Recursion, from one element route one by one so that cover ALL.
 
 
 Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
