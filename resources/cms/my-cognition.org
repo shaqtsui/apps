@@ -450,6 +450,7 @@ Prime + Recursion
 
   instance:
     Fa Zhi Zhong
+    Thing := Prime | Recursion
     Learning/Study/Cognition
       The process is Recursion
     Mental Construction(Think)
@@ -467,8 +468,8 @@ Prime + Recursion
       18.062J
     Function
       Base Pair + Change Pair + Change Pair ...
-      Total Linear: Identity -> Identity, Generator -> Generator(Change Pairs are same)
-      Partial Linear: Generator -> Generator(Change Pairs are same)
+      Total Linear: Identity -> Identity, Generator -> Generator(Change Pairs are same/Permanent)
+      Partial Linear: Generator -> Generator(Change Pairs are same/Permanent)
       Isomorphism is Total Linear
       deferential:
         x change sequence & y change sequence
@@ -16866,6 +16867,8 @@ preview command - preview pkg management operation NO change on project
 develop pkg - clone & refer in project
 free pkg - undo develop operation
 ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
+build pkg - run deps/build.jl
+add pkg - install pkg, build pkg preformed internally
 
 
 **** debug
