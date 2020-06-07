@@ -439,6 +439,8 @@ Note:
 
 
 Prime + Recursion
+  Abstraction(A Perspective) of all Observables
+  So that all Observables in Single Picture
   A Structure can used to build/decompose all complex
   Recursion is recursive composition, and all composition are recursive, so simply name it Recursion
   Prime is not absolute, it's by definition
