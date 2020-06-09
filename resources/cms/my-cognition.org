@@ -439,9 +439,10 @@ Note:
 
 
 Prime + Recursion
-  Abstraction(A Perspective) of all Observables
-  So that all Observables in Single Picture
-  A Structure can used to build/decompose all complex
+  Common Perspective of all Observables
+    Abstraction(A Perspective) of all Observables
+    So that all Observables in Single Picture
+    A Structure can used to build/decompose all complex
   Recursion is recursive composition, and all composition are recursive, so simply name it Recursion
   Prime is not absolute, it's by definition
   Relation is the recursion contains multiple elements, such that element A -> recursion -> element B
@@ -452,13 +453,18 @@ Prime + Recursion
 
   instance:
     Fa Zhi Zhong
+    Observe
     Thing := Prime | Recursion
     Learning/Study/Cognition
       The process is Recursion
     Mental Construction(Think)
       It's Process & itself are both Recursion, but remember that Prime can be other Recursion
     World - Container with Things & Relations
+      All Your Observables
     Logic Induction
+    Axiom-Theorem System
+      Axiom - Prime
+      Theorem - Recursion
     Language
       Syntax - Recursion structure
       Word - Prime
