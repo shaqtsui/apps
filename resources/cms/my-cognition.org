@@ -445,18 +445,17 @@ Prime + Recursion
     A Structure can used to build/decompose all complex
   Recursion is recursive composition, and all composition are recursive, so simply name it Recursion
   Prime is not absolute, it's by definition
-  Relation is the recursion contains multiple elements, such that element A -> recursion -> element B
-  Transform it self can be Prime or Recursion
   Recursion keep ahead no backward. Recurse Inverse is the "Dummy Backward(Peel)"
   If all addition are the same, it's Linear Recursion
-  Cognition down to Recursion, then it's Thorough
+
 
   instance:
     Fa Zhi Zhong
     Observe
     Thing := Prime | Recursion
-    Learning/Study/Cognition
+    Learning/Study/Cognition/Ability
       The process is Recursion
+      Cognition down to Recursion, then it's Thorough
     Mental Construction(Think)
       It's Process & itself are both Recursion, but remember that Prime can be other Recursion
     World - Container with Things & Relations
@@ -506,6 +505,9 @@ Prime + Recursion
       If you need to go to internal, it's Recursion, otherwise it's Prime
     ANY
       Recursion, from one element route one by one so that cover ALL.
+    Transform
+    Relation
+      is the recursion contains multiple elements, such that element A -> recursion -> element B
 
 
 Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
@@ -17173,28 +17175,42 @@ other - first letter of english world
 |                 | p600           | 560MB      | 500MB       | 500/1T         | 580/1K           |               |
 | banq(not benq)  | x60            | 500MB      |             | 250/500/1T     | 240/400/700      |               |
 
-*** WTGA
+*** Computer startup process
 Process
-| Onboard Firmeware | UEFI(clover)    | macOS 10.15 |
-|                   |                 | macOS 10.14 |
-|                   |                 | ...         |
-|                   | UEFI(microsoft) | windows 10  |
-|                   |                 | windows 8.1 |
-|                   |                 | windows pe  |
-|                   |                 | ...         |
-|                   | UEFI(deepin)    | ubuntu      |
-|                   |                 | ...         |
 
+|            | Onboard Firmeware | Disk               | Bootloader            | OS                                    |
+| BIOS + MBR | BIOS program      | Partition Map: MBR | in activate partition | same/different volumn from Bootloader |
+| UEFI + GPT | DXE(EFI runtime)  | Partition Map: GPT | in ESP                | different volumn from Bootloader      |
+|            |                   |                    |                       |                                       |
+
+GUID - globally unique identifier
+GPT - GUID partition table
+
+Partition Map:
+Disk Scheme, Map of disk, Logic disk structure
+Types:
+GPT/GUID
+MBR
+
+File System:
+A Partition can impl different File System
+e.g.
+APFS, NTFS, exFat, Fat16, Fat32...
+
+ESP
+EFI System Partition
+Files:
+/EFI/boot/bootx64.efi - Main bootloader, copied from below bootloaders
+/EFI/Microsoft/Boot/bootmgfw.efi - microsoft bootloader, may be invoked by other bootloader
+/EFI/Microsoft/Boot/bootmgr.efi - microsoft bootloader, may be invoked by other bootloader
+/EFI/Microsoft/Boot/BCD - ONLY MANDATORY config file used by microsoft bootloader
+/EFI/ubuntu/grubx64.efi - ubuntu grub bootloader, may be invoked by other bootloader
 
 
 UEFI
 Unified Extensiable Firmware Interface
-A OS in BIOS + ESP(EFI system partion)
-ESP need disk in GPT/GUID partion
-ESP have a special GUID
-ESP have file system: fat32/fat16
-ESP part:
-microsoft(windows), clover(mac), deepin(linux)
+UEFI Runtime(DXE) + UEFI program(UEFI driver)
+EFI byte code to be run in virtual machine, like java byte code
 
 
 MSR
