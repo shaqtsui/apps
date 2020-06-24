@@ -452,6 +452,8 @@ Prime + Recursion
   instance:
     Fa Zhi Zhong
     Observe
+      So Thing can be Recursion of Perspectives
+      Recurse to some Perspective and stop go ahead - Abstraction
     Thing := Prime | Recursion
     Learning/Study/Cognition/Ability
       The process is Recursion
@@ -16912,6 +16914,23 @@ Note: mode exist when express finished
 Gallium.jl - deprecated
 
 
+
+
+**** IO & network
+IOBuffer - read & write share same seekable ptr, seems append NOT supported
+PipeBuffer - write ignore ptr, stick to append
+
+take!(b::IOBuffer) - Obtain all data, change to init state(data, size) not ptr(next position)
+
+readline - if not readable, RETURN "", NO exception
+
+mark() - mark current position(Only ONE mark supported)
+unmark() - unmark
+reset() - seek mark, unmark
+
+read(io, nb) - read max nb bytes
+
+IOContext - write IO to support properties list
 
 
 *** math course
