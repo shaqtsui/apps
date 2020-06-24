@@ -447,11 +447,16 @@ Prime + Recursion
   Prime is not absolute, it's by definition
   Recursion keep ahead no backward. Recurse Inverse is the "Dummy Backward(Peel)"
   Recursion type:
-    Horizontal
-    Vertical
-      Part of Vertical Recursion is Abstract
+    Horizontal Recursion
+    Vertical Recursion
 
-    (Partially) Linear Recursion - all additions are the (partially) same
+    Linear Recursion - all additions are the same
+
+  Part of Recursion:
+    Horizontal Part of Recursion
+    Vertical Part of Recursion
+
+  Horizontal Part of Vertical Recursion is Abstract
 
 
   instance:
