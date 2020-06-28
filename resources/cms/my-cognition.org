@@ -526,6 +526,11 @@ Prime + Recursion
     Tree
     Recursive Function
     S-expression
+    Change
+      Used to proof:
+        triangle inequality(a + b > c, a - b < c)
+        fix a + b, move from a = b to a > b   ->   ab ⤵ , c ⤴ , c^2 ⤴
+        fix a^2 + b^2, a = b -> a > b   ->   2ab = c^2 -> 0
 
 
 
