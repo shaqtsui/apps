@@ -521,6 +521,12 @@ Prime + Recursion
     Transform
     Relation
       is the recursion contains multiple elements, such that element A -> recursion -> element B
+    Number
+    Infinite
+    Tree
+    Recursive Function
+    S-expression
+
 
 
 Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
@@ -584,9 +590,6 @@ Prime - Can NOT perform decompose Transform in a Context
 Composite - Can perform decompose Transform in a Context
 
 Isomorphic - Stuffs from same Composite Transform on different stuff
-Recursion - Stuff from Composite Transform on Isomorphic stuff
-  benifit: 1, inner stuff & other stuff are isomorphic 2, changes are isomorphic
-
 
 Transform:
   Prime Transform
@@ -2685,14 +2688,7 @@ As a result, it falls to programmers to explicitly provide error checking. Unfor
   
  * PCA(Primitive, Combination, Abstraction)
 
-  * Recursion  
-    e.g. 
-        function
-          defined with itself
-        data  
-          s-expression
-
-  * Group
+ * Group
 
     * Vertical Group  
       e.g. have different layers
@@ -6708,26 +6704,7 @@ happens-before
 
 *** algorithm
 
-**** recursion
-A shape
-
-E.g. Recursive Container - similar stuffes can put into this Container
-
-One stuff contains isomorphic stuff
-
-So it's a container
-
-RPC - Recursion produce Complex: Prime + Adder + Adder ...
-
-Recursion make Infinite possible
-
-Examples can implemented via Recursion:
-List:
-  container contains 1 isomorphic stuff & 1 another stuff
-Tree:
-  container contains multiple isomorphic stuff & multiple another stuff
-Recursion-Logic:
-  function recursion
+**** recursion-Logic:
   Execution of Recrusion-Logic:
     1, Ignore Container
     2, Nearby Logic Executed Nearbyly
@@ -6735,33 +6712,9 @@ Recursion-Logic:
   Execution of Recursion-Logic will create/extract Recursion Data if:
     1, Nearbyly Executed Logic pass data
     2, wrape/unwrape passed data
-Complex State:
-  A State = another State(previous State) + one Change
-Set:
-  A Set = another Set(sub Set) + a Incremental
-Number:
-  A Number = another Number + 1
-Any Complex Stuff:
-  A Complex Stuff = another Complex Stuff(sub Complex Stuff) + a Incremental
 
 
-## Details
-### Can be created via:
-
- * loop between: outside inside
- * replace reference in function which contains a reference of itself
-
-### Simple Example:
-
-    (((((0
-    
-Note:  
-These '('s are isomorphic  
-If the '('s are the same, it's a dead loop in program  
-This structure can be used to ship repeated stuff like: (x(x(x(x...  
-U can divide this structure on ur favor. E.g.: (x, (x, (x, ... or (x(x(x(x(x, (x(x(x(x, (x(x(x, ...  
-
-### Function Recursion(Declarative View):
+ Function Recursion(Declarative View):
 
     A --          -- Q
      Ai --      -- Qi
@@ -6774,7 +6727,7 @@ A, Ai, Aii... are answers
 Q, Qi, Qii... are questions  
 --- are relations(functions)
 
-### Procedure Recursion(Imperative View):
+Procedure Recursion(Imperative View):
 
 Recursively apply a process which:
 
@@ -6782,8 +6735,6 @@ Recursively apply a process which:
 2. eat Problem Piece and generate Answer Piece
 3. add Answer Piece to Answer
 
-
-Recursion - The process of repeating items in a self-similar way
 
 	Common Pattern:
 		Resolve part of the problem
@@ -16807,6 +16758,42 @@ it contains 2 parts:
       ...
 
 *** Julia
+**** Polymorphism
+A kind of Abstract
+MULTIPLE DISPATCH TOGETHER WITH FLEXIABLE PARAMETRIC TYPE SYSTEM GIVE JULIA ITS ABILITY TO ABSTRACTLY EXPRESS HIGH-LEVEL ALGORITHMS DECOUPLED FROM IMPLEMENTATION DETAILS, YET GENERATE EFFICIENT, SPECIALIZED CODE TO HANDLE EACH CASE AT RUNTIME
+***** mulpiple dispatch function
+SINGLE MOST POWFUL AND CENTRAL FEATURE OF THE JULIA LANGUAGE
+
+map a tuple of arguments to a return value
+function consists of a set of methods
+function itself perform dispatch
+dispatch
+  multiple dispatch
+  single dispatch
+  Note:
+    different for OO language which only support firt argument based dispatch(method overwrite), how about method overload?
+
+Normal functions support runtime polymorphism
+(clojure only have defmulti support this)
+
+***** parametric type
+AN IMPORTANT AND POWERFUL FEATURE OF JULIA'S TYPE SYSTEM IS THAT IT IS PARAMETRIC: TYPES CAN TAKE PARAMETERS, SO THAT TYPE DECLARATIONS ACTUALLY INTRODUCE A WHOLE FAMILY OF NEW TYPES – ONE FOR EACH POSSIBLE COMBINATION OF PARAMETER VALUES. 
+
+A type only define a structure, this structure can ship any parametric data
+This consistent with (Primes + Recursions)
+
+where - introduce a type variable
+
+Type application:
+A{B, C} := A{B}{C}
+UnionAll type:
+A := A{B, C} where B where C := let B, C = UnionAll; A{B, C} end
+
+A{<:Integer} := A{T} where T<:Integer
+
+parameter of parametric type can be plain bits(Type, Symbol, Char, Number, Tuple...)
+
+
 **** folder contents
 ~/.julia/registries - git repo which contains all package info
 ~/.julia/clones - git repos cloned from remote repo
@@ -16822,12 +16809,8 @@ it contains 2 parts:
 ~/.julia/artifacts - non-julia stuff
 ~/.julia/conda - conda managemented stuff
 
-**** Prime(api)
-***** Runtime Polymorphism
-Normal functions support runtime polymorphism
-(clojure only have defmulti support this)
 
-***** module/package system 
+**** module/package system 
 module name is a symbol, resolve similar to other symbols
 
 
@@ -16842,13 +16825,13 @@ root temp module instance only contains deps map
 normal module instance loaded from project.toml
 root temp module instance loaded from active enviroment's project.toml/source tree & merged with other roots map in LOAD_PATH
 
-***** limited operations:
+**** limited operations:
 inside():
 :call, :quote, :$(only inside :quote), :string
 outside():
 retrive value of symbol/literal
 
-***** macro
+**** macro
 Hygiene
 macro result to be processed:
 variables with no global decaration is renamed via gensym
@@ -16856,7 +16839,7 @@ except expr inside :escape, which simply keep it verbatim & unwrap :escape
 
 Symbol resolvation follow closure(resovle to value in the definition context)
 
-***** Generated functions
+**** Generated functions
 Function's logic can divide into 2 parts: arguments' type determined, arguments' value determined. 
 First part is same across values of same type (e.g. matrix dimention).
 
@@ -16867,13 +16850,8 @@ when use this generated function, also divided to 2 parts:
 invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
 
 
-**** Recursion
-***** syntax
+**** syntax
 similar to mathematic
-
-***** parametric type
-A type only define a structure, this structure can ship any parametric data
-This consistent with (Primes + Recursions)
 
 
 **** Plots
@@ -16942,6 +16920,10 @@ reset() - seek mark, unmark
 read(io, nb) - read max nb bytes
 
 IOContext - write IO to support properties list
+
+**** show/display/print
+repl -> display -> show(stdout, MIME("text/plain"), z) -> print
+
 
 
 *** math course
