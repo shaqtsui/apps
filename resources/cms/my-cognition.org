@@ -2,6 +2,11 @@
 #+STARTUP: hidestars
 #+STARTUP: showstars
 
+情欲生行
+止，于无相，发与不发皆是手段
+止亦是情生之行，不过他单一纯粹
+空以致用
+
 * 未发（中），发皆中节（和）
 ** 未发
 
@@ -16762,6 +16767,9 @@ it contains 2 parts:
       emacs-jupyter
       ...
 
+*** orthogonal
+Object state/function in cartesian coordinate. Changes on these state/function are orthogonal to coordinate
+
 *** Julia
 **** Polymorphism
 A kind of Abstract
@@ -16778,6 +16786,11 @@ dispatch
   Note:
     different for OO language which only support firt argument based dispatch(method overwrite), how about method overload?
 
+optional arguments are implemented as multiple methods
+keyword arguments doesn't participate in dispatch
+functor := function object := callable object
+type is also function
+
 Normal functions support runtime polymorphism
 (clojure only have defmulti support this)
 
@@ -16791,6 +16804,8 @@ where - introduce a type variable
 
 Type application:
 A{B, C} := A{B}{C}
+A - UnionAll
+A{B} - UnionAll
 UnionAll type:
 A := A{B, C} where B where C := let B, C = UnionAll; A{B, C} end
 
