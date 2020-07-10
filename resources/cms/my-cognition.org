@@ -2,10 +2,16 @@
 #+STARTUP: hidestars
 #+STARTUP: showstars
 
+善用其心
+
+果：
+任运自在
+见：
 情欲生行
 止，于无相，发与不发皆是手段
 止亦是情生之行，不过他单一纯粹
 空以致用
+心可以接受才可以构建
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -450,6 +456,8 @@ Prime + Recursion
     A Structure can used to build/decompose all complex
   Recursion is recursive composition, and all composition are recursive, so simply name it Recursion
   Prime is not absolute, it's by definition
+  Prime - Personal mind one-shot accecptable/constructable
+    e.g. Single, Pair, Triple?, Quadruple?
   Recursion keep ahead no backward. Recurse Inverses is the "Dummy Backward(Peel)"
   Recursion type:
     Horizontal Recursion
@@ -457,11 +465,12 @@ Prime + Recursion
 
     Linear Recursion - all additions are the same
 
-  Inverse of Recurse:
-    Part of Recursion:
-      Sub-Recursion of Recursion
-      Sub-Addons of Recursion
-      Note: Can NOT be Horizontal Part & Vertical Part as Recursion is not composed via Vertical Parts(no inverse)
+  Contains:
+    Base
+    Addons
+    Sub-Recursions
+
+    Note: Can NOT be Horizontal Part & Vertical Part as Recursion is not composed via Vertical Parts(no inverse)
 
   Each of Recursion with same Sub-Recursion is Abstract
 
@@ -493,13 +502,14 @@ Prime + Recursion
       18.062J
     Function
       Base Pair + Change Pair + Change Pair ...
-      Total Linear: Identity -> Identity, Generator -> Generator(Change Pairs are same/Permanent)
-      Partial Linear: Generator -> Generator(Change Pairs are same/Permanent)
+      Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Pairs)
+      Partial Linear: Generator -> Generator(Permanent Change Pairs)
       Isomorphism is Total Linear
       deferential:
         x change sequence & y change sequence
       integral:
         sum small parts
+      Rate - A function
       18.01, 18.02, 18.03, 18.100B
     Group
       group generator compose(+, *) to generate all elements
@@ -536,6 +546,8 @@ Prime + Recursion
         triangle inequality(a + b > c, a - b < c)
         fix a + b, move from a = b to a > b   ->   ab ⤵ , c ⤴ , c^2 ⤴
         fix a^2 + b^2, a = b -> a > b   ->   2ab = c^2 -> 0
+    Some Multiple Individuals
+      They are Sub-Recursions of a Recursion
 
 
 

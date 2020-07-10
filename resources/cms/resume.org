@@ -9,7 +9,8 @@
 #+LATEX_HEADER: \lhead{RESUME}
 
 
-* PERSONAL INFORMATION
+* RESUME
+** PERSONAL INFORMATION
 | Name           | : | Xu Fucheng                                 |
 | Gender         | : | Male                                       |
 | Contact Number | : | (86)18621180023                            |
@@ -17,7 +18,7 @@
 | Nationality    | : | Chinese                                    |
 | Education      | : | Nanjin University of Economics and Finance |
 
-* CAREER SUMMARY
+** CAREER SUMMARY
 | 01/2017-Present | Shanghai San Zhi Wei Information and Technology |
 | 06/2014-12/2016 | VCredit Financial Tech                          |
 |                 | Sr. Development Manager                         |
@@ -26,7 +27,7 @@
 | 05/2007-8/2007  | Triman Software Co. Ltd.                        |
 |                 | Dev                                             |
 
-* PROFILE
+** PROFILE
 10+ years experience in Banking and Internet Financial IT field, which cover development, team lead, tech architect, sr. development manager.
 Experiences and ability hereby elaborated in two perspectives: tech and leading/management.
 Tech:
@@ -35,12 +36,12 @@ Leading and Management:
 More than 5 years foreign and local team(30+ members) management experience. Leading experience across various teams: Development Team, Design Team, Test Team, Infra Team. Especially good at setup team from ground up. Rich experiences in team setup and bring up, deliver quality products and satisfy stake holders.
 Major successfully delivered applications include: Online Banking(Internet Portal), Online Credit Card System(Internet Portal), Reward System, P2P System(Core, Web, Mobile, BMS)...
 
-* MAJOR TECH SKILL SCOPE
-JavaEE, Spring, Frontend, DevOps, Scrum, SOA, SPA, Test Automation, Clojure, Machine Learning
+** MAJOR TECH SKILL SCOPE
+Julia, Clojure, JavaEE, Spring, Frontend, DevOps, Scrum, SOA, SPA, Test Automation, Machine Learning
 
-* PROFESSIONAL EXPERIENCE
+** PROFESSIONAL EXPERIENCE
 
-** P1
+*** P1
 | /                 | <                                                         |
 | 01/2017 - Present | Company: Shang Hai San Zhi Wei Information and Technology |
 
@@ -49,7 +50,7 @@ Machine Learning infrastructure algorithm implementation which include: Gradient
 Development  of ML based Anti-Fraud Detection System, which is a anomaly detection system rely on machine learning instead of rule engine. Biggest advantage for using machine learning instead of rule engine is that even there is no cumulated professional experiences, which is the base of rule engine approach, we can create Deep Neural Network to learn from existing customer's status and behavior information which include: personal information, phone call connection network, social security information, Ali credit score, online shopping behavior... and get the boundary between normal & abnormal customer. Compare to traditional detection system which require dedicated specialist to manually maintain rule set in a passive pattern, boundary is keeping updated when more and more data introduced which enable system to perform automatic calibration in a proactive pattern.
 
 
-** P2
+*** P2
 | /                 | <                               |
 | 06/2014 - 12/2016 | Company: VCredit Financial Tech |
 |                   | Department: Online Business     |
@@ -72,7 +73,7 @@ Export infrastructure and common services to other new subsidiaries, which inclu
 For product support, 2-weeks periodic scrum iteration makes small-medium business requirements available to public in just 2 weeks.
 To high light the testing, it's the first time, in group, we made more than 90 percents of integration tests into automation tests, which guarantee that 2-weeks periodic scrum iteration have minimal impact on existing functions.
 
-** P3
+*** P3
 | /                 | <                          |
 | 12/2012 - 08/2013 | Company: CSTS              |
 |                   | Department: eBusiness      |
@@ -93,7 +94,7 @@ Roll-out single code base across 13 countries. Previously each country maintains
 Provide both development & maintainence support for citi online credit card system
 
 
-** P4
+*** P4
 | /               | <                                |
 | 1/2010 -12/2012 | Company: CSTS                    |
 |                 | Department: eBusiness            |
@@ -107,7 +108,7 @@ Infrastructure & core function coding
 Conduct Proof of Concept for new technology application
 
 
-** P5
+*** P5
 | /               | <                                                            |
 | 08/2007-12/2009 | Company: CSTS                                                |
 |                 | Department: eBusiness                                        |
@@ -119,7 +120,7 @@ Responsibilities: development, test, documentation
 Techs involved: Java Financial Platform(citi internal framework based on struts), jsp, javascript, jquery, IBM MQ, DB2, websphere, CI
 
 
-** P6
+*** P6
 | /               | <                                       |
 | 04/2007-08/2007 | Company: Triman Software Co. Ltd.       |
 |                 | Project: Minghang Government GIS System |

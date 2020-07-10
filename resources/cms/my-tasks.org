@@ -29,13 +29,16 @@ e.g. (t)
 - State "DONE"       from "TODO"       [2018-04-19 Thu 18:45]
 - State "TODO"       from ""           [2018-03-02 Fri 18:29]
 
-** TODO check urepl & prepl
+** DONE check urepl & prepl
+- State "DONE"       from "TODO"       [2020-07-04 Sat 22:18]
 - State "TODO"       from ""           [2018-03-02 Fri 19:50]
 
-** TODO check centralized file storage
+** CANCELED check centralized file storage
+- State "CANCELED"   from "TODO"       [2020-07-04 Sat 22:19]
 - State "TODO"       from ""           [2018-03-02 Fri 19:51]
 
-** TODO check call/cc & reader macro whether a good choice
+** CANCELED check call/cc & reader macro whether a good choice
+- State "CANCELED"   from "TODO"       [2020-07-04 Sat 22:19]
 - State "TODO"       from ""           [2018-03-03 Sat 09:06]
 
 ** DONE control semantic in language
@@ -50,7 +53,8 @@ e.g. (t)
 - State "DONE"       from "TODO"       [2018-03-04 Sun 19:15]
 - State "TODO"       from ""           [2018-03-03 Sat 20:49]
 
-** TODO ubuntu auto mount disk
+** DONE ubuntu auto mount disk
+- State "DONE"       from "TODO"       [2020-07-04 Sat 22:17]
 - State "TODO"       from ""           [2018-03-03 Sat 20:52]
 
 ** DONE learn racket
