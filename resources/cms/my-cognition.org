@@ -12,6 +12,10 @@
 止亦是情生之行，不过他单一纯粹
 空以致用
 心可以接受才可以构建
+心身一体
+精气神满时凡人习惯了用其去征服周围
+精气神不足时人无法止，因为很快就没有力气了
+所有语言都是心行
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -449,7 +453,7 @@ Note:
     Recursion(sequence) go smaller & smaller with no ending
 
 
-Prime + Recursion
+Prime + Recursion - The mind action to accecptable/constructable target
   Common Perspective of all Observables
     Abstraction(A Perspective) of all Observables
     So that all Observables in Single Picture
@@ -464,10 +468,13 @@ Prime + Recursion
     Vertical Recursion
 
     Linear Recursion - all additions are the same
+    Non-linear Recursion
+      Change Combinator may change it to Linear Recursion
 
   Contains:
     Base
     Addons
+    Combinator
     Sub-Recursions
 
     Note: Can NOT be Horizontal Part & Vertical Part as Recursion is not composed via Vertical Parts(no inverse)
@@ -510,6 +517,10 @@ Prime + Recursion
       integral:
         sum small parts
       Rate - A function
+      Non-linear -> Linear
+        Change Combinator
+        e.g.
+          f(x) = x^n, combinator change from + to * so that convert to linear recursion
       18.01, 18.02, 18.03, 18.100B
     Group
       group generator compose(+, *) to generate all elements
