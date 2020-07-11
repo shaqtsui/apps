@@ -469,7 +469,9 @@ Prime + Recursion - The mind action to accecptable/constructable target
 
     Linear Recursion - all additions are the same
     Non-linear Recursion
-      Change Combinator may change it to Linear Recursion
+
+  Non-linear/Linear Recursion conversion
+    Change Combinator
 
   Contains:
     Base
@@ -518,7 +520,6 @@ Prime + Recursion - The mind action to accecptable/constructable target
         sum small parts
       Rate - A function
       Non-linear -> Linear
-        Change Combinator
         e.g.
           f(x) = x^n, combinator change from + to * so that convert to linear recursion
       18.01, 18.02, 18.03, 18.100B
