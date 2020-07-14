@@ -13,9 +13,16 @@
 空以致用
 心可以接受才可以构建
 心身一体
+精气神属身非心
+心能发时间长，身体不一定能够用时间长
 精气神满时凡人习惯了用其去征服周围
 精气神不足时人无法止，因为很快就没有力气了
 所有语言都是心行
+对比了自己与外界，产生了自信，自卑，害怕，孤独，需要力量，从外寻求力量（朋友），从‘内’（身体）寻求力量（锻炼身体），逃避外界，寻找温和的另一个世界
+身与世界都是外界
+三十二相是菩提心在身之相，非欲所能及
+外界知识 - 内在知识 = 要学的知识
+知识是二维的：横维，纵维
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -16698,6 +16705,10 @@ TRAMP (included) used to access remote files
 **** ztree
 ztree-diff is a directory-diff tool for Emacs inspired by commercial tools like Beyond Compare or Araxis Merge. 
 
+**** pyim
+default-input-method -> pyim -> dict
+default dict: dict-pymap
+key sequence -> pre-append pyim-default-scheme -> all dicts
 
 **** other
 built-in
@@ -16967,6 +16978,28 @@ IOContext - write IO to support properties list
 
 **** show/display/print
 repl -> display -> show(stdout, MIME("text/plain"), z) -> print
+
+**** conversion
+for logically same thing but different types, should lossless
+situation: assign, function return, ccall
+
+**** interface
+no dedicated language elements
+type impl interface means:
+  certain functions can handle it, so additional on top functions can handle also
+  optional: <:T
+
+e.g.
+
+| interface | data type        | certain functions                          | additional functions                           |
+|-----------+------------------+--------------------------------------------+------------------------------------------------|
+| Iteration |                  | iterate                                    | in, for in, collect, mean, std, .(need length) |
+| Indexing  |                  | getindex, setindex!, firstindex, lastindex | s[i], s[begin], s[end]                         |
+| Array     | <: AbstractArray | size, getindex, setindex!                  | +, . ,                                         |
+|           |                  |                                            |                                                |
+
+
+
 
 
 

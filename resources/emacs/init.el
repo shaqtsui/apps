@@ -127,11 +127,12 @@
   :demand t
   :after (julia-mode)
   :init
-;;  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
+  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
   ;; fix error in : LanguageServer.FoldingRangeCapabilities
   (setq lsp-enable-folding t)
   (setq lsp-folding-range-limit 100)
-  :hook (julia-mode . lsp-deferred))
+;;  :hook (julia-mode . lsp-deferred)
+  )
 
 ;; lsp-java base on lsp-mode(maintained by same team)
 ;; lsp-java will auto download java language server
@@ -291,26 +292,29 @@
 (use-package youdao-dictionary
   :ensure t)
 
-;; webi input method
-;; to registe pyim in input method list, a default small pinyin dict(pyim-pymap) included
-;; Issue: in pyim dicts are not categorilized, ascii seq with different prefix to seprate different input scheme: pinying or wubi...
-;; scheme major to set ascii seq prefix & other info (these other info is in an abuse)
-
-;; dict which support offen used words
-;; (require 'pyim-basedict)
-;; (pyim-basedict-enable)
+;; Input method
 (use-package pyim
   :ensure t
+  :demand t
   :config
-  (setq pyim-default-scheme 'wubi))
-
-;;(pyim-wbdict-gb2312-enable)
-(use-package pyim-wbdict
-  :ensure t
-  :config
-  (pyim-wbdict-v98-enable))
-
-
+  ;; add another dict(ping ying, include additional offen used words)
+  (use-package pyim-basedict
+    :disabled
+    :ensure nil
+    :demand t
+    :config (pyim-basedict-enable))
+  ;; add another dict(wu bi)
+  (use-package pyim-wbdict
+    :ensure t
+    :demand t
+    :config
+    ;;(pyim-wbdict-gb2312-enable)
+    (pyim-wbdict-v98-enable))
+  ;; popup is slow when show in large file
+  (setq pyim-page-tooltip 'minibuffer)
+  (setq default-input-method "pyim")
+  (setq pyim-default-scheme 'wubi)
+  )
 
 ;; yasnippet can be used by company-lsp to support expand snippets on completion
 ;; can't defer, a bug in lsp-mode lsp-enable-snippet didn't require it explicitly
