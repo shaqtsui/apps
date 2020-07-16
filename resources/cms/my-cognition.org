@@ -23,6 +23,8 @@
 三十二相是菩提心在身之相，非欲所能及
 外界知识 - 内在知识 = 要学的知识
 知识是二维的：横维，纵维
+用心于当下
+心发乐，心取乐皆是心之用
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -521,14 +523,16 @@ Prime + Recursion - The mind action to accecptable/constructable target
       Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Pairs)
       Partial Linear: Generator -> Generator(Permanent Change Pairs)
       Isomorphism is Total Linear
+      Non-linear
+        e.g. Under combinator +, f(x) = x^2 is non-linear. Id -> Id, 1 -> 1, 1 -> 3, 1 -> 5 ... . 1 -> ? is changing depends on previous recursion
+      Non-linear -> Linear
+        e.g.
+          f(x) = x^n, combinator change from + to * so that convert to linear recursion
       deferential:
         x change sequence & y change sequence
       integral:
         sum small parts
       Rate - A function
-      Non-linear -> Linear
-        e.g.
-          f(x) = x^n, combinator change from + to * so that convert to linear recursion
       18.01, 18.02, 18.03, 18.100B
     Group
       group generator compose(+, *) to generate all elements
@@ -567,6 +571,8 @@ Prime + Recursion - The mind action to accecptable/constructable target
         fix a^2 + b^2, a = b -> a > b   ->   2ab = c^2 -> 0
     Some Multiple Individuals
       They are Sub-Recursions of a Recursion
+    Vector Linear Transform Chain
+      Transform = Expansion + Combination
 
 
 
