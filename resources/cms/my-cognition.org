@@ -3,6 +3,7 @@
 #+STARTUP: showstars
 
 善用其心
+用心是谁？用心即乖
 
 果：
 任运自在
@@ -16988,6 +16989,8 @@ repl -> display -> show(stdout, MIME("text/plain"), z) -> print
 **** conversion
 for logically same thing but different types, should lossless
 situation: assign, function return, ccall
+
+**** broadcasting
 
 **** interface
 no dedicated language elements
