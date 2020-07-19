@@ -3,7 +3,8 @@
 #+STARTUP: showstars
 
 善用其心
-用心是谁？用心即乖
+用心是谁？用心即乖，此即本来面目
+
 
 果：
 任运自在
@@ -26,6 +27,8 @@
 知识是二维的：横维，纵维
 用心于当下
 心发乐，心取乐皆是心之用
+心之用本幻，非苦非乐，不偏不倚。不识此意即为无明
+当用即用，不当用则不用
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -480,8 +483,9 @@ Prime + Recursion - The mind action to accecptable/constructable target
     Linear Recursion - all additions are the same
     Non-linear Recursion
 
-  Non-linear/Linear Recursion conversion
-    Change Combinator
+  Recursion Combinator Conversion
+    Non-linear/Linear Recursion conversion
+    Conjunction -> Overlap
 
   Contains:
     Base
