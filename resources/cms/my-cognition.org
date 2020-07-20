@@ -29,6 +29,10 @@
 心发乐，心取乐皆是心之用
 心之用本幻，非苦非乐，不偏不倚。不识此意即为无明
 当用即用，不当用则不用
+知识是个全直连网，老师和书教给你的只能是其中的一些点，剩下的只能由你自己去观察发现
+全直连网 -> 树网，递归是这个树的根
+
+
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -467,6 +471,7 @@ Note:
 
 
 Prime + Recursion - The mind action to accecptable/constructable target
+
   Common Perspective of all Observables
     Abstraction(A Perspective) of all Observables
     So that all Observables in Single Picture
@@ -476,6 +481,7 @@ Prime + Recursion - The mind action to accecptable/constructable target
   Prime - Personal mind one-shot accecptable/constructable
     e.g. Single, Pair, Triple?, Quadruple?
   Recursion keep ahead no backward. Recurse Inverses is the "Dummy Backward(Peel)"
+
   Recursion type:
     Horizontal Recursion
     Vertical Recursion
@@ -483,19 +489,33 @@ Prime + Recursion - The mind action to accecptable/constructable target
     Linear Recursion - all additions are the same
     Non-linear Recursion
 
-  Recursion Combinator Conversion
-    Non-linear/Linear Recursion conversion
-    Conjunction -> Overlap
-
   Contains:
-    Base
-    Addons
-    Combinator
-    Sub-Recursions
+    Recursion
+      Base?
+      Recursion?
+        ...
+      Addon
+      Combinator
 
     Note: Can NOT be Horizontal Part & Vertical Part as Recursion is not composed via Vertical Parts(no inverse)
 
+  Different Perspectives
+    single Recursion
+    pair of Sub-Recursion & Addon
+    list of Recursive Recursions
+    list of Non-Recursive Addons
+    list of Non-Recursive Combinators
+    single Base
+
+  Recursion Conversion
+    Combinator Conducted Conversion:
+      Conjunction -> Overlap
+    Addon Conducted Conversion:
+      Non-linear/Linear Recursion conversion
+      Non Recursive Addon -> Recursive
+
   Each of Recursion with same Sub-Recursion is Abstract
+
 
 
   Instance:
@@ -521,6 +541,22 @@ Prime + Recursion - The mind action to accecptable/constructable target
       Sequence
       Series
     Graph
+      Full Direct Connection Graph
+        Non-linear Recursion
+        Convert to Tree
+          1, Base: null -> assistant node
+          2, Addon:
+               Take apart: Node & Connections
+               Convert: Non-Recursive Connections -> Recursive Connection
+          3, Sub-Recursion Addon Pair Repartition
+               Move Recursive Connection's Sub-Recursion part to existing Sub-Recursion
+               Which means Addon Connection to assistant node:
+                 1, not only serve as connection for current node
+                 2, But also will be used by future nodes
+
+      Tree
+        Linear Recursion
+
     Process
       18.062J
     Function
@@ -539,6 +575,8 @@ Prime + Recursion - The mind action to accecptable/constructable target
         sum small parts
       Rate - A function
       18.01, 18.02, 18.03, 18.100B
+    Function Call Chain
+    Recursive Function
     Group
       group generator compose(+, *) to generate all elements
       18.703
@@ -566,8 +604,6 @@ Prime + Recursion - The mind action to accecptable/constructable target
       is the recursion contains multiple elements, such that element A -> recursion -> element B
     Number
     Infinite
-    Tree
-    Recursive Function
     S-expression
     Change
       Used to proof:
