@@ -34,6 +34,13 @@
 心脑合一，心身合一，心物合一
 心动所以脑动，身动，外界动
 所谓用心即心动
+心动欲而不止，则以动替动
+动绐于执？执于一处以为我？
+存志但不执尘，此即合一之本
+心执则耗能力
+聚即动即用即执，散即不动即不用即不执即止即歇
+聚有其阀值，聚有其目的：取，予。
+
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -16853,6 +16860,14 @@ it contains 2 parts:
 *** orthogonal
 Object state/function in cartesian coordinate. Changes on these state/function are orthogonal to coordinate
 
+*** function definition semantic
+f(x) = x^2 means:
+implicite part: define x refer to any element of universal set
+f apply to x equals: x^2
+
+so also can explicitly write as:
+f(x) where x refer to element of universal set = x^2
+
 *** Julia
 **** Polymorphism
 A kind of Abstract
@@ -16890,11 +16905,12 @@ A{B, C} := A{B}{C}
 A - UnionAll
 A{B} - UnionAll
 UnionAll type:
-A := A{B, C} where B where C := let B, C = UnionAll; A{B, C} end
+A := A{B, C} where B where C := A{B, C} where B<:UnionAll where C:<UnionAll := let B, C <: UnionAll; A{B, C} end
 
 A{<:Integer} := A{T} where T<:Integer
 
 parameter of parametric type can be plain bits(Type, Symbol, Char, Number, Tuple...)
+::Val{0}, ::Val{1}, ::Val{2}
 
 
 **** folder contents
@@ -16902,7 +16918,9 @@ parameter of parametric type can be plain bits(Type, Symbol, Char, Number, Tuple
 ~/.julia/clones - git repos cloned from remote repo
 ~/.julia/dev - git repo cloned from remote repo for development
 ~/.julia/packages - packages source, exported from repo in clones(no git meta data), building performed here
-~/.julia/compiled - compiled julia bytes
+~/.julia/compiled - compiled modules bytes, created when module first time used or via Base.compilecache(modulename)
+                      recompiled when dependencies changed
+                      disable precomile via put: __precompile__(false) in module code
 
 ~/.julia/environments - different julia project(only Project.toml & Manifest.toml)
 ~/.julia/logs - history info
@@ -16914,8 +16932,9 @@ parameter of parametric type can be plain bits(Type, Symbol, Char, Number, Tuple
 
 
 **** module/package system 
-module name is a symbol, resolve similar to other symbols
+module - to seprate symbols
 
+module name is a symbol, resolve similar to other symbols
 
 module name resolve:
 Main/REPL resolve to root temp module instance
@@ -16924,9 +16943,37 @@ Others find module instance in its current module instance, if not available use
 normal module instance contains uuid -> deps map
 root temp module instance only contains deps map
 
-
 normal module instance loaded from project.toml
 root temp module instance loaded from active enviroment's project.toml/source tree & merged with other roots map in LOAD_PATH
+
+Core - imported in baremodule
+Base - imported in module
+Main
+
+using Foo -> require(:Foo)
+
+__init__()
+  init steps in runtime
+  triggered by first time using, import, require
+  after all statements executed
+
+compile
+  compile-time may different from runtime
+  execute statements, serialize results' bytes in file as cache
+  this cache not updated when: edit source, Pkg.update, Pkg.rm
+  runtime ignore this cache via: --compiled-modules=no
+
+
+
+
+
+
+
+
+
+
+
+
 
 **** limited operations:
 inside():
@@ -17032,6 +17079,10 @@ for logically same thing but different types, should lossless
 situation: assign, function return, ccall
 
 **** broadcasting
+Base.Broadcast.Broadcasted{Base.Broadcast.ArrayStyle{ArrayAndChar},
+                           Tuple{Base.OneTo{Int64},Base.OneTo{Int64}},
+                           typeof(+),
+                           Tuple{ArrayAndChar{Int64,2},Int64}}
 
 **** interface
 no dedicated language elements
