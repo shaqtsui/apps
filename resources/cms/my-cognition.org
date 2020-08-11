@@ -16804,6 +16804,8 @@ avy - jump via char-based decision tree
 
 ein - api for interacting with jupyter notebook frontend, notebook viewer
 emacs-jupyter - api for interacting with jupyter kernels, 2 frontends: built-in repl & org-mode source block
+  jupyter-run-repl need to be invoked in the project path which contains IJulia
+  Otherwise get error: jupyter-kernel-info: Kernel did not respond to kernel-info request.
 
 ob-julia - pkg to support julia language in org, but it rely on ess
 
@@ -16847,7 +16849,7 @@ it contains 2 parts:
 
     kernel list:
     IPython - Python program
-    IJulia - Julia program
+    IJulia - Julia program, kernel specs registed when build IJulia
     IRkernel - R program
     Community maintained kernels:
       IHaskell
@@ -16860,6 +16862,10 @@ it contains 2 parts:
     Community maintained interfaces:
       emacs-jupyter
       ...
+
+kernel spec:
+~/Library/Jupyter/kernels/julia-1.5/kernel.json
+
 
 *** orthogonal
 Object state/function in cartesian coordinate. Changes on these state/function are orthogonal to coordinate
@@ -17105,6 +17111,29 @@ e.g.
 
 
 
+
+
+**** documentation
+module <-> meta
+document is in meta of module
+
+retrieve:
+?* search, catdoc  & show all methods' documentation
+@doc foo! - retrieve meta: document
+Docs.getdoc(t::MyType)
+
+set(@doc will return the second argument, so that code can be evaluated):
+@doc "doc str" foo!
+Or with special parser treat(2nd argument follow with single line break):
+@doc "doc str"
+foo!
+Docs.getdoc(t::MyType) = "Document for MyType with value $(t.value)"
+
+doc and also add to type fields
+
+
+**** multi-dimensional array
+most f call f! on copied argument
 
 
 

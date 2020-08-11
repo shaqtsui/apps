@@ -141,13 +141,10 @@
 (use-package lsp-java
   :ensure t
   :after (java-mode)
-  :hook (java-mode . lsp-deferred))
-
-
-;; dap-java inside lsp-java, so no :ensure here
-;; java-mode is not a pkg, dummy here to delay the load
-(use-package dap-java
-  :after (java-mode))
+  :hook (java-mode . lsp-deferred)
+  :config
+  (use-package dap-java
+    :after (java-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -209,12 +206,13 @@
 ;; debug: (setq jupyter--debug t)
 ;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
 (use-package jupyter
-  :ensure t)
-
-;; subpkg of jupyter, here only to config it
-(use-package jupyter-repl
+  :ensure t
   :config
-  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin"))))
+  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin")))
+  (setq org-babel-default-header-args:jupyter-julia '((:async . "yes")
+                                                      (:session . "jl")
+                                                      (:kernel . "julia-1.5")))
+  )
 
 (use-package ein
   :ensure t)
