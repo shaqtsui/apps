@@ -224,7 +224,12 @@
    'org-babel-load-languages
    '((emacs-lisp . t)
      (ditaa . t)
-     (jupyter . t))))
+     (jupyter . t)))
+  (use-package org-tempo))
+
+;; auto-mode-alist code alread in autoload
+(use-package yaml-mode
+  :ensure t)
 
 (use-package emms
   :ensure t

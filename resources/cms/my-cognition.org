@@ -16614,16 +16614,16 @@ H.265 is the latest formatter tech
 
 *** repl
 It's a program. get input, evaluate, send output
+Frontend/Backend persepctive divide REPL into 2 parts:
+  RPL - Read, Print, Loop
+  E - Evaluate
+        can be implemented as: plain function, service, program
 
-Category:
-| standard io repl | raw stream repl                |
-|------------------+--------------------------------|
-| socket io repl   | segmented stream(message) repl |
-
-e.g.
-most internal repls - standard io repl,  raw stream repl
-clojure socket repl - socket io repl, raw stream repl
-IJulia, IPython, clojure nrepl - socket io repl, segmented stream(message) repl
+E implementation:
+most standalone repl - plain function
+clojure socket repl - plain function
+IJulia, IPython, clojure nrepl - service
+shell - program
 
 *** Mac OS X
 homebrew
@@ -16678,8 +16678,8 @@ CAD - people know the object's structure, but lazy to draw on paper
 
 
 *** languageserver
-difference between socket io repl:
-  languageserver expose dedicated functions, socket io repl expose generic function: eval
+difference between distributed repl:
+  languageserver expose dedicated functions, distributed repl expose generic function: eval
   repl is to execute code, languageserver is to edit code
 exposed functionalities:
   linting, code complete, go to definition, find all reference, format code...
@@ -16696,6 +16696,9 @@ Alt - C-x @ a
 
 **** org
 C-c C-x C-v - org-toggle-inline-images
+C-c ' - edit source
+org-tempo
+  <?TAB - use org-tempo
 **** widget
 text widget
 refer: https://www.gnu.org/software/emacs/manual/html_mono/widget.html
@@ -16844,7 +16847,7 @@ autopair - very similar to electric-pair-mode, author prefer electric-pair-mode
 *** jupyter
 it contains 2 parts:
   kernel:
-    socket io repl, segmented stream(message) repl + optional dedicated functions(actually can be inplemented via repl): code-complete, inspect, history, is-complete, shutdown
+    E implementation as service + optional dedicated functions(actually can be inplemented via repl): code-complete, inspect, history, is-complete, shutdown
     exposed via ZeroMQ
 
     kernel list:
@@ -17135,6 +17138,26 @@ doc and also add to type fields
 **** multi-dimensional array
 most f call f! on copied argument
 
+
+
+
+*** WebIO
+elements of type Node, printed like hiccup
+e.g.
+Node(:div, child1, child2, attributes=Dict(:class => "my-list"))
+
+dom"" macro
+dom""(child1, child2, ..., attr1 = val1, attr2 = val2 ...)
+
+js"" macro
+
+Communication via: Scope & Observable
+Scope contains:
+   Node, Observables, Observable JS Listener(onjs i.e. js callback), Asset(imports=), JS(onmount)
+
+
+*** JSExpr
+convert julia code to js code
 
 
 *** math course

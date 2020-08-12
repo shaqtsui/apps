@@ -136,6 +136,8 @@
           - postgresql
           - emacs-plus
           - aria2
+          - node
+          - cask
 
     - file:
         path: "~/.emacs.d"
