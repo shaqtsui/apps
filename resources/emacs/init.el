@@ -205,14 +205,19 @@
 ;; so run it when u open that project's direcory
 ;; debug: (setq jupyter--debug t)
 ;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
+;; demand to config it before executing org code block
 (use-package jupyter
   :ensure t
+  :demand t
   :config
   (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin")))
-  (setq org-babel-default-header-args:jupyter-julia '((:async . "yes")
-                                                      (:session . "jl")
-                                                      (:kernel . "julia-1.5")))
-  )
+  (use-package ob-jupyter
+    :config
+    (setq org-babel-default-header-args:jupyter-julia '((:async . "yes")
+                                                        (:session . "jl")
+                                                        (:kernel . "julia-1.5")))
+    (org-babel-jupyter-override-src-block "julia")
+    ))
 
 (use-package ein
   :ensure t)
