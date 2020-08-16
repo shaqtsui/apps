@@ -40,7 +40,8 @@
 心执则耗能力
 聚即动即用即执，散即不动即不用即不执即止即歇
 聚有其阀值，聚有其目的：取，予。聚则耗则偏，散则长则正
-
+不聚即哪都不去
+用力聚于所则被动/造动
 
 
 * 未发（中），发皆中节（和）
@@ -17192,17 +17193,300 @@ map(tuple, (1/(i+j) for i=1:2, j=1:2), [1 3; 2 4])
 
 #+END_SRC
 
+***** indexing
+index by scalar drop corresponding dimension
+index by vector keep corresponding dimension
+index by 2+d array increase correspoding dimension
+
+#+BEGIN_SRC julia
+  A = reshape(1:16, (2, 2, 2, 2))
+  A[1, 2, 1, 1]
+  A[[1, 2], [1], [1, 2], [1]]
+  A[:, [1], :, [1]]
+  A[:, [1], :, 1]
+  A[[1 2; 1 2]]
+  B = [1 2; 3 4]
+  B[[1 2; 1 2]]
+  x = reshape(1:16, (4, 4))
+  x[2:3, 2:end-1]
+  x[1, [2 3; 4 1]]
+
+#+END_SRC
+
+#+BEGIN_SRC julia
+  x = reshape(1:9, (3, 3))
+  x = collect(x)
+  x[3, 3] = -9
+  x[1:2, 1:2] = [-1 -4; -2 -5]
+  
+  A = reshape(1:2:18, (3, 3))
+  A[4]
+  A[[2, 5, 8]]
+  A[[1 4; 3 8]]
+  A[[]]
+
+  A = reshape(1:32, 4, 4, 2)
+  A[3, 2, 1]
+
+  A[CartesianIndex(3, 2, 1)]
+
+  axes(A, 1)
+  axes(A, 2)
+  A[[CartesianIndex(1, 1), CartesianIndex(2, 2), CartesianIndex(3, 3), CartesianIndex(4, 4)], 1]
+  A[CartesianIndex.(axes(A, 1), axes(A, 2)), :]
+
+  B = [true true; false true;]
+  findall(B)
+
+  x = reshape(1:16, 4, 4)
+  x[[true, false, true, true], :]
+
+  mask = map(ispow2, x)
+  x[mask]
+
+  A = rand(4, 3, 2)
+
+  A[2, 3, 1]
+
+  A = [2 6; 4 7; 3 1]
+  A[5]
+  vec(A)[5]
+
+  CartesianIndices(A)
+  LinearIndices(A)
+
+  eachindex(A)
+
+  A =[2]
+  A[]
+
+  A = [8, 6, 7]
+  A[2, 1]
+  A[2]
+
+  for a in A
+    println(a)
+  end
+
+  for i in eachindex(A)
+    println(i, "=>",  A[i])
+  end
+
+  A = reshape(1:16, 4, 4)
+  B = view(A, 1:3, 2:3)
+  C = view(A, [1, 4], [2, 3])
+  for i in eachindex(B)
+    @show i
+  end
+  for i in eachindex(C)
+    @show i
+  end
+
+  C[4]
+
+#+END_SRC
+
+array type with fast linear indexing
+no need to divide & remainder to convert to CartesianIndex
+Base.IndexStyle(::Type{<:AbstractArray}) = IndexLinear()
+eachindex() -> int
+
+#+BEGIN_SRC julia
+  A = reshape(1:16, 4, 4)
+  B = collect(1:4)
+
+  repeat(B, 1, 4) + A
+
+  A + B
+  A .+ B
+  broadcast(+, A, B)
+
+  convert(Float64, 3)
+  convert.(Float64, [3, 4, 5])
+
+  string.(1:3, ". ", ["first", "second", "third"])
+
+#+END_SRC
+
+"strided" array - elements lay in regular offset in memory, so can pass to external C/Fortran function
+  strides(A) - strides for each dimension
+  offset 1 in dimension k -> offset stride(A, k) in linear index
+
+DenseArray - example of "strided" array, elements stored continuously, column-major order
+
+SubArray - created via view(), contains indices of correspoding original array, used to index orginal array indirectly
+
+BitArray - "packed" boolean array, one bit for boolean
 
 
-**** Task
+#+BEGIN_SRC julia
+  A = reshape(1:100, 10, 10)
+  B = view(A, 2:2:8, 2:2:4)
+
+#+END_SRC
+
+
+**** missing value
+exist theoretically, but not exist in an observation
+missing propagates
+
+#+BEGIN_SRC julia
+missing + 1
+"a" * missing
+abs(missing)
+ismissing(missing)
+
+missing == missing
+missing === missing
+isequal(missing, missing)
+
+true | missing
+false | missing
+
+missing || false
+missing && false
+true || missing
+true && missing
+
+if missing
+  println("dd")
+end
+
+[1, missing]
+Array{Union{Missing, String}}(missing, 2, 3)
+
+x = Union{Missing, String}["a","b"]
+convert(Array{String}, x)
+y = Union{Missing, String}[missing, "a"]
+convert(Array{String}, y)
+
+#+END_SRC
+
+#+BEGIN_SRC julia
+x = skipmissing([missing, 1])
+sum(x)
+x[1]
+x[2]
+
+xk = keys(x)
+for k in xk
+  @show k
+end
+
+xi = eachindex(x)
+
+for i in xi
+  @show i
+end
+
+x
+
+collect(x)
+
+isequal([1, missing], [1, missing])
+
+#+END_SRC
+
+#+RESULTS:
+: 1
+
+**** parallel computing
+***** coroutine
 i.e. Coroutine/Symmetric Coroutine/lightweight thread/cooperative multitasking/on-shot continuation
 
 possible to interrupt, switch, resume
+
+Task managed manually(yieldto) or by scheduler(schedule/@async)
+
+currently all Tasks executed in single OS thread
+
+Manual Task flow:
+currentContinuation  -yieldto(targetTask, targetTaskYieldtoValue)-> targetContinuation
+
+Schedule Task flow:
+runnable  -pick()->  running  -wait(condition)->  wait  -notify(condition)->  runnable
+
 
 #+BEGIN_SRC jupyter-julia
 f(x) = x^2
 t = Task(() -> f(7))
 #+END_SRC
+
+
+#+BEGIN_SRC julia
+c = Channel{Int}(10)
+foreach(i -> put!(c, i), 1:5)
+data = [i for i in c]
+#+END_SRC
+
+#+BEGIN_SRC julia
+c = Channel{Int}(10)
+foreach(i -> put!(c, i), 1:5)
+close(c)
+data = [i for i in c]
+#+END_SRC
+
+
+#+BEGIN_SRC julia
+jobs = Channel{Int}(32)
+results = Channel{Tuple}(32)
+
+function do_jobs()
+  for job in jobs
+    time = rand()
+    sleep(time)
+    put!(results, (job, time))
+  end
+end
+
+
+function make_jobs(n)
+  for i in 1:n
+    put!(jobs, i)
+  end
+end
+
+function print_results(n)
+jobtime = 0
+actualtime = @elapsed for _ in 1:n
+  id, time = take!(results)
+  jobtime += time
+  println("Job: $id finished in $(round(time; digits=2))) seconds")
+end
+println("Total job time: $jobtime")
+println("Actual total time: $actualtime")
+end
+
+n = 12
+
+@async make_jobs(n)
+@async print_results(n)
+
+for i in 1:4
+  @async do_jobs()
+end
+
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+Job: 1 finished in 0.16) seconds
+Job: 2 finished in 0.3) seconds
+Job: 6 finished in 0.29) seconds
+Job: 5 finished in 0.48) seconds
+Job: 3 finished in 0.92) seconds
+Job: 4 finished in 0.96) seconds
+Job: 7 finished in 0.49) seconds
+Job: 9 finished in 0.53) seconds
+Job: 10 finished in 0.53) seconds
+Job: 8 finished in 0.92) seconds
+Job: 12 finished in 0.28) seconds
+Job: 11 finished in 0.8) seconds
+Total job time: 6.678105787597846
+Actual total time: 1.912945761
+#+END_EXAMPLE
+***** multi-threading
+***** multi-core
 
 
 
@@ -17284,7 +17568,8 @@ Abstract Algebra, Lecture 15A, Review Aut(G) and Inn(G), Properties of Cosets-I0
 Abstract Algebra, Lec 15B, More on Cosets, Lagrange's Thm, Converse is False, Orbit-Stabilizer Thm-1eScprmf3Kw.mp4
 Abstract Algebra, Lec 16A, Aut and Inn are Invariants, Converse of Lagrange, Sylow's First Theorem-uuKd-OiWDAI.mp4
 Abstract Algebra, Lec 16B, Proof of Orbit-Stabilizer Theorem, External Direct Products-ftINyo9m2Gs.mp4
-Abstract Alg, Lec 17A, Abstract Nonsense  --), Apps of Group Theory, 'Products' & Ext Direct Products--DEShQ59gpc.mp4
+Abstract Alg, Lec 17A, Abstract Nonsense  --)
+, Apps of Group Theory, 'Products' & Ext Direct Products--DEShQ59gpc.mp4
 Abstract Alg, Lec 17B, External Direct Product Order Calculations, Isomorphisms, Normal Subgroups-Xube6bF0XPI.mp4
 Abstract Algebra, Lec 18A, External Direct Products Calculations & Isomorphisms, Normal Subgroups-OjxRIJ8_9Iw.mp4
 Abstract Algebra, Lec 18B, Normal Subgroups, Factor (Quotient) Groups-P8FdLVcCnfk.mp4
