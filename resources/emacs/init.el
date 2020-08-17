@@ -21,7 +21,9 @@
 
 (use-package env
   :config
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH"))))
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "JULIA_NUM_THREADS" "4")
+  )
 
 ;; install package from source
 ;; 2 approach to use:

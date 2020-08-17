@@ -16695,6 +16695,16 @@ Super - C-x @ s
 Hyper - C-x @ h
 Alt - C-x @ a
 
+**** enviroment variables
+(use-package env
+  :config
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "JULIA_NUM_THREADS" "4")
+  )
+
+
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
 **** org
 C-c C-x C-v - org-toggle-inline-images
 C-c ' - edit source
@@ -16870,6 +16880,24 @@ it contains 2 parts:
 kernel spec:
 ~/Library/Jupyter/kernels/julia-1.5/kernel.json
 
+install additional kernels:
+#+BEGIN_SRC julia
+using IJulia
+installkernel("Julia nodeps", "--depwarn=no")
+
+#+END_SRC
+
+#+BEGIN_SRC julia
+using IJulia
+installkernel("Julia (4 threads)", env=Dict("JULIA_NUM_THREADS"=>"4"))
+
+#+END_SRC
+
+#+BEGIN_SRC julia
+using IJulia
+installkernel("Julia 6 process", "-p", "6")
+
+#+END_SRC
 
 *** orthogonal
 Object state/function in cartesian coordinate. Changes on these state/function are orthogonal to coordinate
@@ -17392,7 +17420,7 @@ isequal([1, missing], [1, missing])
 
 **** parallel computing
 ***** coroutine
-i.e. Coroutine/Symmetric Coroutine/lightweight thread/cooperative multitasking/on-shot continuation
+i.e. on-shot continuation/lightweight thread
 
 possible to interrupt, switch, resume
 
@@ -17407,7 +17435,7 @@ Schedule Task flow:
 runnable  -pick()->  running  -wait(condition)->  wait  -notify(condition)->  runnable
 
 
-#+BEGIN_SRC jupyter-julia
+#+BEGIN_SRC julia
 f(x) = x^2
 t = Task(() -> f(7))
 #+END_SRC
@@ -17486,9 +17514,391 @@ Total job time: 6.678105787597846
 Actual total time: 1.912945761
 #+END_EXAMPLE
 ***** multi-threading
+#+BEGIN_SRC julia
+Threads.nthreads()
+Threads.threadid()
+
+a = zeros(10)
+
+Threads.@threads for i in 1:10
+a[i] = Threads.threadid()
+end
+
+a
+#+END_SRC
+
+atomic option
+
+#+BEGIN_SRC julia
+i = Threads.Atomic{Int}(0)
+ids = zeros(4)
+old_is = zeros(4)
+
+Threads.@threads for id  in 1:4
+old_is[id] = Threads.atomic_add!(i, id)
+ids[id] = id 
+end
+
+ids
+old_is
+#+END_SRC
+
+#+BEGIN_SRC julia
+using Base.Threads
+nthreads()
+acc = Ref(0)
+@threads for i in 1:1000
+acc[] += 1
+end
+
+acc
+
+safeacc = Atomic{Int64}(0)
+@threads for i in 1:1000
+atomic_add!(safeacc, 1)
+end
+
+
+safeacc
+
+#+END_SRC
+
+side effects
+
+some function change arguments
+e.g.
+findfirst(regex, str) - change regex. BUT I cannot test it
+
+some function change global state
+e.g.
+rand() - change Base.GLOBAL_RNG. BUT I cannot test it
+
+#+BEGIN_SRC julia
+s = repeat(["123", "213", "231"], outer=5000)
+x = similar(s, Int)
+rx = r"1"
+nthreads()
+@threads for i in 1:15000
+x[i] = findfirst(rx, s[i]).start
+end
+x
+count(v -> v == 1, x)
+#+END_SRC
+
+#+BEGIN_SRC julia
+a = zeros(1000)
+nthreads()
+@threads for i in 1:1000
+a[i] = rand()
+end
+a
+length(unique(a))
+
+#+END_SRC
+
+#+BEGIN_SRC julia
+function g()
+a = zeros(1000)
+@threads for i in 1:1000 a[i] = rand()
+end
+            length(unique(a))
+end
+g()
+#+END_SRC
+
+
+@threadcall - may be changed in furture version of julia
+I/O tasks, timers, REPL commands, etc are multiplexed onto a single OS thread
+they yield implicitly(wait, read, etc internally invoke yieldto())
+but ccall, which out of julia, NO invoke of yieldto()
+@threadcall
+  schedule C function in seprate thread
+  invoke yieldto(otherTask)
+
+
 ***** multi-core
+****** remote call:
+Code & Closure will serialize to target process
+
+remotecall(workid, func, args...)
+@spawnat workid expr
+@everywhere expr
+@distributed
+pmap
+remote_do
+
+#+BEGIN_SRC julia
+using Distributed
+addprocs(3)
+r = remotecall(rand, 2, 2, 2)
+s = @spawnat 2 1 .+ fetch(r)
+fetch(s)
+
+@everywhere using IJulia
+rmprocs(2, 3, 4)
+addprocs(3, exeflags="--project")
+workers()
+@everywhere using IJulia
+
+@everywhere 1 + 1
+#+END_SRC
+
+#+BEGIN_SRC julia
+using Distributed
+A = rand(1000, 1000)
+addprocs(3)
+res = @spawnat :any A^2
+
+fetch(res)
+
+#+END_SRC
+
+#+BEGIN_SRC julia
+using Distributed
+res = @spawnat :any rand(1000, 1000)^2
+fetch(res)
+
+#+END_SRC
+
+closure be shipped
+#+BEGIN_SRC julia
+A = rand(10, 10)
+res = remotecall_fetch(() -> A, 2)
+res == A
+B = rand(10, 10)
+let B = B
+  remotecall_fetch(() -> B, 2)
+end
+@fetchfrom 2 InteractiveUtils.varinfo()
+#+END_SRC
+
+loops & maps
+
+#+BEGIN_SRC julia
+nheads = @distributed (+) for i = 1:200000000
+Int(rand(Bool))
+end
+#+END_SRC
+
+as closure copied to target process, so change on target process' copy
+#+BEGIN_SRC julia
+A = zeros(300000)
+res = @distributed for i = 1:100000
+A[i] = i
+end
+res
+fetch(res)
+sum(A)
+#+END_SRC
+
+shared array like a Ref
+#+BEGIN_SRC julia
+using SharedArrays
+a = SharedArray{Float64}(50)
+res = @distributed for i = 1:50
+a[i] = i
+end
+a
+#+END_SRC
+
+#+BEGIN_SRC julia
+M = Matrix{Float64}[rand(1000, 1000) for i = 1:10]
+pmap(svdvals, M)
+#+END_SRC
+
+****** remote reference:
+| current process |    | target process           |
+| RemoteChannel   | -> | Channel -> value         |
+| Future          | -> | Channel{Any}(1) -> value |
 
 
+RemoteChannel(() -> Channel{Int}(10), pid) - a handle channel proxy to Channel{Int}(10) in pid
+RemoteChannle & Future can serialize to other process
+RemoteChannel not interatable
+
+#+BEGIN_SRC julia
+jobs = RemoteChannel(() -> Channel{Int}(32))
+results = RemoteChannel(() -> Channel{Tuple}(32))
+
+@everywhere function do_work(jobs, results)
+while true
+  job = take!(jobs)
+  time = rand()
+  sleep(time)
+  put!(results, (job, time, myid()))
+end
+end
+
+function make_jobs(n, jobs)
+  for i in 1:n
+    put!(jobs, i)
+  end
+end
+
+function print_results(results, n)
+  jobtime = 0
+  actualtime = @elapsed for _ in 1:n
+    job, time, pid = take!(results)
+    jobtime += time
+    println("Job: $job complemented in $time seconds on server: $pid")
+  end
+  println("Total Job time is $jobtime")
+  println("Actuall time is: $actualtime")
+end
+
+n = 20
+
+@async make_jobs(n, jobs)
+@async print_results(results, n)
+for p in workers()
+  remote_do(do_work, p, jobs, results)
+end
+
+
+
+#+END_SRC
+
+same process channel no closure shipment
+#+BEGIN_SRC julia
+rc = RemoteChannel(() -> Channel(3))
+v = [0]
+for i in 1:3
+  v[1] = i
+  put!(rc, v)
+end
+
+[take!(rc) for _ in 1:3]
+
+
+rc2 = RemoteChannel(() -> Channel(3), workers()[1])
+v2 = [0]
+for i in 1:3
+  v2[1] = i
+  put!(rc2, v2)
+end
+v2
+[take!(rc2) for _ in 1:3]
+
+#+END_SRC
+
+same process remote call also no closure shipment
+#+BEGIN_SRC julia
+using Distributed
+addprocs(1)
+v = [0]
+function f(x)
+  x[1] = 1
+  x
+end
+
+v2 = remotecall_fetch(f, myid(), v)
+
+v2 === v
+
+v3 = [0]
+v4 = remotecall_fetch(x -> (x[1] = 1; x), workers()[1], v3)
+
+v3
+v4
+v3 === v4
+
+#+END_SRC
+
+****** SharedArray
+localindices purely as a convenience, u can partition it as u will, all indices should be equally fast for each worker process
+
+#+BEGIN_SRC julia
+using Distributed
+@everywhere using SharedArrays
+addprocs(3)
+S = SharedArray{Int, 2}((3, 4), init= S -> S[localindices(S)] = repeat([myid()], length(localindices(S))))
+res =  @spawnat 4 localindices(S)
+fetch(res)
+S
+S[3, 2] = 7
+S
+
+
+repeat([1], 2:6)
+indexpids(S)
+?indexpids
+?procs(S)
+?localindices
+?@sync
+
+S2 = SharedArray{Int, 2}((3, 4), init= S -> S[indexpids(S):length(procs(S)):length(S)] = repeat([myid()], length(indexpids(S):length(procs(S)):length(S))))
+
+@sync begin
+  for p in procs(S)
+    @async begin
+      remotecall_wait(fill!, p, S, p)
+    end
+  end
+end
+S
+
+#+END_SRC
+
+kernel example ignored as no idea about kernel now
+
+****** ClusterManagers
+Structure:
+Master
+  ClusterManager
+Worker
+Worker
+...
+
+#+BEGIN_SRC ditaa
+
+
+
+#+END_SRC
+
+Topology:
+:all-to-all 
+:master-worker
+
+ClusterManager:
+build-in managers:
+  LocalManager
+  SSHManager
+
+Manager impl:
+launch
+manage
+  :register/:deregister
+  :interrupt
+  :finalize
+
+Worker:
+worker read cookie from stdin or '--worker[=cookie]'
+worker listen on '--bind-to bind_addr[:port]' or getipaddr()  & write address to stdout
+master process & worker process form a mesh network
+
+worker process with TCP/IP transport launched with --worker
+all worker share same cookie as master
+worker info in WorkerConfig object
+
+Transport:
+non-TCP/IP transport worker process launched with NO --worker but invoke init_worker(cookie)
+
+
+
+#+BEGIN_SRC julia
+using Distributed
+cluster_cookie()
+
+#+END_SRC
+
+
+****** Noteworthy external pkg
+MPI.jl - julia wrapper for MPI protocal
+DistributedArray.jl
+OpenCL.jl, CUDAdrv.jl - C kernel
+CUDAnative.jl - julia kernel
+CuArrays.jl, CLArrays.jl
+ArrayFire.jl, GPUArrays.jl
 
 *** WebIO
 elements of type Node, printed like hiccup
