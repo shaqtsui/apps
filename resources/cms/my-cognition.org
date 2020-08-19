@@ -42,7 +42,7 @@
 聚有其阀值，聚有其目的：取，予。聚则耗则偏，散则长则正
 不聚即哪都不去
 用力聚于所则被动/造动
-
+用力聚即发
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -16973,95 +16973,15 @@ parameter of parametric type can be plain bits(Type, Symbol, Char, Number, Tuple
 ~/.julia/conda - conda managemented stuff
 
 
-**** module/package system 
-module - to seprate symbols
-
-module name is a symbol, resolve similar to other symbols
-
-module name resolve:
-Main/REPL resolve to root temp module instance
-Others find module instance in its current module instance, if not available use root module instance
-
-normal module instance contains uuid -> deps map
-root temp module instance only contains deps map
-
-normal module instance loaded from project.toml
-root temp module instance loaded from active enviroment's project.toml/source tree & merged with other roots map in LOAD_PATH
-
-Core - imported in baremodule
-Base - imported in module
-Main
-
-using Foo -> require(:Foo)
-
-__init__()
-  init steps in runtime
-  triggered by first time using, import, require
-  after all statements executed
-
-compile
-  compile-time may different from runtime
-  execute statements, serialize results' bytes in file as cache
-  this cache not updated when: edit source, Pkg.update, Pkg.rm
-  runtime ignore this cache via: --compiled-modules=no
-
-
-
-
-
-
-
-
-
-
-
-
-
 **** limited operations:
 inside():
 :call, :quote, :$(only inside :quote), :string
 outside():
 retrive value of symbol/literal
 
-**** macro
-Hygiene
-macro result to be processed:
-variables with no global decaration is renamed via gensym
-except expr inside :escape, which simply keep it verbatim & unwrap :escape
-
-Symbol resolvation follow closure(resovle to value in the definition context)
-
-**** Generated functions
-Function's logic can divide into 2 parts: arguments' type determined, arguments' value determined. 
-First part is same across values of same type (e.g. matrix dimention).
-
-@generated: a macro to generate function & register to compiler?
-body of this generated function is the first part, result is the second part
-
-when use this generated function, also divided to 2 parts:
-invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
-
 
 **** syntax
 similar to mathematic
-
-
-**** Plots
-plot()
-argument t can be a sequence or from & to
-if only one t given, promote t, x = t.index, y = t.value
-if 2+ t given, x = t1.value, y = t2.value, z = t3.value
-if additional functions given, x = f1(t.value), y = f2(t.value), z= f3(t.value)
-
-
-
-**** package management
-preview command - preview pkg management operation NO change on project
-develop pkg - clone & refer in project
-free pkg - undo develop operation
-ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
-build pkg - run deps/build.jl
-add pkg - install pkg, build pkg preformed internally
 
 
 **** debug
@@ -17097,22 +17017,6 @@ Gallium.jl - deprecated
 
 
 
-**** IO & network
-IOBuffer - read & write share same seekable ptr, seems append NOT supported
-PipeBuffer - write ignore ptr, stick to append
-
-take!(b::IOBuffer) - Obtain all data, change to init state(data, size) not ptr(next position)
-
-readline - if not readable, RETURN "", NO exception
-
-mark() - mark current position(Only ONE mark supported)
-unmark() - unmark
-reset() - seek mark, unmark
-
-read(io, nb) - read max nb bytes
-
-IOContext - write IO to support properties list
-
 **** show/display/print
 repl -> display -> show(stdout, MIME("text/plain"), z) -> print
 
@@ -17120,11 +17024,7 @@ repl -> display -> show(stdout, MIME("text/plain"), z) -> print
 for logically same thing but different types, should lossless
 situation: assign, function return, ccall
 
-**** broadcasting
-Base.Broadcast.Broadcasted{Base.Broadcast.ArrayStyle{ArrayAndChar},
-                           Tuple{Base.OneTo{Int64},Base.OneTo{Int64}},
-                           typeof(+),
-                           Tuple{ArrayAndChar{Int64,2},Int64}}
+
 
 **** interface
 no dedicated language elements
@@ -17142,7 +17042,382 @@ e.g.
 |           |                  |                                            |                                                |
 
 
+***** Iteration
 
+
+#+begin_src jupyter-julia
+struct Squares
+    count::Int
+end
+
+Base.iterate(s::Squares, state=1) = state>s.count ? nothing : (state^2, state+1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+for i in Squares(6)
+    println(i)
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+2 in Squares(3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+1 in Squares(3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+using Statistics
+#+end_src
+
+
+#+begin_src jupyter-julia
+mean(Squares(23))
+#+end_src
+
+
+#+begin_src jupyter-julia
+std(Squares(3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+length(Squares(3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.length(s::Squares) = s.count
+#+end_src
+
+
+#+begin_src jupyter-julia
+length(Squares(3))
+
+#+end_src
+
+
+#+begin_src jupyter-julia
+eltype(Squares(3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.eltype(::Type{Squares}) = Int
+#+end_src
+
+
+#+begin_src jupyter-julia
+eltype(Squares(3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+collect(Squares(3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+sum(Squares(3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.sum(s::Squares) = (n = s.count; return n*(n+1)*(2n+1)÷6)
+#+end_src
+
+
+#+begin_src jupyter-julia
+sum(Squares(3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.iterate(rs::Iterators.Reverse{Squares}, state=rs.itr.count) = state < 1 ? nothing : (state^2, state - 1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+collect(Iterators.reverse(Squares(3)))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Iterators.reverse(Squares(3))
+#+end_src
+
+***** Indexing
+
+
+#+begin_src jupyter-julia
+function Base.getindex(s::Squares, i::Int)
+    1 <= i <= s.count || throw(BoundsError(s, i))
+    return i^2
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+s = Squares(6)
+#+end_src
+
+
+#+begin_src jupyter-julia
+s[1]
+#+end_src
+
+
+#+begin_src jupyter-julia
+s[3]
+#+end_src
+
+
+#+begin_src jupyter-julia
+s[end]
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.lastindex(s::Squares) = s.count
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.firstindex(s::Squares) = 1
+#+end_src
+
+
+#+begin_src jupyter-julia
+s[end]
+#+end_src
+
+***** AbstractArray
+
+
+#+begin_src jupyter-julia
+struct SquaresVector <: AbstractArray{Int, 1}
+    count::Int
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+sv = SquaresVector(8);
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.size(s::SquaresVector) = (s.count,)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.getindex(s::SquaresVector, i::Int) = i^2
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.IndexStyle(::Type{<:SquaresVector}) = IndexLinear()
+#+end_src
+
+
+#+begin_src jupyter-julia
+sv
+#+end_src
+
+
+#+begin_src jupyter-julia
+sv .> 8
+
+#+end_src
+
+
+#+begin_src jupyter-julia
+sv + sv
+#+end_src
+
+
+#+begin_src jupyter-julia
+sv[sv .> 8]
+#+end_src
+
+
+#+begin_src jupyter-julia
+struct SparseArray{T, N} <: AbstractArray{T, N}
+    data::Dict{NTuple{N, Int}, T}
+    dims::NTuple{N, Int}
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+SparseArray(::Type{T}, dims::Int...) where {T} = SparseArray(T, dims)
+#+end_src
+
+
+#+begin_src jupyter-julia
+SparseArray(::Type{T}, dims::NTuple{N, Int}) where {N, T} = SparseArray{T, N}(Dict{NTuple{N, Int}, T}(), dims)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.size(A::SparseArray) = A.dims
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.similar(A::SparseArray, ::Type{T}, dims::Dims) where {T} = SparseArray(T, dims)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.getindex(A::SparseArray{T, N}, I::Vararg{Int, N}) where {T, N} = get(A.data, I, zero(T))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Base.setindex!(A::SparseArray{T, N},  v, I::Vararg{Int, N}) where {T, N} = (A.data[I] = v)
+#+end_src
+
+
+#+begin_src jupyter-julia
+sa = SparseArray(Int, 2, 3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+sa[:] = 1:length(sa); sa
+#+end_src
+
+
+#+begin_src jupyter-julia
+fill!(sa, 3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+sa[1:2, :]
+#+end_src
+
+
+#+begin_src jupyter-julia
+copy(sa)
+#+end_src
+
+
+#+begin_src jupyter-julia
+sum(sa)
+#+end_src
+
+***** Strided Array
+
+
+#+begin_src jupyter-julia
+1:5
+#+end_src
+
+
+#+begin_src jupyter-julia
+Vector(1:5)
+#+end_src
+
+
+#+begin_src jupyter-julia
+strides(Vector(1:5))
+#+end_src
+
+
+#+begin_src jupyter-julia
+A = [1 5; 2 6; 3 6; 4 7]
+#+end_src
+
+
+#+begin_src jupyter-julia
+strides(A)
+#+end_src
+
+
+#+begin_src jupyter-julia
+view(A, 1:2, :)
+#+end_src
+
+
+#+begin_src jupyter-julia
+strides(view(A, 1:2, :))
+#+end_src
+
+
+#+begin_src jupyter-julia
+view(A, 1:2:3, 1:2)
+#+end_src
+
+
+#+begin_src jupyter-julia
+strides(view(A, 1:2:3, 1:2))
+#+end_src
+
+
+#+begin_src jupyter-julia
+view(A, [1,2,4], :)
+#+end_src
+
+
+#+begin_src jupyter-julia
+strides(view(A, [1,2,4], :))
+#+end_src
+
+***** Customizing broadcasting
+Base.Broadcast.Broadcasted{Base.Broadcast.ArrayStyle{ArrayAndChar},
+                           Tuple{Base.OneTo{Int64},Base.OneTo{Int64}},
+                           typeof(+),
+                           Tuple{ArrayAndChar{Int64,2},Int64}}
+
+
+
+**** module/package system
+module - to seprate symbols
+
+module name is a symbol, resolve similar to other symbols
+
+module name resolve:
+Main/REPL resolve to root temp module instance
+Others find module instance in its current module instance, if not available use root module instance
+
+normal module instance contains uuid -> deps map
+root temp module instance only contains deps map
+
+normal module instance loaded from project.toml
+root temp module instance loaded from active enviroment's project.toml/source tree & merged with other roots map in LOAD_PATH
+
+Core - imported in baremodule
+Base - imported in module
+Main
+
+using Foo -> require(:Foo)
+
+__init__()
+  init steps in runtime
+  triggered by first time using, import, require
+  after all statements executed
+
+compile
+  compile-time may different from runtime
+  execute statements, serialize results' bytes in file as cache
+  this cache not updated when: edit source, Pkg.update, Pkg.rm
+  runtime ignore this cache via: --compiled-modules=no
+
+***** package management commands
+preview command - preview pkg management operation NO change on project
+develop pkg - clone & refer in project
+free pkg - undo develop operation
+ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
+build pkg - run deps/build.jl
+add pkg - install pkg, build pkg preformed internally
 
 
 **** documentation
@@ -17162,6 +17437,911 @@ foo!
 Docs.getdoc(t::MyType) = "Document for MyType with value $(t.value)"
 
 doc and also add to type fields
+
+
+**** Metaprogramming
+***** Program representation
+
+
+#+begin_src jupyter-julia
+prog = "1 + 1"
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex1 = Meta.parse(prog)
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof(ex1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex1.head
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex1.args
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex2 = Expr(:call, :+, 1, 1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex1 == ex2
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(ex1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex3 = Meta.parse("(4+4)/2")
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(ex3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(ex3)
+#+end_src
+
+***** Symbols
+
+
+#+begin_src jupyter-julia
+:foo
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof(:foo)
+#+end_src
+
+
+#+begin_src jupyter-julia
+:foo == Symbol("foo")
+#+end_src
+
+
+#+begin_src jupyter-julia
+Symbol("func", 10)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Symbol(:var, "33", "dd")
+#+end_src
+
+
+#+begin_src jupyter-julia
+sa
+#+end_src
+
+
+#+begin_src jupyter-julia
+:(:)
+#+end_src
+
+
+#+begin_src jupyter-julia
+:(::)
+#+end_src
+
+***** Exprations & Evaluation
+
+
+#+begin_src jupyter-julia
+ex = :(a+b*c+1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Expr(:call, :+, :a, Expr(:call, :*, :b, :c), 1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(ex)
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof(ex)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex == Meta.parse("a + b * c + 1") == Expr(:call, :+, :a, Expr(:call, :*, :b, :c), 1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex = quote
+    x = 1
+    y = 2
+    x + y
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(ex)
+#+end_src
+
+
+#+begin_src jupyter-julia
+#= ddd =#
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof(#= dd:3 =# 2)
+#+end_src
+
+***** Interpolation
+
+
+#+begin_src jupyter-julia
+a = 1
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex = :($a + b)
+#+end_src
+
+
+#+begin_src jupyter-julia
+$a + b
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex = :(a in (1, 2, 3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+:((1, 2, 3))
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex = :(a in $:((1, 2, 3)))
+#+end_src
+
+
+#+begin_src jupyter-julia
+args = [:x, :y, :z]
+#+end_src
+
+
+#+begin_src jupyter-julia
+:(f(1, $(args...)))
+#+end_src
+
+
+#+begin_src jupyter-julia
+:(f(1, $(args)))
+#+end_src
+
+
+#+begin_src jupyter-julia
+:(f(1, $args))
+#+end_src
+
+
+#+begin_src jupyter-julia
+x = :(1 + 2)
+#+end_src
+
+quote = (:quote, (:block, ...)),  implicitly add block expression
+: = (:quote, ...)
+block expression contains LineNumberNode
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(Meta.parse(":(1 + 1)"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(Meta.parse("quote 1 + 1 end"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(:($x))
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(quote
+        $x
+    end)
+#+end_src
+
+
+#+begin_src jupyter-julia
+e = quote
+    quote
+        $x
+    end
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(e)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(e)
+#+end_src
+
+
+#+begin_src jupyter-julia
+$$x evaluate to $:(1 + 2)
+#+end_src
+
+
+#+begin_src jupyter-julia
+e = quote
+    quote
+        $$x
+    end
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(e)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(e)
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(Meta.parse(":(1 + 2)"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(Meta.parse(":x"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex3 = Expr(:$, :(1 + 2))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(ex3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(ex3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex4 = Expr(:+, :(1 + 2))
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex5 = Expr(:+, 1, 2)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(ex5)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(ex5)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex7 = Expr(:call, :+, 1, 2)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(ex7)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex6 = :(1 + 2)
+#+end_src
+
+
+#+begin_src jupyter-julia
+ex10 = Meta.quot(ex3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(ex10)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(ex10)
+#+end_src
+
+
+#+begin_src jupyter-julia
+:3
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(:3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(ex3)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(QuoteNode(ex3))
+#+end_src
+
+***** Macros
+Hygiene
+macro result to be processed:
+variables with no global decaration is renamed via gensym
+except expr inside :escape, which simply keep it verbatim & unwrap :escape
+
+Symbol resolvation follow closure(resovle to value in the definition context)
+
+
+
+#+begin_src jupyter-julia
+macro sayhello()
+    return :(println("Hello world"))
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@sayhello
+#+end_src
+
+
+#+begin_src jupyter-julia
+@sayhello()
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro sayhello(name)
+    return :(println("Hello, ", $name))
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@sayhello
+#+end_src
+
+
+#+begin_src jupyter-julia
+@sayhello "dd"
+#+end_src
+
+
+#+begin_src jupyter-julia
+@sayhello("fff")
+#+end_src
+
+
+#+begin_src jupyter-julia
+macroexpand(Main, :(@sayhello "ddd"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @sayhello "ttgg"
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro twosteps(arg)
+    println("I execute at parse time, the arg is: ", arg)
+    return :(println("I execute at RUNTIME, the arg is: ", $arg))
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @twosteps "ddd"
+#+end_src
+
+
+#+begin_src jupyter-julia
+@twosteps "ddd"
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro __location__()
+    return QuoteNode(__source__)
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(@__location__)
+#+end_src
+
+
+#+begin_src jupyter-julia
+@__location__
+#+end_src
+
+
+#+begin_src jupyter-julia
+@assert 0
+#+end_src
+
+
+#+begin_src jupyter-julia
+@assert true
+#+end_src
+
+
+#+begin_src jupyter-julia
+@assert false
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof("dddd")
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof(:("dddd"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof("ddd $a")
+#+end_src
+
+
+#+begin_src jupyter-julia
+typeof(:("ddd $a"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(:("ddd $a"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(:("ddd $a"))
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(:("ddd $a"))
+#+end_src
+
+***** Hygiene
+see my-cognition
+
+
+#+begin_src jupyter-julia
+macro mytime(expr)
+    return quote
+    local t0 = time()
+    local val = $expr
+    local t1 = time()
+    println("elapsed time: ", t1-t0, " seconds")
+    val
+    end
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@mytime println("ddd")
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime 1+1
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro mytime2(expr)
+    return quote
+    t0 = time()
+    val = $expr
+    t1 = time()
+    println("elapsed time: ", t1-t0, " seconds")
+    val
+    end
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime2 2+2
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro mytime3(expr)
+    return quote
+    global t0 = time()
+    val = $expr
+    t1 = time()
+    println("elapsed time: ", t1-t0, " seconds")
+    val
+    end
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime3 2+3
+#+end_src
+
+
+#+begin_src jupyter-julia
+@mytime3 3+3
+#+end_src
+
+
+#+begin_src jupyter-julia
+t0
+#+end_src
+
+
+#+begin_src jupyter-julia
+t1
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime3 t1
+#+end_src
+
+
+#+begin_src jupyter-julia
+@mytime3 t1
+#+end_src
+
+
+#+begin_src jupyter-julia
+
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime3 time()
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro mytime4(expr)
+    return quote
+    t0 = time()
+    val = $(esc(expr))
+    t1 = time()
+    println("elapsed time: ", t1-t0, " seconds")
+    val
+    end
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro mytime4_2(expr)
+    return quote
+    t0 = time()
+    val = esc($(expr))
+    t1 = time()
+    println("elapsed time: ", t1-t0, " seconds")
+    val
+    end
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime4 time()
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime4_2 time()
+#+end_src
+
+
+#+begin_src jupyter-julia
+@mytime4 time()
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @mytime4 t0
+#+end_src
+
+
+#+begin_src jupyter-julia
+@mytime t0
+#+end_src
+
+
+#+begin_src jupyter-julia
+esc(:(1+1))
+#+end_src
+
+
+#+begin_src jupyter-julia
+Meta.show_sexpr(esc(:(1+1)))
+#+end_src
+
+
+#+begin_src jupyter-julia
+macro zerox()
+    return esc(:(x=0))
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @zerox
+#+end_src
+
+
+#+begin_src jupyter-julia
+esc(:(x=0))
+#+end_src
+
+
+#+begin_src jupyter-julia
+@zerox
+#+end_src
+
+
+#+begin_src jupyter-julia
+x
+#+end_src
+
+***** Code generation
+
+
+#+begin_src jupyter-julia
+struct MyNumber
+    x::Float64
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+for op in (:sin, :cos, :tan, :log, :exp)
+    @eval Base.$op(a::MyNumber)=MyNumber($op(a.x))
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+a = MyNumber(pi)
+#+end_src
+
+
+#+begin_src jupyter-julia
+sin(a)
+#+end_src
+
+
+#+begin_src jupyter-julia
+cos(a)
+#+end_src
+
+
+#+begin_src jupyter-julia
+tan(a)
+#+end_src
+
+
+#+begin_src jupyter-julia
+log(a)
+#+end_src
+
+***** Non-Standard String Literals
+non-standard string("") literal invoke coresponding macro: x_str
+non-standard command(`` ) literal invoke corresponding macro: x_cmd
+
+
+#+begin_src jupyter-julia
+@r_str "d"
+#+end_src
+
+
+#+begin_src jupyter-julia
+@b_str "d"
+#+end_src
+
+
+#+begin_src jupyter-julia
+`ls`
+#+end_src
+
+
+#+begin_src jupyter-julia
+`echo "dd"`
+#+end_src
+
+***** Generated functions
+Function's logic can divide into 2 parts: arguments' type determined, arguments' value determined. 
+First part is same across values of same type (e.g. matrix dimention).
+
+@generated: a macro to generate function & register to compiler?
+body of this generated function is the first part, result is the second part
+
+when use this generated function, also divided to 2 parts:
+invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
+
+
+#+begin_src jupyter-julia
+@generated function foo(x)
+    Core.println(x)
+    return :(x * x)
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+@macroexpand @generated function foo(x)
+    Core.println(x)
+    return :(x * x)
+end
+#+end_src
+
+
+#+begin_src jupyter-julia
+foo(1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+foo("dd")
+#+end_src
+
+
+#+begin_src jupyter-julia
+foo(4)
+#+end_src
+
+
+#+begin_src jupyter-julia
+f(x) = "original def"
+#+end_src
+
+
+#+begin_src jupyter-julia
+@generated gen1(x) = f(x)
+#+end_src
+
+
+#+begin_src jupyter-julia
+@generated gen2(x) = :(f(x))
+#+end_src
+
+
+#+begin_src jupyter-julia
+f(x::Int) = "def for int"
+#+end_src
+
+
+#+begin_src jupyter-julia
+f(x::Type{Int}) = "def for type init"
+#+end_src
+
+
+#+begin_src jupyter-julia
+gen1(1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+gen2(1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+@generated gen3(x) = f(x)
+#+end_src
+
+
+#+begin_src jupyter-julia
+gen3(1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+@generated gen1(x::Real) = f(x)
+#+end_src
+
+
+#+begin_src jupyter-julia
+gen1(1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+gen1("d")
+#+end_src
+
+
+#+begin_src jupyter-julia
+x
+#+end_src
+
+
+#+begin_src jupyter-julia
+copyast(x + 1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+eval(:(:copyast, :(1 + 1)))
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(gen1)
+#+end_src
+
+
+#+begin_src jupyter-julia
+dump(foo)
+#+end_src
+
+
+#+begin_src jupyter-julia
+source(foo)
+#+end_src
+
+
+#+begin_src jupyter-julia
+@generated
+#+end_src
+
+
+
 
 
 **** multi-dimensional array
@@ -17417,6 +18597,22 @@ isequal([1, missing], [1, missing])
 
 #+RESULTS:
 : 1
+
+**** IO & network
+IOBuffer - read & write share same seekable ptr, seems append NOT supported
+PipeBuffer - write ignore ptr, stick to append
+
+take!(b::IOBuffer) - Obtain all data, change to init state(data, size) not ptr(next position)
+
+readline - if not readable, RETURN "", NO exception
+
+mark() - mark current position(Only ONE mark supported)
+unmark() - unmark
+reset() - seek mark, unmark
+
+read(io, nb) - read max nb bytes
+
+IOContext - write IO to support properties list
 
 **** parallel computing
 ***** coroutine
@@ -17914,10 +19110,59 @@ Communication via: Scope & Observable
 Scope contains:
    Node, Observables, Observable JS Listener(onjs i.e. js callback), Asset(imports=), JS(onmount)
 
+*** Plots.jl
+plot()
+argument t can be a sequence or from & to
+if only one t given, promote t, x = t.index, y = t.value
+if 2+ t given, x = t1.value, y = t2.value, z = t3.value
+if additional functions given, x = f1(t.value), y = f2(t.value), z= f3(t.value)
+
 
 *** JSExpr
 convert julia code to js code
+*** SymPy
+#+begin_src jupyter-julia
+using SymPy
+@vars x
+f(x) = π * x^2
+#+end_src
 
+*** Mux
+Mux is much simpler than Genie, which generate a lot of templement codes to start up application.
+
+
+#+begin_src jupyter-julia
+using Mux
+@app test = (Mux.defaults, 
+page(respond("Hello world")),
+page("/about", respond("About")),
+page("/user/:user", req -> "Hello $(req[:params][:user])"),
+Mux.notfound())
+serve(test)
+#+end_src
+
+
+#+begin_src jupyter-julia
+using Plots
+plot(sin)
+#+end_src
+
+
+*** 18.S190
+#+BEGIN_SRC julia
+  using CSV, DataFrames
+  using Interact, Mux, WebIO
+
+  df = CSV.read("./covid_data.csv")
+  function app(req)
+    dom"p"()
+  end
+  # default port 8000
+  # t = webio_serve(page("/", app))
+
+
+
+#+END_SRC
 
 *** math course
 My Goal - Uniform picture of the math domain
