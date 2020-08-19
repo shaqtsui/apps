@@ -19129,6 +19129,22 @@ f(x) = π * x^2
 
 *** Mux
 Mux is much simpler than Genie, which generate a lot of templement codes to start up application.
+App:
+app(req)
+
+Middleware:
+middleware(app, req)
+
+Compose:
+mux(middleware1, middleware2, app) - create new app from middleware & app
+stack(middleware1, middleware2) - create new middle from existing ones
+
+Sugers:
+branch(predict, app), probabilty(), status(), route(), page() - suger for middleware
+respond(), notfound()  - suger for app
+
+Built-in middleware:
+Mux.default - default middleware
 
 
 #+begin_src jupyter-julia
@@ -19149,20 +19165,43 @@ plot(sin)
 
 
 *** 18.S190
-#+BEGIN_SRC julia
+#+BEGIN_SRC julia :session 18.S190
+  using Pkg
+  map(Pkg.add, ["CSV", "DataFrames", "Interact", "Mux", "WebIO", "Plots"])
   using CSV, DataFrames
   using Interact, Mux, WebIO
+  using Plots
+  using Dates
 
-  df = CSV.read("./covid_data.csv")
-  function app(req)
-    dom"p"()
+  df = CSV.read("./resources/cms/covid_data.csv")
+
+  countries = df[:, 2]
+  unique_countries = unique(countries)
+
+  US_data_row = first(df[countries .== "US", :])
+
+  US_data = collect(US_data_row[5:end])
+
+  dates = parse.(Date, names(US_data_row[5:end]), Dates.DateFormat("m/d/Y")) .+ Year(2000)
+  
+
+  
+
+  w = @manipulate for i in 1:length(countries)
+  plot(dates, US_data, xticks=dates[1:8:end], xrotation=45, xlabel="dates", ylabel="US comfirmed cases", m=:o, leg=:topleft, label="US data", title="US comfirmed COVID-19 cases", yscale=:log10)
   end
-  # default port 8000
-  # t = webio_serve(page("/", app))
+
+  @app widgets = (Mux.defaults,
+                  page(respond(w)),
+                  Mux.notfound())
 
 
+
+
+  t = webio_serve(widgets)
 
 #+END_SRC
+
 
 *** math course
 My Goal - Uniform picture of the math domain
