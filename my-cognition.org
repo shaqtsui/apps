@@ -535,6 +535,8 @@ Note:
       It's Process & itself are both Recursion, but remember that Prime can be other Recursion
     World - Container with Things & Relations
       All Your Observables
+    Generalization
+      Non-linear Recursion -> Linear Recursion
     Abstract
       From Horizontal perspective
       Each of Recursion with same Sub-Recursion
