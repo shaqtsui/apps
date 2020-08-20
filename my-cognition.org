@@ -416,6 +416,7 @@ All learning's goal: to shape the target via observation.
 
 
 *** study
+**** not grouped
 比学习更重要的是学习的状态，专注的状态是天生就会的不要学的
 
 学习就是观尘？ 
@@ -441,13 +442,12 @@ Scientist are those guys who:
 Distill the world, express the result with their language
 Mathematics focus on material independent property(quantity, shape/structure, relation/operation)
 
-
-
 Note:
   Distill is Abstract
   Normally Distill via front view & side view
   Function can model: transform, link, relationship ...
 
+**** MIT math courses
   18.01, 18.02, 18.03
     18.01 - curve similar to short lines
     18.02 - surface similar to small plane
@@ -480,8 +480,9 @@ Note:
     Recursion(sequence) go smaller & smaller with no ending
 
 
-Prime + Recursion - The mind action to accecptable/constructable target
+**** Prime + Recursion - The mind action to accecptable/constructable target
 
+***** Properties as itself:
   Common Perspective of all Observables
     Abstraction(A Perspective) of all Observables
     So that all Observables in Single Picture
@@ -492,14 +493,11 @@ Prime + Recursion - The mind action to accecptable/constructable target
     e.g. Single, Pair, Triple?, Quadruple?
   Recursion keep ahead no backward. Recurse Inverses is the "Dummy Backward(Peel)"
 
-  Recursion type:
-    Horizontal Recursion
-    Vertical Recursion
-
+***** Recursion type:
     Linear Recursion - all additions are the same
     Non-linear Recursion
 
-  Contains:
+***** Contains:
     Recursion
       Base?
       Recursion?
@@ -509,7 +507,7 @@ Prime + Recursion - The mind action to accecptable/constructable target
 
     Note: Can NOT be Horizontal Part & Vertical Part as Recursion is not composed via Vertical Parts(no inverse)
 
-  Different Perspectives
+***** Different Perspectives
     single Recursion
     pair of Sub-Recursion & Addon
     list of Recursive Recursions
@@ -517,18 +515,15 @@ Prime + Recursion - The mind action to accecptable/constructable target
     list of Non-Recursive Combinators
     single Base
 
-  Recursion Conversion
+***** Recursion Conversion
     Combinator Conducted Conversion:
       Conjunction -> Overlap
     Addon Conducted Conversion:
       Non-linear/Linear Recursion conversion
       Non Recursive Addon -> Recursive
 
-  Each of Recursion with same Sub-Recursion is Abstract
-
-
-
-  Instance:
+  
+***** Instance:
     Fa Zhi Zhong
     Observe
       So Thing can be Recursion of Perspectives
@@ -540,6 +535,9 @@ Prime + Recursion - The mind action to accecptable/constructable target
       It's Process & itself are both Recursion, but remember that Prime can be other Recursion
     World - Container with Things & Relations
       All Your Observables
+    Abstract
+      From Horizontal perspective
+      Each of Recursion with same Sub-Recursion
     Logic Induction
     Axiom-Theorem System
       Axiom - Prime
@@ -591,8 +589,8 @@ Prime + Recursion - The mind action to accecptable/constructable target
       group generator compose(+, *) to generate all elements
       18.703
     Group/*,^
-      *, Recursion of +, defined in distribution rule
-      ^, Recursion of *, also have corresponding distribution rule
+      *, Linear Recursion of +, defined in distribution rule
+      ^, Linear Recursion of *, also have corresponding distribution rule
     Group/Vector
       i)i)i)j)j)k)k)k)k)
       is)js)ks) - R, Recursion of i, j, k
@@ -629,7 +627,7 @@ Prime + Recursion - The mind action to accecptable/constructable target
       Transform = Expansion + Combination
 
 
-
+**** not grouped
 Biggest miss understanding about math is that we take language as real target, but actually language itself is not what author want to refer.
 + - add, put together
 x - multiply, duplicate
