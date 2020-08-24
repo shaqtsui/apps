@@ -213,10 +213,18 @@
   :demand t
   :config
   (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin")))
+  ;; org-babel-load-languages configed base on available pkgs of name: ob-*
   (use-package ob-jupyter
+    :demand t
     :config
-    (setq org-babel-default-header-args:jupyter-julia '((:async . "yes")
-                                                        (:session . "jl")
+    (setq org-edit-src-turn-on-auto-save t)
+    (setq org-babel-default-header-args:jupyter-julia '((:tangle . "yes")
+                                                        (:shebang . "#!/bin/bash")
+                                                        (:padline . "yes")
+                                                        (:comments . "both")
+                                                        (:results . "value")
+                                                        (:async . "yes")
+                                                        (:session . "*julia*")
                                                         (:kernel . "julia-1.5")))
     (org-babel-jupyter-override-src-block "julia")
     ))
@@ -227,11 +235,6 @@
 (use-package org
   :config
   (setq org-confirm-babel-evaluate nil)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (ditaa . t)
-     (jupyter . t)))
   (use-package org-tempo))
 
 ;; auto-mode-alist code alread in autoload

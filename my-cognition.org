@@ -43,6 +43,9 @@
 不聚即哪都不去
 用力聚于所则被动/造动
 用力聚即发
+心空则可控
+不情即中，柔情即和，浓情则不空则不控，造作
+造作之象为Recursion
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -16702,7 +16705,9 @@ Alt - C-x @ a
 
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-**** org
+**** org-mode
+org-babel-load-languages is configed base on available pkgs of name: ob-*
+
 C-c C-x C-v - org-toggle-inline-images
 C-c ' - edit source
 org-tempo
@@ -17042,7 +17047,7 @@ e.g.
 ***** Iteration
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 struct Squares
     count::Int
 end
@@ -17051,107 +17056,107 @@ Base.iterate(s::Squares, state=1) = state>s.count ? nothing : (state^2, state+1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 for i in Squares(6)
     println(i)
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 2 in Squares(3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 1 in Squares(3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 using Statistics
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 mean(Squares(23))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 std(Squares(3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 length(Squares(3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.length(s::Squares) = s.count
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 length(Squares(3))
 
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eltype(Squares(3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.eltype(::Type{Squares}) = Int
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eltype(Squares(3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 collect(Squares(3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sum(Squares(3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.sum(s::Squares) = (n = s.count; return n*(n+1)*(2n+1)÷6)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sum(Squares(3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.iterate(rs::Iterators.Reverse{Squares}, state=rs.itr.count) = state < 1 ? nothing : (state^2, state - 1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 collect(Iterators.reverse(Squares(3)))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Iterators.reverse(Squares(3))
 #+end_src
 
 ***** Indexing
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 function Base.getindex(s::Squares, i::Int)
     1 <= i <= s.count || throw(BoundsError(s, i))
     return i^2
@@ -17159,92 +17164,92 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 s = Squares(6)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 s[1]
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 s[3]
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 s[end]
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.lastindex(s::Squares) = s.count
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.firstindex(s::Squares) = 1
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 s[end]
 #+end_src
 
 ***** AbstractArray
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 struct SquaresVector <: AbstractArray{Int, 1}
     count::Int
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sv = SquaresVector(8);
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.size(s::SquaresVector) = (s.count,)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.getindex(s::SquaresVector, i::Int) = i^2
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.IndexStyle(::Type{<:SquaresVector}) = IndexLinear()
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sv
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sv .> 8
 
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sv + sv
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sv[sv .> 8]
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 struct SparseArray{T, N} <: AbstractArray{T, N}
     data::Dict{NTuple{N, Int}, T}
     dims::NTuple{N, Int}
@@ -17252,119 +17257,119 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 SparseArray(::Type{T}, dims::Int...) where {T} = SparseArray(T, dims)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 SparseArray(::Type{T}, dims::NTuple{N, Int}) where {N, T} = SparseArray{T, N}(Dict{NTuple{N, Int}, T}(), dims)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.size(A::SparseArray) = A.dims
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.similar(A::SparseArray, ::Type{T}, dims::Dims) where {T} = SparseArray(T, dims)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.getindex(A::SparseArray{T, N}, I::Vararg{Int, N}) where {T, N} = get(A.data, I, zero(T))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Base.setindex!(A::SparseArray{T, N},  v, I::Vararg{Int, N}) where {T, N} = (A.data[I] = v)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sa = SparseArray(Int, 2, 3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sa[:] = 1:length(sa); sa
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 fill!(sa, 3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sa[1:2, :]
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 copy(sa)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sum(sa)
 #+end_src
 
 ***** Strided Array
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 1:5
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Vector(1:5)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 strides(Vector(1:5))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 A = [1 5; 2 6; 3 6; 4 7]
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 strides(A)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 view(A, 1:2, :)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 strides(view(A, 1:2, :))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 view(A, 1:2:3, 1:2)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 strides(view(A, 1:2:3, 1:2))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 view(A, [1,2,4], :)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 strides(view(A, [1,2,4], :))
 #+end_src
 
@@ -17440,131 +17445,131 @@ doc and also add to type fields
 ***** Program representation
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 prog = "1 + 1"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex1 = Meta.parse(prog)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof(ex1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex1.head
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex1.args
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex2 = Expr(:call, :+, 1, 1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex1 == ex2
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(ex1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex3 = Meta.parse("(4+4)/2")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(ex3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(ex3)
 #+end_src
 
 ***** Symbols
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :foo
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof(:foo)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :foo == Symbol("foo")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Symbol("func", 10)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Symbol(:var, "33", "dd")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sa
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :(:)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :(::)
 #+end_src
 
 ***** Exprations & Evaluation
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex = :(a+b*c+1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Expr(:call, :+, :a, Expr(:call, :*, :b, :c), 1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(ex)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof(ex)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex == Meta.parse("a + b * c + 1") == Expr(:call, :+, :a, Expr(:call, :*, :b, :c), 1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex = quote
     x = 1
     y = 2
@@ -17573,74 +17578,74 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(ex)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 #= ddd =#
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof(#= dd:3 =# 2)
 #+end_src
 
 ***** Interpolation
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 a = 1
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex = :($a + b)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 $a + b
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex = :(a in (1, 2, 3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :((1, 2, 3))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex = :(a in $:((1, 2, 3)))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 args = [:x, :y, :z]
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :(f(1, $(args...)))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :(f(1, $(args)))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :(f(1, $args))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 x = :(1 + 2)
 #+end_src
 
@@ -17649,29 +17654,29 @@ quote = (:quote, (:block, ...)),  implicitly add block expression
 block expression contains LineNumberNode
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(Meta.parse(":(1 + 1)"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(Meta.parse("quote 1 + 1 end"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(:($x))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(quote
         $x
     end)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 e = quote
     quote
         $x
@@ -17680,22 +17685,22 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(e)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(e)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 $$x evaluate to $:(1 + 2)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 e = quote
     quote
         $$x
@@ -17704,107 +17709,107 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(e)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(e)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(Meta.parse(":(1 + 2)"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(Meta.parse(":x"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex3 = Expr(:$, :(1 + 2))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(ex3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(ex3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex4 = Expr(:+, :(1 + 2))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex5 = Expr(:+, 1, 2)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(ex5)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(ex5)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex7 = Expr(:call, :+, 1, 2)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(ex7)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex6 = :(1 + 2)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 ex10 = Meta.quot(ex3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(ex10)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(ex10)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 :3
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(:3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(ex3)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(QuoteNode(ex3))
 #+end_src
 
@@ -17818,56 +17823,56 @@ Symbol resolvation follow closure(resovle to value in the definition context)
 
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro sayhello()
     return :(println("Hello world"))
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @sayhello
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @sayhello()
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro sayhello(name)
     return :(println("Hello, ", $name))
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @sayhello
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @sayhello "dd"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @sayhello("fff")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macroexpand(Main, :(@sayhello "ddd"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @sayhello "ttgg"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro twosteps(arg)
     println("I execute at parse time, the arg is: ", arg)
     return :(println("I execute at RUNTIME, the arg is: ", $arg))
@@ -17875,79 +17880,79 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @twosteps "ddd"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @twosteps "ddd"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro __location__()
     return QuoteNode(__source__)
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(@__location__)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @__location__
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @assert 0
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @assert true
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @assert false
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof("dddd")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof(:("dddd"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof("ddd $a")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 typeof(:("ddd $a"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(:("ddd $a"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(:("ddd $a"))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(:("ddd $a"))
 #+end_src
 
@@ -17955,7 +17960,7 @@ eval(:("ddd $a"))
 see my-cognition
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro mytime(expr)
     return quote
     local t0 = time()
@@ -17968,17 +17973,17 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @mytime println("ddd")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime 1+1
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro mytime2(expr)
     return quote
     t0 = time()
@@ -17991,12 +17996,12 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime2 2+2
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro mytime3(expr)
     return quote
     global t0 = time()
@@ -18009,47 +18014,47 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime3 2+3
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @mytime3 3+3
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 t0
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 t1
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime3 t1
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @mytime3 t1
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime3 time()
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro mytime4(expr)
     return quote
     t0 = time()
@@ -18062,7 +18067,7 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro mytime4_2(expr)
     return quote
     t0 = time()
@@ -18075,105 +18080,105 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime4 time()
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime4_2 time()
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @mytime4 time()
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @mytime4 t0
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @mytime t0
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 esc(:(1+1))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 Meta.show_sexpr(esc(:(1+1)))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 macro zerox()
     return esc(:(x=0))
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @zerox
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 esc(:(x=0))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @zerox
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 x
 #+end_src
 
 ***** Code generation
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 struct MyNumber
     x::Float64
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 for op in (:sin, :cos, :tan, :log, :exp)
     @eval Base.$op(a::MyNumber)=MyNumber($op(a.x))
 end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 a = MyNumber(pi)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 sin(a)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 cos(a)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 tan(a)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 log(a)
 #+end_src
 
@@ -18182,22 +18187,22 @@ non-standard string("") literal invoke coresponding macro: x_str
 non-standard command(`` ) literal invoke corresponding macro: x_cmd
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @r_str "d"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @b_str "d"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 `ls`
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 `echo "dd"`
 #+end_src
 
@@ -18212,7 +18217,7 @@ when use this generated function, also divided to 2 parts:
 invoke body with type which is done when compile invoker, invoke result with value which is done when execute invoker.
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @generated function foo(x)
     Core.println(x)
     return :(x * x)
@@ -18220,7 +18225,7 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @macroexpand @generated function foo(x)
     Core.println(x)
     return :(x * x)
@@ -18228,112 +18233,112 @@ end
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 foo(1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 foo("dd")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 foo(4)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 f(x) = "original def"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @generated gen1(x) = f(x)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @generated gen2(x) = :(f(x))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 f(x::Int) = "def for int"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 f(x::Type{Int}) = "def for type init"
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 gen1(1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 gen2(1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @generated gen3(x) = f(x)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 gen3(1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @generated gen1(x::Real) = f(x)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 gen1(1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 gen1("d")
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 x
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 copyast(x + 1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 eval(:(:copyast, :(1 + 1)))
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(gen1)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 dump(foo)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 source(foo)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 @generated
 #+end_src
 
@@ -19118,7 +19123,7 @@ if additional functions given, x = f1(t.value), y = f2(t.value), z= f3(t.value)
 *** JSExpr
 convert julia code to js code
 *** SymPy
-#+begin_src jupyter-julia
+#+begin_src julia
 using SymPy
 @vars x
 f(x) = π * x^2
@@ -19144,7 +19149,7 @@ Built-in middleware:
 Mux.default - default middleware
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 using Mux
 @app test = (Mux.defaults, 
 page(respond("Hello world")),
@@ -19155,7 +19160,7 @@ serve(test)
 #+end_src
 
 
-#+begin_src jupyter-julia
+#+begin_src julia
 using Plots
 plot(sin)
 #+end_src
@@ -19185,20 +19190,40 @@ plot(sin)
 
   λ = 1.01
 
-  I₂ = λ * I₀
+  I₂ = λ * I₁
 
-  N = 10
-  I = zeros(N)
-  for i in 1:N
+
+  function run_infection(T)
+  I = zeros(T)
+  for i in 1:T
       I[i] = i == 1 ? I₁ : λ * I[i-1]
   end
-
   I
+  end
+
+  p = 0.02
+  α = 0.001
+  N = 1000
+  β(I, S) = p * α * S
+
+  function run_infection2(T)
+    I = zeros(T)
+    for i in 1:T
+        I[i] = i == 1 ? I₁ : I[i-1] + β(I[i-1], N - I[i-1]) * I[i-1]
+    end
+    I
+  end
 
 
+  r = rand(1000)
 
-  w = @manipulate for i in 1:length(countries)
-  plot(dates, US_data, xticks=dates[1:8:end], xrotation=45, xlabel="dates", ylabel="US comfirmed cases", m=:o, leg=:topleft, label="US data", title="US comfirmed COVID-19 cases", yscale=:log10)
+  w = @manipulate for i in 1:100
+        # plot(dates, US_data, xticks=dates[1:8:end], xrotation=45, xlabel="dates", ylabel="US comfirmed cases", m=:o, leg=:topleft, label="US data", title="US comfirmed COVID-19 cases", yscale=:log10)
+        # plot(run_infection(i), m=:o, legend=:topleft, label="I[n]", yscale=:log10, xlims=(0, 1000))
+        # plot(log10.(run_infection(i)), m=:o, legend=:topleft, label="I[n]", xlims=(0, 1000))
+        # plot(log10.(run_infection2(i)), m=:o, legend=:topleft, label="I[n]")
+        # plot(run_infection2(i), m=:o, legend=:topleft, label="I[n]")
+        scatter(zeros(i), r[1:i], ylims=(0,1))
   end
 
   @app widgets = (Mux.defaults,
@@ -19206,12 +19231,48 @@ plot(sin)
                   Mux.notfound())
 
 
+  @show "dd"
 
+  @show "ee"
 
   t = webio_serve(widgets)
 
 #+END_SRC
 
+*** randomness
+unknow information
+rand() change global variable?
+
+#+BEGIN_SRC julia
+using Random
+Random.seed!(3)
+r1 = rand(10)
+Random.seed!(3)
+r2 = rand(10)
+
+r1 == r2
+#+END_SRC
+
+#+RESULTS:
+: true
+
+#+NAME: random
+#+BEGIN_SRC julia :cache yes :results replace
+rand()
+
+#+END_SRC
+
+#+RESULTS[3dea14f31b0e8d4e03a8954794665ef77bcc23c9]: random
+: 0.4644219211852372
+
+
+
+#+BEGIN_SRC julia :var x = random :results = replace
+x
+#+END_SRC
+
+#+RESULTS:
+: 0.4644219211852372
 
 *** math course
 My Goal - Uniform picture of the math domain
