@@ -16687,6 +16687,12 @@ exposed functionalities:
 benifit:
   you can use the language to edite itself
 
+textDocument
+  uri - Latest version, it's only an identifier, corresponding file not required
+  text - mandatory only for didOpen
+  version - mandatory for didOpen, didChange. initial value 0 for didOpen
+  languageid - mandatory only for didOpen
+
 *** emacs & pkgs
 **** modifier keys
 Control - C-x @ c
@@ -16730,8 +16736,9 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Autoload.html
 **** debugging
 ***** Debugger
 Can not see the code
+M-x
+toggle-debug-on-error
 M-:
-(debug-on-error)
 (debug-on-entry 'functionname)
 add (debug) in source
 ***** Edebug
@@ -16745,6 +16752,16 @@ o - step out
 i - step in
 c - continue
 e - evaluate expression
+
+
+**** lsp
+lsp-org rely on lsp, as lsp act as flycheck checker, so lsp need to invoked before invocation of lsp-org
+bug in lsp-mode.el: (declare-function org-src-get-lang-mode "ext:org-src") -> (declare-function org-src--get-lang-mode "ext:org-src")
+
+uri for org src block is value of :tangle, even default value
+uri for virtual buffer of org src block is value of buffer name: *Org Src ${org file name}[ language ]*
+
+So a lot of src block & corresponding virtual buffers will share same uri
 
 
 **** quoted-insert
@@ -19244,13 +19261,13 @@ unknow information
 rand() change global variable?
 
 #+BEGIN_SRC julia
-using Random
-Random.seed!(3)
-r1 = rand(10)
-Random.seed!(3)
-r2 = rand(10)
-
-r1 == r2
+  using Random
+  Random.seed!(3)
+  r1 = rand(10)
+  Random.seed!(3)
+  r2 = rand(10)
+  @show 123
+  r1 == r2
 #+END_SRC
 
 #+RESULTS:

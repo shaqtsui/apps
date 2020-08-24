@@ -125,7 +125,8 @@
 ;; defer t will cause not register error
 ;; register lsp-client
 (use-package lsp-julia
-  :quelpa (lsp-julia :fetcher github :repo "gdkrmr/lsp-julia" :files (:defaults "languageserver"))
+  ;; :quelpa (lsp-julia :fetcher github :repo "gdkrmr/lsp-julia" :files (:defaults "languageserver"))
+  :quelpa (lsp-julia :fetcher github :repo "gdkrmr/lsp-julia")
   :demand t
   :after (julia-mode)
   :init
@@ -133,7 +134,7 @@
   ;; fix error in : LanguageServer.FoldingRangeCapabilities
   (setq lsp-enable-folding t)
   (setq lsp-folding-range-limit 100)
-;;  :hook (julia-mode . lsp-deferred)
+  :hook (julia-mode . lsp-deferred)
   )
 
 ;; lsp-java base on lsp-mode(maintained by same team)
@@ -159,7 +160,7 @@
 (use-package julia-repl
   :ensure t
   :hook (julia-mode . julia-repl-mode))
-
+;; can be replaced by lsp-mode?
 (use-package flycheck-julia
   :ensure t
   :after (flycheck julia-mode)
@@ -217,8 +218,7 @@
   (use-package ob-jupyter
     :demand t
     :config
-    (setq org-edit-src-turn-on-auto-save t)
-    (setq org-babel-default-header-args:jupyter-julia '((:tangle . "yes")
+    (setq org-babel-default-header-args:jupyter-julia '(;; (:tangle . "yes")
                                                         (:shebang . "#!/bin/bash")
                                                         (:padline . "yes")
                                                         (:comments . "both")
@@ -288,7 +288,9 @@
   :ensure t
   :hook ((clojure-mode emacs-lisp-mode eval-expression-minibuffer-setup-hook ielm-mode-hook lisp-mode-hook lisp-interaction-mode-hook scheme-mode-hook) . enable-paredit-mode))
 
+;; flycheck add checker error when work with lsp-org
 (use-package flycheck
+  :disabled
   :ensure t
   :hook (after-init . global-flycheck-mode))
 
