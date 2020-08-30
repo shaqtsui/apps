@@ -9,7 +9,6 @@
   (package-install 'use-package))
 (require 'use-package)
 
-
 (setq use-package-verbose t)
 (setq use-package-always-defer t)
 
@@ -19,12 +18,6 @@
 (setq-default tab-width 2)
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-(use-package env
-  :config
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (setenv "JULIA_NUM_THREADS" "4")
-  )
-
 ;; install package from source
 ;; 2 approach to use:
 ;; :quelpa to replace :ensure  - can config details
@@ -33,6 +26,8 @@
   :ensure t
   :demand t
   :config (setq quelpa-update-melpa-p nil))
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Decision Tree Like app ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; conflict with edebug key binding
@@ -88,18 +83,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lsp related ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lsp-mode
   :ensure t
   :config
   (setq lsp-log-io t)
   (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)))
-
-;; company-lsp(this more powerfull than company-capf) - support code complete
-;; autoconfiged by lsp-mode
-(use-package company-lsp
-  :ensure t)
+  (setq read-process-output-max (* 1024 1024))
+  (setq lsp-enable-file-watchers nil)
+  )
 
 (use-package lsp-ivy
   :ensure t)
@@ -152,21 +145,45 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; julia related ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from JuliaEditorSupport
 (use-package julia-mode
   :ensure t)
 
 (use-package julia-repl
+  :ensure t)
+
+;; jupyter-run-repl will start kernel in active directory not emacs process's directory
+;; so run it when u open that project's direcory
+;; debug: (setq jupyter--debug t)
+;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
+;; demand to config it before executing org code block
+(use-package jupyter
   :ensure t
-  :hook (julia-mode . julia-repl-mode))
-;; can be replaced by lsp-mode?
-(use-package flycheck-julia
-  :ensure t
-  :after (flycheck julia-mode)
-  :config (flycheck-julia-setup))
+  :demand t
+  :config
+  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin")))
+  ;; org-babel-load-languages configed base on available pkgs of name: ob-*
+  (use-package ob-jupyter
+    :demand t
+    :config
+    (setq org-babel-default-header-args:jupyter-julia '(;; (:tangle . "yes")
+                                                        (:shebang . "#!/bin/bash")
+                                                        (:padline . "yes")
+                                                        (:comments . "both")
+                                                        (:results . "value")
+                                                        (:async . "yes")
+                                                        (:session . "*julia*")
+                                                        (:kernel . "julia-1.5")))
+    (org-babel-jupyter-override-src-block "julia")
+    ))
+
+(use-package ein
+  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; clojure related ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -201,42 +218,11 @@
   :after (flycheck clojure-mode)
   :config
   (flycheck-clojure-setup))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; jupyter-run-repl will start kernel in active directory not emacs process's directory
-;; so run it when u open that project's direcory
-;; debug: (setq jupyter--debug t)
-;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
-;; demand to config it before executing org code block
-(use-package jupyter
-  :ensure t
-  :demand t
-  :config
-  (setq exec-path (append exec-path '("/Users/fuchengxu/.julia/conda/3/bin")))
-  ;; org-babel-load-languages configed base on available pkgs of name: ob-*
-  (use-package ob-jupyter
-    :demand t
-    :config
-    (setq org-babel-default-header-args:jupyter-julia '(;; (:tangle . "yes")
-                                                        (:shebang . "#!/bin/bash")
-                                                        (:padline . "yes")
-                                                        (:comments . "both")
-                                                        (:results . "value")
-                                                        (:async . "yes")
-                                                        (:session . "*julia*")
-                                                        (:kernel . "julia-1.5")))
-    (org-babel-jupyter-override-src-block "julia")
-    ))
 
-(use-package ein
-  :ensure t)
 
-(use-package org
-  :config
-  (setq org-confirm-babel-evaluate nil)
-  (use-package org-tempo))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; other pkg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; auto-mode-alist code alread in autoload
 (use-package yaml-mode
   :ensure t)
@@ -288,12 +274,10 @@
   :ensure t
   :hook ((clojure-mode emacs-lisp-mode eval-expression-minibuffer-setup-hook ielm-mode-hook lisp-mode-hook lisp-interaction-mode-hook scheme-mode-hook) . enable-paredit-mode))
 
-;; flycheck add checker error when work with lsp-org
+
 (use-package flycheck
-  :disabled
   :ensure t
   :hook (after-init . global-flycheck-mode))
-
 
 (use-package restclient
   :ensure t)
@@ -325,14 +309,12 @@
     :config
     ;;(pyim-wbdict-gb2312-enable)
     (pyim-wbdict-v98-enable))
-  ;; popup is slow when show in large file
-  (setq pyim-page-tooltip 'minibuffer)
-  (setq default-input-method "pyim")
-  (setq pyim-default-scheme 'wubi)
+    ;; popup is slow when show in large file
+    (setq pyim-page-tooltip 'minibuffer)
+    (setq default-input-method "pyim")
+    (setq pyim-default-scheme 'wubi)
   )
 
-;; yasnippet can be used by company-lsp to support expand snippets on completion
-;; can't defer, a bug in lsp-mode lsp-enable-snippet didn't require it explicitly
 (use-package yasnippet
   :ensure t)
 
@@ -346,10 +328,22 @@
   ("C-c p" . projectile-command-map)
   :config
   (setq projectile-completion-system 'ivy))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
-;;; built-in packages
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; built-in packages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package env
+  :config
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "JULIA_NUM_THREADS" "4")
+  )
+
+(use-package org
+  :config
+  (setq org-confirm-babel-evaluate nil)
+  (use-package org-tempo))
+
 (use-package paren
   :hook (after-init . show-paren-mode))
 
@@ -374,9 +368,8 @@
   :hook (after-init . winner-mode))
 
 (use-package scroll-bar
-  :demand t
+  ;;:demand t
   :hook (after-init . scroll-bar-mode))
-(scroll-bar-mode -1)
 
 ;; ditaa
 ;; ditaa rt is prerequest : sudo apt-get install ditaa
@@ -399,6 +392,7 @@
   :config
   (set-face-attribute 'default nil :height 130))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

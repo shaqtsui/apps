@@ -32,6 +32,7 @@
 知识是个全直连网，老师和书教给你的只能是其中的一些点，剩下的只能由你自己去观察发现
 全直连网 -> 树网，递归是这个树的根
 心脑合一，心身合一，心物合一
+紧随心即合一
 心动所以脑动，身动，外界动
 所谓用心即心动
 心动欲而不止，则以动替动
@@ -46,6 +47,12 @@
 心空则可控
 不情即中，柔情即和，浓情则不空则不控，造作
 造作之象为Recursion
+心平则气和，心不平即情
+无志
+莫激动
+心触则动
+养心
+心力
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -511,16 +518,17 @@ Note:
 
 ***** Different Perspectives
     single Recursion
-    pair of Sub-Recursion & Addon
-    list of Recursive Recursions
+    pair of Recursion & Addon
+    triple of Recursion, Sub-Recursion, Sub-Addon
+    list of Recursive Recursions(Recursion of Recursion)
     list of Non-Recursive Addons
     single Base
 
-***** Addon Conducted Recursion Conversion
-      Non-linear/Linear Recursion conversion
-      Non Recursive Addon -> Recursive
-      Conjunction ? -> Overlap ?
-
+***** Recursion Conversion
+  Non-linear/Linear Recursion conversion
+  Conjunction ? -> Overlap ?
+  Chain Recursion
+    Recursion of Recursion  ->  Addon of inner Recursion -> inner Recursion -> Addon of outer Recursion -> outer Recursion
   
 ***** Instance:
     Fa Zhi Zhong
@@ -536,6 +544,8 @@ Note:
       All Your Observables
     Generalization
       Non-linear Recursion -> Linear Recursion
+    Connection
+      Put two individuals together, so it's Recursion
     Abstract
       From Horizontal perspective
       Each of Recursion with same Sub-Recursion
@@ -569,10 +579,10 @@ Note:
     Process
       18.062J
     Function
+      Recursion of Paris
       Base Pair + Change Pair + Change Pair ...
       Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Pairs)
       Partial Linear: Generator -> Generator(Permanent Change Pairs)
-      Isomorphism is Total Linear
       Non-linear
         e.g. When addon is +?, f(x) = x^2 is non-linear. Id -> Id, +1 -> +1, +1 -> +3, +1 -> +5 ... . +1 -> +? is changing depends on previous recursion
       Non-linear -> Linear
@@ -584,6 +594,8 @@ Note:
         sum small parts
       Rate - A function
       18.01, 18.02, 18.03, 18.100B
+    Isomorphism
+      Total Linear Function
     Function Call Chain
     Recursive Function
     Group
@@ -16687,6 +16699,10 @@ exposed functionalities:
 benifit:
   you can use the language to edite itself
 
+Manipulate:
+Document - on the fly
+File
+
 textDocument
   uri - Latest version, it's only an identifier, corresponding file not required
   text - mandatory only for didOpen
@@ -16930,7 +16946,7 @@ so also can explicitly write as:
 f(x) where x refer to element of universal set = x^2
 
 *** Julia
-**** Polymorphism
+**** First-class Runtime Polymorphism
 A kind of Abstract
 MULTIPLE DISPATCH TOGETHER WITH FLEXIABLE PARAMETRIC TYPE SYSTEM GIVE JULIA ITS ABILITY TO ABSTRACTLY EXPRESS HIGH-LEVEL ALGORITHMS DECOUPLED FROM IMPLEMENTATION DETAILS, YET GENERATE EFFICIENT, SPECIALIZED CODE TO HANDLE EACH CASE AT RUNTIME
 ***** mulpiple dispatch function
@@ -19211,11 +19227,11 @@ plot(sin)
 
 
   function run_infection(T)
-  I = zeros(T)
-  for i in 1:T
-      I[i] = i == 1 ? I₁ : λ * I[i-1]
-  end
-  I
+      I = zeros(T)
+      for i in 1:T
+          I[i] = i == 1 ? I₁ : λ * I[i - 1]
+      end
+      I
   end
 
   p = 0.02
@@ -19224,11 +19240,11 @@ plot(sin)
   β(I, S) = p * α * S
 
   function run_infection2(T)
-    I = zeros(T)
-    for i in 1:T
-        I[i] = i == 1 ? I₁ : I[i-1] + β(I[i-1], N - I[i-1]) * I[i-1]
-    end
-    I
+      I = zeros(T)
+      for i in 1:T
+          I[i] = i == 1 ? I₁ : I[i - 1] + β(I[i - 1], N - I[i - 1]) * I[i - 1]
+      end
+      I
   end
 
 
@@ -19240,17 +19256,13 @@ plot(sin)
         # plot(log10.(run_infection(i)), m=:o, legend=:topleft, label="I[n]", xlims=(0, 1000))
         # plot(log10.(run_infection2(i)), m=:o, legend=:topleft, label="I[n]")
         # plot(run_infection2(i), m=:o, legend=:topleft, label="I[n]")
-        scatter(zeros(i), r[1:i], ylims=(0,1))
+      scatter(zeros(i), r[1:i], ylims=(0, 1))
   end
 
   @app widgets = (Mux.defaults,
                   page(respond(w)),
                   Mux.notfound())
 
-
-  @show "dd"
-
-  @show "ee"
 
   t = webio_serve(widgets)
 
