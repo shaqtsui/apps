@@ -524,11 +524,20 @@ Note:
     list of Non-Recursive Addons
     single Base
 
+
+***** Merge Recursions
+  independent addons:
+    Composed Addon = Addon 1 + Addon 2 + ...
+  recursive addons:
+    Addon 1 + Recursion 1 = Addon 2
+    Addon 2 + Recursion 2 = Addon 3
+    ...
+    Composed Addon = Addon 1 + Addon 2 + ...
+
 ***** Recursion Conversion
   Non-linear/Linear Recursion conversion
   Conjunction ? -> Overlap ?
-  Chain Recursion
-    Recursion of Recursion  ->  Addon of inner Recursion -> inner Recursion -> Addon of outer Recursion -> outer Recursion
+  Recursion of Non-recursion -> Recursion of Recursion -> merge Recursions
   
 ***** Instance:
     Fa Zhi Zhong
@@ -579,7 +588,7 @@ Note:
     Process
       18.062J
     Function
-      Recursion of Paris
+      Recursion of Primes -> Recursion of Paris
       Base Pair + Change Pair + Change Pair ...
       Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Pairs)
       Partial Linear: Generator -> Generator(Permanent Change Pairs)
@@ -595,6 +604,8 @@ Note:
       Rate - A function
       18.01, 18.02, 18.03, 18.100B
     Isomorphism
+      Recursion of Primes -> Recursion of Paris
+      Primes = elements + corresponding combinations
       Total Linear Function
     Function Call Chain
     Recursive Function
