@@ -53,6 +53,8 @@
 心触则动
 养心
 心力
+自知，内明
+发则半遮或全遮
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -525,19 +527,13 @@ Note:
     single Base
 
 
-***** Merge Recursions
-  independent addons:
-    Composed Addon = Addon 1 + Addon 2 + ...
-  recursive addons:
-    Addon 1 + Recursion 1 = Addon 2
-    Addon 2 + Recursion 2 = Addon 3
-    ...
-    Composed Addon = Addon 1 + Addon 2 + ...
+***** Chain Recurse
+Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=oouterAddon -> oouterRecurse -> oouterRecursion=ooouterAddon -> ...
 
 ***** Recursion Conversion
   Non-linear/Linear Recursion conversion
   Conjunction ? -> Overlap ?
-  Recursion of Non-recursion -> Recursion of Recursion -> merge Recursions
+  Recursion of Non-recursion -> Recursion of Recursion -> chain Recurse
   
 ***** Instance:
     Fa Zhi Zhong
