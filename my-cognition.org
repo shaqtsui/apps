@@ -55,6 +55,8 @@
 心力
 自知，内明
 发则半遮或全遮
+内明照见无明之发
+心性收发性
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -522,12 +524,14 @@ Note:
     single Recursion
     pair of Recursion & Addon
     triple of Recursion, Sub-Recursion, Sub-Addon
-    list of Recursive Recursions(Recursion of Recursion)
-    list of Non-Recursive Addons
+    corresponding lists:
+      list of Recursive Recursions(LORR)
+      list of Non-Recursive Addons(LONA)
     single Base
 
 
 ***** Chain Recurse
+Recursion LORR = outer Recursion LONA
 Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=oouterAddon -> oouterRecurse -> oouterRecursion=ooouterAddon -> ...
 
 ***** Recursion Conversion
@@ -550,7 +554,8 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Generalization
       Non-linear Recursion -> Linear Recursion
     Connection
-      Put two individuals together, so it's Recursion
+      Connect itself is Prime, corresponding result is Recursion
+      Some times can use result represent itself
     Abstract
       From Horizontal perspective
       Each of Recursion with same Sub-Recursion
@@ -584,7 +589,7 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Process
       18.062J
     Function
-      Recursion of Primes -> Recursion of Paris
+      Recursion of Primes -> Recursion of Pairs
       Base Pair + Change Pair + Change Pair ...
       Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Pairs)
       Partial Linear: Generator -> Generator(Permanent Change Pairs)
@@ -600,7 +605,7 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
       Rate - A function
       18.01, 18.02, 18.03, 18.100B
     Isomorphism
-      Recursion of Primes -> Recursion of Paris
+      Recursion of Primes -> Recursion of Pairs
       Primes = elements + corresponding combinations
       Total Linear Function
     Function Call Chain
