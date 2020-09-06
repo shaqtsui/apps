@@ -16817,6 +16817,10 @@ pkg category:
 
 
 
+**** treemacs
+tree layout file explore
+provide functions of Dired, workspace(name -> projects), project(name -> path), follow-mode, git-mode(git status), filewatch-mode(auto refresh when file changed)
+
 
 **** tramp
 TRAMP (included) used to access remote files
@@ -19259,8 +19263,20 @@ plot(sin)
       I
   end
 
+  bernoulli(p, N=20) = count([rand() < p for i in 1:N])
+  trails = [bernoulli(0.25) for i in 1:100]
 
-  r = rand(1000)
+  [rand((-1, 1)) for i in 1:100]
+
+
+  function walk(n)
+      x = 0
+      for i in 1:n
+          x += rand((-1, 1))
+      end
+      x
+  end
+
 
   w = @manipulate for i in 1:100
         # plot(dates, US_data, xticks=dates[1:8:end], xrotation=45, xlabel="dates", ylabel="US comfirmed cases", m=:o, leg=:topleft, label="US data", title="US comfirmed COVID-19 cases", yscale=:log10)
@@ -19268,7 +19284,9 @@ plot(sin)
         # plot(log10.(run_infection(i)), m=:o, legend=:topleft, label="I[n]", xlims=(0, 1000))
         # plot(log10.(run_infection2(i)), m=:o, legend=:topleft, label="I[n]")
         # plot(run_infection2(i), m=:o, legend=:topleft, label="I[n]")
-      scatter(zeros(i), r[1:i], ylims=(0, 1))
+      # scatter(zeros(i), r[1:i], ylims=(0, 1))
+      scatter(trails)
+      scatter([rand() for i in 1:100], ylims=(0, 1))
   end
 
   @app widgets = (Mux.defaults,
@@ -19642,15 +19660,28 @@ Inheritance
 a software to edit BCD file, VHD file...
 
 *** macOS hibernate
+run -lidClose-> sleep -standby-> hibernate
+
 hibernatemode
-| mode | memory power on | memory persistence | comment    |
-|    0 | true            | false              |            |
-|    1 | false           | ture               |            |
-|    3 | true            | true               | safe sleep |
-|      |                 |                    |            |
+|  mode | power off memory | persistent memory | comment          |
+|     0 | false            | false             | no hibernate     |
+| 1(25) | true             | ture              | normal hibernate |
+|     3 | false            | true              | safe sleep       |
 
+"autopoweroff" - duplicated with standby, even weaker
 
+pmset paramters
+| setting |         |
+| -b      | battery |
+| -c      | charge  |
+| -u      | ups     |
+| -a      | all     |
+|---------+---------|
+| show    |         |
+| -g      |         |
 
+pmset -g
+sudo pmset repeat shutdown MTWRFSU 22:30:00
 
 *** homebrew vs apt/yum vs snap
 |          | pkg scope                                  | package content       | support pkg versions | impl languae |

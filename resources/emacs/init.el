@@ -248,6 +248,10 @@
   (treemacs-tag-follow-mode t)
   (treemacs-git-mode 'simple))
 
+(use-package treemacs-projectile
+  :ensure t
+  :after (treemacs projectile))
+
 (use-package geiser
   :ensure t
   :config
@@ -327,6 +331,9 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :config
+  (setq projectile-project-search-path '("~/Desktop/Projects/"))
+  ;; projectile-auto-discover not work so manually trigger here
+  (projectile-discover-projects-in-search-path)
   (setq projectile-completion-system 'ivy))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
