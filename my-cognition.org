@@ -57,6 +57,10 @@
 发则半遮或全遮
 内明照见无明之发
 心性收发性
+散，聚，聚这聚那（发）
+本觉妙明，起心即妄
+
+
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -16819,7 +16823,28 @@ pkg category:
 
 **** treemacs
 tree layout file explore
-provide functions of Dired, workspace(name -> projects), project(name -> path), follow-mode, git-mode(git status), filewatch-mode(auto refresh when file changed)
+provide functions of Dired, workspace, project, follow-mode, git-mode(git status), filewatch-mode(auto refresh when file changed)
+Workspace
+  name
+  FileProjects
+    name
+    path
+
+**** projectile
+discover & manage scm/code project
+CodeProject <: FileProject
+  type
+  identifiers
+  project configuration file
+  config command
+  compile command
+  run command
+  test command
+  test file prefix
+  test file suffix
+  src dir
+  test dir
+  compilation dir
 
 
 **** tramp
@@ -16900,7 +16925,7 @@ lsp - microsoft's protocal for general editor & languages
 
 most dowloads to be checked:
 yasnippet - template system, good for verbose language like html, lisp-family is consise
-projectile - easy find file in project, good for complex project, but lisp-family is consie
+
 smartparents - like paredit, but support more languages, this means this is complex as language agnostic
 expand-region - seems can be replace by paredit mode via navi & node select
 paredit-mode - op on pares, not maintained in github, only support lisp-family lauguagae, seems this is more geek compared to smartparents. As I don't want to touch other complex language, lisp-family is my focus, so I prefer this pkg.
@@ -19214,6 +19239,81 @@ using Plots
 plot(sin)
 #+end_src
 
+*** VideoIO.jl
+**** read
+io -> openvideo -> VideoReader -> read/iterate -> Image
+                               -> seek/skipframe/counttotalframes
+
+io -> playvideo(rely on makie)
+
+opencamera -> VideoReader
+
+viewcam
+
+
+#+BEGIN_SRC julia
+  using Pkg
+  Pkg.add("VideoIO")
+  Pkg.add("Makie")
+
+  using VideoIO
+  using Makie
+  VideoIO.TestVideos.available()
+
+  io = VideoIO.testvideo("annie_oakley")
+  vr = openvideo(io)
+
+  firstimg = read(vr)
+  size(firstimg)
+  s = Scene()
+  makieimg = image!(s, firstimg)[end]
+  display(s)
+
+  for i in vr
+      makieimg[1] = i
+      sleep(1 / vr.framerate)    
+  end
+#+END_SRC
+
+**** write
+Single-step encoding:
+ImageStack -> encodevideo -> VideoFile
+Iterative encoding(need temp file):
+ImageStack -> prepareenoder -> encoder -> appendencode! -> finishencode! -> mux -> VideoFile
+
+#+BEGIN_SRC julia
+  using VideoIO
+  vr = openvideo(VideoIO.testvideo("annie_oakley"))
+  props = [:priv_data => ("crf" => "22", "preset" => "medium")]
+  encodevideo("test.mp4", collect(vr), framerate=vr.framerate, AVCodecContextProperties=props)
+#+END_SRC
+
+#+BEGIN_SRC julia
+  using VideoIO
+  vr = openvideo(VideoIO.testvideo("annie_oakley"))
+  props = [:priv_data => ("crf" => "22", "preset" => "medium")]
+  encoder = prepareencoder(read(vr), framerate=vr.framerate, AVCodecContextProperties=props)
+  seekstart(vr)
+  open("test2.stream", "w") do io
+      index = 1
+      for img in vr
+          appendencode!(encoder, io, img, index)
+          index += 1
+      end
+      finishencode!(encoder, io)
+  end
+  mux("test2.stream", "test2.mp4", vr.framerate, deletestream=false)
+  res = openvideo("test2.mp4")
+  # note H264 videos encoded with crf>0 have been observed to have 4-fewer frames available for reading.
+  counttotalframes(vr)
+  counttotalframes(res)
+
+  VideoIO.get_number_frames("test2.mp4")
+  VideoIO.get_number_frames("test.mp4")
+  VideoIO.get_number_frames("/Users/fuchengxu/.julia/packages/VideoIO/G8CP6/videos/annie_oakley.ogg")
+
+#+END_SRC
+
 
 *** 18.S190
 #+BEGIN_SRC julia :session 18.S190
@@ -19804,5 +19904,35 @@ Commands:
 
 
 
+*** tools
+- replace with symlink
+#+BEGIN_SRC julia
+  abstract type Tree end
 
+  struct FileTree <: Tree
+      rootpath::String
+  end
+
+
+  children(ft::FileTree) = isdir(ft.rootpath) ? FileTree.(readdir(ft.rootpath, join=true)) : []
+
+  function searchtree(t::Tree, predict; res=[])
+      for ft in children(t)
+          predict(ft) ? push!(res, ft) : searchtree(ft, predict, res=res)
+      end
+      res
+  end
+
+  function replacewithsymlink(f, target)
+      rm(f, resursive=true)
+      symlink(target, f)
+  end
+
+
+
+  fts = searchtree(FileTree("/Volumes/d/Shark/MIT/EECS/"), x -> basename(x.rootpath) == "common")
+  fs = [ft.rootpath for ft in fts]
+  target = 
+  # replacewithsymlink.(fs, target)
+#+END_SRC
 
