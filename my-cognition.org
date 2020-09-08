@@ -19239,7 +19239,77 @@ using Plots
 plot(sin)
 #+end_src
 
+*** FFMPEG.jl
+**** programs
+ffmpeg - A command line tool to convert multimedia files between formats
+ffplay - A simple media player based on SDL and the FFmpeg libraries
+ffprobe - A simple multimedia stream analyzer
+
+**** Media file
+One media file may contains multiple streams: video stream, audio stream, subtitle stream, data stream, attachment stream
+e.g.
+  B.mp4
+    stream 0: video 1920x1080
+    stream 1: audio 2 channels
+    stream 2: subtitles (text)
+    stream 3: audio 5.1 channels
+    stream 4: subtitles (text)
+    stream 5: data dvd_nav_packet
+
+stream slected via stream specifier e.g. v:0, a, s:12
+
+**** Convertion process:
+InputFile -> demux -> EncodedDataPackets -> decode -> DecodedFrames -> filter -> DecodedFrames -> encode -> EncodedDataPackets -> mux -> OutputFile
+
+-c copy - ignore decode, filter, encode
+-c codec - specify decode/encode
+-filter[_complex] - specify filter
+
+Impls:
+demux - libavformat
+decode/encode - libavcodec
+filter - libavfilter
+
+**** command examples
+-c codec/copy
+-c:v codec/copy
+-c:v:0 codec/copy
+-c:a codec/copy
+-c:a:137 codec/copy
+convert(path) = ffmpeg_exe("-i", path, string(splitext(path)[1], ".mp4"))
+convert(path) = ffmpeg_exe("-i", path, "-c:v", "libx265", string(splitext(path)[1], ".mp4"))
+
+**** code exmaple
+#+BEGIN_SRC julia
+using Pkg
+Pkg.add("FFMPEG")
+using FFMPEG
+# follow functions are same
+FFMPEG.exe("-version", collect=true)
+FFMPEG.exe("-version", command=FFMPEG.ffmpeg, collect=true)
+ffmpeg_exe("-version")
+ffmpeg`-version`
+
+# follow functions are same
+FFMPEG.exe("-version", command=FFMPEG.ffprobe, collect=true)
+ffprobe_exe("-version")
+ffprobe`-version`
+
+# the AV libraries (exported too):
+FFMPEG.libavcodec
+FFMPEG.libavformat
+FFMPEG.libavutil
+FFMPEG.libswscale
+FFMPEG.libavdevice
+FFMPEG.libavfilter
+
+# other functions:
+FFMPEG.versioninfo()
+
+#+END_SRC
+
 *** VideoIO.jl
+base on FFMPEG.jl
 **** read
 io -> openvideo -> VideoReader -> read/iterate -> Image
                                -> seek/skipframe/counttotalframes
