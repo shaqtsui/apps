@@ -124,6 +124,8 @@
           desc: for remote assist
         - name: vlc
           desc: media player as quickplayer support limited media types
+        - name: balenaetcher
+          desc: iso to sd/usb
 
     - package:
         name:
@@ -138,6 +140,7 @@
           - aria2
           - node
           - cask
+          - gpg
 
     - file:
         path: "~/.emacs.d"

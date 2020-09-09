@@ -59,7 +59,7 @@
 心性收发性
 散，聚，聚这聚那（发）
 本觉妙明，起心即妄
-
+内明本明无能所，能所遮内明是谓无明，能所止不止是谓烦恼
 
 
 * 未发（中），发皆中节（和）
@@ -14779,6 +14779,8 @@ e2e for linux:
 	</templates>
 
 </cruise>
+
+
 *** GPG
 GPG
 	keyring file
@@ -14797,6 +14799,13 @@ GPG
 	
 	
 	Commands:
+    gpg --keyid-format long --verify SHA256SUMS.gpg SHA256SUMS
+      verify signature
+    gpg --keyid-format long --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x843938DF228D22F7B3742BC0D94AA3F0EFE21092
+      receive public key
+    gpg --keyid-format long --list-keys --with-fingerprint 0x843938DF228D22F7B3742BC0D94AA3F0EFE21092
+      list specified key
+
 		gpg --gen-key
 			generate a key pair
 			
@@ -14814,6 +14823,14 @@ GPG
 	
 		gpg2 --edit-key E8D5D8F3
 			edit key
+
+*** checksum
+program: openssl
+commands:
+openssl md5 /filepath/filename
+openssl sha1 /filepath/filename
+openssl sha256 /filepath/filename
+
 *** gradle
 Plugin
 	An extension to Gradle
@@ -16656,8 +16673,11 @@ shell - program
 
 *** Mac OS X
 homebrew
-build package in /usr/local/Cellar
-brew link will create symbol link under /usr/local/bin to expose these packaegs
+| folder            | files                                             | comments                                                                                 |
+| /usr/local/Cellar | pkgs of multiple versions(real file)              | build here                                                                               |
+| /usr/local/opt    | symlinks of pkg of sepcific version               | path used to access pkg. e.g. ln -s /usr/local/opt/emacs-plus@27/Emacs.app /Applications |
+| /usr/local/bin    | symlinks of executable of pkg of specific version | in $PATH                                                                                 |
+
 
 homebrew repos:
 /usr/local/Homebrew - brew app itself
@@ -16667,13 +16687,6 @@ homebrew repos:
   origin: https://github.com/Homebrew/homebrew-core.git
 /usr/local/Homebrew/Library/Taps/homebrew/homebrew-cask
   origin: https://github.com/Homebrew/homebrew-cask.git
-
-
-
-**/opt/xxx - optional packages, invented to replace /usr/local? as /usr better to be read only
-
-**/local/xxx - local developed packages
-
 
 
 *** vmware unity
@@ -16726,6 +16739,7 @@ textDocument
   languageid - mandatory only for didOpen
 
 *** emacs & pkgs
+emacs-plus depend on emacs?
 **** modifier keys
 Control - C-x @ c
 Meta - C-x @ m
@@ -20005,4 +20019,11 @@ Commands:
   target = 
   # replacewithsymlink.(fs, target)
 #+END_SRC
+
+
+*** ISO to USB
+Rufus - windows
+Etcher - Mac
+Startup Disk Creator (built-in) - Ubuntu
+
 
