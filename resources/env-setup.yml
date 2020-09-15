@@ -21,12 +21,9 @@
     - name: add pub key to authorized_keys to support password free login
       authorized_key: user="{{ ansible_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
-    - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-      args:
-        creates: /usr/local/bin/brew
-
     - package:
         name:
+          - curl
           - youtube-dl
           - ffmpeg
           - ispell
@@ -34,16 +31,17 @@
           - maven
           - leiningen
           - postgresql
-          - emacs-plus
+          - emacs
           - aria2
-          - node
-          - cask
+          - nodejs
           - gpg
           - jupyter
+      become: "{{ package_become }}"
 
     - git:
         repo: https://github.com/xfcjscn/apps.git
         dest: ~/Projects/apps
+        update: no
           
     - file:
         path: "~/.emacs.d"
@@ -53,16 +51,6 @@
         src: "~/Projects/apps/resources/emacs/init.el"
         path: "~/.emacs.d/init.el"
         state: link
-
-    - lineinfile:
-        path: /Users/fuchengxu/.bash_profile
-        create: yes
-        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
-
-    - lineinfile:
-        path: /Users/fuchengxu/.zshenv
-        create: yes
-        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
 
     - git_config:
         name: user.email
@@ -78,88 +66,63 @@
         path: ~/.ssh/id_rsa
 
 
-
 # this not required most of the time
 - hosts: linux
-  environment:
-    PATH: /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:{{ ansible_env.PATH }}
   tasks:
-#    - name: add user deployer in group sudo
-#      user:
-#        name: deployer
-#        password: "$6$rounds=656000$7..lsc.9Pn4OIYjY$HvgSnuP3ya1wXxCh/JIJg/U5XADlhXQlJLY4E6TsrpLS5VlTANeE6Rq4ZEY3WQkn6dHQ8TlFoXbC33v9MgGeQ/"
-#        groups: sudo
-#        update_password: on_create
-
-
-    # use become root to install under: /home/linuxbrew/.linuxbrew
-    - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-      args:
-        creates: /home/linuxbrew/.linuxbrew
-      become: yes
-
-    - lineinfile:
-        path: /etc/profile.d/brew-env.sh
-        line: eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        create: yes
-      become: yes
-      
-    - name: homebrew mirror
-      shell: "{{ item }}"
-      loop:
-        - git -C "$(brew --repo)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
-        - git -C "$(brew --repo homebrew/core)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/linuxbrew-core.git
-
-
-    - homebrew:
-        name: "{{ item.name }}"
-      loop:
-        - name: youtube-dl
-          desc: youtube-dl -F https://www.youtube.com/playlist?list=PLun8-Z_lTkC5HAjzXCLEx0gQkJZD4uCtJ
-        - name: ffmpeg
-          desc: merge video & audio, as youtube seprate video & audio for movies better quality than 1080p, it will invoked by youtube-dl
-        - name: ispell
-          desc: used by emacs flysepll & ispell
-        - name: clojure
-        - name: maven
-          desc: used to download java sources via 'mvn dependency:sources, which can be used by cider to look for java sources'
-        - name: leiningen
-          desc: used by luminus and 3rd part project source
-        - name: postgresql
-        - name: aria2
-          desc: download manager
-
-    - snap:
-        name:
-          - android-studio
-        classic: yes
-      become: yes
+#    - snap:
+#        name:
+#          - android-studio
+#        classic: yes
+#      become: yes
     
 - hosts: mac
   tasks:
+    - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      args:
+        creates: /usr/local/bin/brew
 
-    - name: homebrew mirror
-      shell: "{{ item }}"
-      loop:
-        - git -C "$(brew --repo)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
-        - git -C "$(brew --repo homebrew/core)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
-        - git -C "$(brew --repo homebrew/cask)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-cask.git
+    - shell: brew --repo
+      register: brew_repo
 
+    - shell: brew --repo homebrew/core
+      register: brew_core_repo
+
+    - shell: brew --repo homebrew/cask
+      register: brew_cask_repo
+      
+    - git_config:
+        name: remote.origin.url
+        scope: local
+        repo: "{{ brew_repo }}"
+        value: https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+
+    - git_config:
+        name: remote.origin.url
+        scope: local
+        repo: "{{ brew_core_repo }}"
+        value: https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
+
+    - git_config:
+        name: remote.origin.url
+        scope: local
+        repo: "{{ brew_cask_repo }}"
+        value: https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-cask.git
+        
     - homebrew_tap:
         name: "{{ item.name }}"
       loop:
         - name: d12frosted/emacs-plus
         - name: homebrew/cask-versions
-        
+
+    - package:
+        name:
+          - emacs-plus
           
     - homebrew_cask:
         name: "{{ item.name }}"
       loop:
         - name: julia
-        - name: atom
-          desc: ide to support julia
         - name: visual-studio-code
-        - name: nordvpn
         - name: mactex-no-gui
           desc: latex used by org to generate pdf
         - name: java
@@ -167,8 +130,6 @@
           desc: flash plugin for safri
         - name: teamviewer
           desc: for remote assist
-        - name: vlc
-          desc: media player as quickplayer support limited media types
         - name: balenaetcher
           desc: iso to sd/usb
 
