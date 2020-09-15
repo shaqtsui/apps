@@ -16,8 +16,71 @@
 # see my-congnition for more info
 
 
+- hosts: nix
+  tasks:
+    - name: add pub key to authorized_keys to support password free login
+      authorized_key: user="{{ ansible_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      args:
+        creates: /usr/local/bin/brew
+
+    - package:
+        name:
+          - youtube-dl
+          - ffmpeg
+          - ispell
+          - clojure
+          - maven
+          - leiningen
+          - postgresql
+          - emacs-plus
+          - aria2
+          - node
+          - cask
+          - gpg
+          - jupyter
+
+    - git:
+        repo: https://github.com/xfcjscn/apps.git
+        dest: ~/Projects/apps
+          
+    - file:
+        path: "~/.emacs.d"
+        state: directory
+
+    - file:
+        src: "~/Projects/apps/resources/emacs/init.el"
+        path: "~/.emacs.d/init.el"
+        state: link
+
+    - lineinfile:
+        path: /Users/fuchengxu/.bash_profile
+        create: yes
+        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
+
+    - lineinfile:
+        path: /Users/fuchengxu/.zshenv
+        create: yes
+        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
+
+    - git_config:
+        name: user.email
+        value: xfcjscn@gmail.com
+        scope: global
+
+    - git_config:
+        name: user.name
+        value: xfcjscn
+        scope: global
+
+    - openssh_keypair:
+        path: ~/.ssh/id_rsa
+
+
+
 # this not required most of the time
-- hosts: linuxservers
+- hosts: linux
   environment:
     PATH: /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:{{ ansible_env.PATH }}
   tasks:
@@ -28,8 +91,6 @@
 #        groups: sudo
 #        update_password: on_create
 
-    - name: add pub key to authorized_keys to support password free login
-      authorized_key: user="{{ ansible_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
     # use become root to install under: /home/linuxbrew/.linuxbrew
     - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -48,11 +109,6 @@
       loop:
         - git -C "$(brew --repo)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
         - git -C "$(brew --repo homebrew/core)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/linuxbrew-core.git
-
-    - homebrew_tap:
-        name: "{{ item.name }}"
-      loop:
-        - name: homebrew/cask
 
 
     - homebrew:
@@ -73,25 +129,14 @@
         - name: aria2
           desc: download manager
 
-
-    # not able to run in linux  
-#    - homebrew_cask:
-#        name: "{{ item.name }}"
-#      loop:
-#        - name: android-sdk
-#        - name: julia
-
     - snap:
         name:
           - android-studio
         classic: yes
       become: yes
     
-- hosts: macservers
+- hosts: mac
   tasks:
-    - shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-      args:
-        creates: /usr/local/bin/brew
 
     - name: homebrew mirror
       shell: "{{ item }}"
@@ -127,55 +172,7 @@
         - name: balenaetcher
           desc: iso to sd/usb
 
-    - package:
-        name:
-          - youtube-dl
-          - ffmpeg
-          - ispell
-          - clojure
-          - maven
-          - leiningen
-          - postgresql
-          - emacs-plus
-          - aria2
-          - node
-          - cask
-          - gpg
-
-    - file:
-        path: "~/.emacs.d"
-        state: directory
-
-    - file:
-        src: "~/Desktop/Projects/apps/resources/emacs/init.el"
-        path: "~/.emacs.d/init.el"
-        state: link
-
-    - lineinfile:
-        path: /Users/fuchengxu/.bash_profile
-        create: yes
-        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
-
-    - lineinfile:
-        path: /Users/fuchengxu/.zshenv
-        create: yes
-        line: export PATH=/Users/fuchengxu/.julia/conda/3/bin:$PATH
-
-    - git_config:
-        name: user.email
-        value: xfcjscn@gmail.com
-        scope: global
-
-    - git_config:
-        name: user.name
-        value: xfcjscn
-        scope: global
-
-    - openssh_keypair:
-        path: ~/.ssh/id_rsa
-
-
-- hosts: winservers
+- hosts: win
   tasks:
     - win_service:
         name: "{{item.name}}"

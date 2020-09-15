@@ -123,7 +123,7 @@
   :demand t
   :after (julia-mode)
   :init
-  (setq lsp-julia-package-dir "/Users/fuchengxu/Desktop/Projects/appjulia")
+  (setq lsp-julia-package-dir "~/Projects/apps")
   ;; fix error in : LanguageServer.FoldingRangeCapabilities
   (setq lsp-enable-folding t)
   (setq lsp-folding-range-limit 100)
@@ -331,7 +331,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :config
-  (setq projectile-project-search-path '("~/Desktop/Projects/"))
+  (setq projectile-project-search-path '("~/Projects/"))
   ;; projectile-auto-discover not work so manually trigger here
   (projectile-discover-projects-in-search-path)
   (setq projectile-completion-system 'ivy))
@@ -408,12 +408,11 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(custom-enabled-themes (quote (wombat)))
- '(emms-setup-default-player-list (quote (emms-player-vlc emms-player-vlc-playlist)) t)
+ '(custom-enabled-themes '(wombat))
+ '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist))
  '(package-selected-packages
-   (quote
-    (ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window)))
- '(safe-local-variable-values (quote ((flycheck-disabled-checkers emacs-lisp-checkdoc)))))
+   '(ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
+ '(safe-local-variable-values '((flycheck-disabled-checkers emacs-lisp-checkdoc))))
 
 
 (custom-set-faces
