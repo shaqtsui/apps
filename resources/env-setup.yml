@@ -93,19 +93,19 @@
     - git_config:
         name: remote.origin.url
         scope: local
-        repo: "{{ brew_repo }}"
+        repo: "{{ brew_repo.stdout }}"
         value: https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
 
     - git_config:
         name: remote.origin.url
         scope: local
-        repo: "{{ brew_core_repo }}"
+        repo: "{{ brew_core_repo.stdout }}"
         value: https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
 
     - git_config:
         name: remote.origin.url
         scope: local
-        repo: "{{ brew_cask_repo }}"
+        repo: "{{ brew_cask_repo.stdout }}"
         value: https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-cask.git
         
     - homebrew_tap:
