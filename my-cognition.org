@@ -67,8 +67,15 @@
 散而不聚
 可控
 内明以可控，散，不发，不执，不耗
-心性收发性，收则不发，发则不收，收则明，发则耗
-
+心性收发性，收则不发，发则不收，收则明，发则转境
+  相 － 收
+  识 － 发则转相至语
+  触动 － 发而转身静至身动
+  Recurse - 连续的，有方向的转
+    观察 - 不含语言
+    思考 - 包含语言
+  散乱 － 无方向的转
+  语言 － 易转，所以成为很多转的中间转
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -601,15 +608,16 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Process
       18.062J
     Function
-      Recursion of Primes -> Recursion of Pairs
-      Base Pair + Change Pair + Change Pair ...
-      Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Pairs)
-      Partial Linear: Generator -> Generator(Permanent Change Pairs)
+      Recursion of parallel Transforms
+      Base Transform + Change Transform + Change Transform ...
+      Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Transforms)
+      Partial Linear: Generator -> Generator(Permanent Change Transforms)
       Non-linear
         e.g. When addon is +?, f(x) = x^2 is non-linear. Id -> Id, +1 -> +1, +1 -> +3, +1 -> +5 ... . +1 -> +? is changing depends on previous recursion
       Non-linear -> Linear
         e.g.
           f(x) = x^n, addon change from +? to *? so that convert to linear recursion
+      Deferentiable - Locally Linear
       deferential:
         x change sequence & y change sequence
       integral:
@@ -617,8 +625,8 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
       Rate - A function
       18.01, 18.02, 18.03, 18.100B
     Isomorphism
-      Recursion of Primes -> Recursion of Pairs
-      Primes = elements + corresponding combinations
+      Recursion of parallel Transforms
+      Transform of elements & corresponding combinations
       Total Linear Function
     Function Call Chain
     Recursive Function
