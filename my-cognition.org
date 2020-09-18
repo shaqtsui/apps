@@ -67,14 +67,14 @@
 散而不聚
 可控
 内明以可控，散，不发，不执，不耗
-心性收发性，收则不发，发则不收，收则明，发则转境
+心性收发性，收则不发，发则不收，收则明，发则转境，收发相辅相成
   相 － 收
-  识 － 发则转相至语
-  触动 － 发而转身静至身动
-  Recurse - 连续的，有方向的转
+  识 － 收 -> 发则转相至语 -> 收
+  触动 － 收 -> 发而转身静至身动
+  Recurse - 连续的，有方向的收发
     观察 - 不含语言
     思考 - 包含语言
-  散乱 － 无方向的转
+  散乱 － 无方向的收发
   语言 － 易转，所以成为很多转的中间转
 
 * 未发（中），发皆中节（和）
@@ -607,6 +607,8 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
 
     Process
       18.062J
+    Limit
+      Recursion bypass all execept limit point
     Function
       Recursion of parallel Transforms
       Base Transform + Change Transform + Change Transform ...
@@ -617,7 +619,8 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
       Non-linear -> Linear
         e.g.
           f(x) = x^n, addon change from +? to *? so that convert to linear recursion
-      Deferentiable - Locally Linear
+      Continuous - Tends to no change
+      Deferentiable - Tends to Linear
       deferential:
         x change sequence & y change sequence
       integral:
