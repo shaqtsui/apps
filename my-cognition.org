@@ -74,8 +74,16 @@
   Recurse - 连续的，有方向的收发
     观察 - 不含语言
     思考 - 包含语言
-  散乱 － 无方向的收发
-  语言 － 易转，所以成为很多转的中间转
+  散乱 - 无方向的收发
+  语言 - 易转，所以成为很多转的中间转
+    可以识到一个或一组对象上
+  学习/探索/解答 - 收发
+    学习是一层一层的
+    如你看不到问题的答案，只是因为你没有答案依赖的层
+    尝试性的探索大多一无所获，只增不好习惯
+    为什么同样层的别人看到了而我不可以？因为别人是真的准确的知道了那些层，而你是误以为知道了那些层
+  知所 - 明所之体与用，体为幻，用亦幻，幻之“发者”
+
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -556,6 +564,15 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
 ***** Recursion Conversion
   Non-linear/Linear Recursion conversion
   Conjunction ? -> Overlap ?
+    A special case in a set
+    e.g.
+      Set - connections(pairs)
+      Special case - connections one's to is another's from
+    One connection, introduce 1 direct connection & 0 to many indirect connections
+    Overlap hide trivial connection & element
+    e.g.
+      = create 1 direct connection & 1 to many indirect connection, overlap hide direct connection & duplicated element
+      L-S L-S L-S  ->  L-S=L-S=L-S
   Recursion of Non-recursion -> Recursion of Recursion -> chain Recurse
   
 ***** Instance:
@@ -573,6 +590,7 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Generalization
       Non-linear Recursion -> Linear Recursion
     Connection
+      Path of something, from which something can go from one to the other
       Connect itself is Prime, corresponding result is Recursion
       Some times can use result represent itself
     Abstract
@@ -610,7 +628,7 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Limit
       Recursion bypass all execept limit point
     Function
-      Recursion of parallel Transforms
+      Recursion of parallel Transforms(Connection)
       Base Transform + Change Transform + Change Transform ...
       Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Transforms)
       Partial Linear: Generator -> Generator(Permanent Change Transforms)
@@ -16818,6 +16836,12 @@ i - step in
 c - continue
 e - evaluate expression
 
+**** eww
+emacs web wowser
+M-x eww
+
+**** emacs-w3m
+emacs interface to w3m
 
 **** lsp
 lsp-org rely on lsp, as lsp act as flycheck checker, so lsp need to invoked before invocation of lsp-org
@@ -16963,6 +16987,9 @@ smartparents - like paredit, but support more languages, this means this is comp
 expand-region - seems can be replace by paredit mode via navi & node select
 paredit-mode - op on pares, not maintained in github, only support lisp-family lauguagae, seems this is more geek compared to smartparents. As I don't want to touch other complex language, lisp-family is my focus, so I prefer this pkg.
 autopair - very similar to electric-pair-mode, author prefer electric-pair-mode
+
+*** w3m
+text-based web browser
 
 *** jupyter
 it contains 2 parts:
@@ -19500,6 +19527,27 @@ ImageStack -> prepareenoder -> encoder -> appendencode! -> finishencode! -> mux 
   t = webio_serve(widgets)
 
 #+END_SRC
+
+*** 18.S191
+#+begin_src julia :session 18.S191
+using Pkg
+Pkg.add("FileIO")
+Pkg.add("ImageIO")
+Pkg.add("QuartzImageIO")
+Pkg.add("ImageMagick")
+Pkg.add("Images")
+Pkg.add("Pluto")
+# using FileIO
+using Images
+
+url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/201808/julia-programming-language-mit-00_0.png?itok=gxfHvo6I"
+download(url, "julialogo.jpg")
+julialogo = load("julialogo.jpg")
+typeof(julialogo)
+RGBX(0.4, 0.8, 0.1)
+
+#+end_src
+
 
 *** randomness
 unknow information

@@ -349,7 +349,8 @@
 (use-package org
   :config
   (setq org-confirm-babel-evaluate nil)
-  (use-package org-tempo))
+  (use-package org-tempo
+    :demand t))
 
 (use-package paren
   :hook (after-init . show-paren-mode))
