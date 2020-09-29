@@ -60,6 +60,8 @@
 散，聚，聚这聚那（发）
 本觉妙明，起心即妄
 内明本明无能所，能所遮内明是谓无明，能所止不止是谓烦恼
+无能所即散，不发，不执，不耗
+内明似收亦非能所之收
 无一法可用，回去便是
 别活小了
 聚散
@@ -84,6 +86,13 @@
     尝试性的探索大多一无所获，只增不好习惯
     为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
   知所 - 明所之体与用，体为幻，用亦幻，幻之“发者”
+  Transform - 两发
+  Path - 两发之间之龟毛兔角
+  Connected - Your mind take them as a whole
+    e.g. boundry touched stuffes, 2 stuff of one transform
+
+内执则不止
+心性转神为作（收发）
 
 
 * 未发（中），发皆中节（和）
@@ -590,10 +599,6 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
       All Your Observables
     Generalization
       Non-linear Recursion -> Linear Recursion
-    Connection
-      Path of something, from which something can go from one to the other
-      Connect itself is Prime, corresponding result is Recursion
-      Some times can use result represent itself
     Abstract
       From Horizontal perspective
       Each of Recursion with same Sub-Recursion
@@ -629,7 +634,7 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Limit
       Recursion bypass all execept limit point
     Function
-      Recursion of parallel Transforms(Connection)
+      Recursion of parallel Transforms
       Base Transform + Change Transform + Change Transform ...
       Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Transforms)
       Partial Linear: Generator -> Generator(Permanent Change Transforms)
