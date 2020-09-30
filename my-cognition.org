@@ -86,13 +86,17 @@
     尝试性的探索大多一无所获，只增不好习惯
     为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
   知所 - 明所之体与用，体为幻，用亦幻，幻之“发者”
-  Transform - 两发
-  Path - 两发之间之龟毛兔角
-  Connected - Your mind take them as a whole
+  Math - 收发structure
+    Topology - inner structure
+    Algebra - add/remove structure
+    Analysis - outer structure
+  Transform/Connected - 一个发包含两个对象
     e.g. boundry touched stuffes, 2 stuff of one transform
+  Path - 两对象之间之龟毛兔角
 
 内执则不止
 心性转神为作（收发）
+心力勿用于根
 
 
 * 未发（中），发皆中节（和）
@@ -634,7 +638,7 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Limit
       Recursion bypass all execept limit point
     Function
-      Recursion of parallel Transforms
+      Recursion of parallel Transforms(may base on "from" part)
       Base Transform + Change Transform + Change Transform ...
       Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Transforms)
       Partial Linear: Generator -> Generator(Permanent Change Transforms)
@@ -19536,21 +19540,21 @@ ImageStack -> prepareenoder -> encoder -> appendencode! -> finishencode! -> mux 
 
 *** 18.S191
 #+begin_src julia :session 18.S191
-using Pkg
-Pkg.add("FileIO")
-Pkg.add("ImageIO")
-Pkg.add("QuartzImageIO")
-Pkg.add("ImageMagick")
-Pkg.add("Images")
-Pkg.add("Pluto")
-# using FileIO
-using Images
+  using Pkg
+  Pkg.add("FileIO")
+  Pkg.add("ImageIO")
+  Pkg.add("QuartzImageIO")
+  Pkg.add("ImageMagick")
+  Pkg.add("Images")
+  Pkg.add("Pluto")
+  # using FileIO
+  using Images
 
-url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/201808/julia-programming-language-mit-00_0.png?itok=gxfHvo6I"
-download(url, "julialogo.jpg")
-julialogo = load("julialogo.jpg")
-typeof(julialogo)
-RGBX(0.4, 0.8, 0.1)
+  url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/201808/julia-programming-language-mit-00_0.png?itok=gxfHvo6I"
+  download(url, "julialogo.jpg")
+  julialogo = load("julialogo.jpg")
+  typeof(julialogo)
+  RGBX(0.4, 0.8, 0.1)
 
 #+end_src
 
