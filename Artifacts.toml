@@ -1,0 +1,7 @@
+[iris]
+git-tree-sha1 = "dbd04e28be047a54fbe9bf67e934be5b5e0d357a"
+lazy = true
+
+    [[iris.download]]
+    sha256 = "2cd3242043e865a2c4af8b05db67ffc41258452c081935dac914a8b890bb5421"
+    url = "ftp://user7555:yYS2ykXhXosEhSSEP300TtBIMwxsFP2bSi4xDsCX@localhost:58890/mydata.tar"

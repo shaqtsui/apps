@@ -152,7 +152,10 @@
   :ensure t)
 
 (use-package julia-repl
-  :ensure t)
+  :ensure t
+  :config
+  (setq julia-repl-switches "-J MakieSys.so")
+  (add-hook 'julia-repl-hook #'julia-repl-use-emacsclient))
 
 ;; jupyter-run-repl will start kernel in active directory not emacs process's directory
 ;; so run it when u open that project's direcory
@@ -223,6 +226,11 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; other pkg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; add color to term, to support OhMyREPL
+(use-package eterm-256color
+  :ensure t
+  :hook (term-mode-hook . eterm-256color-mode))
+
 ;; auto-mode-alist code alread in autoload
 (use-package yaml-mode
   :ensure t)
@@ -340,6 +348,10 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; built-in packages ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; enable emacsclient
+(use-package server
+  :hook (after-init . server-start))
+
 (use-package env
   :config
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
@@ -410,7 +422,7 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(wombat))
- '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist))
+ '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist) t)
  '(package-selected-packages
    '(ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
  '(safe-local-variable-values '((flycheck-disabled-checkers emacs-lisp-checkdoc))))

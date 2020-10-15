@@ -36,6 +36,7 @@
           - nodejs
           - gpg
           - jupyter
+          - git-lfs
       become: "{{ package_become }}"
 
     - git:
@@ -51,6 +52,11 @@
         src: "~/Projects/apps/resources/emacs/init.el"
         path: "~/.emacs.d/init.el"
         state: link
+
+    - lineinfile:
+        path: ~/.julia/config/startup.jl
+        create: yes
+        line: ENV["JULIA_EDITOR"] = "emacsclient"
 
     - git_config:
         name: user.email

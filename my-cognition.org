@@ -79,19 +79,9 @@
   散乱 - 无方向的收发
   语言 - 易转，所以成为很多转的中间转
     可以识到一个或一组对象上
-  学习/探索/解答 - 收发
-    学习是一层一层的
-    解答 - 收发关于问题对象，发岀要的部分
-    如你收不到问题的答案，只是因为你没有答案依赖的层
-    尝试性的探索大多一无所获，只增不好习惯
-    为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
   知所 - 明所之体与用，体为幻，用亦幻，幻之“发者”
-  Math - 收发structure
-    Topology - inner structure
-    Algebra - add/remove structure
-    Analysis - outer structure
-  Transform/Connected - 一个发包含两个对象
-    e.g. boundry touched stuffes, 2 stuff of one transform
+    can construct it
+    see it != can construct it
   Path - 两对象之间之龟毛兔角
 
 内执则不止
@@ -591,6 +581,20 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
   
 ***** Instance:
     Fa Zhi Zhong
+  学习/探索/解答 - 收发
+    学习是一层一层的
+    解答 - 收发关于问题对象，发岀要的部分
+    如你收不到问题的答案，只是因为你没有答案依赖的层
+    尝试性的探索大多一无所获，只增不好习惯
+    为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
+  Structure - Recurse收发
+  Math - 收发structure
+    Topology - inner structure
+    Algebra - recurse structure
+    Analysis - outer structure
+  Transform/Connected
+    e.g. boundry touched stuffes, 2 stuff of one transform
+
     Observe
       So Thing can be Recursion of Perspectives
     Thing := Prime | Recursion
@@ -616,6 +620,8 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
     Set
       Sequence
       Series
+    Convolution
+      recurse same scaled stuff, partial overlaply
     Graph
       Full Direct Connection Graph
         Non-linear Recursion
@@ -16804,6 +16810,9 @@ Alt - C-x @ a
 
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
+**** term ansi-term
+2 very similar terminals
+
 **** org-mode
 org-babel-load-languages is configed base on available pkgs of name: ob-*
 
@@ -17028,22 +17037,15 @@ kernel spec:
 
 install additional kernels:
 #+BEGIN_SRC julia
-using IJulia
-installkernel("Julia nodeps", "--depwarn=no")
-
+  using IJulia
+  installkernel("Julia nodeps", "--depwarn=no")
+  installkernel("Julia (4 threads)", env=Dict("JULIA_NUM_THREADS"=>"4"))
+  installkernel("Julia 6 process", "-p", "6")
+  # kernel name: julia-makie-1.5
+  installkernel("Julia makie", "--project=@.", "-J", "/Users/fuchengxu/Projects/apps/MakieSys.so")
 #+END_SRC
 
-#+BEGIN_SRC julia
-using IJulia
-installkernel("Julia (4 threads)", env=Dict("JULIA_NUM_THREADS"=>"4"))
 
-#+END_SRC
-
-#+BEGIN_SRC julia
-using IJulia
-installkernel("Julia 6 process", "-p", "6")
-
-#+END_SRC
 
 *** orthogonal
 Object state/function in cartesian coordinate. Changes on these state/function are orthogonal to coordinate
@@ -17556,6 +17558,92 @@ compile
   execute statements, serialize results' bytes in file as cache
   this cache not updated when: edit source, Pkg.update, Pkg.rm
   runtime ignore this cache via: --compiled-modules=no
+
+module flow:
+  using moudle -> load module -> invoke function -> compile function
+
+***** artifacts
+new in 1.3
+artifacts not central registed
+
+artifacts work flow:
+create artifact -> upload artifact -> introduce binding in pkg -> use artifact
+
+create artifact:
+#+begin_src julia :session create-artifact
+  using Pkg.Artifacts
+  iris_hash = create_artifact() do artifact_dir
+      @show artifact_dir
+      iris_url_base = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris"
+      download("$(iris_url_base)/iris.data", joinpath(artifact_dir, "iris.csv"))
+      download("$(iris_url_base)/bezdekIris.data", joinpath(artifact_dir, "bezdekIris.csv"))
+      download("$(iris_url_base)/iris.names", joinpath(artifact_dir, "iris.names"))
+  end
+#+end_src
+
+upload artifact:
+  #+begin_src julia :session upload-artifact
+    using Pkg
+    pkg"add Tar FTPClient FTPServer"
+    using Tar
+    using FTPClient
+    using FTPServer
+
+    # create tar
+    res = Tar.create("/Users/fuchengxu/.julia/artifacts/dbd04e28be047a54fbe9bf67e934be5b5e0d357a/", "mydata.tar")
+    Tar.list("mydata.tar")
+    tree_hash = Tar.tree_hash("mydata.tar")
+    @show tree_hash
+
+
+    # start ftp server
+    FTPServer.init()
+    server = FTPServer.Server()
+    FTPServer.HOMEDIR
+    close(server)
+    FTPServer.cleanup()
+
+
+    # upload
+    @show FTPServer.uri(server)
+    client = FTP(FTPServer.uri(server))
+
+    pwd(client)
+    readdir(client)
+    upload(client, "mydata.tar", ".")
+    close(client)
+  #+end_src
+
+introduce binding in pkg:
+#+begin_src julia :session introduce-binding
+  using Pkg.Artifacts
+  artifact_toml = joinpath(@__DIR__, "Artifacts.toml")
+
+  artifact_tree_hash = Base.SHA1("dbd04e28be047a54fbe9bf67e934be5b5e0d357a")
+  artifact_sha256 = "2cd3242043e865a2c4af8b05db67ffc41258452c081935dac914a8b890bb5421"
+  artifact_url = "ftp://user7555:yYS2ykXhXosEhSSEP300TtBIMwxsFP2bSi4xDsCX@localhost:58890/mydata.tar"
+  artifact_name = "iris"
+
+  bind_artifact!(artifact_toml, artifact_name, artifact_tree_hash, download_info=[(artifact_url, artifact_sha256)], lazy=true)
+#+end_src
+
+
+use artifact:
+#+begin_src julia :session use-artifact
+  using Pkg.Artifacts
+  artifact"iris"
+#+end_src
+
+
+Overwriding:
+~/.julia/artifacts/Overrides.toml
+2 approaches:
+  $contenthash = path/new $contenthash
+or:
+  [pkg uuid]
+  $artifactname = path/new $contenthash
+
+
 
 ***** package management commands
 preview command - preview pkg management operation NO change on project
@@ -19263,6 +19351,53 @@ if only one t given, promote t, x = t.index, y = t.value
 if 2+ t given, x = t1.value, y = t2.value, z = t3.value
 if additional functions given, x = f1(t.value), y = f2(t.value), z= f3(t.value)
 
+*** PackageCompiler.jl
+2 purpose:
+  create sysimage, compile lib to avoid JIT when first access
+  create app, which is a bundle of files, can run without julia runtime
+
+With sysimage, these modules auto loaded: Base.loaded_modules, no need to import  
+precompile_execution_file - code of function invoke, cause function compile, so that compiled code also persist into sysimage
+
+
+For Makie, save time:
+| command                        | no precompile                                                      | precompile                                                         |
+| using Makie                    | 11.373967 seconds (21.94 M allocations: 1.202 GiB, 3.11% gc time)  | 0.000945 seconds (445 allocations: 24.766 KiB)                     |
+| scene = Scene()                | 0.637629 seconds (848.18 k allocations: 45.265 MiB, 1.81% gc time) | 0.007429 seconds (1.14 k allocations: 63.234 KiB)                  |
+| scatter!(real(cir), imag(cir)) | 24.962436 seconds (57.90 M allocations: 2.991 GiB, 4.62% gc time)  | 4.126655 seconds (10.33 M allocations: 555.647 MiB, 7.11% gc time) |
+
+
+#+begin_src julia
+  using Pkg
+  pkg"add Makie PackageCompiler MakieGallery AbstractPlotting GLMakie"
+  pkg"resolve"
+  using PackageCompiler
+  using Makie
+  PackageCompiler.create_sysimage([:Makie :OhMyREPL], sysimage_path="MakieSys.so", precompile_execution_file=joinpath(pkgdir(Makie), "test", "test_for_precompile.jl"))
+#+end_src
+
+*** Makie.jl
+#+begin_src julia :session makie :kernel julia-makie-1.5
+  using Pkg
+  pkg"add Makie AbstractPlotting WGLMakie"
+  using Makie
+  using AbstractPlotting
+  using WGLMakie
+  # WGLMakie.activate!()
+
+
+  Makie.AbstractPlotting.inline!(false)
+  scene = Scene()
+
+  cir = [ℯ^(x * im) for x in 0:2π]
+
+  scatter!(real(cir), imag(cir), ratio=1)
+
+  
+  scene
+
+
+#+end_src
 
 *** JSExpr
 convert julia code to js code
@@ -19458,11 +19593,12 @@ ImageStack -> prepareenoder -> encoder -> appendencode! -> finishencode! -> mux 
 *** 18.S190
 #+BEGIN_SRC julia :session 18.S190
   using Pkg
-  # map(Pkg.add, ["CSV", "DataFrames", "Interact", "Mux", "WebIO", "Plots"])
+  map(Pkg.add, ["CSV", "DataFrames", "Interact", "Mux", "WebIO", "Plots", "StatsBase"])
   using CSV, DataFrames
   using Interact, Mux, WebIO
   using Plots
   using Dates
+  using StatsBase
 
   df = CSV.read("./resources/cms/covid_data.csv")
 
@@ -19517,6 +19653,42 @@ ImageStack -> prepareenoder -> encoder -> appendencode! -> finishencode! -> mux 
       x
   end
 
+  function trajectory(n)
+      xs = [0]
+      for i in 1:n
+          push!(xs, xs[end] + rand((-1, 1)))
+      end
+      xs
+  end
+
+
+  experiment(steps, walks) = [walk(steps) for i in 1:walks]
+
+  experiment(20, 1000)
+
+  traj = trajectory(100)
+
+  trajs = [trajectory(100) for i in 1:10000]
+  trajs_matrix = hcat(trajs...)
+  trajs_matrix[end, :]
+  walkendcounts = countmap(trajs_matrix[end,:])
+  mean(experiment(20,100000))
+
+  p = 0.1
+
+  M = [1-p p
+       0   1]
+
+  P₀ = [1 0]
+
+  P₁ = P₀ * M
+
+  n = 1000
+  (1 + .3/n)^n
+  ℯ^.3
+
+
+
 
   w = @manipulate for i in 1:100
         # plot(dates, US_data, xticks=dates[1:8:end], xrotation=45, xlabel="dates", ylabel="US comfirmed cases", m=:o, leg=:topleft, label="US data", title="US comfirmed COVID-19 cases", yscale=:log10)
@@ -19527,11 +19699,23 @@ ImageStack -> prepareenoder -> encoder -> appendencode! -> finishencode! -> mux 
       # scatter(zeros(i), r[1:i], ylims=(0, 1))
       scatter(trails)
       scatter([rand() for i in 1:100], ylims=(0, 1))
+      plot(trajectory(100), m=:o)
+      p = plot(legend=false)
+      for i in 1:100
+          plot!(trajectory(1000))
+      end
+      p
+      plot(traj[1:i])
+      scatter(trajs_matrix[end,:])
+      scatter(walkendcounts)
+      scatter(countmap(experiment(20, 10000)))
+      histogram(experiment(20,10000), normed=true)
   end
 
   @app widgets = (Mux.defaults,
                   page(respond(w)),
                   Mux.notfound())
+
 
 
   t = webio_serve(widgets)
@@ -19549,6 +19733,8 @@ ImageStack -> prepareenoder -> encoder -> appendencode! -> finishencode! -> mux 
   Pkg.add("Pluto")
   # using FileIO
   using Images
+  using Pluto
+  Pluto.run()
 
   url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/201808/julia-programming-language-mit-00_0.png?itok=gxfHvo6I"
   download(url, "julialogo.jpg")
