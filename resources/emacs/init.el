@@ -123,7 +123,8 @@
   :demand t
   :after (julia-mode)
   :init
-  (setq lsp-julia-package-dir "~/Projects/apps")
+  ;; LanguageServer need to be installed in current project
+  (setq lsp-julia-package-dir "@.")
   ;; fix error in : LanguageServer.FoldingRangeCapabilities
   (setq lsp-enable-folding t)
   (setq lsp-folding-range-limit 100)
@@ -153,8 +154,9 @@
 
 (use-package julia-repl
   :ensure t
+  :hook (julia-mode . julia-repl-mode)
   :config
-  (setq julia-repl-switches "-J MakieSys.so")
+  ;; (setq julia-repl-switches "-J MakieSys.so")
   (add-hook 'julia-repl-hook #'julia-repl-use-emacsclient))
 
 ;; jupyter-run-repl will start kernel in active directory not emacs process's directory
@@ -163,6 +165,8 @@
 ;; jupyter-run-repl not in jupyter.el, it's in jupyter-repl.el
 ;; demand to config it before executing org code block
 (use-package jupyter
+  ;; sometime disable to use julia-repl
+  :disabled
   :ensure t
   :demand t
   :config
@@ -181,9 +185,6 @@
                                                         (:kernel . "julia-1.5")))
     (org-babel-jupyter-override-src-block "julia")
     ))
-
-(use-package ein
-  :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -434,3 +435,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'dired-find-alternate-file 'disabled nil)

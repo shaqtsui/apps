@@ -80,13 +80,17 @@
   语言 - 易转，所以成为很多转的中间转
     可以识到一个或一组对象上
   知所 - 明所之体与用，体为幻，用亦幻，幻之“发者”
+    有依造 -> 无依造
     can construct it
     see it != can construct it
   Path - 两对象之间之龟毛兔角
 
 内执则不止
 心性转神为作（收发）
+有依造 － 见闻觉知
+无依造 － 想思忆行
 心力勿用于根
+用力与否觉不生灭
 
 
 * 未发（中），发皆中节（和）
@@ -580,134 +584,140 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
   Recursion of Non-recursion -> Recursion of Recursion -> chain Recurse
   
 ***** Instance:
-    Fa Zhi Zhong
-  学习/探索/解答 - 收发
-    学习是一层一层的
-    解答 - 收发关于问题对象，发岀要的部分
-    如你收不到问题的答案，只是因为你没有答案依赖的层
-    尝试性的探索大多一无所获，只增不好习惯
-    为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
-  Structure - Recurse收发
-  Math - 收发structure
-    Topology - inner structure
-    Algebra - recurse structure
-    Analysis - outer structure
-  Transform/Connected
-    e.g. boundry touched stuffes, 2 stuff of one transform
+Fa Zhi Zhong
+学习/探索/解答 - 收发
+  学习是一层一层的
+  解答 - 收发关于问题对象，发岀要的部分
+  如你收不到问题的答案，只是因为你没有答案依赖的层
+  尝试性的探索大多一无所获，只增不好习惯
+  为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
+Structure - Recurse收发
+Math - 收发structure
+  Topology - inner structure
+  Algebra - recurse structure
+  Analysis - outer structure
+Transform/Connected
+  e.g. boundry touched stuffes, 2 stuff of one transform
 
-    Observe
-      So Thing can be Recursion of Perspectives
-    Thing := Prime | Recursion
-    Learning/Study/Cognition/Ability
-      The process is Recursion
-      Cognition down to Recursion, then it's Thorough
-    Mental Construction(Think)
-      It's Process & itself are both Recursion, but remember that Prime can be other Recursion
-    World - Container with Things & Relations
-      All Your Observables
-    Generalization
-      Non-linear Recursion -> Linear Recursion
-    Abstract
-      From Horizontal perspective
-      Each of Recursion with same Sub-Recursion
-    Logic Induction
-    Axiom-Theorem System
-      Axiom - Prime
-      Theorem - Recursion
-    Language
-      Syntax - Recursion structure
-      Word - Prime
-    Set
-      Sequence
-      Series
-    Convolution
-      recurse same scaled stuff, partial overlaply
-    Graph
-      Full Direct Connection Graph
-        Non-linear Recursion
-        Convert to Tree
-          1, Base: null -> assistant node
-          2, Addon:
-               Take apart: Node & Connections
-               Convert: Non-Recursive Connections -> Recursive Connection
-          3, Sub-Recursion Addon Pair Repartition
-               Move Recursive Connection's Sub-Recursion part to existing Sub-Recursion
-               Which means Addon Connection to assistant node:
-                 1, not only serve as connection for current node
-                 2, But also will be used by future nodes
+Decision/Plain
+  In essence, it's constructting target
+  next move base on existing
+  such method can make sure as a whole in mind
+  e.g. Draw Shape, writting
 
-      Tree
-        Linear Recursion
+Observe
+  So Thing can be Recursion of Perspectives
+Thing := Prime | Recursion
+Learning/Study/Cognition/Ability
+  The process is Recursion
+  Cognition down to Recursion, then it's Thorough
+Mental Construction(Think)
+  It's Process & itself are both Recursion, but remember that Prime can be other Recursion
+World - Container with Things & Relations
+  All Your Observables
+Generalization
+  Non-linear Recursion -> Linear Recursion
+Abstract
+  From Horizontal perspective
+  Each of Recursion with same Sub-Recursion
+Logic Induction
+Axiom-Theorem System
+  Axiom - Prime
+  Theorem - Recursion
+Language
+  Syntax - Recursion structure
+  Word - Prime
+Set
+  Sequence
+  Series
+Convolution
+  recurse same scaled stuff, partial overlaply
+Graph
+  Full Direct Connection Graph
+    Non-linear Recursion
+    Convert to Tree
+      1, Base: null -> assistant node
+      2, Addon:
+           Take apart: Node & Connections
+           Convert: Non-Recursive Connections -> Recursive Connection
+      3, Sub-Recursion Addon Pair Repartition
+           Move Recursive Connection's Sub-Recursion part to existing Sub-Recursion
+           Which means Addon Connection to assistant node:
+             1, not only serve as connection for current node
+             2, But also will be used by future nodes
 
-    Process
-      18.062J
-    Limit
-      Recursion bypass all execept limit point
-    Function
-      Recursion of parallel Transforms(may base on "from" part)
-      Base Transform + Change Transform + Change Transform ...
-      Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Transforms)
-      Partial Linear: Generator -> Generator(Permanent Change Transforms)
-      Non-linear
-        e.g. When addon is +?, f(x) = x^2 is non-linear. Id -> Id, +1 -> +1, +1 -> +3, +1 -> +5 ... . +1 -> +? is changing depends on previous recursion
-      Non-linear -> Linear
-        e.g.
-          f(x) = x^n, addon change from +? to *? so that convert to linear recursion
-      Continuous - Tends to no change
-      Deferentiable - Tends to Linear
-      deferential:
-        x change sequence & y change sequence
-      integral:
-        sum small parts
-      Rate - A function
-      18.01, 18.02, 18.03, 18.100B
-    Isomorphism
-      Recursion of parallel Transforms
-      Transform of elements & corresponding combinations
-      Total Linear Function
-    Function Call Chain
-    Recursive Function
-    Group
-      group generator compose(+, *) to generate all elements
-      18.703
-    Group/*,^,^^
-      *, Linear Recursion of +, defined in distribution rule
-      ^, Linear Recursion of *, also have corresponding distribution rule
-      ^^, Tetration, Linear Recursion of ^, also have corresponding distribution rule
-    Group/Vector
-      i)i)i)j)j)k)k)k)k)
-      is)js)ks) - R, Recursion of i, j, k
-      i, j, k, - Prime of is)js)ks)
-      ) -> +
-      all Primes - Basis
-      Pi = R)-Pj)-Pk)
-      i.e.
-      is = R)-js)-ks)
-      18.06
-    Space
-      any point compose with different distance
-    Variable
-      Identity + Generator + Generator ...
-      init value + change + change ...
-    ALL
-      If you need to go to internal, it's Recursion, otherwise it's Prime
-    ANY
-      Recursion, from one element route one by one so that cover ALL.
-    Transform
-    Relation
-      is the recursion contains multiple elements, such that element A -> recursion -> element B
-    Number
-    Infinite
-    S-expression
-    Change
-      Used to proof:
-        triangle inequality(a + b > c, a - b < c)
-        fix a + b, move from a = b to a > b   ->   ab ⤵ , c ⤴ , c^2 ⤴
-        fix a^2 + b^2, a = b -> a > b   ->   2ab = c^2 -> 0
-    Some Multiple Individuals
-      They are Sub-Recursions of a Recursion
-    Vector Linear Transform Chain
-      Transform = Expansion + Combination
+  Tree
+    Linear Recursion
+
+Process
+  18.062J
+Limit
+  Recursion bypass all execept limit point
+Function
+  Recursion of parallel Transforms(may base on "from" part)
+  Base Transform + Change Transform + Change Transform ...
+  Total Linear: Identity -> Identity, Generator -> Generator(Permanent Change Transforms)
+  Partial Linear: Generator -> Generator(Permanent Change Transforms)
+  Non-linear
+    e.g. When addon is +?, f(x) = x^2 is non-linear. Id -> Id, +1 -> +1, +1 -> +3, +1 -> +5 ... . +1 -> +? is changing depends on previous recursion
+  Non-linear -> Linear
+    e.g.
+      f(x) = x^n, addon change from +? to *? so that convert to linear recursion
+  Continuous - Tends to no change
+  Deferentiable - Tends to Linear
+  deferential:
+    x change sequence & y change sequence
+  integral:
+    sum small parts
+  Rate - A function
+  18.01, 18.02, 18.03, 18.100B
+Isomorphism
+  Recursion of parallel Transforms
+  Transform of elements & corresponding combinations
+  Total Linear Function
+Function Call Chain
+Recursive Function
+Group
+  group generator compose(+, *) to generate all elements
+  18.703
+Group/*,^,^^
+  *, Linear Recursion of +, defined in distribution rule
+  ^, Linear Recursion of *, also have corresponding distribution rule
+  ^^, Tetration, Linear Recursion of ^, also have corresponding distribution rule
+Group/Vector
+  i)i)i)j)j)k)k)k)k)
+  is)js)ks) - R, Recursion of i, j, k
+  i, j, k, - Prime of is)js)ks)
+  ) -> +
+  all Primes - Basis
+  Pi = R)-Pj)-Pk)
+  i.e.
+  is = R)-js)-ks)
+  18.06
+Space
+  any point compose with different distance
+Variable
+  Identity + Generator + Generator ...
+  init value + change + change ...
+ALL
+  If you need to go to internal, it's Recursion, otherwise it's Prime
+ANY
+  Recursion, from one element route one by one so that cover ALL.
+Transform
+Relation
+  is the recursion contains multiple elements, such that element A -> recursion -> element B
+Number
+Infinite
+S-expression
+Change
+  Used to proof:
+    triangle inequality(a + b > c, a - b < c)
+    fix a + b, move from a = b to a > b   ->   ab ⤵ , c ⤴ , c^2 ⤴
+    fix a^2 + b^2, a = b -> a > b   ->   2ab = c^2 -> 0
+Some Multiple Individuals
+  They are Sub-Recursions of a Recursion
+Vector Linear Transform Chain
+  Transform = Expansion + Combination
 
 
 **** not grouped
@@ -17078,6 +17088,31 @@ optional arguments are implemented as multiple methods
 keyword arguments doesn't participate in dispatch
 functor := function object := callable object
 type is also function
+method container:
+  function
+    #+begin_src julia
+      function f end
+      methods(f)
+      f() = println("a method in f")
+    #+end_src
+  type - constructor
+    #+begin_src julia
+      struct A end
+      methods(A)
+      A(x) = println("I return nothing")
+    #+end_src
+  type - functor
+    value as a parameter
+    get/invoke via value
+    #+begin_src julia
+      (x::Int64)() = println("I am $x of Int64")
+      (x::String)() = println("I am $x of String")
+
+      methods(1)
+      methods("s")
+      (1::Int64)()
+      "s"()
+    #+end_src
 
 Normal functions support runtime polymorphism
 (clojure only have defmulti support this)
@@ -19344,6 +19379,72 @@ Communication via: Scope & Observable
 Scope contains:
    Node, Observables, Observable JS Listener(onjs i.e. js callback), Asset(imports=), JS(onmount)
 
+*** Observables.jl
+a container & a set of functions, so it have value & dyna behaviors
+set value & invoke functions:
+  observable[] = val
+get value:
+  observable[]
+
+add functions:
+#+begin_src julia
+  using Pkg
+  pkg"add Observables"
+  using Observables
+  obs = Observable(0)
+  # add listener
+  h = on(obs) do val
+      println("Got an update: ", val)
+  end
+
+  h
+  typeof(h)
+  obs
+  obs[]
+  obs[] = 42
+  obs[]
+
+  off(obs, h)
+  obs
+
+  # onany, same function add to all obs
+  obs2 = Observable(20)
+  obs3 = Observable(30)
+  onany(obs2, obs3) do val1, val2
+    println("val1 $val1, val2 $val2")
+  end
+  obs2[] = 22
+  obs3[] = 32
+  obs2, obs3
+#+end_src
+
+add function to send current observable's value, may with mapping, to other observable
+#+begin_src julia
+  # connect!, add listener: (x -> obs5[] = x) on obs4
+  # return last one
+  obs4 = Observable(40)
+  obs5 = Observable(50)
+  res = connect!(obs4, obs5)
+  obs4, obs5
+  obs4[] = 41
+  obs5[] = 51
+
+  # map!, add function to obs7, obs8, ..., which invoke f & update obs6
+  obs6 = Observable(60)
+  obs7 = Observable(70)
+  obs8 = Observable(80)
+  map!((x, y) -> x + y + 1, obs6, obs7, obs8)
+  obs6, obs7, obs8
+  obs7[] = 71
+
+  # map, create obs & invoke map!
+  obs9 = Observable(90)
+  obs10 = map(x -> x + 1, obs9)
+  obs9, obs10
+  obs9[] = 99
+
+#+end_src
+
 *** Plots.jl
 plot()
 argument t can be a sequence or from & to
@@ -19356,7 +19457,8 @@ if additional functions given, x = f1(t.value), y = f2(t.value), z= f3(t.value)
   create sysimage, compile lib to avoid JIT when first access
   create app, which is a bundle of files, can run without julia runtime
 
-With sysimage, these modules auto loaded: Base.loaded_modules, no need to import  
+**** Sysimage
+With sysimage, these modules precompiled & auto loaded: Base.loaded_modules, no need to import
 precompile_execution_file - code of function invoke, cause function compile, so that compiled code also persist into sysimage
 
 
@@ -19376,27 +19478,426 @@ For Makie, save time:
   PackageCompiler.create_sysimage([:Makie :OhMyREPL], sysimage_path="MakieSys.so", precompile_execution_file=joinpath(pkgdir(Makie), "test", "test_for_precompile.jl"))
 #+end_src
 
+create precompile file:
+start repl with --trace-compile=ohmyrepl_precompile.jl
+run below codes
+#+begin_src julia
+  using OhMyREPL
+  1 + 1
+  function f(x::Float64)
+    return x
+  end
+
+#+end_src
+
+
+**** App
+create_app
+best use Artifacts
+
+
+
 *** Makie.jl
-#+begin_src julia :session makie :kernel julia-makie-1.5
+record - frames comes from multiple apply f to inputs
+record - frames comes from apply f to VideoStream io
+#+begin_src julia :session makie
   using Pkg
   pkg"add Makie AbstractPlotting WGLMakie"
   using Makie
   using AbstractPlotting
-  using WGLMakie
+  # using WGLMakie
   # WGLMakie.activate!()
 
-
+  # default is false
   Makie.AbstractPlotting.inline!(false)
+  # Makie.AbstractPlotting.inline!(true)
   scene = Scene()
 
   cir = [ℯ^(x * im) for x in 0:2π]
-
   scatter!(real(cir), imag(cir), ratio=1)
+  scatterobject = scene[end]
+  scatterobject.markersize = 30
 
+  xs = -π:0.01:π
+  frequency = Node(3.0)
+  phase = Node(0.0)
+  ys = lift(frequency, phase) do fr, ph
+      @. 0.3 * sin(fr * xs - ph)
+  end
+  lines!(xs, ys)
+  frequency[] = 3
+  phase[] = 1
+
+  inputs = 0:1/24:5
+  record(scene, "phase_animation.mp4", inputs) do input
+      phase[] = 2input
+  end
+
+#+end_src
+
+#+begin_src julia :session makie2
+  using Makie, AbstractPlotting, AbstractPlotting.Colors
+  scene = lines(1..10, sin; linewidth=10)
+  lineplot = scene[end]
+  n_frames = 240
+  hues = LinRange(0, 360, n_frames)
+  record(scene, "color_animation.mp4", hues) do hue
+    lineplot.color = HSV(hue, 1, 0.75)
+  end
+#+end_src
+
+#+begin_src julia
+  using Makie
+  time = Node(0.0)
+  xs = LinRange(0, 7, 40)
+  ys = @lift [ℯ^((x - $time) * im) for x in xs]
+  ys_1 = @lift imag($ys)
+  ys_2 = @lift real($ys) .+ 3
+
+  scene = lines(xs, ys_1, color = :blue)
+  scatter!(scene, xs, ys_2, color = :red)
+  ts = 0:1/24:5
+  record(scene, "time_animation.mp4", ts) do t
+    time[] = t
+  end
+#+end_src
+
+#+begin_src julia
+  using Makie
+  pts = Node(Point2f0[(0,0)])
+  inputs = 1:60
+  scene = scatter(pts, limits = FRect(0, 0, length(inputs), length(inputs))
+  record(scene, "append_animation.mp4", inputs) do input
+      new_pt = Point2f0(input, input)
+      pts[] = push!(pts[], new_pt)
+  end
+
+#+end_src
+
+lift same as map
+#+begin_src julia
+  using Makie
+  x = Observable(10)
+  y = lift(x -> x^2, x)
+  y = map(x -> x^2, x)
+  x, y
+  x[] = 20
+#+end_src
+
+#+begin_src julia
+  using Observables
+  using Makie
+  pts = Node(Point2f0[(0,0)])
+  scene = scatter(pts, limits = FRect(0, 0, 20, 20))
+  map!(pts, scene.events.keyboardbuttons) do btn
+    ispressed(btn, Keyboard.up) && return push!(pts[], Point2f0(pts[][end][1], pts[][end][end] + 1))
+    ispressed(btn, Keyboard.down) && return push!(pts[], Point2f0(pts[][end][1], pts[][end][end] - 1))
+    ispressed(btn, Keyboard.right) && return push!(pts[], Point2f0(pts[][end][1] + 1, pts[][end][end]))
+    ispressed(btn, Keyboard.left) && return push!(pts[], Point2f0(pts[][end][1] - 1, pts[][end][end]))
+    println(btn)
+    return pts[]
+  end
+
+  record(scene, "test.mp4") do io
+    for i in 1:240
+      recordframe!(io)
+      sleep(1/24)
+    end
+  end
+#+end_src
+
+plotting functions
+arrows
+#+begin_src julia
+  using Makie
+  xs = LinRange(1, 10, 20)
+  ys = LinRange(1, 15, 20)
+  us = [cos(x) for x in xs, y in ys]
+  vs = [sin(y) for x in xs, y in ys]
+
+  scene = arrows(xs, ys, us, vs, lengthscale=0.5)
+  lines!([π/2, π/2], [0, 16], color=:blue)
+  lines!([π, π], [0, 16], color=:blue)
+  lines!([3π/2, 3π/2], [0, 16], color=:blue)
+  lines!([2π, 2π], [0, 16], color=:blue)
+
+  lines!([0, 16], [π/2, π/2],  color=:blue)
+  lines!([0, 16], [π, π], color=:blue)
+  lines!([0, 16], [3π/2, 3π/2], color=:blue)
+  lines!([0, 16], [2π, 2π], color=:blue)
+#+end_src
+
+band
+#+begin_src julia
+  using Makie
+  xs = 1:0.5:10
+  ys_low = @. -0.2 * sin(xs) - 0.3
+  ys_high = @. 0.2 * sin(xs) + 0.3
+  band(xs, ys_low, ys_high)
+#+end_src
+
+barplot
+#+begin_src julia
+  using Makie
+  xs = 1:0.5:10
+  ys = sin.(xs)
+  barplot(xs, ys)
+#+end_src
+
+contour
+#+begin_src julia
+  using Makie
+  xs = LinRange(0, 10, 100)
+  ys = LinRange(0, 15, 100)
+  zs = [cos(x) * sin(y) for x in xs, y in ys]
+  contour(xs, ys, zs)
+#+end_src
+
+errorbars
+#+begin_src julia
+  using Makie
+  xs = 0:0.5:10
+  ys = sin.(xs)
+  low = fill(0.1, length(xs))
+  high = LinRange(0.1, 0.5, length(xs))
+  errorbars(xs, ys, low, high)
+  errorbars!(xs, ys .- 2, low, high, direction=:x)
+  scatter!(xs, ys)
+#+end_src
+
+heatmap
+#+begin_src julia
+  using Makie
+  xs = LinRange(0, 10, 100)
+  ys = LinRange(0, 15, 100)
+  zs = [cos(x) * sin(y) for x in xs, y in ys]
+  heatmap(xs, ys, zs)
+#+end_src
+
+lines
+#+begin_src julia
+  using Makie
+  xs = 0:0.01:10
+  ys = sin.(xs)
+  lines(xs, ys)
+#+end_src
+
+linesegments
+#+begin_src julia
+  using Makie
+  xs = 0:0.2:10
+  ys = sin.(xs)
+  linesegments(xs, ys)
+
+  xs2 = 0:0.5:10
+  ys2 = sin.(xs2) .- 2
+  linesegments!(xs2, ys2)
+  scatter!(xs2, ys2)
+#+end_src
+
+mesh ???
+#+begin_src julia
+  using Makie
+  vertices = [
+    0.0 0.0
+    1.0 0.0
+    1.0 1.0
+    0.0 1.0
+  ]
+  faces = [
+    1 2 3
+    3 4 1
+  ]
+  mesh(vertices, faces)
+#+end_src
+
+meshscatter
+#+begin_src julia
+  using Makie
+  ts = 1:0.5:20
+  cs = [ℯ^(t * im) for t in ts]
+  xs = imag(cs)
+  ys = real(cs)
+  zs = [t/5 for t in ts]
+  meshscatter(xs, ys, zs)
+#+end_src
+
+poly
+#+begin_src julia
+  using Makie
+  p1 = Point2f0(0, 0)
+  p2 = Point2f0(2, 0)
+  p3 = Point2f0(3, 1)
+  p4 = Point2f0(1, 1)
+  poly([p1, p2, p3, p4])
+#+end_src
+
+scatter
+#+begin_src julia
+  xs = LinRange(0, 10, 20)
+  ys = sin.(xs)
+  scatter(xs, ys, marker='a':'t')
+#+end_src
+
+surface
+#+begin_src julia
+  using Makie
+  xs = LinRange(0, 10, 20)
+  ys = LinRange(0, 15, 20)
+  zs = [cos(x) * sin(y) for x in xs, y in ys]
+  surface(xs, ys, zs)
+#+end_src
+
+text
+#+begin_src julia
+  using Makie
+  text("TEst")
+#+end_src
+
+volume
+plot a 3d matrix, show points of value = isovalue +/- isorange
+#+begin_src julia
+  using Makie
+  r = LinRange(-1, 1, 50)
+  cube = [x^2 + y^2 + z^2 for x in r, y in r, z in r];
+  volume(cube, algorithm = :iso, isorange = 0.05, isovalue = 1.7)
+  volume(cube, algorithm = :iso, isorange = 0.005, isovalue = 2)
+  volume(cube, algorithm = :iso, isorange = 0.005, isovalue = 1)
+#+end_src
+
+
+Axis
+#+begin_src julia
+  using Makie
+  r = LinRange(-1, 1, 50)
+  cube = [x^2 + y^2 + z^2 for x in r, y in r, z in r];
+  scene = volume(cube, algorithm = :iso, isorange = 0.05, isovalue = 1.7)
+  axis = scene[Axis]
+  axis[:names]
+  axis[:names, :axisnames]
+  axis[:frame]
+#+end_src
+
+#+begin_src julia
+xs = -10:0.1:10
+ys = -10:0.1:10
+zs = [10 * (cos(x) * cos(y)) * (.1 + exp(-(x^2 + y^2 + 1)/10)) for x in xs, y in ys]
+
+surface(
+    xs, ys, zs, colormap = (:white, :white),
+
+    # Light comes from (0, 0, 15), i.e the sphere
+    lightposition = Vec3f0(0, 0, 15),
+    # base light of the plot only illuminates red colors
+    ambient = Vec3f0(0.3, 0, 0),
+    # light from source (sphere) illuminates yellow colors
+    diffuse = Vec3f0(0.4, 0.4, 0),
+    # reflections illuminate blue colors
+    specular = Vec3f0(0, 0, 1.0),
+    # Reflections are sharp
+    shininess = 128f0
+)
+mesh!(Sphere(Point3f0(0, 0, 15), 1f0), color=RGBf0(1, 0.7, 0.3))
+#+end_src
+
+#+begin_src julia
+scene = Scene(show_axis = false)
+
+# SSAO attributes are per scene
+scene[:SSAO][:radius][] = 5.0
+scene[:SSAO][:blur][] = 3
+scene[:SSAO][:bias][] = 0.025
+
+box = Rect3D(Point3f0(-0.5), Vec3f0(1))
+positions = [Point3f0(x, y, rand()) for x in -5:5 for y in -5:5]
+meshscatter!(positions, marker=box, markersize=1, color=:lightblue, ssao=true)
+#+end_src
+
+plot recipes ???
+type recipes - convert object
+#+begin_src julia
+using Makie, Abstractplotting
+typeof(1.0 + 2im)
+methods(plottype)
+#+end_src
+
+full recipes
+like scatter, lines, ...
+new func: myplot, type: MyPlot
+overload plot!
+#+begin_src julia
+
+#+end_src
+
+stepper ???
+
+*** MakieLayout.jl
+scene
+  plots
+  scenes
+
+LAxis - similar to scene, without subscene
+  plots
+here xxxplot! return plot not scene
+#+begin_src julia
+using AbstractPlotting, AbstractPlotting.MakieLayout, GLMakie
+scene, layout = layoutscene(20, resolution = (800, 800))
+ax1 = layout[1, 1] = LAxis(scene, title = "Pre Treatment")
+line1 = lines!(ax1, 5..15, x -> x)
+data1 = randn(50, 2) * [1 2.5; 2.5 1] .+ [10 10]
+scat1 = scatter!(ax1, data1)
+
+[scene, scene.children, layout, ax1, ax2, line1, scat1]
+
+ax2 = layout[1, 2] = LAxis(scene, title = "Post Treatment")
+data2 = randn(50, 2) * [1 -2.5; -2.5 1] .+ [13 13]
+line2 = lines!(ax2, 7..17, x -> -x + 26, color = :blue, linewidth = 2)
+scat2 = scatter!(ax2, data2, color = (:blue, 0.3), markersize = 15px, marker = '▲')
+
+linkaxes!(ax1, ax2)
+scene
+hideydecorations!(ax2, grid = false)
+ax1.xlabel = "Weight [kg]"
+ax2.xlabel = "Weight [kg]"
+ax1.ylabel = "Maximum Velocity [m/sec]"
+
+leg = layout[1, end + 1] = LLegend(scene, [line1, scat1, line2, scat2], ["f(x) = x", "Data", "f(x) = -x + 26", "Data"])
+layout[2, 1:2] = leg
+trim!(layout)
+leg.tellheight = true
+leg.orientation = :horizontal
+
+hm_axes = layout[1:2, 3] = [LAxis(scene, title = t) for t in ("Cell Assembly Pre", "Cell Assembly Post")]
+heatmaps = [heatmap!(ax, i .+ rand(20, 20)) for (i, ax) in enumerate(hm_axes)]
+
+hm_sublayout = GridLayout()
+layout[1:2, 3] = hm_sublayout
+hm_sublayout[:v] = hm_axes
+trimlimits!.(hm_axes)
+hidedecorations!.(hm_axes)
+println(scene)
+for hm in heatmaps
+  hm.colorrange = (1, 3)
+end
+
+# have no sub scene
+cbar = hm_sublayout[:, 2] = LColorbar(scene, heatmaps[1], label = "Activity [spikes/sec]")
+scene
+cbar.width = 20
+cbar.height = Relative(2/3)
+
+# have no sub scene
+supertitle = layout[0, :] = LText(scene, "Plotting with Makei", textsize = 30)
+label_a = layout[2, 1, TopLeft()] = LText(scene, "A", textsize = 35)
+label_b = layout[2, 2, TopLeft()] = LText(scene, "B", textsize = 35)
+
+#+end_src
+
+*** AlgebraOfGraphics.jl
+#+begin_src julia
+  using Pkg
+  pkg"add AlgebraOfGraphics"
   
-  scene
-
-
 #+end_src
 
 *** JSExpr
