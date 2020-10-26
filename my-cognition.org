@@ -19894,10 +19894,22 @@ label_b = layout[2, 2, TopLeft()] = LText(scene, "B", textsize = 35)
 #+end_src
 
 *** AlgebraOfGraphics.jl
+*, + to combine "spec", follow distribution rule, get Spec
+
+Mapping - specify plot's x, y, z & other attributes
+Visual - specify plot's visual info
+Context - specify plot's context
+
+
 #+begin_src julia
   using Pkg
-  pkg"add AlgebraOfGraphics"
-  
+  pkg"add AlgebraOfGraphics RDatasets CairoMakie"
+  using RDatasets: dataset
+  using AlgebraOfGraphics
+  using AbstractPlotting
+  using GLMakie
+  mpg = dataset("ggplot2", "mpg")
+  data(mpg) * mapping(:Displ, :Hwy) * visual(Scatter) |> draw
 #+end_src
 
 *** JSExpr
