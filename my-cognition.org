@@ -17068,14 +17068,31 @@ f apply to x equals: x^2
 so also can explicitly write as:
 f(x) where x refer to element of universal set = x^2
 
+*** type variance
+order preserve/reverse/ignore when type encapsulated
+A <: B -> List{A} <: List{B} - covariance
+A <: B -> List{A} :> List{B} - contravariance
+otherwise - invariance
+
 *** Julia
 **** First-class Runtime Polymorphism
+Essential: $action of a tuple of arguments to a value, different arguments type with different $action method
+function - $action = mapping
+struct - $action = structing
+
+e.g.
+  struct:
+    Vector{Int64}(1::Int64) # consequential segments of 64 bits
+    Vector{Int8}(1::Int8)   # consequential segments of 8 bits
+  function
+    +(1::Int64, 1::Int64)   # add of Int64
+    +(1::Int8, 1::Int8)     # add of Int8
+
 A kind of Abstract
 MULTIPLE DISPATCH TOGETHER WITH FLEXIABLE PARAMETRIC TYPE SYSTEM GIVE JULIA ITS ABILITY TO ABSTRACTLY EXPRESS HIGH-LEVEL ALGORITHMS DECOUPLED FROM IMPLEMENTATION DETAILS, YET GENERATE EFFICIENT, SPECIALIZED CODE TO HANDLE EACH CASE AT RUNTIME
 ***** mulpiple dispatch function
 SINGLE MOST POWFUL AND CENTRAL FEATURE OF THE JULIA LANGUAGE
 
-map a tuple of arguments to a return value
 function consists of a set of methods
 function itself perform dispatch
 dispatch
@@ -17120,22 +17137,42 @@ Normal functions support runtime polymorphism
 ***** parametric type
 AN IMPORTANT AND POWERFUL FEATURE OF JULIA'S TYPE SYSTEM IS THAT IT IS PARAMETRIC: TYPES CAN TAKE PARAMETERS, SO THAT TYPE DECLARATIONS ACTUALLY INTRODUCE A WHOLE FAMILY OF NEW TYPES – ONE FOR EACH POSSIBLE COMBINATION OF PARAMETER VALUES. 
 
-A type only define a structure, this structure can ship any parametric data
-This consistent with (Primes + Recursions)
 
-where - introduce a type variable
+A type only define a structure, this structure can ship any parametric substruct
+This consistent with (Primes + Recursions)
 
 Type application:
 A{B, C} := A{B}{C}
-A - UnionAll
-A{B} - UnionAll
-UnionAll type:
-A := A{B, C} where B where C := A{B, C} where B<:UnionAll where C:<UnionAll := let B, C <: UnionAll; A{B, C} end
-
-A{<:Integer} := A{T} where T<:Integer
 
 parameter of parametric type can be plain bits(Type, Symbol, Char, Number, Tuple...)
 ::Val{0}, ::Val{1}, ::Val{2}
+
+  
+**** type union, invariant
+A special abstract type
+  Union{Int, String} - union of types
+  UnionAll - union of a range of partially known types, not yet created, normally constructed via where
+e.g.
+  Complex == Complex{} - math expression: {Complex{T} : T in parametricdefrange}
+  Complex{<:Real} == Complex{var"#sXXX"} where var"#sXXX"<:Real - math expression: {Complex{T} : T <: Real}
+  Complex{T} where T == Complex{T} where T<:Any - math expression: {Complex{T} : T <: Any}
+  Array{Complex{T} where T, 1} - Array{math expression: {Complex{T} where T <: Any}, 1}
+  Array{Complex{T}, 1} where T - math expression: {Array{Complex{T}, 1} : T <: Any}
+So:
+  Complex{Int} <: Complex == true
+  Complex{Int} <: Complex{} == true
+  Complex{Int} <: Complex{<:Real} == true
+  Complex{Int} <: Complex{T} where T = true
+  Complex{Int} <: Complex{T} where T:<Any = true
+
+Type invariant(as different in memory, can not use strut method of super type):
+  Complex{Int} <: Complex{Real} == false
+So:
+  cs = [1.0 + 2.0im]
+  Array{Complex{Float64}, 1} <: Array{Complex{Float64}, 1} == true
+  Array{Complex{Float64}, 1} <: DenseArray{Complex{Float64}, 1} == true
+  Array{Complex{Float64}, 1} <: DenseArray{<:Number, 1} == true
+  Array{Complex{Float64}, 1} <: Array{Complex{<:Number}, 1} == true
 
 
 **** folder contents
@@ -19813,15 +19850,32 @@ positions = [Point3f0(x, y, rand()) for x in -5:5 for y in -5:5]
 meshscatter!(positions, marker=box, markersize=1, color=:lightblue, ssao=true)
 #+end_src
 
-plot recipes ???
+plot recipes
 type recipes - convert object
+arguments will be converted to plottable type e.g. ([Point2f0],) via convert_arguments(::AbstractPlotting.PointBased, arg1, arg2...)
+plot() query plottype() to get plot type
 #+begin_src julia
-using Makie, Abstractplotting
-typeof(1.0 + 2im)
-methods(plottype)
+  using Makie, AbstractPlotting
+
+  function Makie.convert_arguments(P::AbstractPlotting.PointBased, c::Complex)
+    @show c
+    ([Point2f0(real(c), imag(c))],)
+  end
+  AbstractPlotting.plottype(::Complex) = Scatter
+
+  function Makie.convert_arguments(::AbstractPlotting.PointBased, cs::AbstractVector{Complex{T}} where T)
+    @show cs
+    (Point2f0.(real(cs), imag(cs)),)
+  end
+  AbstractPlotting.plottype(::Vector{Complex{T}} where T) = Lines
+
+  cir = [ℯ^(x * im) for x in 0:0.1:2π]
+  plot(cir)
+  plot(1 + im)
+
 #+end_src
 
-full recipes
+full recipes ???
 like scatter, lines, ...
 new func: myplot, type: MyPlot
 overload plot!
