@@ -133,6 +133,14 @@ git-tree-sha1 = "2ac27f59196a68070e132b25713f9a5bbc5fa0d2"
 uuid = "324d7699-5711-5eae-9e2f-1d82baa6b597"
 version = "0.8.3"
 
+[[Cheng]]
+deps = ["AbstractPlotting", "Makie"]
+git-tree-sha1 = "5d04b9f124e99b9709829a4b05dc74c9eb8b719b"
+repo-rev = "master"
+repo-url = "/Users/fuchengxu/Projects/Cheng"
+uuid = "009ea388-9333-4410-b50e-1b31ea90cb1c"
+version = "0.1.0"
+
 [[CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
 git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"

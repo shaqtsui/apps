@@ -91,7 +91,7 @@
 无依造 － 想思忆行
 心力勿用于根
 用力与否觉不生灭
-
+9.8
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -17634,6 +17634,14 @@ compile
 module flow:
   using moudle -> load module -> invoke function -> compile function
 
+#+name: define-module-Cheng
+#+begin_src julia :noweb yes
+module Cheng
+
+<<extend-complex-plotting>>
+
+end
+#+end_src
 
 **** documentation
 module <-> meta
@@ -19339,6 +19347,39 @@ test
   Project.toml    # test enviroment
   runtests.jl     # run when "test" in test enviroment
 
+
+#+name: gnerate-template-pkg
+#+begin_src julia
+  using Pkg
+  pkg"generate ~/Projects/Cheng"
+  pkg"activate ~/Projects/Cheng"
+  pkg"add Makie AbstractPlotting"
+  Pkg.activate(pwd())
+#+end_src
+
+
+#+begin_src julia :noweb yes :tangle ~/Projects/Cheng/src/Cheng.jl :comments link :padline yes
+  <<define-module-Cheng>>
+#+end_src
+
+
+#+begin_src julia
+  cd("/Users/fuchengxu/Projects/Cheng") do
+    run(`git init`)
+    run(`git add .`)
+    run(`git commit -m "first commit"`)
+  end
+#+end_src
+
+
+#+name: add-local-pkg
+#+begin_src julia
+  using Pkg
+  #pkg"rm Cheng"
+  pkg"add ~/Projects/Cheng"
+#+end_src
+
+
 **** compatability
 currently no access in repl, need manually edit Project.toml
 semantic versioning:
@@ -19905,6 +19946,7 @@ plot recipes
 type recipes - convert object
 arguments will be converted to plottable type e.g. ([Point2f0],) via convert_arguments(::AbstractPlotting.PointBased, arg1, arg2...)
 plot() query plottype() to get plot type
+#+name: extend-complex-plotting
 #+begin_src julia
   using Makie, AbstractPlotting
 
@@ -19917,6 +19959,14 @@ plot() query plottype() to get plot type
     (Point2f0.(real(cs), imag(cs)),)
   end
   AbstractPlotting.plottype(::Vector{Complex{T}} where T) = Lines
+#+end_src
+
+
+#+begin_src julia
+  using Pkg
+  pkg"add Cheng"
+  using Makie
+  using Cheng
 
   cir = [ℯ^(x * im) for x in 0:0.1:2π]
   plot(cir)
