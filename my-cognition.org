@@ -17599,7 +17599,7 @@ Base.Broadcast.Broadcasted{Base.Broadcast.ArrayStyle{ArrayAndChar},
 
 
 
-**** module/package system
+**** module
 module - to seprate symbols
 
 module name is a symbol, resolve similar to other symbols
@@ -17633,97 +17633,6 @@ compile
 
 module flow:
   using moudle -> load module -> invoke function -> compile function
-
-***** artifacts
-new in 1.3
-artifacts not central registed
-
-artifacts work flow:
-create artifact -> upload artifact -> introduce binding in pkg -> use artifact
-
-create artifact:
-#+begin_src julia :session create-artifact
-  using Pkg.Artifacts
-  iris_hash = create_artifact() do artifact_dir
-      @show artifact_dir
-      iris_url_base = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris"
-      download("$(iris_url_base)/iris.data", joinpath(artifact_dir, "iris.csv"))
-      download("$(iris_url_base)/bezdekIris.data", joinpath(artifact_dir, "bezdekIris.csv"))
-      download("$(iris_url_base)/iris.names", joinpath(artifact_dir, "iris.names"))
-  end
-#+end_src
-
-upload artifact:
-  #+begin_src julia :session upload-artifact
-    using Pkg
-    pkg"add Tar FTPClient FTPServer"
-    using Tar
-    using FTPClient
-    using FTPServer
-
-    # create tar
-    res = Tar.create("/Users/fuchengxu/.julia/artifacts/dbd04e28be047a54fbe9bf67e934be5b5e0d357a/", "mydata.tar")
-    Tar.list("mydata.tar")
-    tree_hash = Tar.tree_hash("mydata.tar")
-    @show tree_hash
-
-
-    # start ftp server
-    FTPServer.init()
-    server = FTPServer.Server()
-    FTPServer.HOMEDIR
-    close(server)
-    FTPServer.cleanup()
-
-
-    # upload
-    @show FTPServer.uri(server)
-    client = FTP(FTPServer.uri(server))
-
-    pwd(client)
-    readdir(client)
-    upload(client, "mydata.tar", ".")
-    close(client)
-  #+end_src
-
-introduce binding in pkg:
-#+begin_src julia :session introduce-binding
-  using Pkg.Artifacts
-  artifact_toml = joinpath(@__DIR__, "Artifacts.toml")
-
-  artifact_tree_hash = Base.SHA1("dbd04e28be047a54fbe9bf67e934be5b5e0d357a")
-  artifact_sha256 = "2cd3242043e865a2c4af8b05db67ffc41258452c081935dac914a8b890bb5421"
-  artifact_url = "ftp://user7555:yYS2ykXhXosEhSSEP300TtBIMwxsFP2bSi4xDsCX@localhost:58890/mydata.tar"
-  artifact_name = "iris"
-
-  bind_artifact!(artifact_toml, artifact_name, artifact_tree_hash, download_info=[(artifact_url, artifact_sha256)], lazy=true)
-#+end_src
-
-
-use artifact:
-#+begin_src julia :session use-artifact
-  using Pkg.Artifacts
-  artifact"iris"
-#+end_src
-
-
-Overwriding:
-~/.julia/artifacts/Overrides.toml
-2 approaches:
-  $contenthash = path/new $contenthash
-or:
-  [pkg uuid]
-  $artifactname = path/new $contenthash
-
-
-
-***** package management commands
-preview command - preview pkg management operation NO change on project
-develop pkg - clone & refer in project
-free pkg - undo develop operation
-ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
-build pkg - run deps/build.jl
-add pkg - install pkg, build pkg preformed internally
 
 
 **** documentation
@@ -19402,7 +19311,149 @@ CUDAnative.jl - julia kernel
 CuArrays.jl, CLArrays.jl
 ArrayFire.jl, GPUArrays.jl
 
-*** WebIO
+
+*** Pkg.jl
+**** package management
+preview command - preview pkg management operation NO change on project
+develop pkg - clone & refer in project
+free pkg - undo develop operation
+ping pkg@version / pkg=uuid - pin a pkg so not updated & downgrade
+build pkg - run deps/build.jl, which also executed when first installed
+add pkg - install pkg, build pkg preformed internally
+generate pkg - create pkg
+activate . - activate current pkg, which means current pkg add to load path
+
+
+**** create package
+pkg structure:
+
+Project.toml      # pkg info & direct dependencies
+Manifest.toml     # recursive dependencies
+Artifacts.toml    # artifacts dependencies
+src
+  PackageName.jl  # define module PackageName, run when first "import"
+deps
+  build.jl        # run when first "add" or "build"
+  build.log       # io output of build.jl
+test
+  Project.toml    # test enviroment
+  runtests.jl     # run when "test" in test enviroment
+
+**** compatability
+currently no access in repl, need manually edit Project.toml
+semantic versioning:
+1.2.3 == ^1.2.3    # [1.2.3 - 2.0.0), keep left-most non 0 digit
+~1.2.3             # [1.2.3 - 1.3.0), keep major, minor
+~1.2               # [1.2.0 - 1.3.0), keep major, minor
+=1.2.3             # [1.2.3 - 1.2.3], exact
+>1.2.3             # (1.2.3 - infinity), greater
+<1.2.3             # [0.0.0 - 1.2.3), lesser
+
+
+Project.toml
+[compat]
+julia = "1.0"
+
+**** registries
+General - default one, installed automatically
+
+add registry:
+  registry add $url
+remove registry:
+  registry rm $name
+available registries:
+  registry status
+update registries:
+  registry update [$name]
+
+
+**** artifacts
+new in 1.3
+artifacts not central registed
+
+artifacts work flow:
+create artifact -> upload artifact -> introduce binding in pkg -> use artifact
+
+create artifact:
+#+begin_src julia :session create-artifact
+  using Pkg.Artifacts
+  iris_hash = create_artifact() do artifact_dir
+      @show artifact_dir
+      iris_url_base = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris"
+      download("$(iris_url_base)/iris.data", joinpath(artifact_dir, "iris.csv"))
+      download("$(iris_url_base)/bezdekIris.data", joinpath(artifact_dir, "bezdekIris.csv"))
+      download("$(iris_url_base)/iris.names", joinpath(artifact_dir, "iris.names"))
+  end
+#+end_src
+
+upload artifact:
+  #+begin_src julia :session upload-artifact
+    using Pkg
+    pkg"add Tar FTPClient FTPServer"
+    using Tar
+    using FTPClient
+    using FTPServer
+
+    # create tar
+    res = Tar.create("/Users/fuchengxu/.julia/artifacts/dbd04e28be047a54fbe9bf67e934be5b5e0d357a/", "mydata.tar")
+    Tar.list("mydata.tar")
+    tree_hash = Tar.tree_hash("mydata.tar")
+    @show tree_hash
+
+
+    # start ftp server
+    FTPServer.init()
+    server = FTPServer.Server()
+    FTPServer.HOMEDIR
+    close(server)
+    FTPServer.cleanup()
+
+
+    # upload
+    @show FTPServer.uri(server)
+    client = FTP(FTPServer.uri(server))
+
+    pwd(client)
+    readdir(client)
+    upload(client, "mydata.tar", ".")
+    close(client)
+  #+end_src
+
+introduce binding in pkg:
+#+begin_src julia :session introduce-binding
+  using Pkg.Artifacts
+  artifact_toml = joinpath(@__DIR__, "Artifacts.toml")
+
+  artifact_tree_hash = Base.SHA1("dbd04e28be047a54fbe9bf67e934be5b5e0d357a")
+  artifact_sha256 = "2cd3242043e865a2c4af8b05db67ffc41258452c081935dac914a8b890bb5421"
+  artifact_url = "ftp://user7555:yYS2ykXhXosEhSSEP300TtBIMwxsFP2bSi4xDsCX@localhost:58890/mydata.tar"
+  artifact_name = "iris"
+
+  bind_artifact!(artifact_toml, artifact_name, artifact_tree_hash, download_info=[(artifact_url, artifact_sha256)], lazy=true)
+#+end_src
+
+
+use artifact:
+#+begin_src julia :session use-artifact
+  using Pkg.Artifacts
+  artifact"iris"
+#+end_src
+
+
+Overwriding:
+~/.julia/artifacts/Overrides.toml
+2 approaches:
+  $contenthash = path/new $contenthash
+or:
+  [pkg uuid]
+  $artifactname = path/new $contenthash
+
+
+
+
+
+
+*** WebIO.jl
 elements of type Node, printed like hiccup
 e.g.
 Node(:div, child1, child2, attributes=Dict(:class => "my-list"))
@@ -19858,13 +19909,11 @@ plot() query plottype() to get plot type
   using Makie, AbstractPlotting
 
   function Makie.convert_arguments(P::AbstractPlotting.PointBased, c::Complex)
-    @show c
     ([Point2f0(real(c), imag(c))],)
   end
   AbstractPlotting.plottype(::Complex) = Scatter
 
   function Makie.convert_arguments(::AbstractPlotting.PointBased, cs::AbstractVector{Complex{T}} where T)
-    @show cs
     (Point2f0.(real(cs), imag(cs)),)
   end
   AbstractPlotting.plottype(::Vector{Complex{T}} where T) = Lines
@@ -19957,13 +20006,31 @@ Context - specify plot's context
 
 #+begin_src julia
   using Pkg
-  pkg"add AlgebraOfGraphics RDatasets CairoMakie"
+  pkg"add AlgebraOfGraphics RDatasets"
   using RDatasets: dataset
   using AlgebraOfGraphics
   using AbstractPlotting
   using GLMakie
   mpg = dataset("ggplot2", "mpg")
   data(mpg) * mapping(:Displ, :Hwy) * visual(Scatter) |> draw
+#+end_src
+
+attributes send to different layer object, which can have arbitrary attributes
+by default will send to inner layer: scene/subscene/plot object
+if outer object have such attriute, go to outer object, e.g. scale_plot, resolution -> scene/subscene
+so some attributes may be overwrite/ignored
+
+#+begin_src julia
+  using AlgebraOfGraphics
+  using AbstractPlotting,  AbstractPlotting.MakieLayout
+  using GLMakie
+  res1 = mapping(0:0.1:2π, sin) * visual(scale_plot = false, resolution = (1000, 1000)) |> draw
+  res = mapping(0:0.1:2π, x -> 10 * sin(x)) * visual(markersize=20, tttt=99) * (visual(Lines) + visual(Scatter)) |> draw
+
+  scatter(0:0.1:6, x -> 10 * sin(x), scale_plot=false, resolution=(1200,1000))
+
+  mapping(cir) * (visual(Lines) + visual(Scatter)) |> draw
+
 #+end_src
 
 *** JSExpr
