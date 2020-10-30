@@ -154,7 +154,7 @@
 
 (use-package julia-repl
   :ensure t
-  :hook (julia-mode . julia-repl-mode)
+;;  :hook (julia-mode . julia-repl-mode)
   :config
   ;; (setq julia-repl-switches "-J MakieSys.so")
   (add-hook 'julia-repl-hook #'julia-repl-use-emacsclient))
@@ -166,7 +166,7 @@
 ;; demand to config it before executing org code block
 (use-package jupyter
   ;; sometime disable to use julia-repl
-  :disabled
+;;  :disabled
   :ensure t
   :demand t
   :config
@@ -176,10 +176,10 @@
     :demand t
     :config
     (setq org-babel-default-header-args:jupyter-julia '(;; (:tangle . "yes")
-                                                        (:shebang . "#!/bin/bash")
+                                                        ;; (:shebang . "#!/bin/bash")
                                                         (:padline . "yes")
                                                         (:comments . "both")
-                                                        (:results . "value")
+                                                        (:results . "silent")
                                                         (:async . "yes")
                                                         (:session . "*julia*")
                                                         (:kernel . "julia-1.5")))
@@ -218,6 +218,7 @@
 ;; flycheck-clojure need your file have no side effect, as it will reload your files automaticlly
 ;; evaluate cider.el first, so that fun & vars available to flycheck-clojure
 (use-package flycheck-clojure
+  :disabled
   :ensure t
   :after (flycheck clojure-mode)
   :config
@@ -362,6 +363,7 @@
 (use-package org
   :config
   (setq org-confirm-babel-evaluate nil)
+  (setq org-use-property-inheritance t)
   (use-package org-tempo
     :demand t))
 
