@@ -37,6 +37,7 @@
           - gpg
           - jupyter
           - git-lfs
+          - scc
       become: "{{ package_become }}"
 
     - git:

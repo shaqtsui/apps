@@ -26,7 +26,7 @@ version = "2.3.0"
 
 [[AlgebraOfGraphics]]
 deps = ["AbstractPlotting", "CategoricalArrays", "GLM", "GeometryBasics", "KernelDensity", "Loess", "NamedDims", "Observables", "OnlineStatsBase", "StatsBase", "StructArrays", "Tables"]
-git-tree-sha1 = "efcf2878ef33b8a5b3a2dee4d18c6910a9da22f0"
+path = "/Users/fuchengxu/.julia/dev/AlgebraOfGraphics"
 uuid = "cbdf2221-f076-402e-a563-3d30da359d67"
 version = "0.2.0"
 
@@ -141,6 +141,12 @@ repo-url = "/Users/fuchengxu/Projects/Cheng"
 uuid = "009ea388-9333-4410-b50e-1b31ea90cb1c"
 version = "0.1.0"
 
+[[CodeTracking]]
+deps = ["InteractiveUtils", "UUIDs"]
+git-tree-sha1 = "ce725fcc331618c422e5561a5183baab6a00482c"
+uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
+version = "1.0.4"
+
 [[CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
 git-tree-sha1 = "ded953804d019afa9a3f98981d99b33e3db7b6da"
@@ -247,6 +253,12 @@ version = "1.0.0"
 [[Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[[Debugger]]
+deps = ["CodeTracking", "Crayons", "Highlights", "InteractiveUtils", "JuliaInterpreter", "Markdown", "REPL"]
+git-tree-sha1 = "c37eca3eff2657c700f32e05500215feac886dcf"
+uuid = "31a5f54b-26ea-5ae9-a837-f05ce5417438"
+version = "0.6.6"
 
 [[DelimitedFiles]]
 deps = ["Mmap"]
@@ -750,6 +762,12 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "9aff0587d9603ea0de2c6f6300d9f9492bbefbd3"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
 version = "2.0.1+3"
+
+[[JuliaInterpreter]]
+deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
+path = "/Users/fuchengxu/.julia/dev/JuliaInterpreter"
+uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
+version = "0.8.2"
 
 [[KernelDensity]]
 deps = ["Distributions", "DocStringExtensions", "FFTW", "Interpolations", "StatsBase"]

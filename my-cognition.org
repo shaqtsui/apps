@@ -98,7 +98,7 @@ I don't know why this setting doesn't take effect
 无依造 － 想思忆行
 心力勿用于根
 用力与否觉不生灭
-9.8
+散了吧，万有皆是聚，“我”亦聚中“人” - 9.8
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -603,7 +603,7 @@ Math - 收发structure
   Topology - inner structure
   Algebra - recurse structure
   Analysis - outer structure
-Transform/Connected
+Transform/Connected - Recurse聚
   e.g. boundry touched stuffes, 2 stuff of one transform
 
 Decision/Plain
@@ -624,6 +624,8 @@ World - Container with Things & Relations
   All Your Observables
 Generalization
   Non-linear Recursion -> Linear Recursion
+Disorder -> In-order
+  Non-linear Recursion -> Linear Recursion, order relation is same
 Abstract
   From Horizontal perspective
   Each of Recursion with same Sub-Recursion
@@ -3478,7 +3480,8 @@ Expression - language which can be evaluated
                (println "3"))
       #+END_SRC
 
-
+call/cc
+  call-with-current-continuation, call function with current continuation as argument
 
 Program
 	Simply used to express Process
@@ -17234,10 +17237,39 @@ similar to mathematic
 Debugger.jl - officical debugger
   Need to run in julia repl
   @enter expression, start debug & break on enter
-  @run expression, start debug
+  @run expression, @enter + c
   breakpoint(function name) - add bp on function enter
   break_on(:error) - add bp on error
   @bp - add bp on current location
+
+Currently cannot debug other thread as JuliaInterpreter not support:
+https://github.com/JuliaDebug/JuliaInterpreter.jl/issues/413
+#+begin_src julia
+  using Pkg
+  pkg"add Debugger"
+  using Debugger
+  function test()
+    println("line 1")
+    println("line 2")
+  end
+
+  function outer_async()
+    println("outer 1")
+    @async test()
+    println("outer 2")
+  end
+
+  function outer()
+    println("outer 1")
+    test()
+    println("outer 2")
+  end
+
+  breakpoint(test)
+
+  @enter outer()
+  @enter outer_async()
+#+end_src
 
 
 Rebugger.jl
@@ -18878,6 +18910,12 @@ currentContinuation  -yieldto(targetTask, targetTaskYieldtoValue)-> targetContin
 
 Schedule Task flow:
 runnable  -pick()->  running  -wait(condition)->  wait  -notify(condition)->  runnable
+
+coding flow:
+create task: Task(func) -> schedule tasks: schedule(task) -> [wait task: wait(task)]
+
+@task x := Task(() -> x)
+@async x := schedule(@task x)
 
 
 #+BEGIN_SRC julia
@@ -21218,3 +21256,49 @@ Etcher - Mac
 Startup Disk Creator (built-in) - Ubuntu
 
 
+
+*** code statistic tools
+| name      | impl language | github stars | calcuate complexity | comments                                                                                    |
+| tokei     | rust          | 4k           | N                   |                                                                                             |
+| scc       | go            | 1.9k         | Y                   | recommended by loc owner, compared to most similar tools, more file type support than tokei |
+| cloc      | perl          | 10.3k        |                     |                                                                                             |
+| sloccount |               |              |                     | not in github                                                                               |
+| loc       | rust          | 1.6k         |                     | 2x-10x faster than tokei                                                                    |
+
+
+
+
+*** euler formula and circle
+#+begin_src julia
+  using Makie, AlgebraOfGraphics, Cheng
+
+  x = 0:0.1:2π
+  cir = [ℯ^(x * im) for x in x]
+  x_cir = Any[x cir]
+  ims = [ℯ^(x * im) - ℯ^(-x * im) for x in x]
+  ims2 = ims/4
+  x_ims2 = Any[x ims2]
+  
+  # show in circle
+  s = plot(cir, scale_plot = false)
+  scatter!(cir)
+  [lines!([real(c), real(c)], [0, imag(c)]) for c in cir];
+
+  # add ims
+  p = map((x, y) -> [x, y], cir, cir + ims2)
+  [lines!(p) for p in p];
+  plot!(cir + ims2)
+
+
+  # show in cartisian  
+  scatter(x, x -> 0)
+  [lines!([x_cir[i, 1], x_cir[i, 1]], [0, imag(x_cir[i, 2])]) for i in 1:length(x)];
+  lines!(x, sin)
+  
+  # show & add ims
+  [lines!([x_ims2[i, 1], x_ims2[i, 1]], [0, imag(x_ims2[i, 2])]) for i in 1:length(x)];
+  lines!(x, x -> sin(x) /2)
+
+  [lines!([x_ims2[i, 1], x_ims2[i, 1]], [0, imag(x_cir[i, 2]) + imag(x_ims2[i, 2])]) for i in 1:length(x)];
+  lines!(x, x -> 3sin(x)/2)
+#+end_src
