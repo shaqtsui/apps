@@ -680,10 +680,27 @@ Function
     sum small parts
   Rate - A function
   18.01, 18.02, 18.03, 18.100B
+Complex Mapping
+  recursion of Sub Mappings
+  e.g
+    Complex Mapping:
+      f(x) = x^2
+      -3(value of -3, relationship of -3: left of some guy, tareget of relationship of -3: -2) -> 9(value of 9, relationship of 9: right of some guy, target of relationship of 9: 4)
+    Sub Mapping:
+      value of -3 -> value of 9
+      relationship of -3: left of some guy -> relationship of 9: right of some guy
+      tareget of relationship of -3: -2 -> target of relationship of 9: 4
 Isomorphism
   Recursion of parallel Transforms
   Transform of elements & corresponding combinations
   Total Linear Function
+  Complex mapping of structure: (mapping1(mapping2(mapping1
+    e.g.
+      f(x) = x^2 :
+      -3(value of -3, relationship of -3: left of some guy, tareget of relationship of -3: -2) -> 9(value of 9, relationship of 9: right of some guy, target of relationship of 9: 4)
+      -3  --m1-->  9
+      left of some guy  --m2--> right of some guy
+      -2  --m1-->  4
 Function Call Chain
 Recursive Function
 Group
@@ -21272,33 +21289,56 @@ Startup Disk Creator (built-in) - Ubuntu
 #+begin_src julia
   using Makie, AlgebraOfGraphics, Cheng
 
-  x = 0:0.1:2π
+  x = collect(0:0.1:2π)
   cir = [ℯ^(x * im) for x in x]
-  x_cir = Any[x cir]
   ims = [ℯ^(x * im) - ℯ^(-x * im) for x in x]
+  rels = [ℯ^(x * im) + ℯ^(-x * im) for x in x]
   ims2 = ims/4
-  x_ims2 = Any[x ims2]
+  rels2 = rels/4
   
   # show in circle
   s = plot(cir, scale_plot = false)
   scatter!(cir)
-  [lines!([real(c), real(c)], [0, imag(c)]) for c in cir];
+  cps = map(x -> [real(x) + 0im, x], cir)
+  [lines!(cp) for cp in cps];
+
 
   # add ims
   p = map((x, y) -> [x, y], cir, cir + ims2)
   [lines!(p) for p in p];
   plot!(cir + ims2)
 
+  # add rels
+  prels = map((x, y) -> [x, y], cir + ims2, cir + ims2 + rels2)
+  [lines!(p) for p in prels];
+  plot!(cir + ims2 + rels2)
+  plot!(cir + cir/2)
 
-  # show in cartisian  
-  scatter(x, x -> 0)
-  [lines!([x_cir[i, 1], x_cir[i, 1]], [0, imag(x_cir[i, 2])]) for i in 1:length(x)];
+  # add cir/2
+  pc = map((x, y) -> [x, x + y], cir, cir/2)
+  [lines!(p) for p in pc];
+  
+
+  # show in cartisian
+  xim = x .+ 0im
+  scatter(xim)
+  cps2 = map((x, y) -> [x, real(x) + imag(y) * im], xim, cir)
+  [lines!(cp2) for cp2 in cps2];
   lines!(x, sin)
   
-  # show & add ims
-  [lines!([x_ims2[i, 1], x_ims2[i, 1]], [0, imag(x_ims2[i, 2])]) for i in 1:length(x)];
+  # show & add ims2
+  scatter(xim)
+  cps3 = map((x, y) -> [x, real(x) + y], xim, ims2)
+  [lines!(cp3) for cp3 in cps3];
   lines!(x, x -> sin(x) /2)
 
-  [lines!([x_ims2[i, 1], x_ims2[i, 1]], [0, imag(x_cir[i, 2]) + imag(x_ims2[i, 2])]) for i in 1:length(x)];
+  scatter(xim)
+  cps4 = map((x, y, z) -> [x, real(x) + imag(y) * im + z], xim, cir, ims2)
+  [lines!(cp4) for cp4 in cps4];
+  lines!(x, x -> 3sin(x)/2)
+
+  or:
+  cps4 = map((x, y, z) -> [y[end], y[end] + z[end] - x],xim, cps2, cps3)
+  [lines!(cp4) for cp4 in cps4];
   lines!(x, x -> 3sin(x)/2)
 #+end_src
