@@ -154,7 +154,7 @@
 
 (use-package julia-repl
   :ensure t
-;;  :hook (julia-mode . julia-repl-mode)
+  :hook (julia-mode . julia-repl-mode)
   :config
   ;; (setq julia-repl-switches "-J MakieSys.so")
   (add-hook 'julia-repl-hook #'julia-repl-use-emacsclient))
@@ -166,7 +166,7 @@
 ;; demand to config it before executing org code block
 (use-package jupyter
   ;; sometime disable to use julia-repl
-;;  :disabled
+  :disabled
   :ensure t
   :demand t
   :config
@@ -353,6 +353,9 @@
 ;; enable emacsclient
 (use-package server
   :hook (after-init . server-start))
+
+(use-package prog-mode
+  :hook (after-init . global-prettify-symbols-mode))
 
 (use-package env
   :config

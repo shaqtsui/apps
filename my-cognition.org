@@ -16926,6 +16926,8 @@ uri for virtual buffer of org src block is value of buffer name: *Org Src ${org 
 
 So a lot of src block & corresponding virtual buffers will share same uri
 
+**** prettify-symbols-mode
+built-in pkg to show char sequence with other char seq
 
 **** quoted-insert
 C-q - insert non-graphic char
@@ -19923,6 +19925,48 @@ best use Artifacts
 
 
 
+*** CodeTracking.jl
+#+begin_src julia
+  using Pkg
+  pkg"add CodeTracking"
+  using CodeTracking
+  @code_string sum(1:5)
+  pkg"add Revise"
+  using Revise
+  # @code_expr rely on Revise
+  @code_expr sum(1:5)
+#+end_src
+
+*** Latexify.jl
+#+begin_src julia
+  using Pkg
+  pkg"add Latexify"
+  using Latexify
+  latexify("x/y") |> display
+  latexify("x/y") |> print
+  latexify(:(x/y)) |> print
+  f(x) = x + 2
+  latexify(@code_expr f(1))
+  function g(x)
+    x^2
+  end
+  latexify(@code_expr g(1))
+#+end_src
+
+*** julia macro
+invocation:
+@name(expr1, expr2, ...)
+@name expr1 expr2 ...
+
+#+begin_src julia
+macro fn(arg)
+  @show arg
+end
+
+
+#+end_src
+
+
 *** Makie.jl
 record - frames comes from multiple apply f to inputs
 record - frames comes from apply f to VideoStream io
@@ -21285,7 +21329,13 @@ Startup Disk Creator (built-in) - Ubuntu
 
 
 
-*** euler formula and circle
+*** euler formula, complex number and circle
+c = y e^xi = f(x, y)
+  x -> angle
+  y -> length
+  Note: c have no location, but when + the location need to be specified
+
+
 #+begin_src julia
   using Makie, AlgebraOfGraphics, Cheng
 
