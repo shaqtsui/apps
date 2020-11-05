@@ -16953,6 +16953,8 @@ pkg category:
   b, enhance logic out of function - normally should NOT move out as no function to support :command/autoload, should be executed now or later(via :after)
 
 
+**** julia-repl
+can replaced by julia-mode:inferior-julia/run-julia?
 
 **** treemacs
 tree layout file explore
@@ -19942,13 +19944,14 @@ best use Artifacts
   using Pkg
   pkg"add Latexify"
   using Latexify
+  using CodeTracking, Revise
   latexify("x/y") |> display
   latexify("x/y") |> print
   latexify(:(x/y)) |> print
   f(x) = x + 2
   latexify(@code_expr f(1))
   function g(x)
-    x^2
+    x^2 / sqrt(x)
   end
   latexify(@code_expr g(1))
 #+end_src
@@ -21391,4 +21394,69 @@ c = y e^xi = f(x, y)
   cps4 = map((x, y, z) -> [y[end], y[end] + z[end] - x],xim, cps2, cps3)
   [lines!(cp4) for cp4 in cps4];
   lines!(x, x -> 3sin(x)/2)
+#+end_src
+*** math formula in mathematical format
+math formula:
+  Recursion of Recursion
+
+mathematical format: like a chart
+  With horizontal & vertical position
+  With weight:
+    level weight
+      e.g.
+        (x + y)/3
+    major/minor weight
+      e.g.
+        x^2
+        x_i
+        sqrt(x)
+
+mathematical format input:
+  step into sub recursion
+    (, /, ^, _
+  step out sub recursion
+    TAB
+
+
+*** mathematica
+language: wolfram & runtime
+
+note book
+  limited support input math formula in mathematical format
+cas
+
+*** maple
+language & runtime
+
+note book
+  very good support input math formula in mathematical format
+cas
+
+*** maxima
+opensource version of Macsyma
+language & runtime
+
+note book
+  No support input math formula in mathematical format
+cas
+
+*** SageMath
+cas lib in python, like SymPy
+
+console
+notebook
+  No support input math formula in mathematical format
+
+*** CAS/SAS
+computer algebra system
+symbolic algebra system
+a lib
+e.g. SymPy
+#+begin_src julia
+  using Pkg
+  pkg"add SymPy"
+  using SymPy
+  @vars t
+  a = 3 * t
+  b = a + 2 + 3
 #+end_src

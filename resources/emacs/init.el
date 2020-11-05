@@ -128,7 +128,7 @@
   ;; fix error in : LanguageServer.FoldingRangeCapabilities
   (setq lsp-enable-folding t)
   (setq lsp-folding-range-limit 100)
-  :hook (julia-mode . lsp-deferred)
+;;  :hook (julia-mode . lsp-deferred)
   )
 
 ;; lsp-java base on lsp-mode(maintained by same team)
@@ -150,7 +150,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; julia related ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from JuliaEditorSupport
 (use-package julia-mode
-  :ensure t)
+  :ensure t
+  :config
+  (defconst julia-prettify-symbols-alist
+    '(("lambda" . ?λ)
+      ("->" . ?→)
+      ("=>" . ?⇒)
+      ("map" . ?↦)
+      ("function" . ?ƒ)))
+  (add-hook 'julia-mode-hook (lambda () (setq-local prettify-symbols-alist julia-prettify-symbols-alist))))
 
 (use-package julia-repl
   :ensure t
@@ -431,7 +439,11 @@
  '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist) t)
  '(package-selected-packages
    '(ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
- '(safe-local-variable-values '((flycheck-disabled-checkers emacs-lisp-checkdoc))))
+ '(safe-local-variable-values
+   '((eval if
+           (fboundp 'pretty-symbols-mode)
+           (pretty-symbols-mode -1))
+     (flycheck-disabled-checkers emacs-lisp-checkdoc))))
 
 
 (custom-set-faces
