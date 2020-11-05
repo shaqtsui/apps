@@ -153,11 +153,136 @@
   :ensure t
   :config
   (defconst julia-prettify-symbols-alist
-    '(("lambda" . ?λ)
+    '(
+      ;; C1 Controls and Latin-1 Supplement/Latin-1 punctuation and symbols
+      ("!" . ?¬)
+      ("^1" . ?¹)
+      ("^2" . ?²)
+      ("^3" . ?³)
+
+      ;; Mathematical Operators/Set membership
+      ("in" . ?∈)
+
+      ;; Mathematical Operators/N-ary operators
+      ("sum" . ?∑)
+
+      ;; Mathematical Operators/Operators
+      ("sqrt" . ?√)
+      ("*" . ?⋅)
+
+      ;; Mathematical Operators/Logical and set operators
+      ("&&" . ?∧)
+      ("||" . ?∨)
+      ("intersect" . ?∩)
+      ("union" . ?∪)
+
+      ;; Mathematical Operators/Relations
+      ("!=" . ?≠)
+      ("===" . ?≡)
+      ("!==" . ?≢)
+      ("<=" . ?≤)
+      (">=" . ?≥)
+      ("<<" . ?≪)
+      (">>" . ?≫)
+      ("issubset" . ?⊆)
+      ("<<<" . ?⋘)
+      (">>>" . ?⋙)
+
+      ;; Supplemental Mathematical Operators/Relational operators
+      ("==" . ?⩵)
+      ("===" . ?⩶)
+
+      ;; Letterlike Symbols
+      ("Integer" . ?ℤ)
+      ("Int" . ?ℤ)
+      ("Rational" . ?ℚ)
+      ("Real" . ?ℝ)
+      ("Complex" . ?ℂ)
+
+      ;; Superscripts and Subscripts/Superscripts
+      ;; ^1 - ^3 in C1 Controls and Latin-1 Supplement/Latin-1 punctuation and symbols
+      ("^4" . ?⁴)
+      ("^5" . ?⁵)
+      ("^6" . ?⁶)
+      ("^7" . ?⁷)
+      ("^8" . ?⁸)
+      ("^9" . ?⁹)
+      ("^0" . ?⁰)
+
+      ;; Superscripts and Subscripts/Subscripts
+      ("_1" . ?₁)
+      ("_2" . ?₂)
+      ("_3" . ?₃)
+      ("_4" . ?₄)
+      ("_5" . ?₅)
+      ("_6" . ?₆)
+      ("_7" . ?₇)
+      ("_8" . ?₈)
+      ("_9" . ?₉)
+      ("_0" . ?₀)
+
+      ;; Arrows/Simple arrows
       ("->" . ?→)
+
+      ;; Arrows/Double arrows
       ("=>" . ?⇒)
+
+      ;; Arrows/Arrows with modifications
       ("map" . ?↦)
-      ("function" . ?ƒ)))
+
+      ;; Latin Extended-B/Non-European and historic Latin
+      ("function" . ?ƒ)
+
+      ;; Greek and Coptic/Letters
+      ("alpha" . ?α)
+      ("beta" . ?β)
+      ("gamma" . ?γ)
+      ("delta" . ?δ)
+      ("epsilon" . ?ε)
+      ("zeta" . ?ζ)
+      ("eta" . ?η)
+      ("theta" . ?θ)
+      ("iota" . ?ι)
+      ("kappa" . ?κ)
+      ("lambda" . ?λ)
+      ("mu" . ?μ)
+      ("nu" . ?ν)
+      ("xi" . ?ξ)
+      ("omicron" . ?ο)
+      ("pi" . ?π)
+      ("rho" . ?ρ)
+      ("sigma" . ?σ)
+      ("tau" . ?τ)
+      ("upsilon" . ?υ)
+      ("phi" . ?φ)
+      ("chi" . ?χ)
+      ("psi" . ?ψ)
+      ("omega" . ?ω)
+      ("Alpha" . ?Α)
+      ("Beta" . ?Β)
+      ("Gamma" . ?Γ)
+      ("Delta" . ?Δ)
+      ("Epsilon" . ?Ε)
+      ("Zeta" . ?Ζ)
+      ("Eta" . ?Η)
+      ("Theta" . ?Θ)
+      ("Iota" . ?Ι)
+      ("Kappa" . ?Κ)
+      ("Lambda" . ?Λ)
+      ("Mu" . ?Μ)
+      ("Nu" . ?Ν)
+      ("Xi" . ?Ξ)
+      ("Omicron" . ?Ο)
+      ("Pi" . ?Π)
+      ("Rho" . ?Ρ)
+      ("Sigma" . ?Σ)
+      ("Tau" . ?Τ)
+      ("Upsilon" . ?Υ)
+      ("Phi" . ?Φ)
+      ("Chi" . ?Χ)
+      ("Psi" . ?Ψ)
+      ("Omega" . ?Ω)
+      ))
   (add-hook 'julia-mode-hook (lambda () (setq-local prettify-symbols-alist julia-prettify-symbols-alist))))
 
 (use-package julia-repl
