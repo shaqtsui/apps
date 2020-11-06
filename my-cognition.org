@@ -16952,6 +16952,23 @@ pkg category:
   a, enhance logic in function - normally moved to :command/autoload & link to one time hook like after-init
   b, enhance logic out of function - normally should NOT move out as no function to support :command/autoload, should be executed now or later(via :after)
 
+**** auctex
+enviroment for editing LaTeX, ConTeXt, docTeX, Texinfo, TeX
+
+**** font-lock-mode
+syntax highlighting
+
+Warning this code not work
+#+begin_src elisp
+  (global-font-lock-mode t)
+  (defconst rexp1 (rx "ddd"))
+  (defconst rexp2 (rx "ttt"))
+  (font-lock-add-keywords 'elisp-mode '((rexp1 . font-lock-keyword-face)
+                                        (rexp2 . font-lock-warning-face)))
+  ;; or this?
+  (add-hook 'elisp-mode-hook (lambda () (push '(rexp1 . font-lock-keyword-face)
+                                         font-lock-defaults)))
+#+end_src
 
 **** julia-repl
 can replaced by julia-mode:inferior-julia/run-julia?
@@ -21395,8 +21412,8 @@ c = y e^xi = f(x, y)
   [lines!(cp4) for cp4 in cps4];
   lines!(x, x -> 3sin(x)/2)
 #+end_src
-*** math formula in mathematical format
-math formula:
+*** math expression in mathematical format
+math expression:
   Recursion of Recursion
 
 mathematical format: like a chart
@@ -21422,14 +21439,14 @@ mathematical format input:
 language: wolfram & runtime
 
 note book
-  limited support input math formula in mathematical format
+  limited support input math expression in mathematical format
 cas
 
 *** maple
 language & runtime
 
 note book
-  very good support input math formula in mathematical format
+  very good support input math expression in mathematical format
 cas
 
 *** maxima
@@ -21437,7 +21454,7 @@ opensource version of Macsyma
 language & runtime
 
 note book
-  No support input math formula in mathematical format
+  No support input math expression in mathematical format
 cas
 
 *** SageMath
@@ -21445,7 +21462,7 @@ cas lib in python, like SymPy
 
 console
 notebook
-  No support input math formula in mathematical format
+  No support input math expression in mathematical format
 
 *** CAS/SAS
 computer algebra system

@@ -283,7 +283,8 @@
       ("Psi" . ?Ψ)
       ("Omega" . ?Ω)
       ))
-  (add-hook 'julia-mode-hook (lambda () (setq-local prettify-symbols-alist julia-prettify-symbols-alist))))
+  (add-hook 'julia-mode-hook (lambda () (setq-local prettify-symbols-alist julia-prettify-symbols-alist)))
+  )
 
 (use-package julia-repl
   :ensure t
@@ -361,6 +362,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; other pkg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package auctex
+  :ensure t
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t))
+
 ;; add color to term, to support OhMyREPL
 (use-package eterm-256color
   :ensure t
