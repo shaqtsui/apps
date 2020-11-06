@@ -16956,6 +16956,7 @@ pkg category:
 enviroment for editing LaTeX, ConTeXt, docTeX, Texinfo, TeX
 
 **** font-lock-mode
+assigns faces to (or fontifies) the text in the buffer
 syntax highlighting
 
 Warning this code not work
@@ -16969,6 +16970,44 @@ Warning this code not work
   (add-hook 'elisp-mode-hook (lambda () (push '(rexp1 . font-lock-keyword-face)
                                          font-lock-defaults)))
 #+end_src
+
+**** face
+text display style e.g. font, height, weight, slant, foreground, background, underlining, overlining
+M-x list-faces-display
+`C-u C-x =`
+M-x describe-face
+M-x describe-text-properties
+
+can customize via customization
+
+**** customization
+2 kinds:
+  customizable variables(also called user options, created via defcustom)
+  faces(not variable)
+M-x customize
+M-x customize-variable(customize-option)
+M-x customize-face
+M-x customize-group
+M-x customize-apropos
+M-x customize-browse
+M-x customize-saved
+M-x customize-unsaved
+Settings organized into groups
+
+Themes - collection of settings
+M-x customize-themes
+stored in file: $name-theme.el, directories: custom-theme-load-path(default $custom-theme-directory & $data-direcotry/themes)
+M-x custom-theme-save
+enabled themes store in $custom-enabled-themes, which can also directly changed via customize
+customize settings take precedence over theme settings, so u can overwrite theme settings
+setting has been changed from its default by a Custom theme, its ‘State’ display shows ‘THEMED’ instead of ‘STANDARD’
+M-x load-theme - safe check, load, enable
+M-x enable-theme - enable already loaded theme
+M-x disable-theme
+M-x describe-theme
+
+Create theme:
+M-x customize-create-theme
 
 **** julia-repl
 can replaced by julia-mode:inferior-julia/run-julia?
