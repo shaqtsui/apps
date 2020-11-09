@@ -598,6 +598,19 @@ Fa Zhi Zhong
   如你收不到问题的答案，只是因为你没有答案依赖的层
   尝试性的探索大多一无所获，只增不好习惯
   为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
+  看自己的心之聚，In-order更简单
+    e.g.
+      Selection/Pick
+Selection
+  A set of Pick under dimensions: step & target
+Count
+  A set of Pick under dimension: target
+Subsets
+  Introduce one element -> Create same number of subsets
+  So total number of subsets of A = 2^|A|
+Longest Non-decreasing Sequence
+  Base on Subsets
+  Introduce one element -> Create same number of subsets -> Filter to get Non-decreasing Sequence -> Filter to get Longgest
 Structure - Recurse收发
 Math - 收发structure
   Topology - inner structure
@@ -17008,6 +17021,21 @@ M-x describe-theme
 
 Create theme:
 M-x customize-create-theme
+
+**** overlay
+similar to text property, but attached to buffer or string position
+overlay not part of butter's contents
+
+#+begin_src elisp
+(defvar ao (make-overlay 1 10))
+(overlay-buffer ao)
+(overlay-start ao)
+(overlay-end ao)
+(overlay-put ao 'happy t)
+#+end_src
+
+#+RESULTS:
+: ao
 
 **** julia-repl
 can replaced by julia-mode:inferior-julia/run-julia?
