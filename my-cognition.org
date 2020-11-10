@@ -16903,6 +16903,55 @@ so that symbol can be add to global without load the lib
 With this feature, u can load a lib via invoke a autoloaded function
 https://www.gnu.org/software/emacs/manual/html_node/elisp/Autoload.html
 
+#+name: learn-x-in-y-minutes-elisp
+#+begin_src elisp
+  (defun greeting (from-name)
+    (let ((your-name (read-from-minibuffer "enter your name:")))
+      (switch-to-buffer-other-window "*test*")
+      (erase-buffer)
+      (insert (format "Hello %s, I am %s" your-name from-name))
+      (other-window 1)))
+
+  (greeting
+   "Shark")
+
+  ;; q stands for quoted
+  (setq list-of-names '("Sarah", "Chloe", "Mathilde"))
+  (car list-of-names)
+  (cdr list-of-names)
+  (push "Stephanie" list-of-names)
+
+  (defun greeting2 (names)
+    (switch-to-buffer-other-window "*test*")
+    (erase-buffer)
+    (mapcar (lambda (name) (insert (format "Hello %s!\n" name)))
+            names)
+    (other-window 1))
+
+  (greeting2 list-of-names)
+
+  (defun replace-hello-by-bonjour ()
+    (switch-to-buffer-other-window "*test*")
+    (goto-char (point-min))
+    (while (search-forward "Hello" nil t)
+      (replace-match "Bonjour"))
+    (other-window 1))
+
+  (replace-hello-by-bonjour)
+
+  (defun boldify-names ()
+    (switch-to-buffer-other-window "*test*")
+    (goto-char (point-min))
+    (while (re-search-forward "Bonjour \\(.+\\)!" nil t)
+      (add-text-properties (match-beginning 1)
+                           (match-end 1)
+                           (list 'face 'bold)))
+    (other-window 1))
+
+  (boldify-names)
+
+#+end_src
+
 **** debugging
 ***** Debugger
 Can not see the code
