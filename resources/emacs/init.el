@@ -63,7 +63,8 @@
 (use-package avy
   :ensure t
   :bind
-  (("M-g w" . avy-goto-word-1)
+  (("C-:" . avy-goto-char)
+   ("M-g w" . avy-goto-word-1)
    ("M-g f" . avy-goto-line)))
 
 (use-package hydra
@@ -154,6 +155,10 @@
   :config
   (defconst julia-prettify-symbols-alist
     '(
+      ("testa" . (?a (Br . Bl) ?b (Br . Bl) ?c))
+      ("testb" . (?a (bl . tl) ?b (tr . bl) ?c))
+      ("testc" . "cc_")
+
       ;; C1 Controls and Latin-1 Supplement/Latin-1 punctuation and symbols
       ("!" . ?¬)
       ("^1" . ?¹)

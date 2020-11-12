@@ -16990,6 +16990,7 @@ So a lot of src block & corresponding virtual buffers will share same uri
 
 **** prettify-symbols-mode
 built-in pkg to show char sequence with other char seq
+implmented via font-lock & composite.el
 
 **** quoted-insert
 C-q - insert non-graphic char
@@ -17017,9 +17018,16 @@ pkg category:
 **** auctex
 enviroment for editing LaTeX, ConTeXt, docTeX, Texinfo, TeX
 
+**** composite.el
+compose chars into single glyph
+
+multiple chars as single unit -> shaping engine -> glyph -> display engine
+
+
 **** font-lock-mode
 assigns faces to (or fontifies) the text in the buffer
 syntax highlighting
+implemented via add-text-properties/put-text-property
 
 Warning this code not work
 #+begin_src elisp
@@ -17071,20 +17079,151 @@ M-x describe-theme
 Create theme:
 M-x customize-create-theme
 
-**** overlay
-similar to text property, but attached to buffer or string position
-overlay not part of butter's contents
 
+**** text
 #+begin_src elisp
-(defvar ao (make-overlay 1 10))
-(overlay-buffer ao)
-(overlay-start ao)
-(overlay-end ao)
-(overlay-put ao 'happy t)
+  ;;;;;;;; examining text near point ;;;;;;;;
+  (char-after 1)
+  (string (char-after 1))
+  (string (char-before))
+  (point)
+  (following-char)
+  (preceding-char)
+
+  ;; (point) begine of buffer predict
+  (bobp)
+  ;; (point) end of buffer predict
+  (eobp)
+  ;; (point) begine of line predict
+  (bolp)
+  ;; (point) end of line predict
+  (eolp)
+
+
+  ;;;;;;;; examining buffer contents ;;;;;;;;
+  (buffer-substring 1 10)
+  (buffer-substring (point-min) 10)
+  (point-min)
+  (point-max)
+  (buffer-substring (point-max) 10)
+  (buffer-substring-no-properties 1 10)
+  (buffer-string)
+
+  ;; filter func: filter-buffer-substring-function(default: buffer-substring--filter)
+  (filter-buffer-substring 1 10 nil)
+  (current-word)
+  (current-word t)
+  (thing-at-point 'word)
+  (thing-at-point 'line)
+  (thing-at-point 'symbol)
+  (thing-at-point 'sexp)
+  (thing-at-point 'defun)
+
+
+  ;;;;;;;; comparing text ;;;;;;;;
+  (compare-buffer-substrings nil 1 6 nil 6 11)
+
+
+  ;;;;;;;; inserting text ;;;;;;;;
+  (insert "test before point")
+  (insert-char ?a 3 t)
+  (insert-buffer-substring "*scratch*" 1 20)
+  ;; disable font-lock here to see the difference
+  (insert-buffer-substring-no-properties "*scratch*" 1 20)
+
+
+  ;;;;;;;; user-level insertion commands ;;;;;;;;
+  (insert-buffer "*scratch*")
+  ;; insert the last typed char, most printing chars bound to this function, so most frequently used & may call other functions e.g. auto-fill-function, blink-paren-function, post-self-insert-hook
+  (self-insert-command 2)
+  (newline)
+
+
+
 #+end_src
 
-#+RESULTS:
-: ao
+**** emacs display
+#+begin_src elisp
+  ;;;;;;;; refreshing the screen ;;;;;;;;
+  (redraw-frame)
+  ;; refresh all
+  (redraw-display)
+
+  ;;;;;;;; forcing redisplay ;;;;;;;;
+  ;; Emacs normally tries to redisplay the screen whenever it waits for input.
+  (redisplay)
+  (force-window-update)
+
+
+  ;;;;;;;; truncation ;;;;;;;;
+  ;; continuation - wrap display long line
+  ;; continuation or truncation toggled via var: truncate-lines
+
+#+end_src
+
+Invisible Text
+buffer-invisibility-spec - control text with which value of property `invisible` not show
+add-to-invisibility-spec, remove-from-invisibility-spec - modify buffer-invisibility-spec
+
+
+Selective Display
+hide base on indentation via variable: selective-display
+#+begin_src elisp
+  12345
+   2345
+    345
+
+  (setq selective-display 2)
+  ;; display ... at the end of line followed by hidden text
+  (setq selective-display-ellipses nil)
+#+end_src
+
+
+Temporary Displays
+Temporary displays are used by Lisp programs to put output into a buffer and then present it to the user for perusal rather than for editing. Many help commands use this feature.
+
+
+Overlays
+(properties, position)
+properties - as text properties, impact corresponding text
+position - attach to buffer not text
+
+#+begin_src elisp
+  (setq ao (make-overlay 1 10))
+  (overlay-buffer ao)
+  (overlay-start ao)
+  (overlay-end ao)
+  (overlay-put ao 'happy t)
+  (overlay-put ao 'invisible nil)
+  (overlay-put ao 'face '(font-latex-math-face font-latex-superscript-face))
+  ;; cease to attach to buffer & have effect on display
+  (delete-overlay ao)
+  (move-overlay ao 4 14)
+  (overlay-get ao 'happy)
+  (overlay-properties ao)
+  (overlays-in 1 20)
+#+end_src
+
+
+Size of Displayed Text
+#+begin_src elisp
+  (char-width ?a)
+  (string-width "ttt")
+  (truncate-string-to-width "abcdefg" 2)
+#+end_src
+
+
+Line Height
+line height = content height + vertical line spacing
+content height = max(text/image height)
+#+begin_src elisp
+  (setq line-spacing 2)
+#+end_src
+
+
+Faces
+
+
 
 **** julia-repl
 can replaced by julia-mode:inferior-julia/run-julia?
