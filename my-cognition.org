@@ -4046,12 +4046,34 @@ So editor operations can sort to 2 categories: content change & structure change
 
 E.g.
 paredit operations sort to:
-content change:
+**** tree movement:
+C-M-f - forward
+C-M-b - backward
+
+C-M-d - down forward
+C-M-p - down backward
+
+C-M-n - up forward
+C-M-u - up backward
+
+**** content change:
 insert
 delete
-structure change:
-depth-changing
-barfage & slurpage
+
+**** structure change:
+***** add layer
+M-( - downgrade following one
+***** remove layer
+M-s - upgrade all
+M-<up> - upgrade following
+M-<down> - upgrade preceding
+M-r - upgrade following one
+***** preserve layer, upgrade/downgrade node
+M-S - split node
+C-) - downgrade next node
+C-( - downgrade previous node
+C-} - upgrade last child node
+C-{ - upgrade first child node
 
 
 *** clojure
@@ -17041,14 +17063,6 @@ Warning this code not work
                                          font-lock-defaults)))
 #+end_src
 
-**** face
-text display style e.g. font, height, weight, slant, foreground, background, underlining, overlining
-M-x list-faces-display
-`C-u C-x =`
-M-x describe-face
-M-x describe-text-properties
-
-can customize via customization
 
 **** customization
 2 kinds:
@@ -17222,6 +17236,140 @@ content height = max(text/image height)
 
 
 Faces
+A collection of graphical attributes for displaying text: font, foreground color, background color, optional underlining, etc
+(properties)
+
+text display style e.g. font, height, weight, slant, foreground, background, underlining, overlining
+M-x list-faces-display
+`C-u C-x =`
+M-x describe-face
+M-x describe-text-properties
+
+can customize via customization
+
+#+begin_src elisp
+  (facep 'bold)
+  (facep 'default)
+  (facep 'abc)
+
+  (font-family-list)
+  x-bitmap-file-path
+  underline-minimum-offset
+#+end_src
+
+defface, defgroup, defcustom seems create a container on value, which can be modified
+((display1 . (key1 val1 key2 val2 ...)) (display2 . (...)) ...)
+
+display = { default - just as base
+            t - match all
+            list - (charectristic value ...)
+          }
+
+charectristic = { type, class, background, min-colors, supports }
+
+type = { graphic, x, pc, w32, tty }
+class = { color, grayscale, mono }
+background = { light, dark }
+
+#+begin_src elisp
+  (defface myhighlight
+    '((default . (:slant italic))
+      (((class color) (min-colors 88) (background light)) . (:background "darkseagreen2"))
+      (((class color) (min-colors 88) (background dark)) . (:background "darkolivegreen"))
+      (((class color) (min-colors 16) (background light)) . (:background "darkseagreen2"))
+      (((class color) (min-colors 16) (background dark)) . (:background "darkolivegreen"))
+      (((class color) (min-colors 8)) . (:background "green" :foreground "black"))
+      (t . (:inverse-video t :underline t))
+      )
+    "my own highlight face"
+    :group 'basic-faces)
+
+
+  (facep 'myhighlight)
+
+  (face-attribute 'myhighlight :slant)
+  (face-attribute 'myhighlight :background)
+  (face-attribute 'myhighlight :underline)
+  (face-attribute 'myhighlight :weight)
+
+  (face-all-attributes 'myhighlight)
+
+  (set-face-attribute 'myhighlight nil :weight 'bold)
+
+#+end_src
+
+Displaying Faces
+merge faces from different source
+
+
+Face Remapping
+stored in buffer-local: face-remapping-alist
+((face retive-sepc1 relative-spec2 ... base-sepc) ...)
+
+used for e.g. text-scale-adjust
+#+begin_src elisp
+  face-remapping-alist
+
+  (face-remap-add-relative 'myhighlight 'italic 'bold)
+  (face-remap-add-relative 'myhighlight :height 1.5)
+  (face-remap-set-base 'myhighlight '(:width 1.2))
+  (face-remap-set-base 'myhighlight)
+  (face-remap-reset-base 'myhighlight)
+#+end_src
+
+
+Functions for Working with Faces
+#+begin_src elisp
+  (face-list)
+  (face-id 'highlight)
+  (face-documentation 'highlight)
+  (face-equal 'highlight 'bold)
+  (face-differs-from-default-p 'highlight)
+
+#+end_src
+
+
+Automatic Face Assignment
+#+begin_src elisp
+  ;; refer to function called by emacs redisplay
+  ;; if font-lock-mode disabled it's value is nil
+  ;; if font-lock-mode enabled, it's value is (jit-lock-function)
+  fontification-functions
+
+  ;; jit-lock-function set property: face & fontified 
+
+#+end_src
+
+
+Font Selection
+character -> select font -> display
+#+begin_src elisp
+  ;; (family alternate-families...)
+  face-font-family-alternatives
+
+  face-font-selection-order
+#+end_src
+
+
+The display Property
+insert image into text & control other aspects of text display
+#+begin_src elisp
+  abcdefghijklmnopqrstuvwxyz
+  (put-text-property 1 6 'display "X")
+
+  (put-text-property 6 8 'display '(space :width 3 :height 2))
+
+  (put-text-property 8 10 'display '(image ))
+
+  (put-text-property 10 12 'display '(height 3))
+
+  (put-text-property 12 14 'display '(raise 2))
+
+  (put-text-property 14 16 'display '(height 0.5))
+
+  (put-text-property 16 18 'display (when 1 '(height 2)))
+
+#+end_src
 
 
 
