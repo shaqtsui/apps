@@ -16889,6 +16889,14 @@ Alt - C-x @ a
 org-babel-load-languages is configed base on available pkgs of name: ob-*
 
 C-c C-x C-v - org-toggle-inline-images
+C-c C-x C-l - org-latex-preview
+  Note:
+    latex, dvipng need in exec-path(refer to: enviroment variables) and shell path
+  e.g.
+    $g\left( x \right) = \frac{x^{2}}{\sqrt{x}}$
+    $x^2$
+
+
 C-c ' - edit source
 org-tempo
   <?TAB - use org-tempo
@@ -17063,6 +17071,14 @@ Warning this code not work
                                          font-lock-defaults)))
 #+end_src
 
+
+**** font-lock-studio
+debug font-lock render process
+M-x font-lock-studo - start debug
+[space] - step next
+n - next rule
+g - run to end
+b - add break point
 
 **** customization
 2 kinds:
@@ -17256,6 +17272,9 @@ can customize via customization
   x-bitmap-file-path
   underline-minimum-offset
 #+end_src
+defface put data in symbol's property list with key: 'face-defface-spec
+  get it via: (get 'my-great-face 'face-defface-spec)
+defvar put data in symbol's value cell
 
 defface, defgroup, defcustom seems create a container on value, which can be modified
 ((display1 . (key1 val1 key2 val2 ...)) (display2 . (...)) ...)
@@ -17401,6 +17420,9 @@ CodeProject <: FileProject
   test dir
   compilation dir
 
+**** table.el
+C-c ` - convert to table.el
+C-c ' - edit it
 
 **** tramp
 TRAMP (included) used to access remote files

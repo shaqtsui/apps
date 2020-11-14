@@ -16,7 +16,7 @@
 (setq ns-function-modifier 'hyper)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
-(setq exec-path (append exec-path '("/usr/local/bin")))
+(setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin")))
 
 ;; install package from source
 ;; 2 approach to use:
@@ -372,6 +372,14 @@
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t))
+
+;; org-latex-preview only support org mode
+;; this pkg support more mode, but also rely on pdflatex, may similar to org-latex-preview
+(use-package texfrag
+  :ensure t)
+
+(use-package font-lock-studio
+  :ensure t)
 
 ;; add color to term, to support OhMyREPL
 (use-package eterm-256color
