@@ -100,11 +100,11 @@ I don't know why this setting doesn't take effect
 用力与否觉不生灭
 聚/有/有为
   聚见，聚闻，聚嗅，聚味，聚受，聚忆（心见/闻/嗅/味/受），
-  聚言，聚行， 聚情，聚思（心言），聚想（心行）
+  聚言，聚行， 聚情(提心...)，聚思（心言），聚想（心行）
   emotion
   accecpt & construct target, it's recursive
   ...
-散了吧，万有皆是聚，“我”亦聚中“人” - 9.8
+散了吧，万有皆是聚，“我”亦聚中“人”，“你”亦聚中“物” - 9.8
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -622,6 +622,7 @@ Longest Non-decreasing Sequence
 Structure - Recurse收发
 Math - 收发structure
   关于structure的聚忆/聚思/聚想
+  相比其他学科的聚，Math的聚的recursion比较长
   accecpt & construct target of structure
   Topology - inner structure
   Algebra - recurse structure
