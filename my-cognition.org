@@ -98,6 +98,12 @@ I don't know why this setting doesn't take effect
 无依造 － 想思忆行
 心力勿用于根
 用力与否觉不生灭
+聚/有/有为
+  聚见，聚闻，聚嗅，聚味，聚受，聚忆（心见/闻/嗅/味/受），
+  聚言，聚行， 聚情，聚思（心言），聚想（心行）
+  emotion
+  accecpt & construct target, it's recursive
+  ...
 散了吧，万有皆是聚，“我”亦聚中“人” - 9.8
 
 * 未发（中），发皆中节（和）
@@ -593,6 +599,8 @@ Addon -> Recurse -> Recursion=outerAddon -> outerRecurse -> outerRecursion=ooute
 ***** Instance:
 Fa Zhi Zhong
 学习/探索/解答 - 收发
+  新的聚
+  accecpt & construct target
   学习是一层一层的
   解答 - 收发关于问题对象，发岀要的部分
   如你收不到问题的答案，只是因为你没有答案依赖的层
@@ -613,6 +621,8 @@ Longest Non-decreasing Sequence
   Introduce one element -> Create same number of subsets -> Filter to get Non-decreasing Sequence -> Filter to get Longgest
 Structure - Recurse收发
 Math - 收发structure
+  关于structure的聚忆/聚思/聚想
+  accecpt & construct target of structure
   Topology - inner structure
   Algebra - recurse structure
   Analysis - outer structure
@@ -14484,7 +14494,22 @@ Key format:
 		Comment: "${any text can be here}"
 		${public key string}
 		---- END SSH2 PUBLIC KEY ----
-*** Go
+*** CI/CD tools
+| name          | open source | language |
+| gocd          | Y           | java     |
+| circleci      | N           | clojure? |
+| jenkins       | Y           | java     |
+| github action | N           | ?        |
+| teamcity      | N           |          |
+| bamboo        | N           |          |
+| gitlab ci     | N           |          |
+| buddy         |             |          |
+| travis ci     | Y           | ruby     |
+| codeship      |             |          |
+| buildbot      | Y           | python   |
+
+
+*** Go.cd
 Go is a tool to support CD (Refer to CD.txt)
 	Go will capture snapshot of system env variables when start
 		
@@ -14577,6 +14602,7 @@ Go is a tool to support CD (Refer to CD.txt)
 
 
 e2e for linux:
+#+begin_src xml
 <?xml version="1.0" encoding="utf-8"?>
 <cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="72">
 	<templates>
@@ -14904,6 +14930,8 @@ e2e for linux:
 	</templates>
 
 </cruise>
+
+#+end_src
 
 
 *** GPG
@@ -17390,6 +17418,9 @@ insert image into text & control other aspects of text display
 
 #+end_src
 
+
+**** syntax tables
+specify char's syntax class, which can be used by parsing
 
 
 **** julia-repl

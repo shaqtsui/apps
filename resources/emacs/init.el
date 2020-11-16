@@ -153,6 +153,7 @@
 (use-package julia-mode
   :ensure t
   :config
+  (setq prettify-symbols-unprettify-at-point t)
   (defconst julia-prettify-symbols-alist
     '(
       ("testa" . (?a (Br . Bl) ?b (Br . Bl) ?c))
