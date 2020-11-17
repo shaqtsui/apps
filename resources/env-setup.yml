@@ -77,6 +77,20 @@
     - openssh_keypair:
         path: ~/.ssh/id_rsa
 
+    # psycopg2 can not be installed in mac
+    - pip:
+        name: psycopg2-binary
+        extra_args: --user
+
+    - command: /usr/local/bin/brew services start postgresql
+      when: ansible_os_family == "Darwin"
+
+    - postgresql_db:
+        # here only need to specify socket file folder path, file name is dynamic: .s.PGSQL.$port
+        login_unix_socket: /tmp
+        login_user: fuchengxu
+        name: acme
+
 
 # this not required most of the time
 - hosts: linux

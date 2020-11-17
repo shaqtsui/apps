@@ -348,8 +348,9 @@
 (use-package cider
   :ensure t
   :config
-  (setq cider-clojure-cli-global-options "-A:java9+:dev")
-  (cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements))
+  (setq cider-clojure-cli-global-options "-A:java11+")
+  ;;(cider-register-cljs-repl-type 'browser "(do (require 'cljs.repl.browser) (cider.piggieback/cljs-repl (cljs.repl.browser/repl-env)))" 'cider-check-nashorn-requirements)
+  )
 
 (use-package cider-hydra
   :ensure t
@@ -373,6 +374,14 @@
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t))
+
+;; open url corresponding to local buffer file
+(use-package browse-at-remote
+  :ensure t)
+
+;; explorer github without clone
+(use-package github-explorer
+  :ensure t)
 
 ;; org-latex-preview only support org mode
 ;; this pkg support more mode, but also rely on pdflatex, may similar to org-latex-preview

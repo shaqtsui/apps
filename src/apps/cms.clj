@@ -95,14 +95,15 @@
 ;; logic
 
 (def env (-> {:qq-oauth2 {:authorization-uri "https://graph.qq.com/oauth2.0/authorize"
-                                               :redirect-uri "http://www.sharkxu.com/oauth2/callback"
-                                               :client-id "101326937"
-                                               :client-secret "b9892d627e6ff3985eb25b32c1ade573"
-                                               :options {:scope ["get_user_info"]
-                                                         :response-type "code"}
-                                               :access-token-uri "https://graph.qq.com/oauth2.0/token"
+                          ;; if test in local, need to do host mapping, as localhost callback is forbidden by qq
+                          :redirect-uri "http://www.sharkxu.com/oauth2/callback"
+                          :client-id "101326937"
+                          :client-secret "b9892d627e6ff3985eb25b32c1ade573"
+                          :options {:scope ["get_user_info"]
+                                    :response-type "code"}
+                          :access-token-uri "https://graph.qq.com/oauth2.0/token"
 
-                                               :qq-openid-uri "https://graph.qq.com/oauth2.0/me"
+                          :qq-openid-uri "https://graph.qq.com/oauth2.0/me"
                           :qq-user-info-uri "https://graph.qq.com/user/get_user_info"}}
              (merge (:cms (cps/from-system-props)))))
 
@@ -111,8 +112,8 @@
 
 (def handler
   (routes
-   (GET "/" request (-> "cms/my-cognition.org"
-                        io/resource
+   (GET "/" request (-> "/Users/fuchengxu/Projects/apps/my-cognition.org"
+                        io/file
                         slurp
                         parse-org
                         :content

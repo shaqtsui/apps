@@ -4037,6 +4037,8 @@ Package Management Tool
 	pip
 		Install:
 			sudo easy_install pip
+
+  pip3 for python3
 		
 	python
 		python runtime
@@ -4044,8 +4046,25 @@ Package Management Tool
 	python-devel/python-dev
 		python sdk?
 		
-		
-		
+
+*** virtualenv
+tool to create isolated python enveroment
+python3.3+ have subset of it in moudle: venv
+
+install: pip3 install virtualenv
+
+create env: virtualenv $venv
+  1, create python(symlinks) from current python interpreter in: $venv/bin/python*
+  2, install seed pkgs(pip, setuptools, wheel) in: $venv/lib/python$ver/site-packages, scripts in: $venv/bin
+  3, install activation scripts into: $venv/bin/activate*
+  4, create VCS ignore file e.g. .gitignore
+
+activate:
+  source $env/bin/activate
+deactivate:
+  deactivate
+
+
 *** lisp family
 Lisp language source contains:
 content & structure.
@@ -11607,6 +11626,21 @@ which fragment will be rendered depends on
 	2, request parameter fragments
 
 
+**** spring cloud
+framework to impl micro service arch
+features includes:
+  configuration server
+  service registration
+    routing
+    load bancing
+    circuit breakers
+    ...
+
+web server -> domain logic server
+configuration server
+registry server
+
+
 *** ssh
 1, ssh client connect to remote ssh server
 2, ssh server start shell(configable)
@@ -16676,40 +16710,48 @@ So Vector can not be implemented as Function, as from Semnatic perspective Vecto
 
 
 *** postgresql
-install:
-;; standard pkg
-brew install postgresql
-;; mac app pkg
-brew cask install postgres
+**** install:
+standard pkg
+  brew install postgresql
+mac app pkg
+  brew cask install postgres
 
-standard pkg config:
-;; init Database Cluster(database storage area on disk, SQL standard term: catalog cluster, default created db: postgres, template1 - base db, copied for new db creation)
+
+**** init Database Cluster(database storage area on disk, SQL standard term: catalog cluster, default created db: postgres, template1 - base db, copied for new db creation)
 initdb -D DATA_DIRECTORY -EUTF-8 --locale=XX_XX.UTF-8
 or via wrapper program pg_ctl:
 pg_ctl -D /usr/local/pgsql/data initdb
+pg_ctl -D ~/DB/pgsql/data initdb
 
 
-;; start server
+**** start server
 postgres -D /usr/local/pgsql/data
+postgres -D ~/DB/pgsql/data
 or via wrapper program pg_ctl:
 pg_ctl start -D DATA_DIRECTORY -w -l DATA_DIRECTORY/postgres-server.log
 
+**** create db
+createdb $db
+or
+psql -d postgres
+create database $db;
 
-connect to postgre with super user(unix-domain socket):
+
+**** connect to postgre with super user(unix-domain socket):
 "/Applications/Postgres.app/Contents/Versions/11/bin/psql"
 or specify db:
-"/Applications/Postgres.app/Contents/Versions/11/bin/psql" -p5432 -d "fuchengxu"
+"/Applications/Postgres.app/Contents/Versions/11/bin/psql" -p5432 -d $db
+
+**** auth(pg_hba.conf)
 
 
-;; create db
-;; login & sql command:
-create database name;
-or via wrapper program createdb:
-createdb USERNAME
+*** Unix-domain socket
+A socket exist as a file, applications can listen, read, write to it
+e.g.
+  postgresql by default listen on unix-domain socket: /temp/.s.PGSQL.nnnn
 
-
-;; auth(pg_hba.conf)
-
+*** psycopg2
+postgresql python adapter
 
 *** clojure configuration libs
 cprop - support data, provide low level env access api, load-config need at least one edn file, use low level api in cprop.source instead
@@ -16791,7 +16833,7 @@ only support json, without ring middle support
 
 *** clojure state manage
 component - reply on Record, OO like, deps tree manually constructed
-
+  system - bulid on top of component, offering a set of readymade components, e.g. jetty, datomic, postgresql
 mount - rely on namespace load sequence to mantain deps tree & restart state
 
 *** clojure validation lib

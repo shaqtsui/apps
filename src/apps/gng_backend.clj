@@ -19,14 +19,6 @@
             [taoensso.timbre.appenders.core :as appenders]))
 
 
-
-
-
-
-
-
-
-
 ;; current config: (clojure.pprint/pprint timbre/*config*)
 ;; alternative env setup:  export TIMBRE_LEVEL=':trace'
 ;; alternative simple level change: (timbre/set-level! :trace)
@@ -48,7 +40,7 @@
                                    :adapter            "postgresql"
                                    :username           "fuchengxu"
                                    :password           "password"
-                                   :database-name      "fuchengxu"
+                                   :database-name      "gng"
                                    :server-name        "localhost"
                                    :port-number        5432
                                    :register-mbeans    false}}
@@ -136,7 +128,7 @@
 
 (migratus/migrate migration-options)
 
-
+(items db-spec)
 
 ;;(migratus/rollback migration-options)
 
