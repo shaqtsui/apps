@@ -16936,6 +16936,8 @@ media -> open capture device -> destop
 H.265 is the latest formatter tech
 
 *** repl
+In essence: language execution state NOT vanish
+
 It's a program. get input, evaluate, send output
 Frontend/Backend persepctive divide REPL into 2 parts:
   RPL - Read, Print, Loop
@@ -22057,3 +22059,20 @@ e.g. SymPy
   a = 3 * t
   b = a + 2 + 3
 #+end_src
+
+*** program interfaces selection
+language perspective:
+  universal language > domain language > gui
+  e.g.
+    julia Pkg api > julia Pkg mode > gui Project.toml editor
+    boot > maven
+    pallet > ansible > jenkins
+
+
+execution perspective:
+  repl > non-repl
+  e.g.
+    julia > java
+    pallet > ansible
+      Note:
+      As ansible register state vanish
