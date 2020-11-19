@@ -104,6 +104,8 @@ I don't know why this setting doesn't take effect
   emotion
   accecpt & construct target, it's recursive
   ...
+  About:
+    "你"向“我”要，“我”往往转而向其他“你”要
 散了吧，万有皆是聚，“我”亦聚中“人”，“你”亦聚中“物” - 9.8
 
 * 未发（中），发皆中节（和）
@@ -16832,9 +16834,32 @@ only support json, without ring middle support
 
 
 *** clojure state manage
+stateful
+  Anything have state: started, stoped which can be changed via command: :start, :stop
+
+mnt/start - make all existing stateful started(invoke :start command if not yet started)
+mnt/stop -                             stoped         :stop                     stoped
+re-defstate
+  name corresponding old stateful is started, stop it with its :stop(old :stop)
+  name corresponding new stateful get started with its :start(new :start)
+
 component - reply on Record, OO like, deps tree manually constructed
   system - bulid on top of component, offering a set of readymade components, e.g. jetty, datomic, postgresql
+
 mount - rely on namespace load sequence to mantain deps tree & restart state
+  defstate
+    create a variable:
+      value when new: #<DerefableState@21372fad: :not-delivered>
+      value when started: result of expression of :start
+      value when stoped: #object[mount.core.NotStartedState
+  #+begin_src clojure
+    (mnt/defstate server
+      :start (web/run app {:port 0})
+      :stop (web/stop))
+  #+end_src
+
+
+
 
 *** clojure validation lib
 bouncer
@@ -16844,6 +16869,62 @@ clojure.spec - also give up Tree Owner
 
 *** clojure rest lib
 Compojure-api - rely on data type declaration, like static language
+
+
+*** immutant web
+| name          | default value |
+| :host         | localhost     |
+| :port         | 8080          |
+| :virtual-host | nil           |
+| :path         | /             |
+
++----------+----------------------------------+-----------------------------------------------------+
+|          |  server                          |                       context                       |
+|          |  with unique listen port         |      with unique combine of vitual-host & path      |
+|          |  identified by :host, :port      |   identified by :contexts or :virtual-host, :path   |
++----------+----------------------------------+-----------------------------------------------------+
+| undertow | server1                          | context11                                           |
++----------+----------------------------------+-----------------------------------------------------+
+|          |                                  | context12                                           |
++----------+----------------------------------+-----------------------------------------------------+
+|          | server2                          | context21                                           |
++----------+----------------------------------+-----------------------------------------------------+
+|          |                                  | context22                                           |
++----------+----------------------------------+-----------------------------------------------------+
+
+:contexts - mapping of server & contexts
+
+run(app, context) - start/update app in context
+stop(context) - stop context, if server have no context any more, server also stopped
+
+
+*** timbre
+Support clojure & clojurescript
+No XML or properties files. A single, simple config map, and you're set.
+
+Changes on config map take effect immediatly, as it's not in file
+
+bridge other logger:
+| logger | bridge           | logger | impl         | target |
+| log4j  | log4j-over-slf4j | slf4j  | slf4j-timbre | timbre |
+| JUL    | jul-to-slf4j     | ..     |              |        |
+| jcl    | jcl-over-slf4j   | ..     |              |        |
+
+
+#+begin_src clojure
+;; current config:
+(clojure.pprint/pprint timbre/*config*)
+
+;; alternative env setup:  export TIMBRE_LEVEL=':trace'
+;; alternative simple level change:
+(timbre/set-level! :trace)
+
+(timbre/merge-config!
+ {:level :debug
+  ;;:appenders {:spit (appenders/spit-appender {:fname "apps.log"})}
+  })
+
+#+end_src
 
 
 
