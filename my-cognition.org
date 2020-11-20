@@ -100,13 +100,14 @@ I don't know why this setting doesn't take effect
 用力与否觉不生灭
 聚/有/有为
   聚见，聚闻，聚嗅，聚味，聚受，聚忆（心见/闻/嗅/味/受），
-  聚言，聚行， 聚情(提心...)，聚思（心言），聚想（心行）
+  聚言，聚行， 聚情(提心，激动...)，聚思（心言），聚想（心行）
   emotion
   accecpt & construct target, it's recursive
   ...
   About:
     "你"向“我”要，“我”往往转而向其他“你”要
 散了吧，万有皆是聚，“我”亦聚中“人”，“你”亦聚中“物” - 9.8
+心息，心动，万有始于心动，万有即是心动，能动谓之“我”，所动谓之“物” - 10.6
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -20004,6 +20005,99 @@ CuArrays.jl, CLArrays.jl
 ArrayFire.jl, GPUArrays.jl
 
 
+**** running external programs
+`` create Cmd
+can connect to other Cmd via pipes
+Cmd out -> stdout
+never run with a shell
+
+| cmd parts                     | syntax        |
+| normal                        | symbol        |
+| with special chars            | "" or '' or \ |
+| with $(means no iterpolation) | '' or \       |
+
+special chars: [space]#{}()[]<>|&*?~;
+
+Note: interpolation of collection will break parts
+
+#+begin_src julia
+  # Cmd parts seprated by space(s)
+  mycmd = `  echo     Hello  "Sara"   `
+  run(mycmd)
+  'asdf'
+  # run & read output
+  read(mycmd, String)
+
+  # read & write
+  open(`less`, "w", stdout) do io
+      for i in 1:3
+          println(io, i)
+      end
+  end
+
+  # Cmd is collection
+  collect(mycmd)
+  mycmd[1]
+  mycmd[2]
+
+  # interpolation
+  file = "/etc/passwd"
+  cmd2 = `sort $file "$file"`
+  run(cmd2)
+
+  # part with space
+  path = "/Volumes/Macintosh HD/Users/fuchengxu/Projects/apps"
+  name = "Project"
+  ext = "toml"
+  cmd3 = `sort $path/$name.$ext "$path/$name.$ext" 'asdf' ' asdf ' "    asdf"`
+  run(cmd3)
+
+  # inperpolation collection break parts
+  files = ["/etc/passwd", "$path/$name.$ext"]
+  cmd4 = `grep   foo    $files`
+  cmd4 = `grep   foo    "$files"`
+  run(cmd4)
+
+  # interpolation collection break parts: cartesian product
+  names = ["foo", "bar", "baz"]
+  exts = ["log", "txt"]
+  cmd5 = ` echo    $names.$exts`
+  cmd5 = ` echo    "$names.$exts"`
+  run(cmd5)
+
+  # ''
+  `echo '$file'`
+  `echo ' as  df'`
+  `echo 'aasdf'`
+  `echo '@aasdf'`
+
+  # piplines
+  `echo hello '|' sort`
+  `echo hello "|" sort`
+  cmd = `echo hello \| sort`
+  run(cmd)
+
+  `echo hello \    \     sort`
+  `echo hello \    \ asdf  \$  sort`
+  `echo hello \    \  '$'  sort`
+  `echo hello \    \  \$asdf  sort`
+  `echo hello \    \  aasdf\$asdf  sort`
+
+  cmd  = pipeline(`echo hello`, `sort`)
+  run(cmd)
+
+  cmd = pipeline(`cut -d: -f3 /etc/passwd`, `sort -n`, `tail -n5`)
+  run(cmd)
+
+
+  # parallel
+  cmd = `echo hello` & `echo world`
+  run(cmd)
+
+  cmd = pipeline(`echo world` & `echo hello`, `sort`)
+  run(cmd)
+#+end_src
+
 **** enviroment variables
 
 | os env variable  | julia env variable | example value                                                            | comments                                                                                                                               |
@@ -20219,6 +20313,7 @@ paths = Dict(
     "/home/me/AnimalPackages/Dingo/src/Dingo.jl",
 )
 #+end_src
+
 
 *** Pkg.jl
 **** package management
@@ -22073,6 +22168,7 @@ execution perspective:
   repl > non-repl
   e.g.
     julia > java
+    boot > maven
+      As maven server related commands state vanish
     pallet > ansible
-      Note:
       As ansible register state vanish
