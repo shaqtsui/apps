@@ -17037,8 +17037,12 @@ Alt - C-x @ a
 
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-**** term ansi-term
-2 very similar terminals
+**** term ansi-term eshell shell
+term ansi-term are 2 very similar terminals, both in term.el
+shell - oldest, use comint-mode to run external shell e.g. bash, emacs act as terminal
+term - terminal emulator, after started, you need to specify shell to run
+eshell - shell implemented via elisp
+
 
 **** org-mode
 org-babel-load-languages is configed base on available pkgs of name: ob-*
@@ -19724,62 +19728,100 @@ but ccall, which out of julia, NO invoke of yieldto()
 ****** remote call:
 Code & Closure will serialize to target process
 
-remotecall(workid, func, args...)
-@spawnat workid expr
-@everywhere expr
-@distributed
-pmap
-remote_do
+| remote execute api                              | wrap closure? | Single / Multiple worker | return value                                  | note                                                                                                           |
+| @everywhere [procs()] expr                      | N             | M                        | nothing                                       | Equivalent to calling:  remotecall_eval(Main, procs, expr)                                                     |
+| @spawnat p expr                                 | Y             | S                        | Future                                        |                                                                                                                |
+| remotecall(f, p, args..)                        | Y             | S                        | Future                                        | low-level interface providing finer control                                                                    |
+| remotecall_fetch(f, p, args..)                  | Y             | S                        | value                                         | equivalent to: fetch(remotecall(...))                                                                          |
+| remote_do(f, p, args..)                         | Y             | S                        | nothing                                       | Unlike remotecall, it does not store the result of computation, nor is there a way to wait for its completion. |
+| @distributed [reducer] for var = range body end | Y             | M                        | with reducer: reduced value, no reducer: Task | partition, execute on all workers                                                                              |
+
+
+@spawnat, remote*()
+refer of Global variables(only in Module Main?):
+  New global bindings are created on destination workers if they are referenced as part of a remote call.
+  clear! can be used to manually reassign specific globals on remote nodes to nothing once they are no longer required. 
+  This will release any memory associated with them as part of a regular garbage collection cycle.
+
 
 #+BEGIN_SRC julia
 using Distributed
+# lunch n workers via buit-in LocalManager
 addprocs(3)
-r = remotecall(rand, 2, 2, 2)
-s = @spawnat 2 1 .+ fetch(r)
+
+# same as: addprocs(Sys.CPU_THREADS)
+addprocs()
+Sys.CPU_THREADS
+
+# lunch 1 worker on server via built-in SSHManager
+# default exename is: $Sys.BINDIR/julia
+# default dir is: pwd()
+addprocs([("shark@192.168.31.128", 1)], exename="/home/shark/julia-1.5.3/bin/julia", dir="/home/shark/Projects")
+Sys.BINDIR
+
+# run expr on target worker
+@everywhere 21 using Pkg
+# wrap expr with closure, run it on target server
+@spawnat 21 Pkg.status()
+future = @spawnat 21 run(`ls`)
+fetch(future)
+
+r = remotecall(rand, 21, 2, 2)
+fetch(r)
+s = @spawnat 2 1 .+ 1
 fetch(s)
 
-@everywhere using IJulia
+a = 1
+r = @everywhere 1 + 1
+fetch(r)
+
+
 rmprocs(2, 3, 4)
 addprocs(3, exeflags="--project")
+# collection of worker ids
 workers()
-@everywhere using IJulia
+# number of processes
+nprocs()
+# number of worker processes
+nworkers()
 
-@everywhere 1 + 1
 #+END_SRC
 
+
+Other examples
 #+BEGIN_SRC julia
 using Distributed
 A = rand(1000, 1000)
 addprocs(3)
 res = @spawnat :any A^2
-
 fetch(res)
 
-#+END_SRC
-
-#+BEGIN_SRC julia
-using Distributed
 res = @spawnat :any rand(1000, 1000)^2
 fetch(res)
 
 #+END_SRC
 
-closure be shipped
+
+refer of Global variables
 #+BEGIN_SRC julia
 A = rand(10, 10)
-res = remotecall_fetch(() -> A, 2)
+res = remotecall_fetch(() -> A, 21)
 res == A
 B = rand(10, 10)
 let B = B
-  remotecall_fetch(() -> B, 2)
+  remotecall_fetch(() -> B, 21)
 end
-@fetchfrom 2 InteractiveUtils.varinfo()
+@fetchfrom 21 InteractiveUtils.varinfo()
+clear!(:A, 21)
 #+END_SRC
 
 loops & maps
-
 #+BEGIN_SRC julia
 nheads = @distributed (+) for i = 1:200000000
+Int(rand(Bool))
+end
+
+nheads = @distributed for i = 1:200000000
 Int(rand(Bool))
 end
 #+END_SRC
@@ -19790,6 +19832,11 @@ A = zeros(300000)
 res = @distributed for i = 1:100000
 A[i] = i
 end
+
+res = @distributed (+) for i = 1:100000
+A[i] = i
+end
+
 res
 fetch(res)
 sum(A)
@@ -19859,6 +19906,7 @@ for p in workers()
 end
 
 
+res  = remote_do(() -> 1, 21)
 
 #+END_SRC
 
@@ -20488,6 +20536,10 @@ or:
 
 
 
+
+
+*** ClusterManagers.jl
+Some ClusterManagers for parallel computing
 
 *** WebIO.jl
 elements of type Node, printed like hiccup
@@ -22172,3 +22224,13 @@ execution perspective:
       As maven server related commands state vanish
     pallet > ansible
       As ansible register state vanish
+
+*** record and replay
+record program execution so can be played back
+record application state at every step of execution store in log
+usage:
+  seprate execution & replay
+  debugging intermittent & non-deterministic defects
+  reverse execution/debugging
+
+
