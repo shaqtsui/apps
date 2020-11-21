@@ -22272,3 +22272,30 @@ usage:
   reverse execution/debugging
 
 
+*** IT automation via julia
+#+begin_src julia
+  using Distributed
+  ps = addprocs([("shark@192.168.31.128", 1)], exename="/home/shark/julia-1.5.3/bin/julia", dir="/home/shark/Projects")
+  procs()
+  workers()
+  #rmprocs(ps)
+
+  @everywhere function runwithinput(cmd, input="shark")
+    open(cmd, "w", stdout) do io
+        write(io, input)
+    end
+  end
+
+  @fetchfrom ps[begin] run(`emacs -version`)
+  @fetchfrom ps[begin] run(`apt info emacs`)
+  @fetchfrom ps[begin] runwithinput(`sudo -S apt --assume-yes remove emacs`)
+  @fetchfrom ps[begin] runwithinput(`sudo -S snap install emacs`)
+
+#+end_src
+
+
+*** IO
+my io = stdio
+read my in, write my out
+write your in, read your out
+
