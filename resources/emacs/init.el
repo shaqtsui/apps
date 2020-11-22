@@ -17,6 +17,13 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 (setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin")))
+;;(add-to-list 'default-frame-alist '(font  . "JuliaMono"))
+;;(add-to-list 'default-frame-alist '(font  . "IBM Plex Mono"))
+;;(add-to-list 'default-frame-alist '(font  . "Noto Sans Mono CJK SC"))
+;;(add-to-list 'default-frame-alist '(font  . "Source Han Mono SC"))
+;;(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC-17")
+(set-face-attribute 'default nil :font "JuliaMono-14")
+
 
 ;; install package from source
 ;; 2 approach to use:

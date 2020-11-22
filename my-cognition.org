@@ -22323,3 +22323,35 @@ pandoc test1.md -f markdown -t html -s -o test1.html
   -f, -t can be igored which infer from file extension
 pandoc test.org -o test.docx
 
+
+*** font
+**** monospaced font
+also called: fixed-pitch, fixed-width, non-proportional font
+chars of same width
+
+e.g.
+Menlo
+
+**** font file location
+System Fonts: /System/Library/Fonts
+User Fonts: ~/Library/Fonts
+
+**** serif
+serif - small line on main stroke extremities
+sans/sans-serif/gothic - with no serif
+
+**** font namming suffix
+C - Chinese
+SC - Simplified Chinese
+TC - Traditional Chinese
+J - Japanese
+K - Korea
+
+**** example fonts
+| font name       | oepnsource | owner                                     | width of 1 SC = width of N english char |
+| Noto Sans CJK   | Y          | google & adobe                            | Y                                       |
+| Sarasa Gothic   | Y          | https://github.com/be5invis/Sarasa-Gothic |                                         |
+| Source Han Sans |            |                                           | N                                       |
+
+
+

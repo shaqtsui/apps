@@ -153,6 +153,7 @@
       loop:
         - name: d12frosted/emacs-plus
         - name: homebrew/cask-versions
+        - name: homebrew/cask-fonts
 
     - package:
         name:
@@ -162,12 +163,15 @@
         name: "{{ item.name }}"
       loop:
         - name: julia
-        #- name: visual-studio-code
-        #- name: mactex-no-gui
-        #  desc: latex used by org to generate pdf
+        - name: font-juliamono
+        - name: font-source-han-noto-cjk
+        - name: font-ibm-plex
+        - name: visual-studio-code
+        - name: mactex-no-gui
+          desc: latex used by org to generate pdf
         - name: java
-        #- name: flash-npapi
-        #  desc: flash plugin for safri
+        - name: flash-npapi
+          desc: flash plugin for safri
         - name: teamviewer
           desc: for remote assist
         - name: balenaetcher
