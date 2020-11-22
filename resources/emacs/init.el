@@ -375,6 +375,9 @@
   (setq TeX-auto-save t)
   (setq TeX-parse-self t))
 
+(use-package pandoc-mode
+  :ensure t)
+
 ;; open url corresponding to local buffer file
 (use-package browse-at-remote
   :ensure t)
@@ -593,7 +596,7 @@
  '(custom-enabled-themes '(wombat))
  '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist) t)
  '(package-selected-packages
-   '(ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
+   '(pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
  '(safe-local-variable-values
    '((eval if
            (fboundp 'pretty-symbols-mode)

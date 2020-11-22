@@ -98,7 +98,7 @@ I don't know why this setting doesn't take effect
 无依造 － 想思忆行
 心力勿用于根
 用力与否觉不生灭
-聚/有/有为
+聚/有/有为/心动
   聚见，聚闻，聚嗅，聚味，聚受，聚忆（心见/闻/嗅/味/受），
   聚言，聚行， 聚情(提心，激动...)，聚思（心言），聚想（心行）
   emotion
@@ -17598,6 +17598,13 @@ default-input-method -> pyim -> dict
 default dict: dict-pymap
 key sequence -> pre-append pyim-default-scheme -> all dicts
 
+**** pandoc-mode
+M-x pandoc-mode
+C-c / - command starter
+C-c / O W d - set output format to docx
+C-c / S - view current setting
+
+
 **** other
 built-in
 IDO - choice narrow
@@ -22298,4 +22305,21 @@ usage:
 my io = stdio
 read my in, write my out
 write your in, read your out
+
+*** pandoc
+
+**** use as filter:
+pandoc
+enter texts
+C-d - convert above markdown text to html
+
+pandoc -f html -t markdown
+enter html text
+C-d - covert
+
+**** convert file
+pandoc test1.md -f markdown -t html -s -o test1.html
+  -s - standalone file, not a fragment
+  -f, -t can be igored which infer from file extension
+pandoc test.org -o test.docx
 

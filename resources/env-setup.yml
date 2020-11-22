@@ -1,8 +1,13 @@
 ---
-# install ansible:
+# install pip if not available:
 # curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 # sudo python get-pip.py
-# sudo pip install ansible
+#
+# install ansible:
+# sudo -H pip3 install --user ansible
+# with --user, pkg installed in ~/Library/Python/3.8/bin & ~/Library/Python/3.8/lib/python/site-packages
+# may need to add $PATH: export PATH=/Users/fuchengxu/Library/Python/3.8/bin:$PATH
+#
 # ansible password connection reply on 'sshpass' which is not allowed in macOS, so add key for password free connection: cat ~/.ssh/id_rsa.pub | ssh shark@192.168.31.128 'cat >> ~/.ssh/authorized_keys'
 # run with: ansible-playbook env-setup.yml -v -i hosts.yml
 #
@@ -16,7 +21,12 @@
 # see my-congnition for more info
 
 
-- hosts: nix
+- hosts: posix
+  collections:
+    - ansible.posix
+    - community.general
+    - community.crypto
+
   tasks:
     - name: add pub key to authorized_keys to support password free login
       authorized_key: user="{{ ansible_user }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
@@ -38,6 +48,7 @@
           - jupyter
           - git-lfs
           - scc
+          - pandoc
       become: "{{ package_become }}"
 
     - git:
@@ -90,6 +101,9 @@
         login_unix_socket: /tmp
         login_user: fuchengxu
         name: acme
+
+    - command: /usr/local/bin/brew services stop postgresql
+      when: ansible_os_family == "Darwin"
 
 
 # this not required most of the time
@@ -148,18 +162,22 @@
         name: "{{ item.name }}"
       loop:
         - name: julia
-        - name: visual-studio-code
-        - name: mactex-no-gui
-          desc: latex used by org to generate pdf
+        #- name: visual-studio-code
+        #- name: mactex-no-gui
+        #  desc: latex used by org to generate pdf
         - name: java
-        - name: flash-npapi
-          desc: flash plugin for safri
+        #- name: flash-npapi
+        #  desc: flash plugin for safri
         - name: teamviewer
           desc: for remote assist
         - name: balenaetcher
           desc: iso to sd/usb
 
 - hosts: win
+  collections:
+    - ansible.windows
+    - chocolatey.chocolatey
+
   tasks:
     - win_service:
         name: "{{item.name}}"
