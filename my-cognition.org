@@ -17077,6 +17077,37 @@ properties - key-value pair associated with an entry, like tags, right below hea
   property-name_ALL - allowed values for property-name
   property-name+ - append value for property-name in current scope
 
+**** present org
+***** org-present
+present inside emacs
+M-x org-present - start
+[left] - previous slide
+[right]  - next slide
+C-c C-q - quite
+
+***** org-reveal
+#+begin_src elisp
+(use-package ox-reveal
+  :ensure t
+  :config
+  ;; path of package(contains readme.md), not dist/reveal.js
+  (setq org-reveal-root "file:///Users/fuchengxu/Desktop/reveal.js-master")
+#+end_src
+M-x load-library, enter ox-reveal - load org-reveal as org export extension
+C-c C-e R B - export as html & open
+
+***** Beamer Export
+Enable org-beamer-mode to:
+create org-latex-classes with beamer class definition
+add export latex/beamer extension
+
+Note:
+org-beamer-mode can be enabled via startup command:
+##+STARTUP: beamer
+
+example refer to beamer-export-example.org
+
+
 **** widget
 text widget
 refer: https://www.gnu.org/software/emacs/manual/html_mono/widget.html
@@ -21296,7 +21327,9 @@ demux - libavformat
 decode/encode - libavcodec
 filter - libavfilter
 
-**** command examples
+**** commands
+ffmpeg [global_options] {[input_file_options] -i input_url} ... {[output_file_options] output_url} ...
+
 -c codec/copy
 -c:v codec/copy
 -c:v:0 codec/copy
@@ -21316,10 +21349,15 @@ FFMPEG.exe("-version", command=FFMPEG.ffmpeg, collect=true)
 ffmpeg_exe("-version")
 ffmpeg`-version`
 
+
 # follow functions are same
 FFMPEG.exe("-version", command=FFMPEG.ffprobe, collect=true)
 ffprobe_exe("-version")
 ffprobe`-version`
+
+# show video information
+ffprobe`/Users/fuchengxu/Pictures/Photos Library.photoslibrary/private/com.apple.Photos/ExternalEditSessions/8C1ED4F2-638B-4C9F-892F-059E3CACBE2B/IMG_2746.mov`
+
 
 # the AV libraries (exported too):
 FFMPEG.libavcodec
@@ -21331,6 +21369,8 @@ FFMPEG.libavfilter
 
 # other functions:
 FFMPEG.versioninfo()
+
+ffprobe"~/Projects/apps/"
 
 #+END_SRC
 

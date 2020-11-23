@@ -21,8 +21,9 @@
 ;;(add-to-list 'default-frame-alist '(font  . "IBM Plex Mono"))
 ;;(add-to-list 'default-frame-alist '(font  . "Noto Sans Mono CJK SC"))
 ;;(add-to-list 'default-frame-alist '(font  . "Source Han Mono SC"))
-;;(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC-17")
+;;(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC")
 (set-face-attribute 'default nil :font "JuliaMono-14")
+;;(set-face-attribute 'default nil :font "Sarasa Mono SC")
 
 
 ;; install package from source
@@ -376,6 +377,15 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; other pkg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-reveal
+(use-package ox-reveal
+  :ensure t
+  :config
+  (setq org-reveal-root "file:///Users/fuchengxu/Desktop/reveal.js-master"))
+
+(use-package org-present
+  :ensure t)
+
 (use-package auctex
   :ensure t
   :config
@@ -603,7 +613,7 @@
  '(custom-enabled-themes '(wombat))
  '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist) t)
  '(package-selected-packages
-   '(pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
+   '(ox-reveal org-reveal org-present pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
  '(safe-local-variable-values
    '((eval if
            (fboundp 'pretty-symbols-mode)
