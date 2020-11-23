@@ -22325,6 +22325,55 @@ pandoc test.org -o test.docx
 
 
 *** font
+glyph of chars
+
+**** font family
+a set of same 9 design styles fonts with different: weight, slant, width...
+
+**** font face
+combination of font family & differences
+
+**** font specify(identification)
+fontconfig pattern
+  fontfamilyname[-fontsize][:name1=value1][:name2=value2]...
+  e.g.
+    DejaVu Sans Mono-16:bold:italic:width=normal:spacing=proportional
+
+GTK font patterns
+  fontfamilyname [properties] [fontsize]
+  e.g.
+    Monospace Bold Italic Semi-Condensed 12
+
+XLFD(X Logical Format Description)
+  14 words seprated by 14 -
+  -maker-family-weight-slant-widthtype-style-pixels-height-horiz-vert-spacing-width-registry-encoding
+  style - language name e.g. ja, ko
+  registry, encoding - specify char set that the font depicts
+  e.g.
+    -misc-fixed-medium-r-semicondensed--13-*-*-*-c-60-iso8859-1
+
+font nickname
+  e.g.
+    6x13 equivalent to: -misc-fixed-medium-r-semicondensed--13-*-*-*-c-60-iso8859-1
+
+
+**** fontset
+normally a font contains glyphs of a set of chars, NOT all, so normally u can not display all chars with single font
+font set - a set of fonts for all different char sets
+  {charset1 : font1, charset2 : font2, ...}
+3 built-in fontset in emacs
+  standard
+  startup
+  default
+char set can be specified by its name, script, range
+  e.g.
+    name: ascii, iso-8859-1, cp1250, big5, unicode, chinese-gb2312, chinese-gbk...
+    script: han - CJK(Chinese, Japanese, Korean) chars
+    range: #xe000 .. #xf8ff
+
+
+
+
 **** monospaced font
 also called: fixed-pitch, fixed-width, non-proportional font
 chars of same width
@@ -22354,4 +22403,14 @@ K - Korea
 | Source Han Sans |            |                                           | N                                       |
 
 
+*** math as common language
+It's better to use math as common language to express structure information
+e.g.
+  {} - set
+  [] - vector
+  m..n - range
+  f(x) - function
+
+As math is most widly used across: non-developer, c developer, julia-developer, clojure developer, java developer,...
+Use one program language, other program language developers may don't know
 
