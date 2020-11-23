@@ -17086,6 +17086,7 @@ M-x org-present - start
 C-c C-q - quite
 
 ***** org-reveal
+install:
 #+begin_src elisp
 (use-package ox-reveal
   :ensure t
@@ -17093,13 +17094,17 @@ C-c C-q - quite
   ;; path of package(contains readme.md), not dist/reveal.js
   (setq org-reveal-root "file:///Users/fuchengxu/Desktop/reveal.js-master")
 #+end_src
-M-x load-library, enter ox-reveal - load org-reveal as org export extension
+
+require ox(org export) extension: ox-reveal
+(require 'ox-reveal)
+or:
+M-x load-library -> ox-reveal
+
 C-c C-e R B - export as html & open
 
 ***** Beamer Export
 Enable org-beamer-mode to:
-create org-latex-classes with beamer class definition
-add export latex/beamer extension
+require ox(org export) extension: ox-latex
 
 Note:
 org-beamer-mode can be enabled via startup command:
@@ -17107,6 +17112,11 @@ org-beamer-mode can be enabled via startup command:
 
 example refer to beamer-export-example.org
 
+***** pandoc[-mode] convert
+convert slide show formats: MS PowerPoint, Beamer, RevealJS, S5, Slidy...
+Note:
+  u need to enable standalone
+  C-c / o w s
 
 **** widget
 text widget
@@ -17635,6 +17645,15 @@ C-c / - command starter
 C-c / O W d - set output format to docx
 C-c / S - view current setting
 
+setting file:
+global: ~/.emacs.d/pandoc-mode/$targettype.pandoc
+project: ./Project.$targettype.pandoc
+file: ./.$sourcefile.$targettype.pandoc
+e.g.
+target type: revealjs, source file: beamer-export-example.org
+global: ~/.emacs.d/pandoc-mode/revealjs.pandoc
+project: ./Project.revealjs.pandoc
+file: ./.beamer-export-example.org.revealjs.pandoc
 
 **** other
 built-in
