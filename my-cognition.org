@@ -1,7 +1,7 @@
 #+STARTUP: indent
 #+STARTUP: hidestars
 #+STARTUP: showstars
-#+STARTUP: hideblocks
+##+STARTUP: hideblocks
 :properties:
 I don't know why this setting doesn't take effect
 :header-args:jupyter-julia: :session *julia* :kernel julia-1.5 :results silent :async yes
@@ -108,6 +108,8 @@ I don't know why this setting doesn't take effect
     "你"向“我”要，“我”往往转而向其他“你”要
 散了吧，万有皆是聚，“我”亦聚中“人”，“你”亦聚中“物” - 9.8
 心息，心动，万有始于心动，万有即是心动，能动谓之“我”，所动谓之“物” - 10.6
+  心动一，心动杂，心动柔，心动烈
+
 
 * 未发（中），发皆中节（和）
 ** 未发
@@ -559,9 +561,10 @@ Note:
   Recursion keep ahead no backward. Recurse Inverses is the "Dummy Backward(Peel)"
 
 ***** Recursion type:
-    Linear Recursion - all additions are the same
-    Non-linear Recursion
-
+Linear Recursion - all additions are the same
+  即心动一
+Non-linear Recursion
+  即心动杂
 ***** Contains:
     Recursion
       Base?
@@ -609,7 +612,7 @@ Fa Zhi Zhong
   如你收不到问题的答案，只是因为你没有答案依赖的层
   尝试性的探索大多一无所获，只增不好习惯
   为什么同样层的别人收到了而我不可以？因为别人是真的准确的收到了那些层，而你是误以为收道了那些层
-  看自己的心之聚，In-order更简单
+  看自己的心之聚，In-order更简单，即心动一
     e.g.
       Selection/Pick
 Selection
@@ -21323,6 +21326,11 @@ ffprobe - A simple multimedia stream analyzer
 
 **** Media file
 One media file may contains multiple streams: video stream, audio stream, subtitle stream, data stream, attachment stream
+container
+  stream 1: type1
+  stream 2: type2
+  ...
+
 e.g.
   B.mp4
     stream 0: video 1920x1080
@@ -21332,30 +21340,65 @@ e.g.
     stream 4: subtitles (text)
     stream 5: data dvd_nav_packet
 
-stream slected via stream specifier e.g. v:0, a, s:12
-
 **** Convertion process:
-InputFile -> demux -> EncodedDataPackets -> decode -> DecodedFrames -> filter -> DecodedFrames -> encode -> EncodedDataPackets -> mux -> OutputFile
+InputFile -> demux -> EncodedDataPackets -> decode -> DecodedFrames(raw frames) -> filter -> Filtered DecodedFrames -> encode -> EncodedDataPackets -> mux -> OutputFile
 
--c copy - ignore decode, filter, encode
--c codec - specify decode/encode
--filter[_complex] - specify filter
+filter graph - chained filters
+simple filter graph - one input & one output of same type
+complex filter graph - multiple input or output, or input output of different types
 
 Impls:
 demux - libavformat
 decode/encode - libavcodec
-filter - libavfilter
+filter(process) - libavfilter
 
 **** commands
 ffmpeg [global_options] {[input_file_options] -i input_url} ... {[output_file_options] output_url} ...
 
--c codec/copy
--c:v codec/copy
--c:v:0 codec/copy
--c:a codec/copy
--c:a:137 codec/copy
 convert(path) = ffmpeg_exe("-i", path, string(splitext(path)[1], ".mp4"))
 convert(path) = ffmpeg_exe("-i", path, "-c:v", "libx265", string(splitext(path)[1], ".mp4"))
+
+-c[:stream specifier] copy - ignore decode, filter, encode
+-c[:stream specifier] codec - specify decode/encode
+-filter[_complex] - specify filter
+
+if multiple codec specified, last one take effect
+-t duration
+-to position
+-ss position - seek postion(skip before)
+
+attachments are implemented as codec extradata
+
+**** stream specifier:
+fileindex:streaminfileindex
+type
+  a - audio
+  v - video
+  s - subtitle
+  d - data
+  t - attachment
+p:programid
+i:streamid/#streamid
+m:key[:value] - meta data
+
+**** stream selection for output from input
+manual selection:
+  -map $stream-specifier output
+  this can be used multiple times, all selection will merged
+  e.g.
+    ffmpeg -i INPUT -map 0:m:language:eng OUTPUT
+
+automatic best selection among all inputs
+  supported types: video, audio, subtitle
+  best creteria:
+    video - highest resolution, first
+    audio - most channels, first
+    subtitle - can be processed by encoder, first
+
+**** filter
+-filter
+-filter_complex "overlay", skip auto selection for video, default select first 2
+
 
 **** code exmaple
 #+BEGIN_SRC julia
@@ -21392,6 +21435,7 @@ FFMPEG.versioninfo()
 ffprobe"~/Projects/apps/"
 
 #+END_SRC
+
 
 *** VideoIO.jl
 base on FFMPEG.jl
@@ -22472,4 +22516,12 @@ e.g.
 
 As math is most widly used across: non-developer, c developer, julia-developer, clojure developer, java developer,...
 Use one program language, other program language developers may don't know
+
+
+*** SI unit
+Systeme International unit
+
+K, M, G, ...
+Ki, Mi, Gi, ... - simular to above but pwoers of 1024
+KiB, MiB, GiB, ... - base on above & muliply by 8
 
