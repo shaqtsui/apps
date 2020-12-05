@@ -578,7 +578,8 @@
 
 (use-package scroll-bar
   ;;:demand t
-  :hook (after-init . scroll-bar-mode))
+  :config
+  (set-scroll-bar-mode nil))
 
 ;; ditaa
 ;; ditaa rt is prerequest : sudo apt-get install ditaa

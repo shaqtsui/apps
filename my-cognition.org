@@ -100,6 +100,9 @@ I don't know why this setting doesn't take effect
   聚即着意
   聚见，聚闻，聚嗅，聚味，聚受，聚忆（心见/闻/嗅/味/受），
   聚言，聚行， 聚情(提心，激动...)，聚思（心言），聚想（心行）
+  多造：
+    造此至造彼谓之Transfer
+    造此亦造彼谓之Combine
   emotion
   accecpt & construct target, it's recursive
   ...
@@ -632,7 +635,9 @@ Math - 收发structure
   accecpt & construct target of structure
   Topology - inner structure
   Algebra - recurse structure
+    Combine
   Analysis - outer structure
+    Transfer/Mapping
 Transform/Connected - Recurse聚
   e.g. boundry touched stuffes, 2 stuff of one transform
 
