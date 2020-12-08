@@ -16,7 +16,11 @@
 (setq ns-function-modifier 'hyper)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
-(setq exec-path (append exec-path '("/usr/local/bin" "/Library/TeX/texbin")))
+
+(add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'exec-path "/Library/TeX/texbin")
+(add-to-list 'exec-path "/Applications/Firefox.app/Contents/MacOS")
+
 ;;(add-to-list 'default-frame-alist '(font  . "JuliaMono"))
 ;;(add-to-list 'default-frame-alist '(font  . "IBM Plex Mono"))
 ;;(add-to-list 'default-frame-alist '(font  . "Noto Sans Mono CJK SC"))
@@ -377,6 +381,12 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; other pkg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package org-roam
+  :ensure t
+  :hook (after-init . org-roam-mode)
+  :config
+  (setq org-roam-directory "~/Projects/zettelkasten"))
+
 ;; org-reveal
 (use-package ox-reveal
   :ensure t
@@ -614,7 +624,7 @@
  '(custom-enabled-themes '(wombat))
  '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist) t)
  '(package-selected-packages
-   '(ox-reveal org-reveal org-present pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
+   '(org-roam ox-reveal org-reveal org-present pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
  '(safe-local-variable-values
    '((eval if
            (fboundp 'pretty-symbols-mode)

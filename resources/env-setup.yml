@@ -49,6 +49,7 @@
           - git-lfs
           - scc
           - pandoc
+          - graphviz
       become: "{{ package_become }}"
 
     - git:

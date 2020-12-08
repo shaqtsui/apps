@@ -1177,8 +1177,12 @@ Context
 All beings/existence should inside Context
 Group
 
-具体的技术不牛B，技术背后的idea才真牛B。Language:
-Stuffs(Sign, Voice, Movement...) to express infoYour Leader is higher than you, but you should have the potential to bypass in future.
+具体的技术不牛B，技术背后的idea才真牛B。
+
+Language:
+Stuffs(Sign, Voice, Movement...) to express info
+
+Your Leader is higher than you, but you should have the potential to bypass in future.
 性决定一切
 
 First and foremost is thoughts.
@@ -17051,6 +17055,9 @@ shell - oldest, use comint-mode to run external shell e.g. bash, emacs act as te
 term - terminal emulator, after started, you need to specify shell to run
 eshell - shell implemented via elisp
 
+**** emms
+emacs multi-media system
+
 
 **** org-mode
 org-babel-load-languages is configed base on available pkgs of name: ob-*
@@ -17084,6 +17091,16 @@ properties - key-value pair associated with an entry, like tags, right below hea
 
   property-name_ALL - allowed values for property-name
   property-name+ - append value for property-name in current scope
+
+
+capture
+  quickly store note to pre specified file path: ~/.notes
+  org-capture - start capture
+  internally it contains a template system
+
+attachment
+  TBD
+
 
 **** present org
 ***** org-present
@@ -22529,4 +22546,74 @@ Systeme International unit
 K, M, G, ...
 Ki, Mi, Gi, ... - simular to above but pwoers of 1024
 KiB, MiB, GiB, ... - base on above & muliply by 8
+
+*** you-get
+similar to youtube-dl
+pip3/brew install you-get
+can download playlist in bilibili
+
+info:
+you-get -i https://www.bilibili.com/video/BV18K4y1b7PG
+
+playlist
+you-get -i -l https://www.bilibili.com/video/BV18K4y1b7PG
+
+to dir
+you-get -i -l -o "/Volumes/T7 Touch/MIT"  https://www.bilibili.com/video/BV18K4y1b7PG
+
+specify format
+you-get -i -l -o "/Volumes/T7 Touch/MIT" -F flv720  https://www.bilibili.com/video/BV18K4y1b7PG
+
+you-get -i -l -o "/Volumes/T7 Touch/MIT/18.S190" -F flv720 https://www.bilibili.com/video/BV1Jk4y1z7Ps
+
+*** DASH
+fragmented media files
+so need to use ffmpeg to convert & combine them
+
+
+*** org-roam
+imple of Zettelkasten Method
+  fleeting note
+  permanent note
+
+org-roam-find-file - give new name to create note via org-capture template
+org-roam-insert - insert link to other note
+org-roam - show backlinks of current note
+
+org-store-link - create id for headline
+org-insert-link - insert id link
+
+note title - used to refer to note
+  can have mulitple e.g. World War 2, WWII
+  extracted by: org-roam--extract-titles
+  sources:
+    #+title:
+    first headline
+    #+roam_alias
+    file path
+
+note tag - add meta data
+  e.g.
+    categorization
+  extracted by: org-roam--extract-tags
+  sources:
+    #+roam_tags
+    vanilla
+    all directories
+    last directories
+    first directories
+
+note ref - ref backlink
+
+indexing file?
+
+Graphing
+  rely on Graphviz
+  org-roam-graph
+
+roam protocal?
+
+Daily-notes?
+
+
 
