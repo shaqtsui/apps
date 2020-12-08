@@ -41,7 +41,6 @@
           - maven
           - leiningen
           - postgresql
-          - emacs
           - aria2
           - nodejs
           - gpg
@@ -89,27 +88,14 @@
     - openssh_keypair:
         path: ~/.ssh/id_rsa
 
-    # psycopg2 can not be installed in mac
-    - pip:
-        name: psycopg2-binary
-        extra_args: --user
-
-    - command: /usr/local/bin/brew services start postgresql
-      when: ansible_os_family == "Darwin"
-
-    - postgresql_db:
-        # here only need to specify socket file folder path, file name is dynamic: .s.PGSQL.$port
-        login_unix_socket: /tmp
-        login_user: fuchengxu
-        name: acme
-
-    - command: /usr/local/bin/brew services stop postgresql
-      when: ansible_os_family == "Darwin"
 
 
 # this not required most of the time
 - hosts: linux
   tasks:
+    - package:
+        name:
+          - emacs
 #    - snap:
 #        name:
 #          - android-studio
@@ -148,6 +134,10 @@
         scope: local
         repo: "{{ brew_cask_repo.stdout }}"
         value: https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-cask.git
+
+    - package:
+        name:
+          - platypus
         
     - homebrew_tap:
         name: "{{ item.name }}"
@@ -156,28 +146,45 @@
         - name: homebrew/cask-versions
         - name: homebrew/cask-fonts
 
-    - package:
-        name:
-          - emacs-plus
+    - homebrew:
+        name: emacs-plus
+        install_options: with-xwidgets
           
     - homebrew_cask:
         name: "{{ item.name }}"
       loop:
         - name: julia
-        - name: font-juliamono
-        - name: font-source-han-noto-cjk
-        - name: font-ibm-plex
-        - name: visual-studio-code
-        - name: mactex-no-gui
-          desc: latex used by org to generate pdf
-        - name: java
-        - name: flash-npapi
-          desc: flash plugin for safri
+        - name: java          
+#        - name: font-juliamono
+#        - name: font-source-han-noto-cjk
+#        - name: font-ibm-plex
+#        - name: visual-studio-code
+#        - name: mactex-no-gui
+#          desc: latex used by org to generate pdf
+#        - name: flash-npapi
+#          desc: flash plugin for safri
         - name: teamviewer
           desc: for remote assist
         - name: balenaetcher
           desc: iso to sd/usb
 
+    # psycopg2 can not be installed in mac
+    - pip:
+        name: psycopg2-binary
+        extra_args: --user
+
+    - command: /usr/local/bin/brew services start postgresql
+
+    - postgresql_db:
+        # here only need to specify socket file folder path, file name is dynamic: .s.PGSQL.$port
+        login_unix_socket: /tmp
+        login_user: fuchengxu
+        name: acme
+
+    - command: /usr/local/bin/brew services stop postgresql
+
+
+      
 - hosts: win
   collections:
     - ansible.windows

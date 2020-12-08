@@ -66,6 +66,7 @@
    ("C-x C-f" . counsel-find-file))
   :config
   (ivy-mode 1)
+  (setq ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   ;; enable this if you want `swiper' to use it
@@ -384,8 +385,39 @@
 (use-package org-roam
   :ensure t
   :hook (after-init . org-roam-mode)
+  :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-graph))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))
+              (("C-c n I" . org-roam-insert-immediate)))
   :config
-  (setq org-roam-directory "~/Projects/zettelkasten"))
+  (setq org-roam-completion-system 'ivy)
+  (setq org-roam-directory "~/Projects/zettelkasten")
+  (require 'org-roam-protocol))
+
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
+
+(use-package exwm
+  :ensure t
+  :config
+  (require 'exwm)
+  (require 'exwm-config)
+  (exwm-config-example))
 
 ;; org-reveal
 (use-package ox-reveal
@@ -502,7 +534,21 @@
 (use-package pyim
   :ensure t
   :demand t
+  ;; work with pyim-probe-dynamic-english
+  :bind ("M-j" . pyim-convert-string-at-point)
   :config
+  ;; auto english
+  (setq-default pyim-english-input-switch-functions
+                '(pyim-probe-dynamic-english
+                  pyim-probe-isearch-mode
+                  pyim-probe-program-mode
+                  pyim-probe-org-structure-template
+                  pyim-probe-org-speed-commands
+                  ))
+  ;; work with pyim-probe-isearch-mode
+  ;; pyim-probe-isearch-mode disable pyim, pyim-isearch-mode extend isearch to search target with corresponding pyim code
+  ;; not work in ivy, so disable now
+  (pyim-isearch-mode nil)
   ;; add another dict(ping ying, include additional offen used words)
   (use-package pyim-basedict
     :disabled
@@ -624,7 +670,7 @@
  '(custom-enabled-themes '(wombat))
  '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist) t)
  '(package-selected-packages
-   '(org-roam ox-reveal org-reveal org-present pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
+   '(org-roam-server exwm org-roam ox-reveal org-reveal org-present pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
  '(safe-local-variable-values
    '((eval if
            (fboundp 'pretty-symbols-mode)
