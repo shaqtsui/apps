@@ -148,7 +148,7 @@
 
     - homebrew:
         name: emacs-plus
-        install_options: with-xwidgets
+        install_options: with-x11
           
     - homebrew_cask:
         name: "{{ item.name }}"

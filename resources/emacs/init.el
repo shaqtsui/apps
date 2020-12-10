@@ -17,6 +17,12 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(fringe-mode 1)
+(display-time-mode t)
+
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'exec-path "/Library/TeX/texbin")
 (add-to-list 'exec-path "/Applications/Firefox.app/Contents/MacOS")
@@ -398,6 +404,7 @@
   (require 'org-roam-protocol))
 
 (use-package org-roam-server
+  :disabled
   :ensure t
   :config
   (setq org-roam-server-host "127.0.0.1"
@@ -413,11 +420,15 @@
         org-roam-server-network-label-wrap-length 20))
 
 (use-package exwm
+;;  :disabled
   :ensure t
+  :demand t
   :config
-  (require 'exwm)
   (require 'exwm-config)
-  (exwm-config-example))
+  (exwm-config-example)
+  (ido-mode -1)
+;;  (set-frame-height (selected-frame) 52)
+  )
 
 ;; org-reveal
 (use-package ox-reveal
@@ -607,7 +618,9 @@
   (setq org-confirm-babel-evaluate nil)
   (setq org-use-property-inheritance t)
   (use-package org-tempo
-    :demand t))
+    :demand t)
+  (use-package org-indent
+    :hook (org-mode . org-indent-mode)))
 
 (use-package paren
   :hook (after-init . show-paren-mode))
@@ -632,11 +645,6 @@
 (use-package winner
   :hook (after-init . winner-mode))
 
-(use-package scroll-bar
-  ;;:demand t
-  :config
-  (set-scroll-bar-mode nil))
-
 ;; ditaa
 ;; ditaa rt is prerequest : sudo apt-get install ditaa
 ;; mac os: brew install ditaa
@@ -649,39 +657,9 @@
   :config
   (prefer-coding-system 'utf-8-unix))
 
-
 (use-package files
   :config
   (setq make-backup-files nil))
 
-(use-package faces
-  :config
-  (set-face-attribute 'default nil :height 130))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(custom-enabled-themes '(wombat))
- '(emms-setup-default-player-list '(emms-player-vlc emms-player-vlc-playlist) t)
- '(package-selected-packages
-   '(org-roam-server exwm org-roam ox-reveal org-reveal org-present pandoc-mode ztree youdao-dictionary use-package rainbow-delimiters pyim-wbdict projectile magit lsp-ui lsp-java geiser flycheck-clojure expand-region dap-mode company-restclient company-lsp clj-refactor cider-hydra ace-window))
- '(safe-local-variable-values
-   '((eval if
-           (fboundp 'pretty-symbols-mode)
-           (pretty-symbols-mode -1))
-     (flycheck-disabled-checkers emacs-lisp-checkdoc))))
-
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(put 'dired-find-alternate-file 'disabled nil)
