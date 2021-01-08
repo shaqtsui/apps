@@ -138,6 +138,7 @@
     - package:
         name:
           - platypus
+          - the_silver_searcher
         
     - homebrew_tap:
         name: "{{ item.name }}"
@@ -167,6 +168,8 @@
           desc: for remote assist
         - name: balenaetcher
           desc: iso to sd/usb
+        - name: squirrel
+          desc: input method engine
 
     # psycopg2 can not be installed in mac
     - pip:

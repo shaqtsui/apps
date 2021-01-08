@@ -224,6 +224,9 @@
       ("Real" . ?ℝ)
       ("Complex" . ?ℂ)
 
+      ;; Mathematical Alphanumeric Symbols
+      ("Boolean" . ?𝔹)
+
       ;; Superscripts and Subscripts/Superscripts
       ;; ^1 - ^3 in C1 Controls and Latin-1 Supplement/Latin-1 punctuation and symbols
       ("^4" . ?⁴)
@@ -388,6 +391,9 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; other pkg ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package ag
+  :ensure t)
+
 (use-package org-roam
   :ensure t
   :hook (after-init . org-roam-mode)
@@ -399,6 +405,7 @@
               (("C-c n i" . org-roam-insert))
               (("C-c n I" . org-roam-insert-immediate)))
   :config
+  ;;(setq org-roam-graph-executable "neato")
   (setq org-roam-completion-system 'ivy)
   (setq org-roam-directory "~/Projects/zettelkasten")
   (require 'org-roam-protocol))
@@ -663,3 +670,16 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(ag ztree youdao-dictionary yaml-mode which-key treemacs-projectile texfrag rainbow-delimiters quelpa-use-package pyim-wbdict pandoc-mode ox-reveal org-roam-server org-present magit lsp-ui lsp-julia lsp-java lsp-ivy jupyter julia-repl ivy-hydra github-explorer geiser font-lock-studio flycheck-julia flycheck-clojure exwm expand-region eterm-256color emms ein counsel company-restclient company-lsp clj-refactor cider-hydra browse-at-remote ace-link)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
